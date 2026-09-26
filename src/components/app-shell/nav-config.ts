@@ -1,0 +1,60 @@
+import {
+  Building2,
+  ChartNoAxesCombined,
+  FileSignature,
+  FileText,
+  LayoutDashboard,
+  type LucideIcon,
+  Receipt,
+  Settings,
+  SquareKanban,
+} from "lucide-react";
+
+export type NavKey = "dashboard" | "seo" | "pipeline" | "clients" | "quotes" | "contracts" | "invoices" | "settings";
+
+export type NavItem = {
+  key: NavKey;
+  /** Ruta relativa a la org: "" es el dashboard. */
+  path: string;
+  icon: LucideIcon;
+  /** Secuencia de teclado (tinykeys), p. ej. "g d". */
+  shortcut?: string;
+  /** Hito en el que llega el módulo; sin hito = ya disponible. */
+  hito?: string;
+};
+
+export const NAV_GROUPS: { label: "groupDirection" | "groupSales" | "groupBilling"; items: NavItem[] }[] = [
+  {
+    label: "groupDirection",
+    items: [
+      { key: "dashboard", path: "", icon: LayoutDashboard, shortcut: "g d" },
+      { key: "seo", path: "/seo", icon: ChartNoAxesCombined, shortcut: "g e" },
+    ],
+  },
+  {
+    label: "groupSales",
+    items: [
+      { key: "pipeline", path: "/pipeline", icon: SquareKanban, shortcut: "g p" },
+      { key: "clients", path: "/clients", icon: Building2, shortcut: "g c" },
+      { key: "quotes", path: "/quotes", icon: FileText, shortcut: "g q" },
+    ],
+  },
+  {
+    label: "groupBilling",
+    items: [
+      { key: "contracts", path: "/contracts", icon: FileSignature, shortcut: "g o" },
+      { key: "invoices", path: "/invoices", icon: Receipt, shortcut: "g f" },
+    ],
+  },
+];
+
+export const SETTINGS_ITEM: NavItem = { key: "settings", path: "/settings", icon: Settings, shortcut: "g s" };
+
+export const ALL_NAV_ITEMS: NavItem[] = [...NAV_GROUPS.flatMap((g) => g.items), SETTINGS_ITEM];
+
+/** Elemento de navegación activo para una ruta (la más específica gana). */
+export function activeNavKey(pathname: string, basePath: string): NavKey {
+  const rest = pathname.startsWith(basePath) ? pathname.slice(basePath.length) : pathname;
+  const match = ALL_NAV_ITEMS.filter((i) => i.path !== "" && (rest === i.path || rest.startsWith(`${i.path}/`)));
+  return match.sort((a, b) => b.path.length - a.path.length)[0]?.key ?? "dashboard";
+}

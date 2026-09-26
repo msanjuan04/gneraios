@@ -1,0 +1,190 @@
+{
+  "pdf": {
+    "document": {
+      "ordinary": "Invoice",
+      "rectifying": "Corrective invoice",
+      "draft": "Draft",
+      "draftNotice": "Not a valid invoice until it is issued"
+    },
+    "header": {
+      "issuedOn": "Issue date",
+      "operationOn": "Date of supply",
+      "dueOn": "Due date"
+    },
+    "parties": {
+      "issuer": "From",
+      "client": "Bill to",
+      "taxId": "Tax ID"
+    },
+    "rectifies": {
+      "number": "Corrected invoice",
+      "issuedOn": "Issue date",
+      "reason": "Reason for the correction"
+    },
+    "lines": {
+      "description": "Description",
+      "quantity": "Qty",
+      "unitPrice": "Unit price",
+      "discount": "Disc.",
+      "vat": "VAT",
+      "base": "Amount"
+    },
+    "billingType": {
+      "one_off": "One-off",
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "usage": "Usage"
+    },
+    "vatRegime": {
+      "exempt": "VAT exempt",
+      "reverse_charge_eu": "Reverse charge",
+      "not_subject": "Outside the scope of VAT"
+    },
+    "totals": {
+      "subtotal": "Taxable amount",
+      "vat": "VAT {rate}",
+      "groupBase": "on {base}",
+      "irpf": "IRPF withholding {rate}",
+      "total": "Total due",
+      "totalNegative": "Invoice total"
+    },
+    "payment": {
+      "title": "Payment details",
+      "method": "Payment method",
+      "iban": "IBAN",
+      "debitAccount": "Debit account",
+      "holder": "Account holder",
+      "dueOn": "Due date",
+      "methods": {
+        "transfer": "Bank transfer",
+        "sepa_debit": "SEPA direct debit",
+        "card": "Card",
+        "cash": "Cash",
+        "other": "Other"
+      }
+    },
+    "legalNotes": "Legal notes",
+    "notes": "Notes",
+    "footer": {
+      "page": "Page {current} / {total}"
+    },
+    "countries": {
+      "AD": "Andorra",
+      "AE": "United Arab Emirates",
+      "AR": "Argentina",
+      "AT": "Austria",
+      "AU": "Australia",
+      "BE": "Belgium",
+      "BG": "Bulgaria",
+      "BR": "Brazil",
+      "CA": "Canada",
+      "CH": "Switzerland",
+      "CL": "Chile",
+      "CO": "Colombia",
+      "CY": "Cyprus",
+      "CZ": "Czechia",
+      "DE": "Germany",
+      "DK": "Denmark",
+      "EE": "Estonia",
+      "ES": "Spain",
+      "FI": "Finland",
+      "FR": "France",
+      "GB": "United Kingdom",
+      "GI": "Gibraltar",
+      "GR": "Greece",
+      "HR": "Croatia",
+      "HU": "Hungary",
+      "IE": "Ireland",
+      "IS": "Iceland",
+      "IT": "Italy",
+      "LI": "Liechtenstein",
+      "LT": "Lithuania",
+      "LU": "Luxembourg",
+      "LV": "Latvia",
+      "MA": "Morocco",
+      "MC": "Monaco",
+      "MT": "Malta",
+      "MX": "Mexico",
+      "NL": "Netherlands",
+      "NO": "Norway",
+      "PE": "Peru",
+      "PL": "Poland",
+      "PT": "Portugal",
+      "RO": "Romania",
+      "SE": "Sweden",
+      "SI": "Slovenia",
+      "SK": "Slovakia",
+      "SM": "San Marino",
+      "US": "United States",
+      "UY": "Uruguay"
+    },
+    "quote": {
+      "document": "Quote",
+      "draftNotice": "Draft: no number until it is sent",
+      "issuedOn": "Date",
+      "validUntil": "Valid until",
+      "parties": {
+        "issuer": "From",
+        "client": "Prepared for"
+      },
+      "summary": {
+        "title": "Summary",
+        "oneOff": "One-off payment",
+        "monthly": "Monthly fee",
+        "yearly": "Yearly fee",
+        "usage": "Usage-based",
+        "usageValue": "as used",
+        "vatIncluded": "VAT included"
+      },
+      "oneOff": {
+        "title": "One-off payment",
+        "total": "One-off total"
+      },
+      "recurring": {
+        "title": "Recurring fees",
+        "fromAcceptance": "From acceptance",
+        "from": "From {date}",
+        "until": "until {date}",
+        "monthlyBase": "Monthly net",
+        "yearlyBase": "Yearly net",
+        "monthlyTotal": "Monthly total",
+        "yearlyTotal": "Yearly total"
+      },
+      "usage": {
+        "title": "Usage-based prices",
+        "note": "Billed according to actual usage in each period, at the price shown."
+      },
+      "cycle": {
+        "monthly": "{amount}/month",
+        "yearly": "{amount}/year",
+        "usage": "{amount}/use"
+      },
+      "plan": {
+        "title": "Payment plan",
+        "label": "Payment",
+        "when": "When",
+        "percent": "%",
+        "amount": "Amount",
+        "total": "Incl. VAT",
+        "onAccept": "On acceptance",
+        "onDelivery": "On delivery",
+        "onDate": "On {date}",
+        "presets": {
+          "full": "Full amount",
+          "start": "Project start",
+          "midway": "Midway milestone",
+          "delivery": "Final delivery"
+        }
+      },
+      "validity": "This quote is valid until {date}.",
+      "acceptance": {
+        "title": "Acceptance",
+        "text": "To accept it, sign and return it, or reply to the email confirming your approval.",
+        "name": "Name and position",
+        "date": "Date",
+        "signature": "Signature",
+        "accepted": "Accepted on {date}"
+      }
+    }
+  }
+}

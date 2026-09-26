@@ -1,0 +1,12 @@
+{
+  "settings": {
+    "title": "Settings",
+    "tabs": {
+      "general": "General",
+      "issuers": "Issuers",
+      "taxes": "Taxes",
+      "team": "Team",
+      "preferences": "Preferences"
+    }
+  }
+}

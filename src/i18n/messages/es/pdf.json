@@ -1,0 +1,190 @@
+{
+  "pdf": {
+    "document": {
+      "ordinary": "Factura",
+      "rectifying": "Factura rectificativa",
+      "draft": "Borrador",
+      "draftNotice": "Documento sin validez fiscal hasta su emisión"
+    },
+    "header": {
+      "issuedOn": "Fecha de emisión",
+      "operationOn": "Fecha de operación",
+      "dueOn": "Vencimiento"
+    },
+    "parties": {
+      "issuer": "Emisor",
+      "client": "Cliente",
+      "taxId": "NIF"
+    },
+    "rectifies": {
+      "number": "Factura rectificada",
+      "issuedOn": "Fecha de emisión",
+      "reason": "Motivo de la rectificación"
+    },
+    "lines": {
+      "description": "Descripción",
+      "quantity": "Cantidad",
+      "unitPrice": "Precio",
+      "discount": "Dto.",
+      "vat": "IVA",
+      "base": "Importe"
+    },
+    "billingType": {
+      "one_off": "Pago único",
+      "monthly": "Mensual",
+      "yearly": "Anual",
+      "usage": "Por consumo"
+    },
+    "vatRegime": {
+      "exempt": "Exento de IVA",
+      "reverse_charge_eu": "Inversión del sujeto pasivo",
+      "not_subject": "No sujeto a IVA"
+    },
+    "totals": {
+      "subtotal": "Base imponible",
+      "vat": "IVA {rate}",
+      "groupBase": "sobre {base}",
+      "irpf": "Retención IRPF {rate}",
+      "total": "Total a pagar",
+      "totalNegative": "Total factura"
+    },
+    "payment": {
+      "title": "Datos de pago",
+      "method": "Forma de pago",
+      "iban": "IBAN",
+      "debitAccount": "Cuenta de cargo",
+      "holder": "Titular",
+      "dueOn": "Vencimiento",
+      "methods": {
+        "transfer": "Transferencia bancaria",
+        "sepa_debit": "Domiciliación bancaria (SEPA)",
+        "card": "Tarjeta",
+        "cash": "Efectivo",
+        "other": "Otro"
+      }
+    },
+    "legalNotes": "Menciones legales",
+    "notes": "Observaciones",
+    "footer": {
+      "page": "Página {current} / {total}"
+    },
+    "countries": {
+      "AD": "Andorra",
+      "AE": "Emiratos Árabes Unidos",
+      "AR": "Argentina",
+      "AT": "Austria",
+      "AU": "Australia",
+      "BE": "Bélgica",
+      "BG": "Bulgaria",
+      "BR": "Brasil",
+      "CA": "Canadá",
+      "CH": "Suiza",
+      "CL": "Chile",
+      "CO": "Colombia",
+      "CY": "Chipre",
+      "CZ": "Chequia",
+      "DE": "Alemania",
+      "DK": "Dinamarca",
+      "EE": "Estonia",
+      "ES": "España",
+      "FI": "Finlandia",
+      "FR": "Francia",
+      "GB": "Reino Unido",
+      "GI": "Gibraltar",
+      "GR": "Grecia",
+      "HR": "Croacia",
+      "HU": "Hungría",
+      "IE": "Irlanda",
+      "IS": "Islandia",
+      "IT": "Italia",
+      "LI": "Liechtenstein",
+      "LT": "Lituania",
+      "LU": "Luxemburgo",
+      "LV": "Letonia",
+      "MA": "Marruecos",
+      "MC": "Mónaco",
+      "MT": "Malta",
+      "MX": "México",
+      "NL": "Países Bajos",
+      "NO": "Noruega",
+      "PE": "Perú",
+      "PL": "Polonia",
+      "PT": "Portugal",
+      "RO": "Rumanía",
+      "SE": "Suecia",
+      "SI": "Eslovenia",
+      "SK": "Eslovaquia",
+      "SM": "San Marino",
+      "US": "Estados Unidos",
+      "UY": "Uruguay"
+    },
+    "quote": {
+      "document": "Presupuesto",
+      "draftNotice": "Borrador: sin número hasta que se envíe",
+      "issuedOn": "Fecha",
+      "validUntil": "Válido hasta",
+      "parties": {
+        "issuer": "Emisor",
+        "client": "Cliente"
+      },
+      "summary": {
+        "title": "Resumen",
+        "oneOff": "Pago único",
+        "monthly": "Cuota mensual",
+        "yearly": "Cuota anual",
+        "usage": "Por uso",
+        "usageValue": "según consumo",
+        "vatIncluded": "IVA incluido"
+      },
+      "oneOff": {
+        "title": "Pago único",
+        "total": "Total pago único"
+      },
+      "recurring": {
+        "title": "Cuotas recurrentes",
+        "fromAcceptance": "Desde la aceptación",
+        "from": "Desde el {date}",
+        "until": "hasta el {date}",
+        "monthlyBase": "Base mensual",
+        "yearlyBase": "Base anual",
+        "monthlyTotal": "Total mensual",
+        "yearlyTotal": "Total anual"
+      },
+      "usage": {
+        "title": "Precios por uso",
+        "note": "Se facturan según el uso de cada periodo, al precio indicado."
+      },
+      "cycle": {
+        "monthly": "{amount}/mes",
+        "yearly": "{amount}/año",
+        "usage": "{amount}/uso"
+      },
+      "plan": {
+        "title": "Plan de pagos",
+        "label": "Pago",
+        "when": "Cuándo",
+        "percent": "%",
+        "amount": "Importe",
+        "total": "Con IVA",
+        "onAccept": "A la aceptación",
+        "onDelivery": "A la entrega",
+        "onDate": "El {date}",
+        "presets": {
+          "full": "Importe total",
+          "start": "Inicio del proyecto",
+          "midway": "Fase intermedia",
+          "delivery": "Entrega final"
+        }
+      },
+      "validity": "Este presupuesto es válido hasta el {date}.",
+      "acceptance": {
+        "title": "Aceptación",
+        "text": "Para aceptarlo, fírmalo y devuélvelo, o responde al email con tu conformidad.",
+        "name": "Nombre y cargo",
+        "date": "Fecha",
+        "signature": "Firma",
+        "accepted": "Aceptado el {date}"
+      }
+    }
+  }
+}

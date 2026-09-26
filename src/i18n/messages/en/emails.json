@@ -1,0 +1,21 @@
+{
+  "emails": {
+    "invoice": {
+      "subject": "Invoice {number} · {issuer}",
+      "body": "Hello,\n\nPlease find attached invoice {number} for {total}, due on {due}.\n\n{payment}\n\nThank you for your business.\n\n{issuer}"
+    },
+    "payment_reminder": {
+      "subject": "Reminder: invoice {number} is overdue",
+      "body": "Hello,\n\nThis is a friendly reminder that invoice {number}, dated {issued}, is still outstanding: {outstanding}. It was due on {due}.\n\n{payment}\n\nIf you have already paid it, please disregard this message.\n\nThank you,\n{issuer}"
+    },
+    "paymentTransfer": "You can pay by bank transfer to {iban}, quoting the invoice number.",
+    "paymentOther": "Payment method: {method}.",
+    "method": {
+      "transfer": "bank transfer",
+      "sepa_debit": "SEPA direct debit",
+      "card": "card",
+      "cash": "cash",
+      "other": "other"
+    }
+  }
+}

@@ -1,0 +1,190 @@
+{
+  "pdf": {
+    "document": {
+      "ordinary": "Factura",
+      "rectifying": "Factura rectificativa",
+      "draft": "Esborrany",
+      "draftNotice": "Document sense validesa fiscal fins que s'emeti"
+    },
+    "header": {
+      "issuedOn": "Data d'emissió",
+      "operationOn": "Data de l'operació",
+      "dueOn": "Venciment"
+    },
+    "parties": {
+      "issuer": "Emissor",
+      "client": "Client",
+      "taxId": "NIF"
+    },
+    "rectifies": {
+      "number": "Factura rectificada",
+      "issuedOn": "Data d'emissió",
+      "reason": "Motiu de la rectificació"
+    },
+    "lines": {
+      "description": "Descripció",
+      "quantity": "Quantitat",
+      "unitPrice": "Preu",
+      "discount": "Dte.",
+      "vat": "IVA",
+      "base": "Import"
+    },
+    "billingType": {
+      "one_off": "Pagament únic",
+      "monthly": "Mensual",
+      "yearly": "Anual",
+      "usage": "Per consum"
+    },
+    "vatRegime": {
+      "exempt": "Exempt d'IVA",
+      "reverse_charge_eu": "Inversió del subjecte passiu",
+      "not_subject": "No subjecte a IVA"
+    },
+    "totals": {
+      "subtotal": "Base imposable",
+      "vat": "IVA {rate}",
+      "groupBase": "sobre {base}",
+      "irpf": "Retenció IRPF {rate}",
+      "total": "Total a pagar",
+      "totalNegative": "Total factura"
+    },
+    "payment": {
+      "title": "Dades de pagament",
+      "method": "Forma de pagament",
+      "iban": "IBAN",
+      "debitAccount": "Compte de càrrec",
+      "holder": "Titular",
+      "dueOn": "Venciment",
+      "methods": {
+        "transfer": "Transferència bancària",
+        "sepa_debit": "Domiciliació bancària (SEPA)",
+        "card": "Targeta",
+        "cash": "Efectiu",
+        "other": "Altres"
+      }
+    },
+    "legalNotes": "Mencions legals",
+    "notes": "Observacions",
+    "footer": {
+      "page": "Pàgina {current} / {total}"
+    },
+    "countries": {
+      "AD": "Andorra",
+      "AE": "Emirats Àrabs Units",
+      "AR": "Argentina",
+      "AT": "Àustria",
+      "AU": "Austràlia",
+      "BE": "Bèlgica",
+      "BG": "Bulgària",
+      "BR": "Brasil",
+      "CA": "Canadà",
+      "CH": "Suïssa",
+      "CL": "Xile",
+      "CO": "Colòmbia",
+      "CY": "Xipre",
+      "CZ": "Txèquia",
+      "DE": "Alemanya",
+      "DK": "Dinamarca",
+      "EE": "Estònia",
+      "ES": "Espanya",
+      "FI": "Finlàndia",
+      "FR": "França",
+      "GB": "Regne Unit",
+      "GI": "Gibraltar",
+      "GR": "Grècia",
+      "HR": "Croàcia",
+      "HU": "Hongria",
+      "IE": "Irlanda",
+      "IS": "Islàndia",
+      "IT": "Itàlia",
+      "LI": "Liechtenstein",
+      "LT": "Lituània",
+      "LU": "Luxemburg",
+      "LV": "Letònia",
+      "MA": "Marroc",
+      "MC": "Mònaco",
+      "MT": "Malta",
+      "MX": "Mèxic",
+      "NL": "Països Baixos",
+      "NO": "Noruega",
+      "PE": "Perú",
+      "PL": "Polònia",
+      "PT": "Portugal",
+      "RO": "Romania",
+      "SE": "Suècia",
+      "SI": "Eslovènia",
+      "SK": "Eslovàquia",
+      "SM": "San Marino",
+      "US": "Estats Units",
+      "UY": "Uruguai"
+    },
+    "quote": {
+      "document": "Pressupost",
+      "draftNotice": "Esborrany: sense número fins que s'enviï",
+      "issuedOn": "Data",
+      "validUntil": "Vàlid fins al",
+      "parties": {
+        "issuer": "Emissor",
+        "client": "Client"
+      },
+      "summary": {
+        "title": "Resum",
+        "oneOff": "Pagament únic",
+        "monthly": "Quota mensual",
+        "yearly": "Quota anual",
+        "usage": "Per ús",
+        "usageValue": "segons consum",
+        "vatIncluded": "IVA inclòs"
+      },
+      "oneOff": {
+        "title": "Pagament únic",
+        "total": "Total pagament únic"
+      },
+      "recurring": {
+        "title": "Quotes recurrents",
+        "fromAcceptance": "Des de l'acceptació",
+        "from": "Des del {date}",
+        "until": "fins al {date}",
+        "monthlyBase": "Base mensual",
+        "yearlyBase": "Base anual",
+        "monthlyTotal": "Total mensual",
+        "yearlyTotal": "Total anual"
+      },
+      "usage": {
+        "title": "Preus per ús",
+        "note": "Es facturen segons l'ús de cada període, al preu indicat."
+      },
+      "cycle": {
+        "monthly": "{amount}/mes",
+        "yearly": "{amount}/any",
+        "usage": "{amount}/ús"
+      },
+      "plan": {
+        "title": "Pla de pagaments",
+        "label": "Pagament",
+        "when": "Quan",
+        "percent": "%",
+        "amount": "Import",
+        "total": "Amb IVA",
+        "onAccept": "En acceptar-lo",
+        "onDelivery": "En el lliurament",
+        "onDate": "El {date}",
+        "presets": {
+          "full": "Import total",
+          "start": "Inici del projecte",
+          "midway": "Fase intermèdia",
+          "delivery": "Lliurament final"
+        }
+      },
+      "validity": "Aquest pressupost és vàlid fins al {date}.",
+      "acceptance": {
+        "title": "Acceptació",
+        "text": "Per acceptar-lo, signa'l i retorna'l, o respon el correu amb la teva conformitat.",
+        "name": "Nom i càrrec",
+        "date": "Data",
+        "signature": "Signatura",
+        "accepted": "Acceptat el {date}"
+      }
+    }
+  }
+}

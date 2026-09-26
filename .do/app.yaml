@@ -1,0 +1,44 @@
+# DigitalOcean App Platform · especificación de la app
+# Crear: doctl apps create --spec .do/app.yaml   ·   Actualizar: doctl apps update <id> --spec .do/app.yaml
+# Los secretos (claves de Supabase, Resend, CRON_SECRET) se rellenan en el panel, nunca aquí.
+name: gnerai-os
+region: fra
+services:
+  - name: web
+    dockerfile_path: Dockerfile
+    source_dir: /
+    github:
+      repo: GNERAI/gnerai-os # ← ajustar al repo real
+      branch: main
+      deploy_on_push: true
+    http_port: 3000
+    instance_count: 1
+    instance_size_slug: apps-s-1vcpu-1gb
+    health_check:
+      http_path: /api/health
+      initial_delay_seconds: 10
+    envs:
+      - key: NEXT_PUBLIC_SUPABASE_URL
+        scope: RUN_AND_BUILD_TIME
+        type: GENERAL
+        value: https://<proyecto>.supabase.co
+      - key: NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
+        scope: RUN_AND_BUILD_TIME
+        type: SECRET
+      - key: NEXT_PUBLIC_APP_URL
+        scope: RUN_AND_BUILD_TIME
+        type: GENERAL
+        value: https://os.gnerai.com
+      - key: SUPABASE_SECRET_KEY
+        scope: RUN_TIME
+        type: SECRET
+      - key: CRON_SECRET
+        scope: RUN_TIME
+        type: SECRET
+      - key: RESEND_API_KEY
+        scope: RUN_TIME
+        type: SECRET
+      - key: EMAIL_FROM
+        scope: RUN_TIME
+        type: GENERAL
+        value: GNERAI <facturacion@gnerai.com>

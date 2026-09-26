@@ -1,0 +1,90 @@
+{
+  "onboarding": {
+    "title": "Pongamos en marcha GNERAI OS",
+    "subtitle": "Cinco minutos. Todo se puede cambiar después en Ajustes.",
+    "steps": {
+      "org": "Organización",
+      "issuers": "Emisores",
+      "taxes": "Impuestos",
+      "team": "Equipo",
+      "review": "Revisar"
+    },
+    "org": {
+      "title": "Tu organización",
+      "description": "El nombre de la agencia y cómo apareces tú en la app.",
+      "name": "Nombre de la organización",
+      "slug": "Identificador en la URL",
+      "slugHint": "Tu espacio estará en {url}",
+      "yourName": "Tu nombre",
+      "yourNamePlaceholder": "Nombre y apellidos",
+      "initials": "Iniciales",
+      "initialsHint": "Se usan en tarjetas y listados; distinguen a socios con el mismo nombre."
+    },
+    "issuers": {
+      "title": "Emisores fiscales",
+      "description": "Quién emite las facturas: la sociedad como emisor principal y los socios que facturan como autónomos.",
+      "company": "Sociedad (emisor principal)",
+      "notConstituted": "Aún no está constituida",
+      "notConstitutedHint": "Puedes darla de alta ya y completar el NIF y la fecha de alta cuando exista.",
+      "activeFrom": "Fecha de alta",
+      "selfEmployed": "Socios autónomos",
+      "selfEmployedHint": "Mantienen su histórico y sus contratos vivos hasta el traspaso a la sociedad.",
+      "addSelfEmployed": "Añadir autónomo",
+      "itsMe": "Soy yo",
+      "legalName": "Razón social o nombre fiscal",
+      "tradeName": "Nombre comercial",
+      "taxId": "NIF",
+      "address": "Dirección",
+      "postalCode": "Código postal",
+      "city": "Ciudad",
+      "province": "Provincia",
+      "iban": "IBAN",
+      "email": "Email de facturación",
+      "irpf": "Retención IRPF por defecto",
+      "irpfGeneral": "15 % (general)",
+      "irpfNew": "7 % (tres primeros años)",
+      "irpfNone": "0 % (sin retención)",
+      "registryInfo": "Datos registrales",
+      "registryInfoHint": "Registro Mercantil: tomo, folio, hoja. Van en el pie de las facturas de la sociedad.",
+      "series": "Numeración",
+      "seriesFormat": "Formato",
+      "seriesFormatHint": "'{yyyy}' es el año y '{n:4}' el número con 4 cifras.",
+      "lastNumber": "Última factura emitida este año",
+      "lastNumberHint": "Para continuar la numeración que ya lleváis. 0 si no has emitido ninguna.",
+      "nextNumber": "La siguiente será la {number}",
+      "verifactu": "Obligado a Verifactu desde el {date}"
+    },
+    "taxes": {
+      "title": "Impuestos",
+      "description": "Tipos de IVA y retenciones disponibles al facturar. Revisad las menciones legales con la gestoría.",
+      "include": "Incluir",
+      "name": "Nombre",
+      "rate": "Tipo",
+      "regime": "Régimen",
+      "legalNote": "Mención en la factura",
+      "default": "Por defecto"
+    },
+    "team": {
+      "title": "Invita a tus socios",
+      "description": "Recibirán un enlace de acceso por email. Puedes hacerlo también más tarde.",
+      "email": "Email",
+      "name": "Nombre",
+      "role": "Rol",
+      "add": "Añadir persona",
+      "empty": "Todavía no has añadido a nadie."
+    },
+    "review": {
+      "title": "Revisa y crea",
+      "description": "Esto es lo que vamos a crear. Todo se puede cambiar después.",
+      "issuersCount": "{count, plural, one {# emisor} other {# emisores}}",
+      "taxesCount": "{count, plural, one {# tipo de impuesto} other {# tipos de impuesto}}",
+      "invitesCount": "{count, plural, =0 {Sin invitaciones} one {# invitación} other {# invitaciones}}",
+      "submit": "Crear organización",
+      "submitting": "Creando…"
+    },
+    "errors": {
+      "slugTaken": "Ese identificador ya está en uso. Prueba otro.",
+      "invitesNotSent": "La organización está creada, pero no se han podido enviar las invitaciones. Puedes reenviarlas desde Ajustes → Equipo."
+    }
+  }
+}

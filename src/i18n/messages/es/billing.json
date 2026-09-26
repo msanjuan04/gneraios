@@ -1,0 +1,156 @@
+{
+  "billing": {
+    "billingType": {
+      "one_off": "Puntual",
+      "monthly": "Mensual",
+      "yearly": "Anual",
+      "usage": "Por uso"
+    },
+    "billingTypeSuffix": {
+      "one_off": "",
+      "monthly": "/mes",
+      "yearly": "/año",
+      "usage": "/uso"
+    },
+    "paymentMethod": {
+      "transfer": "Transferencia",
+      "sepa_debit": "Domiciliación SEPA",
+      "card": "Tarjeta",
+      "cash": "Efectivo",
+      "other": "Otro"
+    },
+    "invoiceStatus": {
+      "draft": "Borrador",
+      "issuing": "Emitiendo",
+      "issued": "Emitida",
+      "overdue": "Vencida",
+      "paid": "Cobrada",
+      "voided": "Anulada"
+    },
+    "invoiceKind": {
+      "ordinary": "Factura",
+      "rectifying": "Rectificativa"
+    },
+    "lineStatus": {
+      "scheduled": "Programada",
+      "active": "Activa",
+      "paused": "En pausa",
+      "ended": "Terminada"
+    },
+    "contractStatus": {
+      "draft": "Sin firmar",
+      "scheduled": "Programado",
+      "active": "Activo",
+      "paused": "En pausa",
+      "ended": "Terminado"
+    },
+    "billableState": {
+      "pending": "Pendiente",
+      "drafted": "En borrador",
+      "invoiced": "Facturado",
+      "waived": "Condonado"
+    },
+    "billableSource": {
+      "recurring": "Periodo",
+      "usage": "Uso",
+      "milestone": "Hito"
+    },
+    "vatRegime": {
+      "general": "General",
+      "exempt": "Exento",
+      "reverse_charge_eu": "Inversión del sujeto pasivo",
+      "not_subject": "No sujeto"
+    },
+    "invoiceGrouping": {
+      "client": "Una factura por cliente",
+      "contract": "Una factura por contrato"
+    },
+    "emailStatus": {
+      "pending_approval": "Por aprobar",
+      "sent": "Enviado",
+      "failed": "Ha fallado",
+      "cancelled": "Descartado"
+    },
+    "revenueKind": {
+      "recurring": "Recurrente",
+      "usage": "Variable",
+      "one_off": "Puntual"
+    },
+    "period": "{from} – {to}",
+    "perMonth": "{amount}/mes",
+    "perYear": "{amount}/año",
+    "fiscalFields": {
+      "issuer_tax_id": "el NIF del emisor",
+      "issuer_address_line": "la dirección del emisor",
+      "issuer_postal_code": "el código postal del emisor",
+      "issuer_city": "la población del emisor",
+      "client_tax_id": "el NIF del cliente",
+      "client_address_line": "la dirección del cliente",
+      "client_postal_code": "el código postal del cliente",
+      "client_city": "la población del cliente"
+    },
+    "errors": {
+      "lineBilled": "Esta línea ya se ha facturado: para cambiar sus condiciones, crea una versión nueva desde una fecha.",
+      "milestonesStarted": "Este contrato ya ha empezado a facturar sus hitos: el trabajo nuevo va en otro contrato.",
+      "milestoneBilled": "Este hito ya se ha facturado: no se puede borrar ni cambiar su porcentaje u orden.",
+      "milestonesTotal": "Los hitos tienen que sumar exactamente el 100 %.",
+      "milestoneOrder": "Primero hay que facturar los hitos anteriores.",
+      "milestoneAlreadyBilled": "Este hito ya está facturado.",
+      "noOneOffLines": "El contrato no tiene líneas puntuales que repartir en hitos.",
+      "vatRateRequired": "Elige un tipo de IVA para la línea.",
+      "pauseRecurringOnly": "Solo se pausan las líneas mensuales o anuales.",
+      "versionDateInvalid": "La versión nueva tiene que empezar después de lo ya facturado y dentro de la vigencia de la línea.",
+      "versionNotRecurring": "Una línea puntual no tiene versiones.",
+      "contractBilled": "Este contrato ya ha generado facturación: no se puede quitar la firma.",
+      "contractNotSigned": "El contrato aún no está firmado: firma el contrato para poder facturarlo.",
+      "noIssuer": "El contrato no tiene emisor asignado.",
+      "invoiceImmutable": "Una factura emitida no se modifica: se corrige con una rectificativa.",
+      "invoiceLifecycle": "Una factura tiene que pasar por la emisión.",
+      "draftChanged": "Alguien ha cambiado este borrador mientras lo editabas. Recarga y vuelve a intentarlo.",
+      "draftNotFound": "Este borrador ya no existe.",
+      "itemTaken": "Algún concepto ya no está pendiente de facturar.",
+      "itemInvoiced": "Este concepto ya está facturado.",
+      "lineForeign": "Una línea de otra factura no se puede mover aquí.",
+      "futureDate": "Una factura no puede llevar fecha futura.",
+      "issuerInactive": "El emisor no está activo en la fecha de la factura. Revisa sus fechas de alta en Ajustes → Emisores.",
+      "verifactuRequired": "Este emisor ya está obligado a Verifactu: tiene que emitir con un proveedor certificado.",
+      "fiscalDataMissing": "Faltan datos fiscales: {fields}.",
+      "noLines": "La factura no tiene líneas.",
+      "totalsMismatch": "Los totales no cuadran con las líneas. Vuelve a guardar el borrador.",
+      "rectifiedInvalid": "La factura rectificada no es válida.",
+      "seriesInvalid": "El emisor no tiene una serie válida para este tipo de factura. Créala en Ajustes → Emisores.",
+      "dateBeforePrevious": "La serie ya tiene una factura del {date}: esta no puede llevar una fecha anterior.",
+      "rectifyInvalid": "Solo se rectifica una factura ordinaria emitida.",
+      "rectificationReasonRequired": "Indica el motivo de la rectificación.",
+      "alreadyRectified": "Esta factura ya tiene rectificativas: la siguiente se hace por diferencias.",
+      "rectifyingSeriesMissing": "El emisor no tiene serie rectificativa. Créala en Ajustes → Emisores.",
+      "invoiceNotVoided": "Solo se liberan los conceptos de una factura anulada.",
+      "invoiceNotIssuing": "La factura no está en emisión.",
+      "paymentNotIssued": "Solo se registran cobros de facturas emitidas.",
+      "seriesInUse": "Esta serie ya tiene facturas emitidas desde GNERAI OS este año: su numeración continúa sola.",
+      "clientNotFound": "Cliente no encontrado.",
+      "contractNotFound": "Contrato no encontrado.",
+      "lineNotFound": "Línea no encontrada.",
+      "lineHasBilling": "Esta línea ya tiene facturación: en lugar de borrarla, dale de baja con una fecha de fin.",
+      "emailNotConfigured": "El envío de emails no está configurado (falta RESEND_API_KEY).",
+      "emailNoRecipients": "Añade al menos un destinatario.",
+      "emailFailed": "No se ha podido enviar el email.",
+      "pdfFailed": "No se ha podido generar el PDF. La factura sigue en emisión: vuelve a intentarlo.",
+      "billingRunBusy": "Ya hay una facturación en marcha para esta organización.",
+      "providerUnavailable": "El proveedor fiscal no ha respondido. La factura sigue en emisión: vuelve a intentarlo.",
+      "issuing": "Se quedó a medias al emitir: vuelve a intentarlo para completarla con el mismo número.",
+      "invoiceNotIssued": "Solo se envían facturas emitidas.",
+      "emailCancelled": "Este email se descartó: prepara uno nuevo si quieres enviarlo.",
+      "draftPartyLocked": "Este borrador viene de un contrato o rectifica otra factura: su emisor y su cliente no se cambian."
+    },
+    "forecast": {
+      "title": "Facturación prevista · {months} meses",
+      "description": "Lo que el cron va a facturar con los contratos firmados, si nada cambia. Base sin IVA.",
+      "next3": "{amount} en los próximos 3 meses",
+      "recurring": "Recurrente",
+      "oneOff": "Hitos",
+      "chartLabel": "Facturación prevista por mes, recurrente e hitos",
+      "footnote": "Incluye prorrateos, pausas, bajas ya programadas y renovaciones anuales. El uso (campañas) no se puede prever."
+    }
+  }
+}

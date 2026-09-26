@@ -1,0 +1,12 @@
+{
+  "settings": {
+    "title": "Configuració",
+    "tabs": {
+      "general": "General",
+      "issuers": "Emissors",
+      "taxes": "Impostos",
+      "team": "Equip",
+      "preferences": "Preferències"
+    }
+  }
+}

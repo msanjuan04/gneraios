@@ -1,0 +1,15 @@
+.git
+.next
+node_modules
+.env*
+!.env.example
+.claude
+.gstack
+coverage
+supabase/.temp
+supabase/.branches
+tests
+e2e
+docs
+*.md
+!README.md

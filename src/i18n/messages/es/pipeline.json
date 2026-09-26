@@ -1,0 +1,79 @@
+{
+  "pipeline": {
+    "tabs": {
+      "board": "Tablero",
+      "funnel": "Embudo"
+    },
+    "title": "Pipeline",
+    "newDeal": "Nuevo deal",
+    "emptyTitle": "Tu pipeline está vacío",
+    "emptyBody": "Crea el primer lead: un cliente y la oportunidad que tienes con él, en una sola ficha.",
+    "emptyShortcut": "Atajo: N",
+    "column": {
+      "count": "{count, plural, one {# deal} other {# deals}}",
+      "weighted": "Ponderado",
+      "total": "Total",
+      "empty": "Arrastra aquí"
+    },
+    "card": {
+      "open": "Abrir {title}",
+      "moveHint": "⇧← ⇧→ para mover de etapa"
+    },
+    "sheet": {
+      "createTitle": "Nuevo deal",
+      "editTitle": "Editar deal",
+      "description": "Un lead es un deal en la primera etapa: crea el cliente aquí mismo si aún no existe.",
+      "title": "Título",
+      "titlePlaceholder": "Web + SEO local",
+      "client": "Cliente",
+      "clientPlaceholder": "Busca o escribe un cliente nuevo…",
+      "createClient": "Crear cliente «{name}»",
+      "newClient": "Cliente nuevo: {name}",
+      "noClients": "Sin coincidencias",
+      "stage": "Etapa",
+      "oneOff": "Importe puntual",
+      "oneOffHint": "Setup, proyecto cerrado…",
+      "mrr": "Recurrente al mes",
+      "mrrHint": "Mantenimiento, SEO, Ads, licencias…",
+      "probability": "Probabilidad",
+      "probabilityHint": "Vacío = la de la etapa ({value} %)",
+      "source": "Fuente",
+      "broughtBy": "Lo trajo",
+      "owner": "Responsable",
+      "nextAction": "Próxima acción",
+      "nextActionPlaceholder": "Llamar para cerrar fecha de reunión",
+      "nextActionOn": "Fecha",
+      "lossReason": "Motivo de pérdida",
+      "lossNote": "Nota",
+      "none": "—",
+      "save": "Guardar deal",
+      "create": "Crear deal",
+      "saved": "Deal guardado",
+      "created": "Deal creado",
+      "archive": "Archivar deal",
+      "archiveConfirm": "El deal desaparece del tablero; su historial se conserva para el embudo.",
+      "archived": "Deal archivado",
+      "openClient": "Ver cliente",
+      "history": "Historial de etapas",
+      "historyCreated": "Creado en {stage}",
+      "historyMoved": "{from} → {to}",
+      "nextStep": "Siguiente paso",
+      "createQuote": "Crear presupuesto",
+      "createContract": "Crear contrato"
+    },
+    "loss": {
+      "title": "¿Por qué se ha perdido?",
+      "description": "El motivo es obligatorio: alimenta el análisis de pérdidas del embudo.",
+      "reason": "Motivo",
+      "note": "Nota (opcional)",
+      "confirm": "Marcar como perdido"
+    },
+    "moved": "Movido a {stage}",
+    "errors": {
+      "lossReasonRequired": "Para marcar un deal como perdido hay que indicar el motivo.",
+      "notFound": "Ese deal ya no existe o no tienes acceso.",
+      "clientRequired": "Elige un cliente o escribe el nombre de uno nuevo.",
+      "money": "Importe no válido. Usa, por ejemplo, 1.500 o 450,50."
+    }
+  }
+}

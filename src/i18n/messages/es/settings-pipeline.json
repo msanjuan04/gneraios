@@ -1,0 +1,87 @@
+{
+  "settings": {
+    "tabs": {
+      "pipeline": "Pipeline"
+    },
+    "pipeline": {
+      "name": "Nombre",
+      "actions": "Acciones",
+      "moveUp": "Subir",
+      "moveDown": "Bajar",
+      "rename": "Renombrar",
+      "archive": "Archivar",
+      "listChanged": "El orden ha cambiado mientras tanto. Recarga la página y vuelve a intentarlo.",
+      "errors": {
+        "nameInvalid": "El nombre tiene que tener entre 1 y 60 caracteres.",
+        "probabilityInvalid": "La probabilidad tiene que estar entre 0 y 100 %."
+      },
+      "stages": {
+        "title": "Etapas",
+        "description": "Las columnas del tablero, en este orden. Las de tipo «Ganada» ({won}) cuentan como deal ganado en el embudo, y mover un deal a una de tipo «Perdida» pide el motivo de pérdida.",
+        "descriptionNoWon": "Las columnas del tablero, en este orden. Las de tipo «Ganada» cuentan como deal ganado en el embudo, y mover un deal a una de tipo «Perdida» pide el motivo de pérdida.",
+        "add": "Añadir etapa",
+        "addTitle": "Nueva etapa",
+        "addDescription": "Se coloca antes de la primera etapa ganada. Después puedes moverla.",
+        "edit": "Editar etapa",
+        "editDescription": "El nombre y la probabilidad se cambian cuando quieras. El tipo, solo mientras la etapa no tenga deals.",
+        "order": "Orden",
+        "stage": "Etapa",
+        "kind": "Tipo",
+        "probability": "Probabilidad",
+        "probabilityLabel": "Probabilidad por defecto",
+        "probabilityHint": "La de los deals de esta etapa que no tengan una propia. Pondera el pipeline.",
+        "deals": "Deals",
+        "namePlaceholder": "p. ej. Demo",
+        "kindHints": {
+          "open": "El deal sigue en juego.",
+          "won": "Cuenta como deal ganado en el embudo.",
+          "lost": "Al mover un deal aquí se pide el motivo de pérdida."
+        },
+        "onlyOfKind": {
+          "open": "Es la única etapa abierta: siempre tiene que quedar al menos una abierta, una ganada y una perdida.",
+          "won": "Es la única etapa ganada: siempre tiene que quedar al menos una abierta, una ganada y una perdida.",
+          "lost": "Es la única etapa perdida: siempre tiene que quedar al menos una abierta, una ganada y una perdida."
+        },
+        "kindLocked": "Ya tiene deals (también cuentan los archivados), así que su tipo no cambia. Si lo necesitas, crea otra etapa y archiva esta.",
+        "archiveHasDeals": "{count, plural, one {Tiene # deal: muévelo} other {Tiene # deals: muévelos}} a otra etapa antes de archivarla.",
+        "archiveTitle": "¿Archivar la etapa «{name}»?",
+        "archiveBody": "Desaparecerá del tablero y no se podrá mover ningún deal a ella. El historial y el embudo la conservan.",
+        "createdToast": "Etapa «{name}» añadida",
+        "savedToast": "Etapa guardada",
+        "archivedToast": "Etapa «{name}» archivada",
+        "notFound": "Esa etapa ya no existe o está archivada. Recarga la página.",
+        "duplicateName": "Ya hay una etapa con ese nombre.",
+        "empty": "No hay etapas."
+      },
+      "sources": {
+        "title": "Fuentes de adquisición",
+        "description": "De dónde llega cada deal. Una fuente archivada se queda en los deals que ya la tienen, pero no se puede elegir en los nuevos.",
+        "add": "Añadir fuente",
+        "placeholder": "p. ej. Evento",
+        "createdToast": "Fuente «{name}» añadida",
+        "renamedToast": "Fuente renombrada",
+        "archiveTitle": "¿Archivar la fuente «{name}»?",
+        "archiveBody": "Los deals que ya la tienen la conservan, pero no se podrá elegir en deals nuevos.",
+        "archivedToast": "Fuente «{name}» archivada",
+        "notFound": "Esa fuente ya no existe o está archivada. Recarga la página.",
+        "duplicateName": "Ya hay una fuente con ese nombre.",
+        "empty": "No hay fuentes. Añade la primera."
+      },
+      "reasons": {
+        "title": "Motivos de pérdida",
+        "description": "Se piden al mover un deal a una etapa perdida y alimentan el top de motivos del embudo. Uno archivado se queda en los deals ya perdidos, pero no se puede elegir en los nuevos.",
+        "add": "Añadir motivo",
+        "placeholder": "p. ej. Presupuesto",
+        "createdToast": "Motivo «{name}» añadido",
+        "renamedToast": "Motivo renombrado",
+        "archiveTitle": "¿Archivar el motivo «{name}»?",
+        "archiveBody": "Los deals perdidos por este motivo lo conservan, pero no se podrá elegir al marcar uno nuevo como perdido.",
+        "archivedToast": "Motivo «{name}» archivado",
+        "lastOne": "Tiene que quedar al menos un motivo: sin ninguno no se podría marcar un deal como perdido.",
+        "notFound": "Ese motivo ya no existe o está archivado. Recarga la página.",
+        "duplicateName": "Ya hay un motivo con ese nombre.",
+        "empty": "No hay motivos. Añade el primero."
+      }
+    }
+  }
+}

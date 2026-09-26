@@ -1,0 +1,355 @@
+{
+  "seo": {
+    "metaTitle": "SEO",
+    "title": "SEO",
+    "description": "Cómo te encuentran en Google: tu web y las de tus clientes, y lo que eso trae al negocio.",
+    "manage": "Propiedades",
+    "features": {
+      "searchConsole": "Search Console",
+      "analytics": "Google Analytics"
+    },
+    "googleErrors": {
+      "not_configured": "Google todavía no está configurado en este servidor.",
+      "owner_required": "Solo un owner puede conectar Google.",
+      "state": "La conexión ha caducado o se ha abierto en otra pestaña. Vuelve a intentarlo.",
+      "session": "La conexión la empezó otro usuario. Vuelve a intentarlo con tu sesión.",
+      "denied": "No se ha dado permiso en Google, así que no se ha conectado nada.",
+      "google": "Google no ha respondido como se esperaba. Vuelve a intentarlo en unos minutos.",
+      "no_refresh_token": "Google no ha dado acceso permanente. Quita el acceso de GNERAI OS en tu cuenta de Google y vuelve a conectar.",
+      "scopes": "Hace falta permiso para Search Console o para Analytics (marca al menos una casilla).",
+      "save": "No se ha podido guardar la conexión. Vuelve a intentarlo."
+    },
+    "noProperties": {
+      "title": "Google está conectado",
+      "body": "Con {email}. Elige qué webs quieres seguir: la tuya y las de tus clientes.",
+      "cta": "Añadir la primera web"
+    },
+    "banners": {
+      "connected": "Google conectado. Los datos se sincronizan cada día.",
+      "demo": "Datos de demostración: generados para enseñar el módulo, no son de Google. Conecta Google para ver los reales.",
+      "reconnect": "Google ha dejado de dar acceso (el permiso se ha revocado o ha caducado). Los datos no se actualizan hasta reconectar.",
+      "reconnectCta": "Reconectar",
+      "notConnected": "Google no está conectado: estos datos no se actualizan.",
+      "notConfigured": "Google no está configurado en este servidor: estos datos no se actualizan.",
+      "connectCta": "Conectar Google",
+      "firstSync": "Sincronizando por primera vez: la carga de 16 meses tarda un par de minutos. Vuelve a cargar la página en un rato.",
+      "loadingHistory": "Cargando el histórico: hay datos desde el {date} y el resto llega en las próximas sincronizaciones.",
+      "missingScopes": "Falta permiso para {features}. Reconecta Google y marca todas las casillas."
+    },
+    "toolbar": {
+      "property": "Web",
+      "own": "Web propia",
+      "clients": "Webs de clientes",
+      "manage": "Gestionar webs",
+      "period": "Periodo",
+      "periods": {
+        "28d": "28 días",
+        "3m": "3 meses",
+        "12m": "12 meses"
+      },
+      "compareLabel": "Comparar con",
+      "compare": {
+        "previous": "vs anterior",
+        "year": "vs año pasado"
+      },
+      "caption": "{range} · frente a {compare}",
+      "captionNoCompare": "{range} · sin datos para comparar"
+    },
+    "kpi": {
+      "label": "Cifras del periodo",
+      "clicks": "Clics",
+      "impressions": "Impresiones",
+      "ctr": "CTR medio",
+      "position": "Posición media",
+      "sessions": "Sesiones orgánicas",
+      "conversions": "Conversiones orgánicas",
+      "previous": "Antes: {value}",
+      "noCompare": "Sin periodo con el que comparar",
+      "noGa4": "Vincula GA4 para verlas",
+      "noGsc": "Vincula Search Console para verlo",
+      "organicShare": "{share} de todas las sesiones",
+      "organicShareWithPrevious": "{share} del total · antes: {value}",
+      "positionHint": "Posición media en Google: cuanto más baja, mejor",
+      "pp": "pp",
+      "changeLabel": {
+        "relative": "Variación: {value} frente al periodo de comparación",
+        "points": "Variación: {value} puntos porcentuales frente al periodo de comparación",
+        "positions": "Variación: {value} posiciones frente al periodo de comparación"
+      }
+    },
+    "chart": {
+      "title": "Rendimiento en Google",
+      "clicks": "Clics",
+      "impressions": "Impresiones",
+      "ctr": "CTR",
+      "compareTotal": "antes {value}",
+      "day": "Día",
+      "compareClicks": "Clics antes",
+      "compareImpressions": "Impresiones antes",
+      "tableCaption": "Clics e impresiones por día del periodo y del periodo de comparación",
+      "showTable": "Ver como tabla",
+      "empty": "Sin datos de Search Console en este periodo."
+    },
+    "top": {
+      "title": "Consultas y páginas",
+      "description": "Lo que más clics trae, con su variación y su posición media.",
+      "queriesTab": "Consultas",
+      "pagesTab": "Páginas",
+      "queriesCaption": "Consultas con más clics del periodo",
+      "pagesCaption": "Páginas con más clics del periodo",
+      "query": "Consulta",
+      "page": "Página",
+      "clicks": "Clics",
+      "impressions": "Impresiones",
+      "ctr": "CTR",
+      "position": "Posición",
+      "new": "Nueva",
+      "showAll": "Ver las {count}",
+      "showLess": "Ver menos",
+      "empty": "Sin consultas en este periodo."
+    },
+    "movers": {
+      "title": "Suben y bajan",
+      "description": "Las consultas que más clics ganan o pierden, con su posición antes → ahora.",
+      "up": "Suben",
+      "down": "Bajan",
+      "total": "{value} clics",
+      "noneUp": "Ninguna consulta sube de forma clara.",
+      "noneDown": "Ninguna consulta baja de forma clara.",
+      "noCompare": "Elige un periodo con datos para comparar y verás qué consultas suben y cuáles bajan."
+    },
+    "opportunities": {
+      "title": "Oportunidades",
+      "description": "Consultas en posición {min}-{max} con muchas impresiones: subir al top {target} multiplicaría sus clics.",
+      "meta": "Posición {position} · {impressions} impresiones · CTR {ctr}",
+      "potential": "+{value}/mes",
+      "potentialLong": "+{value} clics al mes posibles",
+      "tooltipNow": "Ahora: {clicks} clics de {impressions} impresiones",
+      "empty": "No hay consultas a un paso del top: o ya están arriba o todavía tienen pocas impresiones.",
+      "footnote": "Estimación con un CTR de referencia por posición; las consultas de marca y las que muestran mapa o anuncios se alejan de ella."
+    },
+    "business": {
+      "title": "SEO → negocio",
+      "description": "Lo que traen al CRM las fuentes {sources} en el mismo periodo.",
+      "noSources": "Elige qué fuentes de adquisición cuentan como SEO para ver lo que traen al CRM.",
+      "suggested": "Sugeridas por su nombre: puedes cambiarlas.",
+      "sources": "Fuentes",
+      "sourcesLabel": "Cuentan como SEO",
+      "resetSources": "Volver a las sugeridas",
+      "leads": "Leads",
+      "won": "Ganados",
+      "billed": "Facturado",
+      "inPeriod": "En el periodo",
+      "shareOfLeads": "{share} de todos los leads",
+      "shareOfBilled": "{share} de lo facturado",
+      "perMonth": "{amount}/mes",
+      "lifetime": "Desde siempre: <strong>{amount}</strong> facturados a {clients, plural, =0 {ningún cliente que pague} one {# cliente que paga} other {# clientes que pagan}} ({share} del total).",
+      "channels": "Por canal, lo facturado desde siempre",
+      "channelsLabel": "Facturación por canal de adquisición",
+      "noSource": "Sin fuente",
+      "archivedSource": "Fuente archivada",
+      "channelTooltip": "{leads, plural, one {# lead} other {# leads}} y {won, plural, one {# ganado} other {# ganados}} en el periodo · {billed} facturados · {paying, plural, one {# cliente que paga} other {# clientes que pagan}}",
+      "empty": "Aún no hay leads ni facturación que atribuir a un canal.",
+      "footnote": "La facturación va por la fuente del cliente (la de su primer deal); los leads y ganados, por la de cada deal. Base imponible, sin IVA."
+    },
+    "client": {
+      "description": "La web de este cliente, atada a lo que factura.",
+      "billed": "Facturado",
+      "since": "Primera factura",
+      "sinceStart": "Desde que trabajáis juntos",
+      "sinceData": "Desde el primer dato disponible",
+      "clicksFrom": "{value} clics",
+      "clicksTo": "{value} clics",
+      "windows": "{from} frente a {to}",
+      "noHistory": "Todavía no hay datos suficientes para ver la evolución.",
+      "open": "Abrir la ficha del cliente"
+    },
+    "sync": {
+      "now": "Sincronizar",
+      "running": "Sincronizando…",
+      "done": "Sincronizado: {rows, plural, =0 {nada nuevo} one {# fila actualizada} other {# filas actualizadas}}.",
+      "pending": "Sincronizado lo más reciente; el histórico sigue en las próximas sincronizaciones.",
+      "partialErrors": "Sincronizado con {count, plural, one {un error en una web} other {errores en # webs}}. Mira el detalle en Propiedades."
+    },
+    "connect": {
+      "setup": {
+        "title": "Conecta Search Console y GA4",
+        "body": "Para ver aquí el SEO de tu web y de las de tus clientes hace falta dar de alta GNERAI OS en Google Cloud una sola vez.",
+        "stepsTitle": "Qué hace falta",
+        "steps": {
+          "project": {
+            "title": "Un proyecto en Google Cloud",
+            "body": "Activa Google Search Console API, Google Analytics Data API y Google Analytics Admin API."
+          },
+          "consent": {
+            "title": "Pantalla de consentimiento interna",
+            "body": "De tipo «Interno» (Google Workspace): no necesita verificación y el acceso no caduca a los 7 días."
+          },
+          "client": {
+            "title": "Un ID de cliente OAuth de aplicación web",
+            "body": "Con este URI de redirección autorizado:"
+          },
+          "env": {
+            "title": "Tres variables de entorno en el servidor",
+            "body": "El ID y el secreto del cliente, y una clave para cifrar los tokens (openssl rand -base64 32). Después, reinicia la app."
+          }
+        },
+        "missing": "falta",
+        "present": "configurada",
+        "demo": "Mientras tanto, puedes ver cómo queda con datos de ejemplo en la <link>org demo</link>."
+      },
+      "connect": {
+        "title": "Conecta tu cuenta de Google",
+        "body": "Un owner conecta una vez la cuenta que tiene acceso a Search Console y a Analytics de tu web y de las de tus clientes. Después se sincroniza cada día."
+      },
+      "reconnect": {
+        "title": "Vuelve a conectar Google",
+        "body": "Google ha dejado de dar acceso (el permiso se ha revocado o ha caducado). Reconecta para seguir sincronizando."
+      },
+      "benefits": {
+        "search": {
+          "title": "Clics, impresiones y posición",
+          "body": "De Search Console, día a día y con 16 meses de histórico."
+        },
+        "traffic": {
+          "title": "Sesiones y conversiones",
+          "body": "De GA4, del tráfico orgánico y del total."
+        },
+        "opportunities": {
+          "title": "Quick wins",
+          "body": "Consultas a un paso del top 3 y las que suben o bajan."
+        },
+        "business": {
+          "title": "SEO → negocio",
+          "body": "Leads, clientes ganados y facturación que llegan por SEO."
+        }
+      },
+      "cta": "Conectar con Google",
+      "reconnectCta": "Reconectar con Google",
+      "readOnly": "Solo lectura: GNERAI OS no puede cambiar nada en Google.",
+      "ownerOnly": "Pide a un owner de la organización que conecte Google."
+    },
+    "connection": {
+      "title": "Conexión con Google",
+      "description": "Una cuenta por organización, con acceso a Search Console y a Analytics de todas las webs.",
+      "notConfigured": "Google no está configurado en este servidor (faltan variables de entorno).",
+      "connect": "Conectar",
+      "reconnect": "Reconectar",
+      "never": "Todavía no se ha conectado ninguna cuenta.",
+      "disconnected": "Desconectada. Los datos que ya había se conservan.",
+      "connected": "Conectada",
+      "error": "Hay que reconectar",
+      "errorBody": "Google ha dejado de dar acceso: los datos no se actualizan hasta reconectar.",
+      "missingScopes": "Falta permiso para {features}: reconecta y marca todas las casillas.",
+      "features": {
+        "searchConsole": "Search Console",
+        "analytics": "Google Analytics"
+      },
+      "connectedBy": "Conectada por",
+      "lastSync": "Última sincronización",
+      "neverSynced": "Todavía no",
+      "lastError": "Último error",
+      "disconnect": "Desconectar",
+      "disconnectTitle": "¿Desconectar Google?",
+      "disconnectBody": "Se revoca el acceso en Google y se borra el token. Los datos ya sincronizados se conservan, pero dejan de actualizarse.",
+      "disconnectedToast": "Google desconectado"
+    },
+    "properties": {
+      "back": "SEO",
+      "pageTitle": "Webs y conexión",
+      "pageDescription": "Qué webs se siguen, de quién son y de dónde salen sus datos.",
+      "title": "Webs",
+      "description": "Tu web y las de tus clientes. Cada una con su propiedad de Search Console y, si quieres, la de GA4.",
+      "add": "Añadir web",
+      "emptyTitle": "Todavía no sigues ninguna web",
+      "emptyConnected": "Añade tu web y las de tus clientes: se cargan los últimos 16 meses.",
+      "emptyBody": "Conecta Google para elegirlas de tu cuenta, o añádelas a mano.",
+      "primary": "Principal",
+      "demo": "Demo",
+      "ownSite": "Web propia",
+      "ga4Id": "GA4 {id}",
+      "coverage": "Datos del {from} al {to}",
+      "waiting": "Sin datos todavía: se cargan en la próxima sincronización",
+      "noData": "Sin datos",
+      "syncError": "Error al sincronizar: {error}",
+      "open": "Ver",
+      "edit": "Editar",
+      "archive": "Archivar",
+      "restore": "Recuperar",
+      "archivedToast": "«{name}» archivada",
+      "restoredToast": "«{name}» recuperada",
+      "undo": "Deshacer",
+      "showArchived": "Ver {count, plural, one {la archivada} other {las # archivadas}}",
+      "hideArchived": "Ocultar las archivadas"
+    },
+    "form": {
+      "createTitle": "Añadir web",
+      "editTitle": "Editar web",
+      "description": "De quién es y de dónde salen sus datos.",
+      "create": "Añadir",
+      "owner": "De quién es",
+      "owners": {
+        "own": "Web propia",
+        "ownHint": "La de tu organización",
+        "client": "De un cliente",
+        "clientHint": "Una web que le llevas"
+      },
+      "client": "Cliente",
+      "clientPlaceholder": "Elige el cliente",
+      "noClients": "No hay clientes",
+      "gsc": "Propiedad de Search Console",
+      "gscHint": "La de dominio (sc-domain:) recoge todas las versiones de la web.",
+      "gscAccount": "De la cuenta conectada",
+      "domainProperty": "dominio",
+      "noGsc": "Sin Search Console",
+      "ga4": "Propiedad de GA4",
+      "ga4Hint": "Para las sesiones y conversiones orgánicas.",
+      "ga4Account": "De la cuenta conectada",
+      "noGa4": "Sin GA4",
+      "manual": "Escribirla a mano…",
+      "pick": "Elegir",
+      "loadingGoogle": "Leyendo tu cuenta de Google…",
+      "label": "Nombre",
+      "labelHint": "Cómo se verá en la lista, p. ej. «gnerai.com».",
+      "primary": "Web principal",
+      "primaryOwnHint": "La que se abre por defecto en SEO.",
+      "primaryClientHint": "La que se enseña en la ficha del cliente.",
+      "createdToast": "Web añadida",
+      "createdSyncToast": "Web añadida. Cargando sus últimos 16 meses…",
+      "savedToast": "Cambios guardados"
+    },
+    "validation": {
+      "clientRequired": "Elige el cliente",
+      "gscSite": "Tiene que ser «sc-domain:ejemplo.com» o una URL como «https://www.ejemplo.com/»",
+      "ga4Property": "El id numérico de la propiedad (p. ej. 123456789)",
+      "sourceRequired": "Hace falta Search Console o GA4"
+    },
+    "card": {
+      "title": "SEO",
+      "demo": "Demo",
+      "open": "Ver en SEO",
+      "empty": "Sin web vinculada todavía.",
+      "link": "Vincular web",
+      "clicks": "Clics",
+      "impressions": "Impresiones",
+      "position": "Posición",
+      "ctr": "CTR {value}",
+      "pp": "pp",
+      "sessions": "{value} sesiones orgánicas",
+      "others": "{count, plural, one {# web más} other {# webs más}}"
+    },
+    "errors": {
+      "notFound": "Esa web ya no existe.",
+      "archived": "Esa web está archivada: recupérala antes de editarla.",
+      "duplicateSite": "Esa propiedad de Search Console ya está dada de alta.",
+      "duplicateGa4": "Esa propiedad de GA4 ya está dada de alta.",
+      "primaryConflict": "Otra web se ha marcado como principal a la vez. Vuelve a intentarlo.",
+      "clientNotFound": "Ese cliente no existe en esta organización.",
+      "syncBusy": "Ya hay una sincronización en marcha.",
+      "reconnect": "Google ha dejado de dar acceso: hay que reconectar.",
+      "notConnected": "Google no está conectado.",
+      "sync": "No se ha podido sincronizar. Vuelve a intentarlo en unos minutos.",
+      "google": "No se ha podido leer tu cuenta de Google. Escribe la propiedad a mano o vuelve a intentarlo."
+    }
+  }
+}

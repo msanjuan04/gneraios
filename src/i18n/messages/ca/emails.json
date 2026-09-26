@@ -1,0 +1,21 @@
+{
+  "emails": {
+    "invoice": {
+      "subject": "Factura {number} · {issuer}",
+      "body": "Hola,\n\nUs enviem la factura {number} per un import de {total}, amb venciment el {due}.\n\n{payment}\n\nGràcies per confiar en nosaltres.\n\n{issuer}"
+    },
+    "payment_reminder": {
+      "subject": "Recordatori: factura {number} pendent de pagament",
+      "body": "Hola,\n\nUs escrivim perquè la factura {number}, del {issued}, continua pendent: {outstanding}. Va vèncer el {due}.\n\n{payment}\n\nSi ja l'heu pagada, no en feu cas, i disculpeu la molèstia.\n\nGràcies,\n{issuer}"
+    },
+    "paymentTransfer": "Podeu pagar-la per transferència al compte {iban}, indicant el número de factura.",
+    "paymentOther": "Forma de pagament: {method}.",
+    "method": {
+      "transfer": "transferència",
+      "sepa_debit": "domiciliació SEPA",
+      "card": "targeta",
+      "cash": "efectiu",
+      "other": "altra"
+    }
+  }
+}

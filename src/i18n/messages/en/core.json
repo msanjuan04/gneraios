@@ -1,0 +1,68 @@
+{
+  "meta": {
+    "description": "GNERAI's internal operating system: clients, pipeline, contracts and invoicing."
+  },
+  "common": {
+    "save": "Save",
+    "saving": "Saving…",
+    "saved": "Saved",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "back": "Back",
+    "create": "Create",
+    "edit": "Edit",
+    "add": "Add",
+    "remove": "Remove",
+    "close": "Close",
+    "optional": "Optional",
+    "yes": "Yes",
+    "no": "No",
+    "comingSoon": "Coming in milestone {hito}",
+    "errorGeneric": "Something went wrong. Please try again.",
+    "errorPermission": "You don't have permission to do this.",
+    "ownerOnly": "Only an owner can change this."
+  },
+  "nav": {
+    "groupDirection": "Overview",
+    "groupSales": "Sales",
+    "groupBilling": "Billing",
+    "dashboard": "Dashboard",
+    "pipeline": "Pipeline",
+    "clients": "Clients",
+    "quotes": "Quotes",
+    "contracts": "Contracts",
+    "invoices": "Invoices",
+    "settings": "Settings",
+    "search": "Search or create…",
+    "switchOrg": "Switch organization",
+    "toggleSidebar": "Toggle sidebar",
+    "seo": "SEO"
+  },
+  "user": {
+    "menu": "Your account",
+    "preferences": "Preferences",
+    "shortcuts": "Keyboard shortcuts",
+    "signOut": "Sign out"
+  },
+  "theme": {
+    "label": "Theme",
+    "dark": "Dark",
+    "light": "Light",
+    "system": "System",
+    "toggle": "Toggle theme"
+  },
+  "roles": {
+    "owner": "Owner",
+    "partner": "Partner",
+    "viewer": "Read-only"
+  },
+  "shell": {
+    "greetingMorning": "Good morning, {name}",
+    "greetingAfternoon": "Good afternoon, {name}",
+    "greetingEvening": "Good evening, {name}"
+  },
+  "notFound": {
+    "title": "This page doesn't exist",
+    "home": "Back home"
+  }
+}

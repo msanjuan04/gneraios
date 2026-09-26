@@ -1,0 +1,173 @@
+{
+  "meta": {
+    "title": "GNERAI OS",
+    "description": "El sistema operativo interno de GNERAI: clientes, pipeline, contratos y facturación."
+  },
+  "common": {
+    "save": "Guardar",
+    "saving": "Guardando…",
+    "saved": "Guardado",
+    "cancel": "Cancelar",
+    "continue": "Continuar",
+    "back": "Atrás",
+    "create": "Crear",
+    "edit": "Editar",
+    "add": "Añadir",
+    "remove": "Quitar",
+    "close": "Cerrar",
+    "optional": "Opcional",
+    "yes": "Sí",
+    "no": "No",
+    "none": "—",
+    "comingSoon": "Llega en el hito {hito}",
+    "errorGeneric": "No se ha podido completar. Inténtalo de nuevo.",
+    "errorPermission": "No tienes permiso para hacer esto.",
+    "ownerOnly": "Solo un owner puede cambiar esto.",
+    "notifications": "Notificaciones"
+  },
+  "nav": {
+    "groupDirection": "Dirección",
+    "groupSales": "Comercial",
+    "groupBilling": "Facturación",
+    "dashboard": "Dashboard",
+    "pipeline": "Pipeline",
+    "clients": "Clientes",
+    "quotes": "Presupuestos",
+    "contracts": "Contratos",
+    "invoices": "Facturas",
+    "settings": "Ajustes",
+    "search": "Buscar o crear…",
+    "switchOrg": "Cambiar de organización",
+    "toggleSidebar": "Mostrar u ocultar la barra lateral",
+    "seo": "SEO"
+  },
+  "user": {
+    "menu": "Tu cuenta",
+    "preferences": "Preferencias",
+    "shortcuts": "Atajos de teclado",
+    "signOut": "Cerrar sesión"
+  },
+  "theme": {
+    "label": "Tema",
+    "dark": "Oscuro",
+    "light": "Claro",
+    "system": "Sistema",
+    "toggle": "Cambiar tema"
+  },
+  "roles": {
+    "owner": "Owner",
+    "partner": "Socio",
+    "viewer": "Solo lectura"
+  },
+  "roleHints": {
+    "owner": "Todo, incluida la configuración fiscal y el equipo",
+    "partner": "Operativa completa: emitir, cobrar, editar",
+    "viewer": "Puede ver, no puede cambiar nada"
+  },
+  "shell": {
+    "greetingMorning": "Buenos días, {name}",
+    "greetingAfternoon": "Buenas tardes, {name}",
+    "greetingEvening": "Buenas noches, {name}"
+  },
+  "notFound": {
+    "title": "Esta página no existe",
+    "body": "Puede que el enlace esté mal o que no tengas acceso a esta organización.",
+    "home": "Volver al inicio"
+  },
+  "validation": {
+    "required": "Obligatorio",
+    "tooLong": "Demasiado largo",
+    "email": "Email no válido",
+    "slug": "Solo minúsculas, números y guiones; no puede ser una palabra reservada.",
+    "taxId": "NIF, NIE o CIF no válido",
+    "iban": "IBAN no válido",
+    "initials": "De 1 a 3 letras",
+    "rate": "Entre 0 y 100",
+    "lastNumber": "Número entero, 0 o más",
+    "format": "Debe incluir '{n}' y, si se reinicia cada año, también '{yyyy}'",
+    "onePrimary": "Tiene que haber exactamente un emisor principal",
+    "days": "Días enteros, de 0 a 365",
+    "billingDay": "Un día del 1 al 31",
+    "daysList": "Días enteros de 0 a 365 separados por comas (máximo 10)",
+    "rateNotGeneral": "Fuera del régimen general, el tipo tiene que ser 0 %",
+    "invalid": "Valor no válido"
+  },
+  "commandMenu": {
+    "placeholder": "Busca o escribe un comando…",
+    "empty": "Nada por aquí.",
+    "groupGo": "Ir a",
+    "groupCreate": "Crear",
+    "groupPreferences": "Preferencias",
+    "groupAccount": "Cuenta",
+    "newClient": "Nuevo cliente",
+    "newDeal": "Nuevo deal o lead",
+    "newInvoice": "Nueva factura",
+    "newQuote": "Nuevo presupuesto",
+    "themeDark": "Tema oscuro",
+    "themeLight": "Tema claro",
+    "language": "Idioma: {language}",
+    "groupResults": "Resultados",
+    "kind": {
+      "client": "Cliente",
+      "contact": "Contacto",
+      "deal": "Deal",
+      "contract": "Contrato",
+      "invoice": "Factura",
+      "quote": "Presupuesto"
+    },
+    "newContract": "Nuevo contrato"
+  },
+  "shortcuts": {
+    "title": "Atajos de teclado",
+    "commandMenu": "Buscar o crear",
+    "goDashboard": "Ir al dashboard",
+    "goPipeline": "Ir al pipeline",
+    "goClients": "Ir a clientes",
+    "goInvoices": "Ir a facturas",
+    "goSettings": "Ir a ajustes",
+    "toggleSidebar": "Mostrar u ocultar la barra lateral",
+    "help": "Ver esta ayuda",
+    "then": "luego",
+    "groupGlobal": "Generales",
+    "groupLists": "Listados",
+    "groupPipeline": "Pipeline",
+    "listMove": "Moverse por la lista",
+    "listOpen": "Abrir el elemento marcado",
+    "listCreate": "Crear (cliente, contacto…)",
+    "pipelineNew": "Nuevo deal",
+    "pipelinePrev": "Mover la tarjeta a la etapa anterior",
+    "pipelineNext": "Mover la tarjeta a la etapa siguiente",
+    "pipelineDrag": "Coger y soltar la tarjeta con el teclado",
+    "goSeo": "Ir a SEO",
+    "goContracts": "Ir a contratos",
+    "goQuotes": "Ir a presupuestos"
+  },
+  "modules": {
+    "pipeline": "Kanban de oportunidades con drag & drop, días en etapa, próxima acción y embudo analítico.",
+    "clients": "Listado y ficha 360: contratos, facturas, deals, actividad, LTV y antigüedad.",
+    "quotes": "Presupuestos con la misma plantilla que las facturas y aceptación en un clic.",
+    "contracts": "Contratos con líneas one-off, mensuales, anuales y por uso, pausas, bajas e hitos.",
+    "invoices": "Borradores automáticos, emisión en bloque, PDF con marca, cobros y rectificativas."
+  },
+  "preview": {
+    "banner": "Vista previa sin base de datos: datos de ejemplo, nada se guarda.",
+    "designTitle": "Sistema visual",
+    "designSubtitle": "Tokens y componentes con la estética de gnerai.com.",
+    "seeOnboarding": "Ver el onboarding",
+    "onboardingDone": "Vista previa: en la app real aquí se crea la organización."
+  },
+  "inbox": {
+    "title": "Avisos",
+    "open": "Abrir avisos",
+    "empty": "Todo al día. Aquí verás renovaciones, recordatorios por aprobar y avisos del sistema.",
+    "markAll": "Marcar todo como leído",
+    "unread": "{count, plural, one {# aviso sin leer} other {# avisos sin leer}}",
+    "kinds": {
+      "renewal": "{client}: «{line}» se renueva el {date}, en {days, plural, one {# día} other {# días}} ({amount} sin IVA).",
+      "reminder_ready": "Recordatorio listo para {client}: la factura {number} lleva {days, plural, one {# día} other {# días}} vencida ({amount}). Revísalo y envíalo.",
+      "job_failed": "La facturación automática del {date} ha fallado. Revisa Facturas y vuelve a lanzarla.",
+      "verifactu_deadline": "{issuer} tendrá que emitir con Verifactu desde el {date}: faltan {days, plural, one {# día} other {# días}}. Hay que elegir proveedor.",
+      "verifactu_required": "{issuer} ya está obligado a Verifactu desde el {date}: con el proveedor interno no puede emitir."
+    }
+  }
+}

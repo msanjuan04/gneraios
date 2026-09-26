@@ -1,0 +1,16 @@
+{
+  "issuerKind": {
+    "company": "Sociedad",
+    "self_employed": "Autónomo"
+  },
+  "seriesKind": {
+    "ordinary": "Ordinaria",
+    "rectifying": "Rectificativa"
+  },
+  "vatRegime": {
+    "general": "General",
+    "exempt": "Exento",
+    "reverse_charge_eu": "Inversión del sujeto pasivo (UE)",
+    "not_subject": "No sujeto"
+  }
+}

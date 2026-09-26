@@ -1,0 +1,30 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "app",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "dev",
+        "--port",
+        "3100"
+      ],
+      "port": 3100,
+      "autoPort": false
+    },
+    {
+      "name": "docs",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "4400",
+        "--bind",
+        "127.0.0.1",
+        "--directory",
+        ".claude/docs-viewer"
+      ],
+      "port": 4400
+    }
+  ]
+}

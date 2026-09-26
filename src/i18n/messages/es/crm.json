@@ -1,0 +1,43 @@
+{
+  "crm": {
+    "clientStatus": {
+      "lead": "Lead",
+      "active": "Activo",
+      "paused": "Pausado",
+      "former": "Ex-cliente"
+    },
+    "stageKind": {
+      "open": "Abierta",
+      "won": "Ganada",
+      "lost": "Perdida"
+    },
+    "activityKind": {
+      "call": "Llamada",
+      "meeting": "Reunión",
+      "email": "Email",
+      "note": "Nota"
+    },
+    "taxIdKind": {
+      "es": "NIF español",
+      "eu_vat": "NIF-IVA europeo",
+      "foreign": "Identificador extranjero"
+    },
+    "timeline": {
+      "dealCreated": "Nuevo deal: {deal} · {to}",
+      "stageChange": "{deal}: {from} → {to}",
+      "contractSigned": "Contrato firmado: {title}",
+      "invoiceIssued": "Factura {title} emitida · {amount}",
+      "invoiceRectifying": "Rectificativa {title} · {amount}",
+      "payment": "Cobro de la factura {title} · {amount}"
+    },
+    "amount": {
+      "oneOff": "Puntual",
+      "mrr": "Recurrente / mes",
+      "perMonth": "{amount}/mes"
+    },
+    "daysInStage": "{count, plural, =0 {Hoy} one {# día} other {# días}}",
+    "overdue": "Vencida",
+    "noOwner": "Sin responsable",
+    "unknownSource": "Sin fuente"
+  }
+}

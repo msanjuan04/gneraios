@@ -1,0 +1,68 @@
+{
+  "meta": {
+    "description": "El sistema operatiu intern de GNERAI: clients, pipeline, contractes i facturació."
+  },
+  "common": {
+    "save": "Desa",
+    "saving": "Desant…",
+    "saved": "Desat",
+    "cancel": "Cancel·la",
+    "continue": "Continua",
+    "back": "Enrere",
+    "create": "Crea",
+    "edit": "Edita",
+    "add": "Afegeix",
+    "remove": "Treu",
+    "close": "Tanca",
+    "optional": "Opcional",
+    "yes": "Sí",
+    "no": "No",
+    "comingSoon": "Arriba a la fita {hito}",
+    "errorGeneric": "No s'ha pogut completar. Torna-ho a provar.",
+    "errorPermission": "No tens permís per fer això.",
+    "ownerOnly": "Només un owner pot canviar això."
+  },
+  "nav": {
+    "groupDirection": "Direcció",
+    "groupSales": "Comercial",
+    "groupBilling": "Facturació",
+    "dashboard": "Dashboard",
+    "pipeline": "Pipeline",
+    "clients": "Clients",
+    "quotes": "Pressupostos",
+    "contracts": "Contractes",
+    "invoices": "Factures",
+    "settings": "Configuració",
+    "search": "Cerca o crea…",
+    "switchOrg": "Canvia d'organització",
+    "toggleSidebar": "Mostra o amaga la barra lateral",
+    "seo": "SEO"
+  },
+  "user": {
+    "menu": "El teu compte",
+    "preferences": "Preferències",
+    "shortcuts": "Dreceres de teclat",
+    "signOut": "Tanca la sessió"
+  },
+  "theme": {
+    "label": "Tema",
+    "dark": "Fosc",
+    "light": "Clar",
+    "system": "Sistema",
+    "toggle": "Canvia el tema"
+  },
+  "roles": {
+    "owner": "Owner",
+    "partner": "Soci",
+    "viewer": "Només lectura"
+  },
+  "shell": {
+    "greetingMorning": "Bon dia, {name}",
+    "greetingAfternoon": "Bona tarda, {name}",
+    "greetingEvening": "Bona nit, {name}"
+  },
+  "notFound": {
+    "title": "Aquesta pàgina no existeix",
+    "home": "Torna a l'inici"
+  }
+}

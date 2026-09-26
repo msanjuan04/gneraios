@@ -1,0 +1,115 @@
+{
+  "funnel": {
+    "metaTitle": "Embudo · Pipeline",
+    "deals": "{count, plural, one {# deal} other {# deals}}",
+    "filters": {
+      "label": "Periodo",
+      "presets": {
+        "last30": "Últimos 30 días",
+        "last90": "Últimos 90 días",
+        "thisYear": "Este año",
+        "all": "Todo"
+      },
+      "custom": "Rango de fechas",
+      "from": "Desde",
+      "to": "Hasta",
+      "apply": "Aplicar",
+      "since": "Desde el {date}",
+      "until": "Hasta el {date}"
+    },
+    "kpi": {
+      "label": "Resumen del periodo",
+      "created": "Deals creados",
+      "createdHint": "Creados en el periodo",
+      "createdHintAll": "Desde el primer deal",
+      "won": "Ganados",
+      "lost": "Perdidos",
+      "closedHint": "Cerrados en el periodo",
+      "closedHintAll": "Cerrados hasta hoy",
+      "closeRate": "Tasa de cierre",
+      "closeRateHint": "{won} de {closed, plural, one {# deal cerrado} other {# deals cerrados}}",
+      "closeRateNone": "Ningún deal cerrado en el periodo",
+      "closeRateNoneAll": "Aún no hay deals cerrados",
+      "wonOneOff": "Ganado puntual",
+      "wonOneOffHint": "Importe puntual estimado de los ganados",
+      "wonMrr": "Ganado recurrente",
+      "wonMrrHint": "Cuota mensual estimada de los ganados",
+      "perMonth": "{amount}<unit>/mes</unit>"
+    },
+    "conversion": {
+      "title": "Conversión por etapa",
+      "description": "Deals creados en el periodo, cada uno hasta la etapa más avanzada a la que llegó.",
+      "overall": "<strong>{rate}</strong> de los deals que entran en {first} llegan a {last}.",
+      "footnote": "Llegar a una etapa posterior cuenta como haber pasado por las anteriores.",
+      "toNext": "{rate} pasa a {stage}",
+      "ofFirst": "{rate} de los que entraron",
+      "empty": "Ningún deal creado en este periodo.",
+      "seeAll": "Ver todo el histórico",
+      "noStages": "El pipeline no tiene etapas abiertas ni ganadas.",
+      "colStage": "Etapa",
+      "colDeals": "Deals",
+      "colOfFirst": "Sobre la entrada",
+      "colToNext": "Pasa a la siguiente"
+    },
+    "time": {
+      "title": "Tiempo medio por etapa",
+      "description": "Días de media que pasan en cada etapa los deals creados en el periodo. Solo cuentan las etapas ya terminadas.",
+      "valueShort": "{days} d",
+      "days": "{days, plural, one {# día} other {# días}}",
+      "average": "{days, plural, one {# día} other {# días}} de media",
+      "median": "Mediana: {days, plural, one {# día} other {# días}}",
+      "samples": "{count, plural, one {# paso medido} other {# pasos medidos}}",
+      "noData": "Sin datos",
+      "empty": "Aún no hay etapas terminadas: el tiempo se mide cuando un deal sale de una etapa.",
+      "emptyPeriod": "Ningún deal creado en este periodo.",
+      "colStage": "Etapa",
+      "colAverage": "Media",
+      "colMedian": "Mediana",
+      "colSamples": "Pasos medidos"
+    },
+    "closeRate": {
+      "sourceTitle": "Tasa de cierre por fuente",
+      "sourceDescription": "Ganados sobre cerrados (ganados más perdidos) por fecha de cierre, según la fuente del deal.",
+      "partnerTitle": "Tasa de cierre por socio",
+      "partnerDescription": "Ganados sobre cerrados por fecha de cierre, según el socio que trajo el deal.",
+      "detail": "{won, plural, one {# ganado} other {# ganados}} · {lost, plural, one {# perdido} other {# perdidos}}",
+      "ratio": "{won}/{closed}",
+      "empty": "Ningún deal cerrado en este periodo.",
+      "colSource": "Fuente",
+      "colPartner": "Socio",
+      "colWon": "Ganados",
+      "colLost": "Perdidos",
+      "colRate": "Tasa"
+    },
+    "loss": {
+      "title": "Motivos de pérdida",
+      "description": "Deals perdidos por fecha de cierre, según el motivo.",
+      "share": "{rate} de las pérdidas",
+      "others": "Y {count, plural, one {# deal más} other {# deals más}} con otros motivos.",
+      "empty": "Ningún deal perdido en este periodo.",
+      "colReason": "Motivo",
+      "colDeals": "Deals",
+      "colShare": "Del total"
+    },
+    "chart": {
+      "showTable": "Ver como tabla"
+    },
+    "labels": {
+      "noSource": "Sin fuente",
+      "archivedSource": "Fuente archivada",
+      "noPartner": "Sin socio",
+      "inactivePartner": "Socio inactivo",
+      "noReason": "Sin motivo",
+      "archivedReason": "Motivo archivado"
+    },
+    "empty": {
+      "title": "El embudo se llena solo",
+      "body": "En cuanto haya deals en el tablero, aquí verás cómo avanzan por el pipeline:",
+      "conversion": "Cuántos pasan de cada etapa a la siguiente",
+      "time": "Cuánto tiempo pasan en cada etapa",
+      "closeRate": "La tasa de cierre por fuente y por socio",
+      "loss": "Por qué motivos se pierden",
+      "cta": "Ir al tablero"
+    }
+  }
+}
