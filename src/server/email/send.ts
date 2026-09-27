@@ -2,6 +2,7 @@ import "server-only";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { type Db, DbError, must } from "@/server/billing/context";
 import { BillingRuleError } from "@/server/billing/manual";
+import { clientReportAttachment } from "@/server/reports/attachment";
 import { emailFrom, getEmailProvider } from "./provider";
 import { type EmailLocale, type EmailTemplate, renderEmail } from "./templates";
 
@@ -55,8 +56,8 @@ async function invoicePdf(invoiceId: string): Promise<{ filename: string; conten
 }
 
 /**
- * Envía un email de outbound_emails (una factura o un recordatorio aprobado) y deja el
- * resultado en la fila: enviado con su id del proveedor, o fallido con el error.
+ * Envía un email de outbound_emails (una factura, un recordatorio o un informe mensual aprobados) y
+ * deja el resultado en la fila: enviado con su id del proveedor, o fallido con el error.
  */
 export async function sendOutboundEmail(
   db: Db,
@@ -76,7 +77,15 @@ export async function sendOutboundEmail(
   const body = edits.body ?? row.body;
   const approved = { to_emails: to, subject, body, approved_by: approverId, approved_at: new Date().toISOString() };
   try {
-    const attachment = row.attach_pdf && row.invoice_id ? await invoicePdf(row.invoice_id) : null;
+    // El informe mensual no se guarda: su PDF se genera ahora, con la sesión de quien lo envía. Si no
+    // se puede generar, lanza y el email queda fallido (se reintenta desde la bandeja): nunca sale sin él.
+    const attachment = !row.attach_pdf
+      ? null
+      : row.template === "client_report"
+        ? await clientReportAttachment(db, row)
+        : row.invoice_id
+          ? await invoicePdf(row.invoice_id)
+          : null;
     const { data: org } = await db.from("orgs").select("name").eq("id", row.org_id).single();
     const sent = await provider.send({
       from: emailFrom(org?.name ?? "GNERAI"),

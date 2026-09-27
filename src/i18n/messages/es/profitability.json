@@ -1,0 +1,230 @@
+{
+  "profitability": {
+    "tab": "Rentabilidad",
+    "partnersOnly": {
+      "title": "Solo para socios",
+      "body": "La rentabilidad usa el coste interno por hora de cada persona, que solo ven los socios."
+    },
+    "toolbar": {
+      "settings": "Umbrales",
+      "teamCosts": "Costes del equipo"
+    },
+    "period": {
+      "label": "Periodo",
+      "kinds": {
+        "last3m": "3 meses",
+        "last12m": "12 meses",
+        "month": "Mes",
+        "quarter": "Trimestre",
+        "year": "Año",
+        "all": "Desde siempre",
+        "custom": "A medida"
+      },
+      "last3m": "Últimos 3 meses",
+      "last12m": "Últimos 12 meses",
+      "all": "Desde siempre",
+      "quarter": "{quarter}T {year}",
+      "previous": "Periodo anterior",
+      "next": "Periodo siguiente",
+      "inProgress": "en curso",
+      "from": "Desde",
+      "to": "Hasta",
+      "apply": "Aplicar",
+      "invalid": "Revisa las fechas: «desde» va antes que «hasta», no puede empezar en el futuro y el rango es de 3 años como mucho."
+    },
+    "summary": {
+      "label": "Resumen del periodo",
+      "revenue": "Ingresos",
+      "revenueHint": "Base sin IVA ni IRPF de lo emitido",
+      "revenueReceipts": "Base emitida + {amount} sin factura",
+      "collected": "Cobrado",
+      "collectedHint": "Con IVA, por fecha de cobro",
+      "collectedPending": "Con IVA · pendiente {amount}",
+      "collectedReceipts": "Con IVA · {amount} sin factura",
+      "cost": "Coste",
+      "costHint": "Horas, gastos e infraestructura",
+      "costSplit": "Horas {hours} · otros {amount}",
+      "margin": "Margen",
+      "marginHint": "Ingresos − coste",
+      "marginShare": "Margen %",
+      "rate": "€/hora",
+      "minimum": "Mínimo: {value}",
+      "hours": "Horas",
+      "clients": "{count, plural, =0 {Ningún cliente} one {# cliente} other {# clientes}}"
+    },
+    "perHour": "{amount}/h",
+    "table": {
+      "title": "Por cliente",
+      "description": "Del que más deja al que menos. Abre un cliente para ver sus proyectos.",
+      "client": "Cliente",
+      "revenue": "Ingresos",
+      "collected": "Cobrado",
+      "pending": "Pendiente",
+      "withVat": "con IVA",
+      "hours": "Horas",
+      "cost": "Coste",
+      "hoursCost": "Coste horas",
+      "otherCosts": "Otros costes",
+      "costs": {
+        "expenses": "Gastos del cliente",
+        "rebill": "Repercutibles",
+        "rebillPending": "Pendiente de repercutir",
+        "hosting": "Infraestructura ({count, plural, =0 {sin webs} one {# web} other {# webs}})"
+      },
+      "margin": "Margen",
+      "marginShare": "Margen %",
+      "rate": "€/hora",
+      "sortBy": "Ordenar por {column}",
+      "expand": "Ver los proyectos de {client}",
+      "collapse": "Ocultar los proyectos de {client}",
+      "openClient": "Abrir la ficha de {client}",
+      "total": "Total",
+      "unassigned": "Sin proyecto",
+      "unassignedHint": "Facturado que no sale de ningún contrato con proyecto y no se puede repartir por horas entre los proyectos sin contrato.",
+      "unknownClient": "Cliente sin nombre",
+      "archived": "archivado",
+      "internal": "Trabajo interno",
+      "internalHint": "Proyectos sin cliente: cuestan, pero no entran en los totales de clientes.",
+      "unassignedHosting": "Infraestructura sin cliente",
+      "unassignedHostingHint": "La parte de {count, plural, one {# web alojada sin cliente} other {# webs alojadas sin cliente}} (de {total}): la nuestra o de nadie en concreto. No entra en los totales de clientes.",
+      "unassignedHostingBeforeStart": "La parte de los clientes antes de su primera factura o su primer gasto directo (aún no eran clientes). No entra en los totales de clientes.",
+      "unassignedHostingBoth": "La parte de {count, plural, one {# web alojada sin cliente} other {# webs alojadas sin cliente}} (de {total}) y la de los clientes antes de su primera factura o su primer gasto directo. No entra en los totales de clientes.",
+      "unassignedHostingNoSites": "Hay gastos repartidos entre las webs alojadas, pero ninguna web alojada activa en Webs: no hay entre quién repartirlos y no entran en los totales de clientes.",
+      "empty": "No hay ingresos ni horas en este periodo.",
+      "caption": "Rentabilidad por cliente en el periodo"
+    },
+    "flags": {
+      "lowMargin": "Margen bajo",
+      "lowRate": "€/h bajo",
+      "hoursWithoutRevenue": "Horas sin facturar",
+      "revenueWithoutHours": "Sin horas"
+    },
+    "flagHints": {
+      "lowMargin": "El margen está por debajo del mínimo ({min}).",
+      "lowRate": "El €/hora efectivo está por debajo del mínimo ({min}).",
+      "hoursWithoutRevenue": "Hay horas registradas en el periodo, pero nada facturado.",
+      "revenueWithoutHours": "Hay facturado en el periodo, pero ninguna hora registrada."
+    },
+    "basis": {
+      "shared": "Contrato compartido",
+      "sharedHint": "Lo facturado de su contrato se reparte entre los proyectos que lo comparten, según sus horas del periodo.",
+      "hours": "Por horas",
+      "hoursHint": "Lo facturado al cliente fuera de contrato se reparte entre sus proyectos sin contrato, según sus horas del periodo.",
+      "direct": "Cobro directo",
+      "directHint": "Cobros sin factura apuntados a este proyecto: son todos suyos."
+    },
+    "notes": {
+      "title": "Cómo se calcula",
+      "revenue": "Ingresos: la base sin IVA ni IRPF de las facturas emitidas en el periodo (las rectificativas restan en su fecha). Van a un proyecto cuando la línea sale de su contrato; si el contrato tiene varios proyectos, se reparte entre ellos por sus horas del periodo.",
+      "allocation": "Lo facturado fuera de contrato (o de contratos sin proyecto) se reparte entre los proyectos sin contrato del cliente según sus horas del periodo (marcado «Por horas»). Si no hay ninguno con horas, queda en «Sin proyecto».",
+      "receipts": "Cobros sin factura (lo que se apunta mientras no se factura desde GNERAI OS): cuentan como ingreso tal cual, sin IVA que quitar, el día en que entró el dinero, y también como cobrado. Si llevan proyecto, van a ese proyecto («Cobro directo»); si no, se reparten como lo facturado fuera de contrato.",
+      "cost": "Coste: las horas, los gastos del cliente y su parte de la infraestructura. Cada hora registrada vale lo que costaba ese día la hora de quien la hizo (Ajustes → Equipo); las no facturables también cuentan.",
+      "expenses": "Gastos: los asignados al cliente con fecha de factura en el periodo, con el coste de Finanzas (la base y, si el IVA no se deduce, también el IVA). Son del cliente, no de un proyecto: van en su fila («Otros costes») y no en las de sus proyectos.",
+      "hosting": "Infraestructura: cada gasto repartido entre las webs alojadas se divide a partes iguales entre las webs que alojamos y están activas hoy en Webs, y cada cliente suma las suyas; un cliente no carga con lo de antes de su primera factura o su primer gasto directo. Esa parte y la de las webs sin cliente quedan en «Infraestructura sin cliente», fuera de los totales. Las suscripciones cuentan por los gastos que generan (cada cargo, en su fecha), nunca por su cuota: nada se cuenta dos veces.",
+      "rebill": "Repercutidos: un gasto que se repercute al cliente es coste en su fecha y su línea de factura es ingreso cuando se emite, así que en el margen solo queda el recargo. Mientras no está facturado pesa como coste («Pendiente de repercutir»).",
+      "collection": "Cobrado y pendiente (una vista de caja: no cuentan en el margen, que sigue siendo sobre los ingresos sin IVA): lo cobrado son los cobros de facturas registrados con fecha en el periodo, con IVA, sean de facturas del periodo o de antes, más los cobros sin factura del periodo; lo pendiente, lo que falta hoy por cobrar de las facturas emitidas en el periodo, también con IVA.",
+      "lifetime": "Desde siempre: de la primera factura emitida, el primer cobro sin factura o el primer coste hasta hoy. Las facturas históricas importadas cuentan como cualquier otra factura emitida, y sus cobros, como cualquier cobro.",
+      "defaultCost": "{hours} se han valorado con el coste por defecto ({amount}/h): son de personas sin coste propio ese día."
+    },
+    "chart": {
+      "title": "Margen por cliente",
+      "description": "Lo que deja cada cliente en el periodo: ingresos − sus horas, sus gastos y su infraestructura.",
+      "positive": "Margen positivo",
+      "negative": "Pérdidas",
+      "hidden": "{count, plural, one {# cliente más} other {# clientes más}} en la tabla.",
+      "tableCaption": "Margen de cada cliente en el periodo"
+    },
+    "empty": {
+      "title": "Falta el coste por hora del equipo",
+      "body": "La rentabilidad cruza lo facturado con las horas de cada persona por lo que cuesta su hora. Los costes se configuran en Ajustes → Equipo; mientras no haya ninguno, no hay margen que calcular.",
+      "cta": "Configurar los costes",
+      "readOnly": "Pide a un owner que los configure en Ajustes → Equipo."
+    },
+    "settings": {
+      "title": "Umbrales de la rentabilidad",
+      "description": "El coste por hora de quien no tiene uno propio y a partir de cuándo avisar.",
+      "defaultCost": "Coste por hora por defecto",
+      "defaultCostHint": "Para quien no tiene un coste propio vigente ese día.",
+      "minMargin": "Margen mínimo",
+      "minMarginHint": "Por debajo, el aviso «Margen bajo».",
+      "minRate": "€/hora mínimo",
+      "minRateHint": "Por debajo, el aviso «€/h bajo».",
+      "saved": "Umbrales guardados"
+    },
+    "costs": {
+      "title": "Coste interno por hora",
+      "description": "Lo que le cuesta a la organización cada hora de cada persona (sueldo, cotizaciones, herramientas…), a partir de una fecha. Con él se calcula la rentabilidad de clientes y proyectos. Solo lo ven los socios.",
+      "readOnly": "Solo un owner puede cambiar los costes.",
+      "member": "Miembro",
+      "current": "Coste por hora",
+      "since": "Desde",
+      "next": "Próximo cambio",
+      "noCost": "Sin coste propio",
+      "usesDefault": "Se usa el de la organización: {amount}/h",
+      "default": "Por defecto: {amount}/h",
+      "editSettings": "Umbrales y coste por defecto",
+      "open": "Coste de {name}",
+      "inactive": "Sin acceso",
+      "sheetDescription": "Cada coste vale desde su fecha hasta el siguiente. Cambiarlo a partir de un día no toca lo anterior.",
+      "inForceSince": "{amount}/h desde el {date}",
+      "newCost": "Nuevo coste",
+      "hourlyCost": "Coste por hora",
+      "validFrom": "Desde",
+      "validFromHint": "Si ya hay un coste ese mismo día, se corrige.",
+      "save": "Guardar coste",
+      "saved": "Coste guardado",
+      "history": "Historial",
+      "historyEmpty": "Aún no tiene ningún coste: sus horas se valoran con el de la organización.",
+      "inForce": "Vigente",
+      "scheduled": "Programado",
+      "delete": "Borrar el coste del {date}",
+      "deleteConfirm": "Borrar",
+      "deleteBody": "Se borra el coste desde el {date}: esas horas pasan a valorarse con el anterior.",
+      "deleted": "Coste borrado"
+    },
+    "card": {
+      "title": "Rentabilidad",
+      "last3m": "Últimos 3 meses",
+      "last12m": "Últimos 12 meses",
+      "lifetime": "Desde siempre",
+      "since": "desde el {date}",
+      "collected": "Cobrado (con IVA)",
+      "collectedReceipts": "de ellos, {amount} sin factura",
+      "collectedShort": "Cobrado",
+      "pending": "Pendiente de cobro (con IVA)",
+      "revenueBase": "Ingresos (sin IVA)",
+      "cost": "Coste",
+      "costSplit": "horas {hours} · gastos e infra {amount}",
+      "marginValue": "{amount} ({value})",
+      "revenue": "Ingresos",
+      "hours": "Horas",
+      "otherCosts": "Gastos e infra",
+      "margin": "Margen",
+      "rate": "€/hora",
+      "open": "Ver en Rentabilidad",
+      "noCosts": "Aún no hay costes por hora: sin ellos no hay margen. Se configuran en Ajustes → Equipo.",
+      "empty": "Aún no hay facturas, horas ni costes de este cliente.",
+      "error": "No se ha podido cargar la rentabilidad."
+    },
+    "validation": {
+      "required": "Obligatorio",
+      "hourly": "Un importe de 0 a 1.000 €",
+      "percent": "Un porcentaje de 0 a 100",
+      "date": "Una fecha válida (del año 2000 en adelante)"
+    },
+    "errors": {
+      "memberNotFound": "Ese miembro no es de esta organización.",
+      "invalidCost": "El coste no es válido: de 0 a 1.000 € la hora."
+    }
+  },
+  "dashboard": {
+    "actionQueue": {
+      "items": {
+        "profitability": {
+          "title": "{count, plural, one {# cliente por debajo de los umbrales} other {# clientes por debajo de los umbrales}}",
+          "hint": "Margen, €/hora u horas sin facturar en los últimos 3 meses"
+        }
+      }
+    }
+  }
+}

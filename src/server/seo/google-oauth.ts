@@ -93,7 +93,9 @@ export function authorizationUrl(opts: {
     response_type: "code",
     scope: GOOGLE_OAUTH_SCOPES.join(" "),
     access_type: "offline",
-    prompt: "consent",
+    // Siempre el selector de cuenta: la de Google que ve las propiedades (p. ej. info@) no tiene
+    // por qué ser la del socio que conecta. «consent» asegura el refresh token.
+    prompt: "consent select_account",
     include_granted_scopes: "true",
     state: opts.state,
     code_challenge: opts.challenge,

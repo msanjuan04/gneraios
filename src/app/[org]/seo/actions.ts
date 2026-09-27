@@ -1,5 +1,7 @@
 "use server";
 
+import { resolveSearchConsoleSite, siteHost } from "@/domain/seo/site-url";
+
 import type { PostgrestError } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
 import { after } from "next/server";
@@ -56,6 +58,17 @@ async function googleConnected(orgId: string): Promise<boolean> {
 }
 
 /** Crea o edita una propiedad. Si cambia de dónde salen los datos y Google está conectado, sincroniza. */
+/** Las propiedades de Search Console de la cuenta conectada, o null si no se pueden consultar. */
+async function accountSiteUrls(orgId: string): Promise<string[] | null> {
+  try {
+    const session = await openGoogleSession(createAdminClient(), orgId);
+    if (!grantedFeatures(session.scopes).searchConsole) return null;
+    return (await listSearchConsoleSites(session.client)).map((site) => site.siteUrl);
+  } catch {
+    return null;
+  }
+}
+
 export async function saveSeoProperty(
   slug: string,
   propertyId: string | null,
@@ -68,10 +81,21 @@ export async function saveSeoProperty(
   if (!parsed.success || (id && !id.success)) return invalidInput();
 
   const values = parsed.data;
+  // Con Google conectado, la web tiene que ser una propiedad real de la cuenta: lo escrito a mano
+  // ("https://gnerai.com") se convierte en la propiedad exacta ("sc-domain:gnerai.com").
+  let gscSiteUrl = values.gsc_site_url || null;
+  if (gscSiteUrl) {
+    const sites = await accountSiteUrls(ctx.org.id);
+    if (sites) {
+      const resolved = resolveSearchConsoleSite(gscSiteUrl, sites);
+      if (!resolved) return failure("seo.errors.gscSiteNotFound");
+      gscSiteUrl = resolved;
+    }
+  }
   const row = {
     label: values.label,
     client_id: values.owner === "client" ? values.client_id : null,
-    gsc_site_url: values.gsc_site_url || null,
+    gsc_site_url: gscSiteUrl,
     ga4_property_id: values.ga4_property_id ? normalizeGa4Id(values.ga4_property_id) : null,
     is_primary: values.is_primary,
   };
@@ -108,6 +132,31 @@ export async function saveSeoProperty(
   if (sourcesChanged && (await googleConnected(ctx.org.id))) syncLater(ctx.org.id, [savedId]);
   revalidateSeo(ctx.org.slug);
   return { ok: true, id: savedId };
+}
+
+/** Da de alta con un clic una web detectada en el Search Console de la cuenta (y la sincroniza). */
+export async function addDiscoveredSite(slug: string, siteUrl: string, clientId: string | null): Promise<ActionResult<{ id: string }>> {
+  const ctx = await partnerContext(slug);
+  if (!ctx) return forbidden();
+  const client = clientId === null ? null : idSchema.safeParse(clientId);
+  const host = typeof siteUrl === "string" && siteUrl.length <= 2048 ? siteHost(siteUrl) : null;
+  if (!host || (client && !client.success)) return invalidInput();
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("seo_properties")
+    .insert({
+      org_id: ctx.org.id,
+      label: host,
+      client_id: client?.success ? client.data : null,
+      gsc_site_url: siteUrl,
+      is_primary: false,
+    })
+    .select("id")
+    .single();
+  if (error) return dbFailure(error, "seo.discovered.insert", propertyError);
+  syncLater(ctx.org.id, [data.id]);
+  revalidateSeo(ctx.org.slug);
+  return { ok: true, id: data.id };
 }
 
 /** Archiva o recupera una propiedad (sus datos se conservan). */

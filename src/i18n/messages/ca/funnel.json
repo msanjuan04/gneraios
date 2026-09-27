@@ -1,0 +1,115 @@
+{
+  "funnel": {
+    "metaTitle": "Embut · Pipeline",
+    "deals": "{count, plural, one {# deal} other {# deals}}",
+    "filters": {
+      "label": "Període",
+      "presets": {
+        "last30": "Últims 30 dies",
+        "last90": "Últims 90 dies",
+        "thisYear": "Aquest any",
+        "all": "Tot"
+      },
+      "custom": "Interval de dates",
+      "from": "Des de",
+      "to": "Fins a",
+      "apply": "Aplica",
+      "since": "Des del {date}",
+      "until": "Fins al {date}"
+    },
+    "kpi": {
+      "label": "Resum del període",
+      "created": "Deals creats",
+      "createdHint": "Creats en el període",
+      "createdHintAll": "Des del primer deal",
+      "won": "Guanyats",
+      "lost": "Perduts",
+      "closedHint": "Tancats en el període",
+      "closedHintAll": "Tancats fins avui",
+      "closeRate": "Taxa de tancament",
+      "closeRateHint": "{won} de {closed, plural, one {# deal tancat} other {# deals tancats}}",
+      "closeRateNone": "Cap deal tancat en el període",
+      "closeRateNoneAll": "Encara no hi ha deals tancats",
+      "wonOneOff": "Guanyat puntual",
+      "wonOneOffHint": "Import puntual estimat dels guanyats",
+      "wonMrr": "Guanyat recurrent",
+      "wonMrrHint": "Quota mensual estimada dels guanyats",
+      "perMonth": "{amount}<unit>/mes</unit>"
+    },
+    "conversion": {
+      "title": "Conversió per etapa",
+      "description": "Deals creats en el període, cadascun fins a l'etapa més avançada a què va arribar.",
+      "overall": "<strong>{rate}</strong> dels deals que entren a {first} arriben a {last}.",
+      "footnote": "Arribar a una etapa posterior compta com haver passat per les anteriors.",
+      "toNext": "{rate} passa a {stage}",
+      "ofFirst": "{rate} dels que van entrar",
+      "empty": "Cap deal creat en aquest període.",
+      "seeAll": "Mostra tot l'històric",
+      "noStages": "El pipeline no té etapes obertes ni guanyades.",
+      "colStage": "Etapa",
+      "colDeals": "Deals",
+      "colOfFirst": "Sobre l'entrada",
+      "colToNext": "Passa a la següent"
+    },
+    "time": {
+      "title": "Temps mitjà per etapa",
+      "description": "Dies de mitjana que passen a cada etapa els deals creats en el període. Només compten les etapes ja acabades.",
+      "valueShort": "{days} d",
+      "days": "{days, plural, one {# dia} other {# dies}}",
+      "average": "{days, plural, one {# dia} other {# dies}} de mitjana",
+      "median": "Mediana: {days, plural, one {# dia} other {# dies}}",
+      "samples": "{count, plural, one {# pas mesurat} other {# passos mesurats}}",
+      "noData": "Sense dades",
+      "empty": "Encara no hi ha etapes acabades: el temps es mesura quan un deal surt d'una etapa.",
+      "emptyPeriod": "Cap deal creat en aquest període.",
+      "colStage": "Etapa",
+      "colAverage": "Mitjana",
+      "colMedian": "Mediana",
+      "colSamples": "Passos mesurats"
+    },
+    "closeRate": {
+      "sourceTitle": "Taxa de tancament per font",
+      "sourceDescription": "Guanyats sobre tancats (guanyats més perduts) per data de tancament, segons la font del deal.",
+      "partnerTitle": "Taxa de tancament per soci",
+      "partnerDescription": "Guanyats sobre tancats per data de tancament, segons el soci que va portar el deal.",
+      "detail": "{won, plural, one {# guanyat} other {# guanyats}} · {lost, plural, one {# perdut} other {# perduts}}",
+      "ratio": "{won}/{closed}",
+      "empty": "Cap deal tancat en aquest període.",
+      "colSource": "Font",
+      "colPartner": "Soci",
+      "colWon": "Guanyats",
+      "colLost": "Perduts",
+      "colRate": "Taxa"
+    },
+    "loss": {
+      "title": "Motius de pèrdua",
+      "description": "Deals perduts per data de tancament, segons el motiu.",
+      "share": "{rate} de les pèrdues",
+      "others": "I {count, plural, one {# deal més} other {# deals més}} amb altres motius.",
+      "empty": "Cap deal perdut en aquest període.",
+      "colReason": "Motiu",
+      "colDeals": "Deals",
+      "colShare": "Del total"
+    },
+    "chart": {
+      "showTable": "Mostra com a taula"
+    },
+    "labels": {
+      "noSource": "Sense font",
+      "archivedSource": "Font arxivada",
+      "noPartner": "Sense soci",
+      "inactivePartner": "Soci inactiu",
+      "noReason": "Sense motiu",
+      "archivedReason": "Motiu arxivat"
+    },
+    "empty": {
+      "title": "L'embut s'omple sol",
+      "body": "Tan bon punt hi hagi deals al tauler, aquí veuràs com avancen pel pipeline:",
+      "conversion": "Quants passen de cada etapa a la següent",
+      "time": "Quant de temps passen a cada etapa",
+      "closeRate": "La taxa de tancament per font i per soci",
+      "loss": "Per quins motius es perden",
+      "cta": "Ves al tauler"
+    }
+  }
+}

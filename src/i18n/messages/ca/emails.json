@@ -8,6 +8,12 @@
       "subject": "Recordatori: factura {number} pendent de pagament",
       "body": "Hola,\n\nUs escrivim perquè la factura {number}, del {issued}, continua pendent: {outstanding}. Va vèncer el {due}.\n\n{payment}\n\nSi ja l'heu pagada, no en feu cas, i disculpeu la molèstia.\n\nGràcies,\n{issuer}"
     },
+    "client_report": {
+      "period": "{month, select, 01 {gener} 02 {febrer} 03 {març} 04 {abril} 05 {maig} 06 {juny} 07 {juliol} 08 {agost} 09 {setembre} 10 {octubre} 11 {novembre} 12 {desembre} other {{month}}} de {year}",
+      "ofPeriod": "{month, select, 01 {de gener} 02 {de febrer} 03 {de març} 04 {d’abril} 05 {de maig} 06 {de juny} 07 {de juliol} 08 {d’agost} 09 {de setembre} 10 {d’octubre} 11 {de novembre} 12 {de desembre} other {de {month}}} de {year}",
+      "subject": "Informe mensual · {period} · {sender}",
+      "body": "Hola,\n\nUs enviem l’informe {ofPeriod}: el que hem fet per a {client}, el que ve ara i les dades del mes. El teniu adjunt en PDF.\n\nSi voleu comentar qualsevol cosa, responeu aquest correu.\n\nGràcies,\n{sender}"
+    },
     "paymentTransfer": "Podeu pagar-la per transferència al compte {iban}, indicant el número de factura.",
     "paymentOther": "Forma de pagament: {method}.",
     "method": {
@@ -16,6 +22,48 @@
       "card": "targeta",
       "cash": "efectiu",
       "other": "altra"
+    },
+    "digest": {
+      "subject": "La teva setmana a {org}: {collections} en cobraments previstos i {todo, plural, =0 {res pendent} one {# cosa per fer} other {# coses per fer}}",
+      "hello": "Bon dia, {name}",
+      "range": "Setmana del {from} al {to}",
+      "lastWeekTitle": "La setmana passada",
+      "collected": "Cobrat",
+      "invoiced": "Facturat ({count, plural, one {# factura} other {# factures}}, sense IVA)",
+      "newDeals": "Nous deals i leads",
+      "statusTitle": "Com estem",
+      "mrr": "MRR",
+      "perMonth": "/mes",
+      "outstanding": "Pendent de cobrament",
+      "overdue": "Vençut ({count, plural, one {# factura} other {# factures}})",
+      "goalsTitle": "Objectius",
+      "goalMrr": "MRR: {current} de {target} ({percent} %) · {status}",
+      "goalRevenue": "Facturació de {year}: {invoiced} de {target} · falten {gap} per vendre · {status}",
+      "weekTitle": "Aquesta setmana",
+      "weekEmpty": "Res al calendari aquesta setmana.",
+      "moreEvents": "I {count, plural, one {# cosa més} other {# coses més}} al calendari.",
+      "overdueEvents": "{count, plural, one {# cosa endarrerida} other {# coses endarrerides}} d'abans d'avui.",
+      "todoTitle": "Per fer",
+      "todoEmpty": "Res pendent d'emetre, enviar, pagar ni respondre.",
+      "open": "Obrir GNERAI OS",
+      "footer": "T'arriba cada dilluns perquè tens el resum setmanal activat. Es desactiva a Configuració → Preferències.",
+      "pushTitle": "La teva setmana a GNERAI OS",
+      "pushBody": "{count, plural, =0 {Sense cobraments previstos} one {# cobrament previst ({collections})} other {# cobraments previstos ({collections})}} · {todo, plural, =0 {res per fer} one {# cosa per fer} other {# coses per fer}}",
+      "councilTitle": "Del consell"
+    },
+    "security": {
+      "hello": "Hola, {name}:",
+      "deviceSubject": "Ets tu? Confirma el teu dispositiu nou a {app} ({device})",
+      "deviceBody": "Algú acaba d'escriure el teu codi de {app} en un dispositiu nou: {device}, el {when}.",
+      "deviceConfirm": "Si ets tu, confirma-ho aquí (caduca d'aquí a {minutes} minuts):",
+      "deviceButton": "Sí, soc jo",
+      "deviceNotYou": "Si no ets tu, no obris l'enllaç i canvia el teu codi a Configuració → Preferències: algú el coneix.",
+      "codeSubject": "El teu codi d'accés a {app} ha canviat",
+      "codeSelfNew": "Acabes de crear el teu codi d'accés a {app}.",
+      "codeSelfChanged": "Acabes de canviar el teu codi d'accés a {app}. L'anterior ja no funciona.",
+      "codeByNew": "{by} t'ha creat un codi d'accés a {app} i te'l donarà en persona.",
+      "codeByChanged": "{by} ha canviat el teu codi d'accés a {app} i et donarà el nou en persona. L'anterior ja no funciona.",
+      "codeNotYou": "Si no en sabies res, avisa els teus socis i canvia el codi a Configuració → Preferències."
     }
   }
 }

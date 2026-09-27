@@ -29,7 +29,22 @@ export type QueryDailyFact = {
   position: number | null;
 };
 
-export type WebChannel = "all" | "organic_search";
+/**
+ * "all" es el total del día; el resto, los canales de GA4 agrupados (ver GA4_CHANNEL_GROUPS en
+ * google-rows.ts). La suma de canales da el total de sesiones; los usuarios no se suman (la misma
+ * persona llega por varios canales).
+ */
+export const WEB_CHANNELS = [
+  "organic_search",
+  "paid_search",
+  "organic_social",
+  "paid_social",
+  "direct",
+  "referral",
+  "email",
+  "other",
+] as const;
+export type WebChannel = "all" | (typeof WEB_CHANNELS)[number];
 
 /** Un día de GA4 en un canal. */
 export type WebDailyFact = {

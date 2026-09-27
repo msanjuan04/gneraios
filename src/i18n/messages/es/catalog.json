@@ -1,0 +1,226 @@
+{
+  "catalog": {
+    "title": "Catálogo de servicios",
+    "description": "Lo que presupuestáis una y otra vez, con su precio, su recurrencia y su IVA. Al elegirlo en un presupuesto, un contrato o una factura, la línea llega hecha y en el idioma del cliente.",
+    "readOnly": "Solo un socio puede cambiar el catálogo.",
+    "newItem": "Nuevo servicio",
+    "newBundle": "Nuevo pack",
+    "copySuffix": "(copia)",
+    "copySuffixN": "(copia {n})",
+    "categories": {
+      "web": "Web",
+      "seo": "SEO",
+      "ads": "Publicidad",
+      "branding": "Branding",
+      "social": "Redes sociales",
+      "hosting": "Hosting",
+      "maintenance": "Mantenimiento",
+      "consulting": "Consultoría",
+      "other": "Otros"
+    },
+    "pricingKinds": {
+      "one_off": "Puntual",
+      "recurring": "Recurrente",
+      "usage": "Por uso"
+    },
+    "intervals": {
+      "monthly": "Mensual",
+      "yearly": "Anual"
+    },
+    "languages": {
+      "es": "castellano",
+      "ca": "catalán",
+      "en": "inglés"
+    },
+    "empty": {
+      "title": "Vuestro catálogo está vacío",
+      "body": "Guardad aquí los servicios que presupuestáis siempre (webs, SEO, campañas…) y añadidlos a un presupuesto en un clic, con su precio, su IVA y en el idioma del cliente.",
+      "readOnly": "Aún no hay servicios en el catálogo.",
+      "starter": "Crear servicios de ejemplo",
+      "starterPending": "Creando…",
+      "starterHint": "Web corporativa, tienda online, SEO mensual, Google y Meta Ads, hosting, mantenimiento… con precios orientativos que luego cambiáis por los vuestros.",
+      "starterToast": "{count, plural, one {# servicio creado} other {# servicios creados}}. Revisad los precios."
+    },
+    "list": {
+      "noActive": "Todos los servicios están archivados.",
+      "add": "Añadir",
+      "addTo": "Añadir un servicio a {category}",
+      "edit": "Editar",
+      "more": "Más acciones",
+      "duplicate": "Duplicar",
+      "moveUp": "Subir",
+      "moveDown": "Bajar",
+      "archive": "Archivar",
+      "restore": "Restaurar",
+      "translated": "Traducido al {language}",
+      "notTranslated": "Sin traducir al {language}: sale en castellano",
+      "vatArchived": "Su IVA está archivado: sus líneas llevarán el IVA por defecto hasta que lo cambiéis.",
+      "noIrpf": "sin IRPF",
+      "noIrpfHint": "No se le aplica la retención de la factura.",
+      "quantity": "× {quantity} por defecto"
+    },
+    "toasts": {
+      "saved": "Servicio guardado",
+      "created": "«{name}» añadido al catálogo",
+      "duplicated": "Copia de «{name}» creada",
+      "archived": "«{name}» archivado",
+      "restored": "«{name}» restaurado",
+      "bundleSaved": "Pack guardado",
+      "bundleCreated": "Pack «{name}» creado",
+      "bundleArchived": "Pack «{name}» archivado",
+      "bundleDuplicated": "Copia del pack «{name}» creada"
+    },
+    "archive": {
+      "title": "¿Archivar «{name}»?",
+      "body": "Dejará de proponerse en presupuestos, contratos y facturas, y de añadirse con sus packs. Lo ya presupuestado no cambia. Lo podéis restaurar cuando queráis.",
+      "bundleBody": "Dejará de proponerse. Sus servicios siguen en el catálogo y lo podéis restaurar cuando queráis."
+    },
+    "archived": {
+      "title": "Archivados ({count})",
+      "description": "No se proponen al presupuestar. Restauradlos para volver a usarlos."
+    },
+    "item": {
+      "createTitle": "Nuevo servicio",
+      "editTitle": "Editar servicio",
+      "description": "Al elegirlo, la línea llega con este texto (en el idioma del cliente), su precio, su recurrencia y su IVA. Después se puede cambiar en cada documento.",
+      "name": "Nombre",
+      "namePlaceholder": "Web corporativa",
+      "category": "Categoría",
+      "descriptionLabel": "Descripción",
+      "descriptionPlaceholder": "Diseño y desarrollo de una web de hasta 5 páginas, adaptada a móvil…",
+      "descriptionHint": "Va detrás del nombre en la línea («Nombre — descripción»), en una sola línea.",
+      "sections": {
+        "price": "Precio",
+        "translations": "Traducciones",
+        "preview": "Así sale en un presupuesto"
+      },
+      "kind": "Tipo de precio",
+      "interval": "Cada cuánto",
+      "kindHints": {
+        "one_off": "Se cobra una vez, en los pagos del plan del presupuesto.",
+        "recurring": "Una cuota fija cada mes o cada año, desde que se acepta.",
+        "usage": "Se cobra lo que se use en cada periodo, a este precio."
+      },
+      "unitPrice": "Precio sin IVA",
+      "unitPriceHints": {
+        "one_off": "Por unidad.",
+        "monthly": "Cada mes.",
+        "yearly": "Cada año.",
+        "usage": "Por cada uso o unidad."
+      },
+      "unitLabel": "Unidad",
+      "unitLabelPlaceholder": "hora, página, campaña…",
+      "unitLabelHint": "Acompaña al precio en el catálogo. No sale en el presupuesto.",
+      "quantity": "Cantidad por defecto",
+      "quantityHint": "La que trae la línea.",
+      "vat": "IVA",
+      "vatPlaceholder": "Elige un tipo de IVA",
+      "vatReplaced": "Tenía {name}, que está archivado: se propone el vigente.",
+      "irpf": "Sujeto a IRPF",
+      "irpfHint": "Si la factura lleva retención (un autónomo que factura a una empresa), esta línea la aplica.",
+      "previewHint": "Con los textos y el formato del PDF, en cada idioma. Lo que no está traducido sale en castellano.",
+      "previewLanguage": "Idioma de la vista previa",
+      "previewEmpty": "Escribe un nombre para ver la línea.",
+      "create": "Crear servicio"
+    },
+    "translations": {
+      "label": "Idioma de la traducción",
+      "hint": "Lo que dejéis vacío sale en castellano.",
+      "name": "Nombre en {language}",
+      "description": "Descripción en {language}"
+    },
+    "bundle": {
+      "createTitle": "Nuevo pack",
+      "editTitle": "Editar pack",
+      "description": "Servicios que se venden juntos, con un descuento. Al elegirlo llegan todas sus líneas, cada una con el descuento y de su tipo: lo puntual y lo recurrente nunca se mezclan.",
+      "name": "Nombre",
+      "namePlaceholder": "Pack Lanzamiento",
+      "discount": "Descuento",
+      "discountHint": "Va en cada línea del pack.",
+      "descriptionLabel": "Descripción",
+      "descriptionPlaceholder": "Todo lo necesario para salir al mercado…",
+      "descriptionHint": "Para reconocerlo al elegirlo. Cada línea lleva la descripción de su servicio.",
+      "items": "Servicios del pack",
+      "addItem": "Añadir servicio",
+      "searchItems": "Buscar servicio…",
+      "noItems": "No queda ningún servicio por añadir.",
+      "emptyItems": "Añade los servicios que lleva el pack.",
+      "missingItem": "Servicio que ya no existe",
+      "archivedItem": "Archivado: no se añadirá",
+      "quantity": "Cantidad",
+      "moveUp": "Subir",
+      "moveDown": "Bajar",
+      "remove": "Quitar del pack",
+      "savings": "ahorro {amount}",
+      "totalsHint": "Bases sin IVA, con el descuento y cada tipo por su lado.",
+      "previewHint": "Todas sus líneas, con los textos y el formato del PDF, en cada idioma.",
+      "previewEmpty": "Añade servicios para ver sus líneas.",
+      "create": "Crear pack"
+    },
+    "bundles": {
+      "title": "Packs",
+      "description": "Servicios que se venden juntos, con descuento. Al elegir uno llegan todas sus líneas.",
+      "empty": "Aún no hay packs. Combinad servicios del catálogo (p. ej. branding, web y hosting) con un descuento.",
+      "one": "Pack",
+      "noItems": "Sin servicios activos",
+      "skipped": "{count, plural, one {# servicio archivado no se añadirá} other {# servicios archivados no se añadirán}}",
+      "usageCount": "{count, plural, one {# precio por uso} other {# precios por uso}}",
+      "savings": "Ahorro {amount}"
+    },
+    "picker": {
+      "trigger": "Del catálogo",
+      "search": "Buscar servicio o pack…",
+      "language": "Las líneas llegan en {language}",
+      "filters": "Categorías",
+      "all": "Todo",
+      "bundles": "Packs",
+      "loading": "Cargando el catálogo…",
+      "error": "No se ha podido cargar el catálogo.",
+      "retry": "Reintentar",
+      "emptyCatalog": "El catálogo está vacío. Añadid servicios en Ajustes → Catálogo.",
+      "empty": "Nada coincide con la búsqueda.",
+      "bundleEmpty": "Todos los servicios de este pack están archivados.",
+      "skipped": "{count, plural, one {# servicio archivado del pack no se ha añadido} other {# servicios archivados del pack no se han añadido}}",
+      "added": "{count, plural, one {# línea añadida} other {# líneas añadidas}}",
+      "bundleItems": "{count, plural, one {# servicio} other {# servicios}}",
+      "manage": "Gestionar",
+      "hints": {
+        "navigate": "moverse",
+        "add": "añadir",
+        "addMore": "añadir y seguir",
+        "filters": "categorías"
+      }
+    },
+    "validation": {
+      "money": "Un importe en euros, p. ej. 1.500 o 450,50",
+      "quantity": "Un número mayor que 0, con 3 decimales como mucho",
+      "vatRate": "Elige un tipo de IVA",
+      "discount": "Un porcentaje de 0 a 100",
+      "bundleEmpty": "Añade al menos un servicio",
+      "bundleTooMany": "Un pack lleva 50 servicios como mucho",
+      "bundleRepeated": "Un servicio va una sola vez: sube su cantidad"
+    },
+    "errors": {
+      "vatRateArchived": "Ese tipo de IVA está archivado: elige otro.",
+      "bundleItemsInvalid": "Un pack lleva de 1 a 50 servicios.",
+      "bundleItemRepeated": "Un servicio va una sola vez en un pack: sube su cantidad.",
+      "bundleNotFound": "Ese pack ya no existe.",
+      "catalogOrgFixed": "Un elemento del catálogo no cambia de organización.",
+      "nameTaken": "Ya hay otro activo con ese nombre.",
+      "reference": "El IVA o algún servicio ya no es válido. Recarga y vuelve a intentarlo.",
+      "invalid": "Algún texto no es válido.",
+      "translationsInvalid": "Alguna traducción no es válida.",
+      "itemNotFound": "Ese servicio ya no existe.",
+      "starterNotEmpty": "El catálogo ya tiene servicios: el ejemplo solo se crea en uno vacío.",
+      "noVatRate": "No hay ningún tipo de IVA vigente: créalo en Ajustes → Impuestos."
+    },
+    "dnd": {
+      "handle": "Mover «{name}»",
+      "instructions": "Pulsa Espacio para coger la fila, muévela con las flechas y vuelve a pulsar Espacio para soltarla. Escape cancela.",
+      "picked": "Has cogido «{name}».",
+      "over": "«{name}» está sobre «{target}».",
+      "dropped": "«{name}» se ha soltado.",
+      "cancelled": "Se ha cancelado el movimiento de «{name}»."
+    }
+  }
+}

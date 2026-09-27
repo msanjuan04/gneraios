@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { parseGa4Rows, parseGscDateRows, parseGscQueryRows, roundPosition } from "./google-rows";
+import { parseGa4Rows, parseGscDateRows, parseGscQueryRows, roundPosition, ga4Channel, parseGa4ChannelRows } from "./google-rows";
 
 describe("Search Console", () => {
   it("totales por día: redondea recuentos y posición, e ignora lo que no entiende", () => {
@@ -54,5 +54,39 @@ describe("GA4", () => {
       { metricOn: "2026-09-20", channel: "organic_search", sessions: 140, users: 120, engagedSessions: 81, conversions: 3 },
     ]);
     expect(parseGa4Rows({ rowCount: 0 }, "all")).toEqual([]);
+  });
+});
+
+describe("canales de GA4", () => {
+  const cell = (value: string) => ({ value });
+  const row = (date: string, group: string, sessions: number) => ({
+    dimensionValues: [cell(date), cell(group)],
+    metricValues: [cell(String(sessions)), cell(String(sessions - 5)), cell(String(Math.floor(sessions / 2))), cell("1")],
+  });
+
+  it("agrupa los canales de GA4 en los de GNERAI OS y suma por día", () => {
+    const facts = parseGa4ChannelRows({
+      rows: [
+        row("20260920", "Organic Search", 100),
+        row("20260920", "Paid Search", 30),
+        row("20260920", "Paid Shopping", 10),
+        row("20260920", "Unassigned", 4),
+        row("20260921", "Paid Social", 12),
+      ],
+    });
+    const byKey = Object.fromEntries(facts.map((f) => [`${f.metricOn}|${f.channel}`, f.sessions]));
+    expect(byKey).toEqual({
+      "2026-09-20|organic_search": 100,
+      "2026-09-20|paid_search": 40,
+      "2026-09-20|other": 4,
+      "2026-09-21|paid_social": 12,
+    });
+    expect(facts.find((f) => f.channel === "paid_search")?.conversions).toBe(2);
+  });
+
+  it("un grupo desconocido va a other", () => {
+    expect(ga4Channel("Organic Video")).toBe("other");
+    expect(ga4Channel("Direct")).toBe("direct");
+    expect(parseGa4ChannelRows({ rowCount: 0 })).toEqual([]);
   });
 });

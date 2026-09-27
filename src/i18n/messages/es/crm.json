@@ -3,8 +3,19 @@
     "clientStatus": {
       "lead": "Lead",
       "active": "Activo",
-      "paused": "Pausado",
-      "former": "Ex-cliente"
+      "paused": "En pausa",
+      "former": "Ex-cliente",
+      "pending_contact": "Contacto pendiente",
+      "finished": "Finalizado",
+      "discarded": "Descartado",
+      "manualHint": "Estado marcado a mano por un socio",
+      "autoHint": "Estado según sus contratos",
+      "change": "Estado del cliente",
+      "auto": "Automático · {status}",
+      "changed": "Marcado como «{status}»",
+      "changedAuto": "Vuelve a ser automático (según sus contratos)",
+      "since": "desde el {date}",
+      "calculated": "según contratos: {status}"
     },
     "stageKind": {
       "open": "Abierta",

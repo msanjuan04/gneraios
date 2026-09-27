@@ -4,6 +4,7 @@ import { readOrgSettings } from "@/app/[org]/settings/schema";
 import { ClientsList } from "@/components/clients/clients-list";
 import type { ClientListItem } from "@/components/clients/types";
 import { createClient } from "@/lib/supabase/server";
+import { loadClientsHealth } from "@/server/clients/health";
 import { getCrmConfig } from "@/server/crm/config";
 import { getOrgContext, hasRole } from "@/server/session";
 import { requestTime, resolveNames } from "./names";
@@ -18,14 +19,15 @@ export default async function ClientsPage({ params }: PageProps<"/[org]/clients"
   const supabase = await createClient();
 
   // Todos, también los archivados: son pocos y así el filtro no va al servidor.
-  const [config, overview] = await Promise.all([
+  const [config, overview, health] = await Promise.all([
     getCrmConfig(org.id),
     supabase
       .from("clients_overview")
       .select(
-        "id, display_name, legal_name, tax_id, city, sector, owner_member_id, owner_initials, status, acquisition_source_id, deals_count, last_activity_at, archived_at",
+        "id, display_name, legal_name, tax_id, city, sector, owner_member_id, owner_initials, status, manual_status, acquisition_source_id, deals_count, last_activity_at, archived_at",
       )
       .eq("org_id", org.id),
+    loadClientsHealth(supabase, org),
   ]);
   if (overview.error) throw overview.error;
 
@@ -42,6 +44,7 @@ export default async function ClientsPage({ params }: PageProps<"/[org]/clients"
       legalName: row.legal_name,
       taxId: row.tax_id,
       status: row.status ?? "lead",
+      manualStatus: row.manual_status ?? null,
       owner: names.member(row.owner_member_id, row.owner_initials),
       city: row.city,
       sector: row.sector,
@@ -49,6 +52,7 @@ export default async function ClientsPage({ params }: PageProps<"/[org]/clients"
       lastActivityAt: row.last_activity_at,
       sourceName: names.source(row.acquisition_source_id),
       archived: row.archived_at !== null,
+      health: health.get(row.id) ?? { level: "good" as const, signals: [] },
     }))
     // Por nombre; si se enseñan los archivados, van al final.
     .sort(

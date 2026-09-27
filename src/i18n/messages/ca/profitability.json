@@ -1,0 +1,230 @@
+{
+  "profitability": {
+    "tab": "Rendibilitat",
+    "partnersOnly": {
+      "title": "Només per a socis",
+      "body": "La rendibilitat fa servir el cost intern per hora de cada persona, que només veuen els socis."
+    },
+    "toolbar": {
+      "settings": "Llindars",
+      "teamCosts": "Costos de l'equip"
+    },
+    "period": {
+      "label": "Període",
+      "kinds": {
+        "last3m": "3 mesos",
+        "last12m": "12 mesos",
+        "month": "Mes",
+        "quarter": "Trimestre",
+        "year": "Any",
+        "all": "Des de sempre",
+        "custom": "A mida"
+      },
+      "last3m": "Últims 3 mesos",
+      "last12m": "Últims 12 mesos",
+      "all": "Des de sempre",
+      "quarter": "{quarter}T {year}",
+      "previous": "Període anterior",
+      "next": "Període següent",
+      "inProgress": "en curs",
+      "from": "Des de",
+      "to": "Fins a",
+      "apply": "Aplica",
+      "invalid": "Revisa les dates: «des de» va abans que «fins a», no pot començar en el futur i el rang és de 3 anys com a màxim."
+    },
+    "summary": {
+      "label": "Resum del període",
+      "revenue": "Ingressos",
+      "revenueHint": "Base sense IVA ni IRPF del que s'ha emès",
+      "revenueReceipts": "Base emesa + {amount} sense factura",
+      "collected": "Cobrat",
+      "collectedHint": "Amb IVA, per data de cobrament",
+      "collectedPending": "Amb IVA · pendent {amount}",
+      "collectedReceipts": "Amb IVA · {amount} sense factura",
+      "cost": "Cost",
+      "costHint": "Hores, despeses i infraestructura",
+      "costSplit": "Hores {hours} · altres {amount}",
+      "margin": "Marge",
+      "marginHint": "Ingressos − cost",
+      "marginShare": "Marge %",
+      "rate": "€/hora",
+      "minimum": "Mínim: {value}",
+      "hours": "Hores",
+      "clients": "{count, plural, =0 {Cap client} one {# client} other {# clients}}"
+    },
+    "perHour": "{amount}/h",
+    "table": {
+      "title": "Per client",
+      "description": "Del que deixa més al que menys. Obre un client per veure'n els projectes.",
+      "client": "Client",
+      "revenue": "Ingressos",
+      "collected": "Cobrat",
+      "pending": "Pendent",
+      "withVat": "amb IVA",
+      "hours": "Hores",
+      "cost": "Cost",
+      "hoursCost": "Cost hores",
+      "otherCosts": "Altres costos",
+      "costs": {
+        "expenses": "Despeses del client",
+        "rebill": "Repercutibles",
+        "rebillPending": "Pendent de repercutir",
+        "hosting": "Infraestructura ({count, plural, =0 {sense webs} one {# web} other {# webs}})"
+      },
+      "margin": "Marge",
+      "marginShare": "Marge %",
+      "rate": "€/hora",
+      "sortBy": "Ordena per {column}",
+      "expand": "Mostra els projectes de {client}",
+      "collapse": "Amaga els projectes de {client}",
+      "openClient": "Obre la fitxa de {client}",
+      "total": "Total",
+      "unassigned": "Sense projecte",
+      "unassignedHint": "Facturació que no surt de cap contracte amb projecte i que no es pot repartir per hores entre els projectes sense contracte.",
+      "unknownClient": "Client sense nom",
+      "archived": "arxivat",
+      "internal": "Feina interna",
+      "internalHint": "Projectes sense client: costen, però no entren als totals de clients.",
+      "unassignedHosting": "Infraestructura sense client",
+      "unassignedHostingHint": "La part de {count, plural, one {# web allotjada sense client} other {# webs allotjades sense client}} (de {total}): la nostra o de ningú en concret. No entra als totals de clients.",
+      "unassignedHostingBeforeStart": "La part dels clients abans de la seva primera factura o la seva primera despesa directa (encara no eren clients). No entra als totals de clients.",
+      "unassignedHostingBoth": "La part de {count, plural, one {# web allotjada sense client} other {# webs allotjades sense client}} (de {total}) i la dels clients abans de la seva primera factura o la seva primera despesa directa. No entra als totals de clients.",
+      "unassignedHostingNoSites": "Hi ha despeses repartides entre les webs allotjades, però cap web allotjada activa a Webs: no hi ha entre qui repartir-les i no entren als totals de clients.",
+      "empty": "No hi ha ingressos ni hores en aquest període.",
+      "caption": "Rendibilitat per client en el període"
+    },
+    "flags": {
+      "lowMargin": "Marge baix",
+      "lowRate": "€/h baix",
+      "hoursWithoutRevenue": "Hores sense facturar",
+      "revenueWithoutHours": "Sense hores"
+    },
+    "flagHints": {
+      "lowMargin": "El marge és per sota del mínim ({min}).",
+      "lowRate": "El preu per hora efectiu és per sota del mínim ({min}).",
+      "hoursWithoutRevenue": "Hi ha hores registrades en el període, però res facturat.",
+      "revenueWithoutHours": "Hi ha facturació en el període, però cap hora registrada."
+    },
+    "basis": {
+      "shared": "Contracte compartit",
+      "sharedHint": "El que s'ha facturat del seu contracte es reparteix entre els projectes que el comparteixen, segons les seves hores del període.",
+      "hours": "Per hores",
+      "hoursHint": "El que s'ha facturat al client fora de contracte es reparteix entre els seus projectes sense contracte, segons les seves hores del període.",
+      "direct": "Cobrament directe",
+      "directHint": "Cobraments sense factura apuntats a aquest projecte: són tots seus."
+    },
+    "notes": {
+      "title": "Com es calcula",
+      "revenue": "Ingressos: la base sense IVA ni IRPF de les factures emeses en el període (les rectificatives resten en la seva data). Van a un projecte quan la línia surt del seu contracte; si el contracte té diversos projectes, es reparteix entre ells per les seves hores del període.",
+      "allocation": "El que es factura fora de contracte (o de contractes sense projecte) es reparteix entre els projectes sense contracte del client segons les seves hores del període (marcat «Per hores»). Si no n'hi ha cap amb hores, queda a «Sense projecte».",
+      "receipts": "Cobraments sense factura (el que s'apunta mentre no es factura des de GNERAI OS): compten com a ingrés tal qual, sense IVA a treure, el dia que va entrar els diners, i també com a cobrat. Si porten projecte, van a aquest projecte («Cobrament directe»); si no, es reparteixen com el que es factura fora de contracte.",
+      "cost": "Cost: les hores, les despeses del client i la seva part de la infraestructura. Cada hora registrada val el que costava aquell dia l'hora de qui la va fer (Configuració → Equip); les no facturables també compten.",
+      "expenses": "Despeses: les assignades al client amb data de factura en el període, amb el cost de Finances (la base i, si l'IVA no es dedueix, també l'IVA). Són del client, no d'un projecte: van a la seva fila («Altres costos») i no a les dels seus projectes.",
+      "hosting": "Infraestructura: cada despesa repartida entre les webs allotjades es divideix a parts iguals entre les webs que allotgem i estan actives avui a Webs, i cada client suma les seves; un client no carrega amb el d'abans de la seva primera factura o la seva primera despesa directa. Aquesta part i la de les webs sense client queden a «Infraestructura sense client», fora dels totals. Les subscripcions compten per les despeses que generen (cada càrrec, en la seva data), mai per la seva quota: res no es compta dues vegades.",
+      "rebill": "Repercutides: una despesa que es repercuteix al client és cost en la seva data i la seva línia de factura és ingrés quan s'emet, així que al marge només hi queda el recàrrec. Mentre no està facturada pesa com a cost («Pendent de repercutir»).",
+      "collection": "Cobrat i pendent (una vista de caixa: no compten al marge, que continua sent sobre els ingressos sense IVA): el cobrat són els cobraments de factures registrats amb data en el període, amb IVA, siguin de factures del període o d'abans, més els cobraments sense factura del període; el pendent, el que falta avui per cobrar de les factures emeses en el període, també amb IVA.",
+      "lifetime": "Des de sempre: de la primera factura emesa, el primer cobrament sense factura o el primer cost fins avui. Les factures històriques importades compten com qualsevol altra factura emesa, i els seus cobraments, com qualsevol cobrament.",
+      "defaultCost": "{hours} s'han valorat amb el cost per defecte ({amount}/h): són de persones sense cost propi aquell dia."
+    },
+    "chart": {
+      "title": "Marge per client",
+      "description": "El que deixa cada client en el període: ingressos − les seves hores, les seves despeses i la seva infraestructura.",
+      "positive": "Marge positiu",
+      "negative": "Pèrdues",
+      "hidden": "{count, plural, one {# client més} other {# clients més}} a la taula.",
+      "tableCaption": "Marge de cada client en el període"
+    },
+    "empty": {
+      "title": "Falta el cost per hora de l'equip",
+      "body": "La rendibilitat creua el que s'ha facturat amb les hores de cada persona pel que costa la seva hora. Els costos es configuren a Configuració → Equip; mentre no n'hi hagi cap, no hi ha marge per calcular.",
+      "cta": "Configura els costos",
+      "readOnly": "Demana a un owner que els configuri a Configuració → Equip."
+    },
+    "settings": {
+      "title": "Llindars de la rendibilitat",
+      "description": "El cost per hora de qui no en té un de propi i a partir de quan cal avisar.",
+      "defaultCost": "Cost per hora per defecte",
+      "defaultCostHint": "Per a qui no té un cost propi vigent aquell dia.",
+      "minMargin": "Marge mínim",
+      "minMarginHint": "Per sota, l'avís «Marge baix».",
+      "minRate": "€/hora mínim",
+      "minRateHint": "Per sota, l'avís «€/h baix».",
+      "saved": "Llindars desats"
+    },
+    "costs": {
+      "title": "Cost intern per hora",
+      "description": "El que li costa a l'organització cada hora de cada persona (sou, cotitzacions, eines…), a partir d'una data. Amb aquest cost es calcula la rendibilitat de clients i projectes. Només el veuen els socis.",
+      "readOnly": "Només un owner pot canviar els costos.",
+      "member": "Membre",
+      "current": "Cost per hora",
+      "since": "Des de",
+      "next": "Proper canvi",
+      "noCost": "Sense cost propi",
+      "usesDefault": "Es fa servir el de l'organització: {amount}/h",
+      "default": "Per defecte: {amount}/h",
+      "editSettings": "Llindars i cost per defecte",
+      "open": "Cost de {name}",
+      "inactive": "Sense accés",
+      "sheetDescription": "Cada cost val des de la seva data fins al següent. Canviar-lo a partir d'un dia no toca l'anterior.",
+      "inForceSince": "{amount}/h des del {date}",
+      "newCost": "Nou cost",
+      "hourlyCost": "Cost per hora",
+      "validFrom": "Des de",
+      "validFromHint": "Si ja hi ha un cost aquell mateix dia, es corregeix.",
+      "save": "Desa el cost",
+      "saved": "Cost desat",
+      "history": "Historial",
+      "historyEmpty": "Encara no té cap cost: les seves hores es valoren amb el de l'organització.",
+      "inForce": "Vigent",
+      "scheduled": "Programat",
+      "delete": "Esborra el cost del {date}",
+      "deleteConfirm": "Esborra",
+      "deleteBody": "S'esborra el cost des del {date}: aquestes hores passen a valorar-se amb l'anterior.",
+      "deleted": "Cost esborrat"
+    },
+    "card": {
+      "title": "Rendibilitat",
+      "last3m": "Últims 3 mesos",
+      "last12m": "Últims 12 mesos",
+      "lifetime": "Des de sempre",
+      "since": "des del {date}",
+      "collected": "Cobrat (amb IVA)",
+      "collectedReceipts": "d'aquests, {amount} sense factura",
+      "collectedShort": "Cobrat",
+      "pending": "Pendent de cobrament (amb IVA)",
+      "revenueBase": "Ingressos (sense IVA)",
+      "cost": "Cost",
+      "costSplit": "hores {hours} · despeses i infra {amount}",
+      "marginValue": "{amount} ({value})",
+      "revenue": "Ingressos",
+      "hours": "Hores",
+      "otherCosts": "Despeses i infra",
+      "margin": "Marge",
+      "rate": "€/hora",
+      "open": "Mostra a Rendibilitat",
+      "noCosts": "Encara no hi ha costos per hora: sense ells no hi ha marge. Es configuren a Configuració → Equip.",
+      "empty": "Encara no hi ha factures, hores ni costos d'aquest client.",
+      "error": "No s'ha pogut carregar la rendibilitat."
+    },
+    "validation": {
+      "required": "Obligatori",
+      "hourly": "Un import de 0 a 1.000 €",
+      "percent": "Un percentatge de 0 a 100",
+      "date": "Una data vàlida (de l'any 2000 en endavant)"
+    },
+    "errors": {
+      "memberNotFound": "Aquest membre no és d'aquesta organització.",
+      "invalidCost": "El cost no és vàlid: de 0 a 1.000 € l'hora."
+    }
+  },
+  "dashboard": {
+    "actionQueue": {
+      "items": {
+        "profitability": {
+          "title": "{count, plural, one {# client per sota dels llindars} other {# clients per sota dels llindars}}",
+          "hint": "Marge, €/hora o hores sense facturar en els últims 3 mesos"
+        }
+      }
+    }
+  }
+}

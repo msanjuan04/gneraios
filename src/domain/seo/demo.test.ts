@@ -40,11 +40,24 @@ describe("datos de demo", () => {
     const byDay = new Map<string, number>();
     for (const row of data.queries) byDay.set(row.metricOn, (byDay.get(row.metricOn) ?? 0) + row.impressions);
     for (const day of data.daily) expect(day.impressions).toBeGreaterThanOrEqual(byDay.get(day.metricOn) ?? 0);
-    // GA4: dos canales por día y el orgánico nunca supera al total.
-    expect(data.web).toHaveLength(2 * 365);
-    for (let i = 0; i < data.web.length; i += 2) {
-      expect(data.web[i + 1]!.sessions).toBeLessThanOrEqual(data.web[i]!.sessions);
-      expect(data.web[i]!.engagedSessions).toBeLessThanOrEqual(data.web[i]!.sessions);
+    // GA4: cada día, el total y sus canales; los canales suman exactamente el total.
+    const days = new Map<string, { all?: number; channels: number; conversions: number; allConversions?: number }>();
+    for (const row of data.web) {
+      expect(row.engagedSessions).toBeLessThanOrEqual(row.sessions);
+      const day = days.get(row.metricOn) ?? { channels: 0, conversions: 0 };
+      if (row.channel === "all") {
+        day.all = row.sessions;
+        day.allConversions = row.conversions;
+      } else {
+        day.channels += row.sessions;
+        day.conversions += row.conversions;
+      }
+      days.set(row.metricOn, day);
+    }
+    expect(days.size).toBe(365);
+    for (const day of days.values()) {
+      expect(day.channels).toBe(day.all);
+      expect(day.conversions).toBe(day.allConversions);
     }
   });
 

@@ -245,9 +245,12 @@ function TODAY_MINUS_YEAR_PLUS(days: number): CivilDate {
 const sql = postgres(DATABASE_URL, { onnotice: () => {} });
 const admin = createClient<Database>(API_URL, SECRET, { auth: { persistSession: false, autoRefreshToken: false } });
 
+/** Ficheros de la demo anterior en Storage: PDFs de facturas y adjuntos de gastos. */
 async function removeDemoPdfs(orgId: string) {
-  const { data } = await admin.storage.from("invoices").list(orgId, { limit: 1000 });
-  if (data?.length) await admin.storage.from("invoices").remove(data.map((f) => `${orgId}/${f.name}`));
+  for (const bucket of ["invoices", "expenses"]) {
+    const { data } = await admin.storage.from(bucket).list(orgId, { limit: 1000 });
+    if (data?.length) await admin.storage.from(bucket).remove(data.map((f) => `${orgId}/${f.name}`));
+  }
 }
 
 /** Sesión real de un socio de la demo: la emisión pasa por RLS y por su rol, como en la app. */
@@ -275,20 +278,20 @@ async function main() {
     await removeDemoPdfs(old.id);
     await sql.begin(async (tx) => {
       await tx`set local session_replication_role = replica`;
-      for (const table of [
-        // SEO y métricas (módulos que se siembran aparte) y presupuestos, antes que lo que referencian.
-        "seo_query_daily", "seo_daily_metrics", "web_analytics_daily", "seo_sync_state", "seo_properties", "integrations",
-        "metrics_snapshots",
-        "notifications", "outbound_emails", "job_runs", "payments", "billable_items", "invoice_lines", "invoices",
-        "quote_lines", "quotes",
-        "contract_milestones", "contract_line_pauses", "contract_lines", "contract_issuers", "issuer_transfers", "contracts",
-        "activities", "deal_stage_history", "deals", "contacts", "clients", "loss_reasons", "acquisition_sources",
-        "pipeline_stages", "tax_rates", "invoice_series", "issuers", "member_invitations", "members", "audit_log",
-      ]) {
-        await tx.unsafe(`delete from public.${table} where org_id = $1`, [old.id]);
+      // Todas las tablas con org_id (públicas y privadas), sean del módulo que sean: así un módulo
+      // nuevo nunca deja filas huérfanas. Con session_replication_role = replica no saltan las FK,
+      // así que el orden da igual.
+      const tables = await tx<{ schema: string; name: string }[]>`
+        select c.table_schema as schema, c.table_name as name
+        from information_schema.columns c
+        join information_schema.tables t
+          on t.table_schema = c.table_schema and t.table_name = c.table_name and t.table_type = 'BASE TABLE'
+        where c.column_name = 'org_id' and c.table_schema in ('public', 'private')
+        order by c.table_schema, c.table_name`;
+      for (const { schema, name } of tables) {
+        await tx.unsafe(`delete from ${schema}."${name}" where org_id = $1`, [old.id]);
       }
       await tx`delete from private.invoice_series_counters where series_id not in (select id from public.invoice_series)`;
-      await tx`delete from private.quote_counters where org_id = ${old.id}`;
       await tx`delete from public.orgs where id = ${old.id}`;
     });
   }

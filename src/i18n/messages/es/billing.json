@@ -132,7 +132,7 @@
       "contractNotFound": "Contrato no encontrado.",
       "lineNotFound": "Línea no encontrada.",
       "lineHasBilling": "Esta línea ya tiene facturación: en lugar de borrarla, dale de baja con una fecha de fin.",
-      "emailNotConfigured": "El envío de emails no está configurado (falta RESEND_API_KEY).",
+      "emailNotConfigured": "El envío de emails no está configurado (falta RESEND_API_KEY o BREVO_API_KEY).",
       "emailNoRecipients": "Añade al menos un destinatario.",
       "emailFailed": "No se ha podido enviar el email.",
       "pdfFailed": "No se ha podido generar el PDF. La factura sigue en emisión: vuelve a intentarlo.",

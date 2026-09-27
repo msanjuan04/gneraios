@@ -2,6 +2,8 @@
 
 import type { PostgrestError } from "@supabase/supabase-js";
 import { getTranslations } from "next-intl/server";
+import { formatHasYear } from "@/domain/dataio/invoice-number";
+import { seriesCodeFromFormat } from "@/domain/invoicing/series-code";
 import { normalizeIban, validateSpanishTaxId } from "@/domain/tax-id";
 import type { TablesUpdate } from "@/lib/supabase/database.types";
 import { createClient } from "@/lib/supabase/server";
@@ -22,6 +24,8 @@ import {
   type IssuerFormInput,
   issuerFormSchema,
   type IssuerFormValues,
+  type SeriesFormInput,
+  seriesFormSchema,
   type SeriesNumberInput,
   seriesNumberSchema,
 } from "./schema";
@@ -206,8 +210,91 @@ export async function setSeriesLastNumber(slug: string, input: SeriesNumberInput
     p_year: currentYear(ctx.org.timezone),
     p_last_number: parsed.data.last_number,
   });
-  if (rpcError) return dbFailure(rpcError, "setSeriesLastNumber");
+  if (rpcError) {
+    // Nunca por debajo de la última factura emitida (o importada) de la serie: la base de datos
+    // dice cuál es.
+    if (rpcError.hint === "counter_below_used") {
+      return failure("settings.issuers.counterBelowUsed", { last: Number.parseInt(rpcError.details, 10) || 0 });
+    }
+    return dbFailure(rpcError, "setSeriesLastNumber");
+  }
 
   revalidateSettings(ctx.org.slug, "issuers");
   return { ok: true };
+}
+
+export type CreatedSeries = {
+  id: string;
+  issuerId: string;
+  code: string;
+  name: string;
+  kind: "ordinary" | "rectifying";
+  format: string;
+  resetYearly: boolean;
+};
+
+/**
+ * Crea una serie para un emisor (también uno archivado: sus históricos se importan igual). La
+ * usan Ajustes → Emisores y el asistente de «Importar facturas emitidas» cuando un número no
+ * encaja en ninguna serie. Nunca es la de por defecto: esa sigue siendo la que numera lo nuevo.
+ */
+export async function createSeries(slug: string, input: SeriesFormInput): Promise<ActionResult<{ series: CreatedSeries }>> {
+  const ctx = await ownerContext(slug);
+  if (!ctx) return forbidden();
+  const parsed = seriesFormSchema.safeParse(input);
+  if (!parsed.success) {
+    const issue = parsed.error.issues[0];
+    if (issue?.message === "seriesFormat") return failure("settings.issuers.seriesFormatInvalid");
+    return invalidInput();
+  }
+  const supabase = await createClient();
+  const { data: issuer, error } = await supabase
+    .from("issuers")
+    .select("id")
+    .eq("org_id", ctx.org.id)
+    .eq("id", parsed.data.issuer_id)
+    .maybeSingle();
+  if (error) return dbFailure(error, "createSeries.issuer");
+  if (!issuer) return failure("settings.issuers.notFound");
+
+  const { data: existing, error: existingError } = await supabase
+    .from("invoice_series")
+    .select("code, format, kind")
+    .eq("org_id", ctx.org.id)
+    .eq("issuer_id", issuer.id);
+  if (existingError) return dbFailure(existingError, "createSeries.existing");
+  if (existing.some((s) => s.format === parsed.data.format && s.kind === parsed.data.kind)) {
+    return failure("settings.issuers.seriesFormatTaken", { format: parsed.data.format });
+  }
+
+  const code = parsed.data.code || seriesCodeFromFormat(parsed.data.format, existing.map((s) => s.code));
+  if (existing.some((s) => s.code.toUpperCase() === code)) return failure("settings.issuers.seriesCodeTaken", { code });
+  const t = await getTranslations("settings.issuers");
+  const name = parsed.data.name || t("seriesImportedName", { code });
+  const resetYearly = formatHasYear(parsed.data.format);
+
+  const { data: created, error: insertError } = await supabase
+    .from("invoice_series")
+    .insert({
+      org_id: ctx.org.id,
+      issuer_id: issuer.id,
+      code,
+      name,
+      kind: parsed.data.kind,
+      format: parsed.data.format,
+      reset_yearly: resetYearly,
+      is_default: false,
+    })
+    .select("id")
+    .single();
+  if (insertError) {
+    if (insertError.code === "23505") return failure("settings.issuers.seriesCodeTaken", { code });
+    return dbFailure(insertError, "createSeries.insert");
+  }
+
+  revalidateSettings(ctx.org.slug, "issuers");
+  return {
+    ok: true,
+    series: { id: created.id, issuerId: issuer.id, code, name, kind: parsed.data.kind, format: parsed.data.format, resetYearly },
+  };
 }

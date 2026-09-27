@@ -25,6 +25,10 @@ export type DashboardData = {
   memberCount: number;
   pendingInvites: number;
   clientCount: number;
+  /** Lo que se prepara una vez y hace que todo lo demás vaya rodado (opcional en /preview). */
+  catalogCount?: number;
+  googleConnected?: boolean;
+  goalsSet?: boolean;
 };
 
 function daysUntil(from: string, to: string): number {
@@ -58,7 +62,27 @@ export async function DashboardHome({ data }: { data: DashboardData }) {
       done: data.memberCount > 1,
       label: data.pendingInvites > 0 ? t("setupInvitePending", { count: data.pendingInvites }) : t("setupInvite"),
     },
-    { done: data.clientCount > 0, label: t("setupCrm") },
+    {
+      done: data.clientCount > 0,
+      label: t("setupCrm"),
+      action: data.clientCount > 0 ? undefined : { href: `${data.basePath}/settings/data`, label: t("setupImportAction") },
+    },
+    {
+      done: (data.catalogCount ?? 0) > 0,
+      label: t("setupCatalog"),
+      action: (data.catalogCount ?? 0) > 0 ? undefined : { href: `${data.basePath}/settings/catalog`, label: t("setupCatalogAction") },
+    },
+    {
+      done: data.googleConnected === true,
+      label: t("setupGoogle"),
+      action: data.googleConnected ? undefined : { href: `${data.basePath}/seo`, label: t("setupGoogleAction") },
+    },
+    {
+      done: data.goalsSet === true,
+      label: t("setupGoals"),
+      action: data.goalsSet ? undefined : { href: `${data.basePath}/settings#goals`, label: t("setupGoalsAction") },
+    },
+    { done: false, label: t("setupPush"), action: { href: `${data.basePath}/settings/preferences#push`, label: t("setupPushAction") } },
     // Solo se ve mientras no hay contratos ni facturas: en cuanto los hay, el dashboard es el de métricas.
     { done: false, label: t("setupBilling"), action: { href: `${data.basePath}/contracts`, label: t("setupBillingAction") } },
   ];

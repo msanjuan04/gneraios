@@ -1,0 +1,269 @@
+{
+  "portalPublic": {
+    "brand": {
+      "space": "Your {brand} space",
+      "privateLink": "Private, personal link: please don’t share it.",
+      "providedBy": "Services by {issuers}.",
+      "questions": "Questions? Write to us at <mail>{email}</mail>.",
+      "skip": "Skip to content"
+    },
+    "link": {
+      "unknown": {
+        "title": "This link doesn’t work",
+        "text": "It may be incomplete. Check that you copied all of it, or ask whoever sent it for a new one."
+      },
+      "expired": {
+        "title": "This link has expired",
+        "text": "For security, links have an expiry date. Ask whoever sent it for a new one."
+      },
+      "revoked": {
+        "title": "This link is no longer active",
+        "text": "We’ve replaced it with a new one. Ask whoever sent it for the new link."
+      }
+    },
+    "quote": {
+      "eyebrow": "Quote {number}",
+      "preparedFor": "For {client}",
+      "issuedBy": "From {issuer}",
+      "download": "Download PDF",
+      "backToSpace": "Back to your space",
+      "summary": "At a glance",
+      "vatIncluded": "VAT included",
+      "state": {
+        "open": {
+          "title": "Your quote is ready",
+          "text": "Take your time to review it. Whenever you’re ready, you can accept it right here in a minute. It’s valid until {date}."
+        },
+        "expired": {
+          "title": "This quote expired on {date}",
+          "text": "It can no longer be accepted online. Write to us and we’ll review it with you."
+        },
+        "accepted": {
+          "title": "Quote accepted",
+          "byName": "Accepted by {name} on {date}. Thank you for your trust.",
+          "noName": "Accepted on {date}. Thank you for your trust."
+        },
+        "rejected": {
+          "title": "Quote declined",
+          "text": "You let us know on {date}. Thanks for replying: if you change your mind, write to us."
+        },
+        "closed": {
+          "title": "This quote isn’t available",
+          "text": "Ask whoever sent it to review it."
+        }
+      },
+      "done": {
+        "accepted": {
+          "title": "Thank you, {name}!",
+          "text": "We’ve received your acceptance of quote {number}. We’ll be in touch with the next steps."
+        },
+        "rejected": {
+          "title": "Thanks for replying",
+          "text": "We’ve received your answer. If you’d like to pick it up again later, write to us."
+        }
+      },
+      "accept": {
+        "title": "Accept the quote",
+        "intro": "Leave us your name and email to confirm.",
+        "name": "Full name",
+        "email": "Email",
+        "signature": "Signature",
+        "signatureHint": "Optional: type your name as a signature.",
+        "consent": "I have read and accept quote {number} and its terms.",
+        "submit": "Accept quote",
+        "submitting": "Accepting…",
+        "firstPayment": "First payment, on acceptance: {label} · {amount} (VAT included).",
+        "evidence": "When you accept, we record the date and time, your IP address, your browser and a fingerprint of this quote’s PDF as proof of acceptance."
+      },
+      "reject": {
+        "open": "Not for me",
+        "title": "Decline the quote",
+        "reason": "Would you tell us why? (optional)",
+        "reasonPlaceholder": "Scope, price, timing…",
+        "submit": "Decline quote",
+        "submitting": "Sending…",
+        "cancel": "Back"
+      },
+      "errors": {
+        "name": "Please enter your name.",
+        "email": "Please enter a valid email.",
+        "consent": "Tick the box to accept.",
+        "signature": "The signature is too long.",
+        "reason": "The reason is too long.",
+        "rateLimited": "Too many attempts. Please wait a while and try again.",
+        "changed": "The quote has just been updated. Review the new version before accepting it.",
+        "expired": "This quote is no longer valid.",
+        "closed": "This quote already has an answer.",
+        "link": "This link is no longer valid.",
+        "unavailable": "We can’t record your answer right now. Write to us and we’ll sort it out.",
+        "generic": "Something went wrong. Please try again in a moment."
+      }
+    },
+    "space": {
+      "greeting": {
+        "morning": "Good morning, <hl>{name}</hl>",
+        "afternoon": "Good afternoon, <hl>{name}</hl>",
+        "evening": "Good evening, <hl>{name}</hl>"
+      },
+      "intro": "Everything about your project with {brand}, in one place and up to date.",
+      "nav": "Sections",
+      "highlights": {
+        "phases": "{done} of {total} phases",
+        "toPay": "{count, plural, one {# invoice due} other {# invoices due}}",
+        "allPaid": "Invoices up to date",
+        "services": "{count, plural, one {# active service} other {# active services}}",
+        "quotes": "{count, plural, one {# quote to review} other {# quotes to review}}"
+      },
+      "sections": {
+        "progress": {
+          "title": "Where we are",
+          "subtitle": "The phases of your project and what comes next.",
+          "done": "Done",
+          "current": "In progress",
+          "upcoming": "Next",
+          "plannedOn": "Planned: {date}",
+          "progress": "{done} of {total} phases completed",
+          "nextSteps": "Next steps",
+          "empty": "When a project with phases starts, you’ll see its progress here.",
+          "kinds": {
+            "web": "Website",
+            "seo": "SEO",
+            "ads": "Online ads",
+            "branding": "Branding",
+            "social": "Social media",
+            "maintenance": "Maintenance",
+            "internal": "Internal",
+            "other": "Project"
+          },
+          "statuses": {
+            "planned": "Not started yet",
+            "active": "In progress",
+            "paused": "On hold",
+            "done": "Finished",
+            "cancelled": "Cancelled"
+          },
+          "tasks": "{done} of {total, plural, one {# task done} other {# tasks done}}",
+          "nextDue": "Next planned date: {date}",
+          "nextTasks": "Up next",
+          "taskStates": {
+            "doing": "In progress",
+            "review": "In review",
+            "todo": "To do"
+          },
+          "moreTasks": "{count, plural, one {And # more task} other {And # more tasks}}"
+        },
+        "work_log": {
+          "title": "What we’ve done",
+          "subtitle": "The latest work we’ve done for you.",
+          "empty": "You’ll see the work we do together here.",
+          "taskDone": "Task completed · {project}"
+        },
+        "files": {
+          "title": "Deliverables and files",
+          "subtitle": "Everything we’ve delivered, always at hand.",
+          "download": "Download",
+          "open": "Open",
+          "link": "Link",
+          "empty": "When we deliver something, you’ll find it here."
+        },
+        "services": {
+          "title": "Your services",
+          "subtitle": "What you have with us right now.",
+          "since": "Since {date}",
+          "until": "until {date}",
+          "startsOn": "Starts on {date}",
+          "states": {
+            "active": "Active",
+            "paused": "Paused",
+            "scheduled": "Scheduled"
+          },
+          "types": {
+            "one_off": "Project",
+            "monthly": "Monthly",
+            "yearly": "Yearly",
+            "usage": "Per use"
+          },
+          "empty": "You don’t have any active services yet."
+        },
+        "documents": {
+          "title": "Documents",
+          "subtitle": "Invoices, quotes and contracts.",
+          "toPay": "Awaiting payment",
+          "pay": {
+            "transfer": "By bank transfer",
+            "iban": "IBAN",
+            "holder": "Account holder",
+            "amount": "Amount",
+            "reference": "Reference",
+            "dueOn": "Due on {date}",
+            "overdue": "Was due on {date}",
+            "sepa": "Direct debit: it will be charged to your account automatically. There’s nothing you need to do.",
+            "noIban": "Write to us and we’ll send you the transfer details.",
+            "copy": "Copy {what}",
+            "copied": "Copied"
+          },
+          "invoices": "Invoices",
+          "invoiceIssuedOn": "Issued on {date}",
+          "invoiceStatus": {
+            "paid": "Paid",
+            "pending": "Pending",
+            "overdue": "Overdue",
+            "voided": "Voided",
+            "rectifying": "Corrective"
+          },
+          "downloadInvoice": "Download invoice {number}",
+          "quotes": "Quotes",
+          "quoteOpen": "Awaiting your answer · valid until {date}",
+          "quoteAccepted": "Accepted on {date}",
+          "review": "Review and accept",
+          "downloadQuote": "Download quote {number}",
+          "contracts": "Contracts",
+          "contractSigned": "Signed on {date}",
+          "contractStates": {
+            "active": "Active",
+            "paused": "Paused",
+            "scheduled": "Scheduled",
+            "ended": "Ended"
+          },
+          "signedCopy": "Accepted quote",
+          "empty": "There are no documents yet."
+        },
+        "requests": {
+          "title": "Ask us for something",
+          "subtitle": "A change, an idea, a question? Tell us and we’ll look into it.",
+          "subject": "Subject",
+          "subjectPlaceholder": "What you need",
+          "description": "Details",
+          "descriptionPlaceholder": "Anything that helps us understand it.",
+          "urgent": "It’s urgent",
+          "submit": "Send",
+          "submitting": "Sending…",
+          "sent": {
+            "title": "Got it!",
+            "text": "We have it. We’ll get back to you as soon as we can."
+          },
+          "another": "Send another request",
+          "errors": {
+            "subject": "Please enter a subject.",
+            "description": "Tell us a bit more.",
+            "rateLimited": "You’ve sent several requests in a row. Please wait a while and try again.",
+            "generic": "It couldn’t be sent. Please try again in a moment."
+          }
+        },
+        "web_data": {
+          "title": "Your website data",
+          "subtitle": "What Google Search Console and Google Analytics measure for {site}.",
+          "range": "From {from} to {to}",
+          "clicks": "Clicks from Google",
+          "impressions": "Appearances on Google",
+          "position": "Average position",
+          "sessions": "Visits from search engines",
+          "change": "{value} compared with the previous 28 days",
+          "measured": "Measured data as is, with no estimates or forecasts.",
+          "demo": "Demo data.",
+          "empty": "There’s no measured data for your website yet."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,213 @@
+{
+  "id": "cos-weekly-briefing",
+  "title": "Chief of Staff: el plan de acción del lunes con lo abierto",
+  "description": "Con dos recomendaciones abiertas y Finanzas, el briefing pone las acciones críticas por impacto en € y urgencia (enlazando las abiertas), separa una alerta de riesgo fiscal, media en el conflicto entre retención y comercial, da la caja y el runway y pone el semáforo con evidencia (sin datos donde no los hay).",
+  "job": {
+    "agent": "chief_of_staff",
+    "trigger": "weekly_briefing",
+    "payload": {
+      "task": "weekly_briefing"
+    }
+  },
+  "data": {
+    "finance": "default"
+  },
+  "existing": [
+    {
+      "agent": "retention",
+      "title": "Reclamar las facturas vencidas de Mar Blau",
+      "subject": "client:c2",
+      "status": "nueva",
+      "daysAgo": 3,
+      "impactCents": 145200,
+      "urgency": "hoy",
+      "confidence": "alta"
+    },
+    {
+      "agent": "commercial",
+      "title": "Llamar a Tallers Rius para cerrar la tienda online",
+      "subject": "deal:d1",
+      "status": "nueva",
+      "daysAgo": 4,
+      "impactCents": 325000,
+      "urgency": "hoy"
+    }
+  ],
+  "replay": {
+    "chief_of_staff:weekly_briefing": [
+      {
+        "calls": [
+          {
+            "name": "get_past_recommendations",
+            "input": {
+              "statuses": [
+                "nueva",
+                "pospuesta",
+                "aceptada"
+              ]
+            }
+          },
+          {
+            "name": "get_cash_position"
+          },
+          {
+            "name": "get_receivables"
+          },
+          {
+            "name": "get_stalled_deals"
+          },
+          {
+            "name": "get_mrr_history"
+          },
+          {
+            "name": "get_tax_provisions"
+          }
+        ],
+        "output": {
+          "briefing": {
+            "headline": "Semana de cobros: 1.452 € vencidos y un deal parado",
+            "top_actions": [
+              {
+                "title": "Cobrar esta semana lo vencido de Mar Blau",
+                "why": "Hay 1.452 € vencidos con 57 días de retraso.",
+                "impact_ref": "receivables.client.c2.overdue",
+                "urgency": "hoy",
+                "if_not_done": "El retraso pasa de dos meses y se complica cobrarlo.",
+                "recommendation_id": "@rec:0",
+                "from_agents": [
+                  "retention"
+                ],
+                "evidence": [
+                  "receivables.client.c2.overdue",
+                  "receivables.client.c2.max_days"
+                ]
+              },
+              {
+                "title": "Cerrar o dar por perdida la tienda online de Tallers Rius",
+                "why": "Lleva 47 días parada y pondera 3.250 €.",
+                "impact_ref": "deal.d1.weighted_one_off",
+                "urgency": "esta_semana",
+                "if_not_done": "El pipeline sigue contando un deal que quizá ya no existe.",
+                "recommendation_id": "@rec:1",
+                "from_agents": [
+                  "commercial"
+                ],
+                "evidence": [
+                  "deal.d1.days_stalled",
+                  "deal.d1.weighted_one_off"
+                ]
+              }
+            ],
+            "risk_alerts": [
+              {
+                "title": "Reservar el IVA del 3T antes del 20 de octubre",
+                "why": "Hay 1.180,20 € de IVA por ingresar y el plazo acaba en 24 días.",
+                "impact_ref": "tax.2026-Q3.issuer-sl.vat_payable",
+                "recommendation_id": null,
+                "from_agents": [
+                  "fiscal",
+                  "cfo"
+                ],
+                "risk": "fiscal",
+                "evidence": [
+                  "tax.2026-Q3.issuer-sl.vat_payable",
+                  "tax.2026-Q3.days_left"
+                ]
+              }
+            ],
+            "optimizations": [],
+            "conflicts": [
+              {
+                "agents": [
+                  "retention",
+                  "commercial"
+                ],
+                "tension": "Retención quiere apretar el cobro de Mar Blau y comercial no quiere tensar la relación con clientes activos.",
+                "decision": "Reclamar los 1.452 € con una llamada cordial esta semana y, si no hay fecha de pago, pasar al recordatorio formal.",
+                "evidence": [
+                  "receivables.client.c2.overdue"
+                ]
+              }
+            ],
+            "cash": {
+              "text": "La caja estimada es de 25.000 € y cubre 25 meses de costes fijos.",
+              "evidence": [
+                "cash.estimated",
+                "cash.runway_months"
+              ]
+            },
+            "areas": [
+              {
+                "area": "caja",
+                "status": "verde",
+                "note": "La caja cubre 25 meses de costes fijos.",
+                "evidence": [
+                  "cash.runway_months"
+                ]
+              },
+              {
+                "area": "ingresos",
+                "status": "ambar",
+                "note": "El MRR es de 2.260 €.",
+                "evidence": [
+                  "mrr.current"
+                ]
+              },
+              {
+                "area": "clientes",
+                "status": "rojo",
+                "note": "Mar Blau acumula 1.452 € vencidos.",
+                "evidence": [
+                  "receivables.client.c2.overdue"
+                ]
+              },
+              {
+                "area": "comercial",
+                "status": "ambar",
+                "note": "Hay un deal parado en propuesta.",
+                "evidence": [
+                  "stalled.count"
+                ]
+              },
+              {
+                "area": "fiscal",
+                "status": "ambar",
+                "note": "El plazo del IVA acaba en 24 días.",
+                "evidence": [
+                  "tax.2026-Q3.days_left"
+                ]
+              },
+              {
+                "area": "crecimiento",
+                "status": "sin_datos",
+                "note": "Sin datos de Search Console.",
+                "evidence": []
+              },
+              {
+                "area": "operaciones",
+                "status": "sin_datos",
+                "note": "Sin horas por socio.",
+                "evidence": []
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "expect": {
+    "report": {
+      "kind": "weekly_briefing",
+      "minDecisions": 2,
+      "maxDecisions": 3
+    },
+    "published": {
+      "min": 0,
+      "max": 0
+    },
+    "tools": [
+      "get_past_recommendations",
+      "get_cash_position"
+    ]
+  }
+}

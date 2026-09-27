@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { Isotype } from "@/components/brand/logo";
 import { SpaceBackdrop } from "@/components/brand/space-backdrop";
 import { Button } from "@/components/ui/button";
+import { deviceConfirmationByEmail } from "@/lib/auth-policy";
 import { isSupabaseConfigured, publicEnv } from "@/lib/env";
 import { safeNextPath } from "@/lib/safe-next";
+import { WELCOME_COOKIE } from "@/lib/welcome";
 import { createClient } from "@/lib/supabase/server";
 import { LoginForm } from "./login-form";
 
@@ -22,7 +25,9 @@ export default async function LoginPage(props: PageProps<"/login">) {
   if (configured) {
     const supabase = await createClient();
     const { data } = await supabase.auth.getClaims();
-    if (data?.claims) redirect("/");
+    // Recién entrado con el código, la página se queda para la bienvenida (y ella navega).
+    const welcoming = Boolean((await cookies()).get(WELCOME_COOKIE));
+    if (data?.claims && !welcoming) redirect("/");
   }
 
   const next = safeNextPath(typeof searchParams.next === "string" ? searchParams.next : null) ?? undefined;
@@ -30,16 +35,32 @@ export default async function LoginPage(props: PageProps<"/login">) {
 
   return (
     <SpaceBackdrop>
-      <main className="mx-auto flex min-h-svh w-full max-w-md flex-col justify-center px-6 py-16">
-        <Isotype size={76} priority className="mx-auto mb-10 drop-shadow-[0_10px_40px_rgb(46_128_255/0.35)]" />
-        <h1 className="text-center text-4xl font-extrabold heading-tight sm:text-5xl">{t("title")}</h1>
-        <p className="mt-4 text-center text-muted-foreground">{t("subtitle")}</p>
+      <main className="mx-auto flex min-h-svh w-full max-w-xl flex-col justify-center px-4 py-16 sm:px-6">
+        {/* El isotipo con su halo y una órbita que gira despacio: el cielo de gnerai.com. */}
+        <div className="relative mx-auto mb-10 size-[76px]">
+          <div
+            aria-hidden
+            className="gos-halo pointer-events-none absolute -inset-12 rounded-full bg-[radial-gradient(closest-side,rgb(46_128_255/0.32),transparent)]"
+          />
+          <div
+            aria-hidden
+            className="gos-orbit pointer-events-none absolute -inset-5 rounded-full opacity-80 [background:conic-gradient(from_0deg,transparent_0deg,rgb(46_128_255/0.9)_50deg,transparent_110deg,transparent_200deg,rgb(124_111_255/0.7)_250deg,transparent_300deg)] [mask:radial-gradient(farthest-side,transparent_calc(100%-1.5px),#000_calc(100%-1px))]"
+          />
+          <Isotype size={76} priority className="gos-logo-in relative drop-shadow-[0_10px_40px_rgb(46_128_255/0.45)]" />
+        </div>
+        <h1 className="gos-rise text-center text-4xl font-extrabold heading-tight sm:text-5xl" style={{ animationDelay: "80ms" }}>
+          {t("title")}
+        </h1>
+        <p className="gos-rise mt-4 text-center text-muted-foreground" style={{ animationDelay: "140ms" }}>
+          {t("subtitle")}
+        </p>
 
         {configured ? (
           <LoginForm
             next={next}
             linkError={searchParams.error ? t("errorLink") : undefined}
             localMailUrl={isLocal ? LOCAL_MAILPIT_URL : undefined}
+            deviceConfirmation={deviceConfirmationByEmail()}
           />
         ) : (
           <SetupRequired />

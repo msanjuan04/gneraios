@@ -1,5 +1,6 @@
 {
   "meta": {
+    "title": "GNERAI OS",
     "description": "GNERAI's internal operating system: clients, pipeline, contracts and invoicing."
   },
   "common": {
@@ -17,10 +18,12 @@
     "optional": "Optional",
     "yes": "Yes",
     "no": "No",
+    "none": "—",
     "comingSoon": "Coming in milestone {hito}",
     "errorGeneric": "Something went wrong. Please try again.",
     "errorPermission": "You don't have permission to do this.",
-    "ownerOnly": "Only an owner can change this."
+    "ownerOnly": "Only an owner can change this.",
+    "notifications": "Notifications"
   },
   "nav": {
     "groupDirection": "Overview",
@@ -36,7 +39,13 @@
     "search": "Search or create…",
     "switchOrg": "Switch organization",
     "toggleSidebar": "Toggle sidebar",
-    "seo": "SEO"
+    "seo": "SEO",
+    "council": "Council",
+    "finance": "Finance",
+    "calendar": "Calendar",
+    "projects": "Projects",
+    "groupWork": "Work",
+    "sites": "Websites"
   },
   "user": {
     "menu": "Your account",
@@ -56,6 +65,11 @@
     "partner": "Partner",
     "viewer": "Read-only"
   },
+  "roleHints": {
+    "owner": "Everything, including tax settings and the team",
+    "partner": "Full day-to-day access: issue, collect, edit",
+    "viewer": "Can view, can't change anything"
+  },
   "shell": {
     "greetingMorning": "Good morning, {name}",
     "greetingAfternoon": "Good afternoon, {name}",
@@ -63,6 +77,150 @@
   },
   "notFound": {
     "title": "This page doesn't exist",
+    "body": "The link may be wrong, or you may not have access to this organization.",
     "home": "Back home"
+  },
+  "validation": {
+    "required": "Required",
+    "tooLong": "Too long",
+    "email": "Invalid email",
+    "slug": "Only lowercase letters, numbers and hyphens; it can't be a reserved word.",
+    "taxId": "Invalid NIF, NIE or CIF",
+    "iban": "Invalid IBAN",
+    "initials": "1 to 3 letters",
+    "rate": "Between 0 and 100",
+    "lastNumber": "Whole number, 0 or more",
+    "format": "Must include '{n}' and, if it restarts every year, also '{yyyy}'",
+    "onePrimary": "There must be exactly one primary issuer",
+    "days": "Whole days, from 0 to 365",
+    "billingDay": "A day from 1 to 31",
+    "daysList": "Whole days from 0 to 365, separated by commas (10 at most)",
+    "rateNotGeneral": "Outside the general regime, the rate must be 0%",
+    "invalid": "Invalid value",
+    "percent": "A whole number from 1 to 100",
+    "hourlyRate": "Whole euros, from 1 to 1000",
+    "seriesCode": "Up to 12 letters, digits or hyphens",
+    "seriesFormat": "It must include '{n}' and, if it has a year, '{yyyy}' or '{yy}'"
+  },
+  "commandMenu": {
+    "placeholder": "Search or type a command…",
+    "empty": "Nothing here.",
+    "groupGo": "Go to",
+    "groupCreate": "Create",
+    "groupPreferences": "Preferences",
+    "groupAccount": "Account",
+    "newClient": "New client",
+    "newDeal": "New deal or lead",
+    "newInvoice": "New invoice",
+    "newQuote": "New quote",
+    "themeDark": "Dark theme",
+    "themeLight": "Light theme",
+    "language": "Language: {language}",
+    "groupResults": "Results",
+    "kind": {
+      "client": "Client",
+      "contact": "Contact",
+      "deal": "Deal",
+      "contract": "Contract",
+      "invoice": "Invoice",
+      "quote": "Quote",
+      "project": "Project"
+    },
+    "newContract": "New contract",
+    "newProject": "New project",
+    "newExpense": "New expense"
+  },
+  "shortcuts": {
+    "title": "Keyboard shortcuts",
+    "commandMenu": "Search or create",
+    "goDashboard": "Go to the dashboard",
+    "goPipeline": "Go to the pipeline",
+    "goClients": "Go to clients",
+    "goInvoices": "Go to invoices",
+    "goSettings": "Go to settings",
+    "toggleSidebar": "Toggle sidebar",
+    "help": "Show this help",
+    "then": "then",
+    "groupGlobal": "General",
+    "groupLists": "Lists",
+    "groupPipeline": "Pipeline",
+    "listMove": "Move through the list",
+    "listOpen": "Open the highlighted item",
+    "listCreate": "Create (client, contact…)",
+    "pipelineNew": "New deal",
+    "pipelinePrev": "Move the card to the previous stage",
+    "pipelineNext": "Move the card to the next stage",
+    "pipelineDrag": "Pick up and drop the card with the keyboard",
+    "goSeo": "Go to SEO",
+    "goContracts": "Go to contracts",
+    "goQuotes": "Go to quotes",
+    "goCouncil": "Go to the council",
+    "goFinance": "Go to finance",
+    "goCalendar": "Go to the calendar",
+    "goProjects": "Go to projects",
+    "groupCalendar": "Calendar",
+    "calendarToday": "Go to today",
+    "calendarPrevNext": "Previous or next period",
+    "calendarMonth": "Month view",
+    "calendarWeek": "Week view",
+    "calendarAgenda": "Agenda view",
+    "calendarAgendaMove": "Move through the agenda"
+  },
+  "modules": {
+    "pipeline": "Opportunity kanban with drag and drop, days in stage, next action and an analytics funnel.",
+    "clients": "List and 360° profile: contracts, invoices, deals, activity, LTV and tenure.",
+    "quotes": "Quotes with the same template as invoices and one-click acceptance.",
+    "contracts": "Contracts with one-off, monthly, yearly and usage-based lines, pauses, cancellations and milestones.",
+    "invoices": "Automatic drafts, bulk issuing, branded PDFs, payments and corrective invoices."
+  },
+  "preview": {
+    "banner": "Preview without a database: sample data, nothing is saved.",
+    "designTitle": "Visual system",
+    "designSubtitle": "Tokens and components with the gnerai.com look.",
+    "seeOnboarding": "See the onboarding",
+    "onboardingDone": "Preview: in the real app, this is where the organization gets created."
+  },
+  "inbox": {
+    "title": "Notifications",
+    "open": "Open notifications",
+    "empty": "All caught up. This is where you'll see renewals, reminders awaiting approval and system alerts.",
+    "markAll": "Mark all as read",
+    "unread": "{count, plural, one {# unread notification} other {# unread notifications}}",
+    "kinds": {
+      "renewal": "{client}: “{line}” renews on {date}, in {days, plural, one {# day} other {# days}} ({amount} excl. VAT).",
+      "reminder_ready": "Reminder ready for {client}: invoice {number} has been overdue for {days, plural, one {# day} other {# days}} ({amount}). Review it and send it.",
+      "job_failed": "Automatic billing on {date} failed. Check Invoices and run it again.",
+      "verifactu_deadline": "{issuer} will have to issue invoices with Verifactu from {date}: {days, plural, one {# day} other {# days}} to go. A provider needs to be chosen.",
+      "verifactu_required": "{issuer} has been required to use Verifactu since {date}: it can't issue invoices with the internal provider.",
+      "quote_accepted": "{client} accepted quote {number} “{title}” online (signed by {signer}). The contract has been created.",
+      "quote_rejected": "{client} declined quote {number} “{title}”.",
+      "quote_rejected_reason": "{client} declined quote {number} “{title}”: “{reason}”.",
+      "portal_request": "{urgent, select, yes {Urgent · } other {}}{client} asked for something from their space: “{subject}”.",
+      "new_device": "{member} signed in from a new device: {device}. If you don't recognise it, remove it in Settings → Team.",
+      "site_down": "{site} is down: {error, select, timeout {it doesn't respond in time} dns {the domain doesn't resolve} refused {the server refuses the connection} reset {the connection drops} tls_expired {the SSL certificate has expired} tls_invalid {the SSL certificate isn't valid} redirects {it's stuck in a redirect loop} http {it responds with error {status}} other {it can't be reached}}.",
+      "site_up": "{site} is back up (it was down for {duration}).",
+      "ssl_expiring": "The SSL certificate for {site} expires {days, plural, =0 {today} =1 {tomorrow} other {in # days}} ({date}). Check the automatic renewal.",
+      "ssl_expired": "The SSL certificate for {site} expired on {date}: browsers warn that the site isn't secure.",
+      "domain_expiring": "The domain for {site} expires {days, plural, =0 {today} =1 {tomorrow} other {in # days}} ({date}). Renew it before the site stops working.",
+      "domain_expired": "The domain for {site} expired on {date}. Renew it as soon as possible.",
+      "subscription_renewal": "“{name}” renews {days, plural, =0 {today} =1 {tomorrow} other {in # days}} ({date}): {amount}."
+    }
+  },
+  "push": {
+    "titles": {
+      "renewal": "Upcoming renewal",
+      "reminder_ready": "Reminder ready to send",
+      "job_failed": "Automatic billing failed",
+      "verifactu_deadline": "Verifactu",
+      "quote_accepted": "Quote accepted",
+      "quote_rejected": "Quote declined",
+      "portal_request": "New client request",
+      "new_device": "New device",
+      "site_down": "Website down",
+      "site_up": "Website back up",
+      "ssl_expiring": "SSL certificate to renew",
+      "domain_expiring": "Domain to renew",
+      "subscription_renewal": "Subscription renewal"
+    }
   }
 }

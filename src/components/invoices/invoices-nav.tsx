@@ -5,25 +5,32 @@ import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 
-/** Facturas y la bandeja «Por enviar» (recordatorios por aprobar), con su contador. */
+/**
+ * Facturas, su histórico (lo facturado y cobrado por periodos), la bandeja «Por enviar»
+ * (recordatorios por aprobar), con su contador, y las remesas SEPA.
+ */
 export function InvoicesNav({ basePath, outboxCount }: { basePath: string; outboxCount: number }) {
   const t = useTranslations("invoices.nav");
+  const tCollections = useTranslations("collections.nav");
   const pathname = usePathname();
   const tabs = [
-    { href: `${basePath}/invoices`, label: t("list"), count: 0 },
-    { href: `${basePath}/invoices/outbox`, label: t("outbox"), count: outboxCount },
+    { href: `${basePath}/invoices`, label: t("list"), count: 0, nested: false },
+    { href: `${basePath}/invoices/history`, label: t("history"), count: 0, nested: false },
+    { href: `${basePath}/invoices/outbox`, label: t("outbox"), count: outboxCount, nested: false },
+    // Activa también dentro de una remesa (/remittances/new, /remittances/<id>).
+    { href: `${basePath}/invoices/remittances`, label: tCollections("remittances"), count: 0, nested: true },
   ];
   return (
-    <nav aria-label={t("label")} className="mb-6 flex w-fit gap-1 rounded-full border bg-card/60 p-1">
+    <nav aria-label={t("label")} className="mb-6 flex w-fit max-w-full gap-1 overflow-x-auto rounded-full border bg-card/60 p-1 [scrollbar-width:none]">
       {tabs.map((tab) => {
-        const active = pathname === tab.href;
+        const active = pathname === tab.href || (tab.nested && pathname.startsWith(`${tab.href}/`));
         return (
           <Link
             key={tab.href}
             href={tab.href}
             aria-current={active ? "page" : undefined}
             className={cn(
-              "flex items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-semibold transition-colors",
+              "flex shrink-0 items-center gap-1.5 rounded-full px-4 py-1.5 text-sm font-semibold whitespace-nowrap transition-colors",
               active ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground",
             )}
           >

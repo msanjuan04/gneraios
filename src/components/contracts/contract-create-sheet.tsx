@@ -13,10 +13,12 @@ import {
   contractFormSchema,
   type ContractFormValues,
   INVOICE_GROUPINGS,
+  type LineFormInput,
   newLineDefaults,
   PAYMENT_METHODS,
 } from "@/app/[org]/contracts/schema";
 import { potentialMrrCents } from "@/app/[org]/contracts/summary";
+import { CatalogPicker } from "@/components/catalog/catalog-picker";
 import { ClientPicker } from "@/components/crm/client-picker";
 import { FormField } from "@/components/settings/form-field";
 import { SheetForm } from "@/components/settings/settings-sheet";
@@ -89,7 +91,20 @@ function CreateForm({
   });
   const { control, register, formState, getValues, setValue } = form;
   const { errors, isSubmitting } = formState;
-  const { fields, append, remove } = useFieldArray({ control, name: "lines", keyName: "key" });
+  const { fields, append, remove, replace } = useFieldArray({ control, name: "lines", keyName: "key" });
+  const pickedClientId = useWatch({ control, name: "client_id" });
+  // Con useWatch: el selector se repinta con el cliente nuevo que se acaba de escribir.
+  const newClientName = useWatch({ control, name: "new_client_name" }) ?? "";
+  // Las descripciones del catálogo salen en el idioma de los documentos del cliente.
+  const catalogLocale = options.clients.find((c) => c.id === pickedClientId)?.language ?? "es";
+  /** Líneas del catálogo: sustituyen a la línea vacía de un contrato nuevo. */
+  const onPickCatalog = (picked: LineFormInput[]) => {
+    if (picked.length === 0) return;
+    const current = getValues("lines");
+    const onlyEmpty = current.length === 1 && current[0]!.description.trim() === "" && String(current[0]!.unit_price ?? "").trim() === "";
+    if (onlyEmpty) replace(picked);
+    else append(picked);
+  };
   const lines = useWatch({ control, name: "lines" }) ?? [];
   const issuerId = useWatch({ control, name: "issuer_id" });
   const grouping = useWatch({ control, name: "invoice_grouping" });
@@ -153,7 +168,7 @@ function CreateForm({
                 <ClientPicker
                   clients={options.clients}
                   clientId={field.value}
-                  newClientName={getValues("new_client_name")}
+                  newClientName={newClientName}
                   invalid={Boolean(errors.client_id)}
                   onChange={({ clientId, newClientName }) => {
                     setValue("new_client_name", newClientName);
@@ -268,6 +283,18 @@ function CreateForm({
 
           <FormSection
             action={
+              <div className="flex items-center gap-2">
+              <CatalogPicker
+                slug={slug}
+                locale={catalogLocale}
+                target="contract"
+                today={today}
+                billingDay={options.billingDay}
+                onPick={onPickCatalog}
+                variant="outline"
+                size="sm"
+                align="end"
+              />
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button type="button" variant="outline" size="sm">
@@ -284,6 +311,7 @@ function CreateForm({
                   ))}
                 </DropdownMenuContent>
               </DropdownMenu>
+              </div>
             }
           >
             {t("sectionLines")}

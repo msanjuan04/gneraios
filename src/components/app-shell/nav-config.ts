@@ -1,8 +1,13 @@
 import {
+  Activity,
+  BrainCircuit,
   Building2,
+  CalendarDays,
   ChartNoAxesCombined,
+  Landmark,
   FileSignature,
   FileText,
+  FolderKanban,
   LayoutDashboard,
   type LucideIcon,
   Receipt,
@@ -10,7 +15,20 @@ import {
   SquareKanban,
 } from "lucide-react";
 
-export type NavKey = "dashboard" | "seo" | "pipeline" | "clients" | "quotes" | "contracts" | "invoices" | "settings";
+export type NavKey =
+  | "dashboard"
+  | "calendar"
+  | "council"
+  | "seo"
+  | "pipeline"
+  | "clients"
+  | "projects"
+  | "sites"
+  | "quotes"
+  | "contracts"
+  | "invoices"
+  | "finance"
+  | "settings";
 
 export type NavItem = {
   key: NavKey;
@@ -23,12 +41,13 @@ export type NavItem = {
   hito?: string;
 };
 
-export const NAV_GROUPS: { label: "groupDirection" | "groupSales" | "groupBilling"; items: NavItem[] }[] = [
+export const NAV_GROUPS: { label: "groupDirection" | "groupSales" | "groupWork" | "groupBilling"; items: NavItem[] }[] = [
   {
     label: "groupDirection",
     items: [
       { key: "dashboard", path: "", icon: LayoutDashboard, shortcut: "g d" },
-      { key: "seo", path: "/seo", icon: ChartNoAxesCombined, shortcut: "g e" },
+      { key: "calendar", path: "/calendar", icon: CalendarDays, shortcut: "g l" },
+      { key: "council", path: "/council", icon: BrainCircuit, shortcut: "g a" },
     ],
   },
   {
@@ -40,10 +59,21 @@ export const NAV_GROUPS: { label: "groupDirection" | "groupSales" | "groupBillin
     ],
   },
   {
+    // Lo que se hace para los clientes: los proyectos con sus horas, el SEO de sus webs (y la nuestra)
+    // y la vigilancia de las webs que alojamos (uptime, SSL y dominios).
+    label: "groupWork",
+    items: [
+      { key: "projects", path: "/projects", icon: FolderKanban, shortcut: "g r" },
+      { key: "seo", path: "/seo", icon: ChartNoAxesCombined, shortcut: "g e" },
+      { key: "sites", path: "/sites", icon: Activity },
+    ],
+  },
+  {
     label: "groupBilling",
     items: [
       { key: "contracts", path: "/contracts", icon: FileSignature, shortcut: "g o" },
       { key: "invoices", path: "/invoices", icon: Receipt, shortcut: "g f" },
+      { key: "finance", path: "/finance", icon: Landmark, shortcut: "g n" },
     ],
   },
 ];

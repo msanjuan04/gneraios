@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { ForecastCard } from "@/components/billing/forecast-card";
 import type { ForecastMonth } from "@/domain/billing/forecast";
 import { getFormatter, getTranslations } from "next-intl/server";
@@ -17,7 +18,16 @@ import type { DashboardView } from "./types";
  * de quién depende la facturación, lo que renueva y lo que no se ha cobrado, el pipeline y la
  * salud del sistema. Todo sale de src/domain/metrics (definiciones versionadas).
  */
-export async function Dashboard({ view, forecast }: { view: DashboardView; forecast: ForecastMonth[] }) {
+export async function Dashboard({
+  view,
+  forecast,
+  week,
+}: {
+  view: DashboardView;
+  forecast: ForecastMonth[];
+  /** Lo operativo de los próximos días (calendario, tareas): se pinta justo debajo de las cifras. */
+  week?: ReactNode;
+}) {
   const t = await getTranslations("dashboard");
   const tShell = await getTranslations("shell");
   const format = await getFormatter();
@@ -53,6 +63,8 @@ export async function Dashboard({ view, forecast }: { view: DashboardView; forec
       </header>
 
       <KpiCards view={view} />
+
+      {week}
 
       <HistorySection history={view.history} movements={view.movements} money={view.money} />
 

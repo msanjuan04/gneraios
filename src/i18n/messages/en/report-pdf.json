@@ -1,0 +1,156 @@
+{
+  "reportPdf": {
+    "document": "Monthly report",
+    "filename": "report",
+    "monthYear": "{month} {year}",
+    "months": {
+      "01": "January",
+      "02": "February",
+      "03": "March",
+      "04": "April",
+      "05": "May",
+      "06": "June",
+      "07": "July",
+      "08": "August",
+      "09": "September",
+      "10": "October",
+      "11": "November",
+      "12": "December"
+    },
+    "versus": {
+      "01": "vs January",
+      "02": "vs February",
+      "03": "vs March",
+      "04": "vs April",
+      "05": "vs May",
+      "06": "vs June",
+      "07": "vs July",
+      "08": "vs August",
+      "09": "vs September",
+      "10": "vs October",
+      "11": "vs November",
+      "12": "vs December"
+    },
+    "header": {
+      "period": "Period",
+      "generatedOn": "Report date",
+      "sender": "Prepared by",
+      "inProgress": "Month in progress: data up to {date}."
+    },
+    "summary": {
+      "tasksDone": "Tasks completed",
+      "nextSteps": "Next steps",
+      "deliverables": "Deliverables",
+      "visits": "Website visits",
+      "hours": "Hours spent"
+    },
+    "workDone": {
+      "title": "What we did",
+      "empty": "No tasks were completed this month.",
+      "activities": "Meetings and updates",
+      "kinds": {
+        "call": "Call",
+        "meeting": "Meeting",
+        "email": "Email",
+        "note": "Note"
+      }
+    },
+    "hours": {
+      "title": "Hours spent",
+      "other": "Other work",
+      "total": "Month total"
+    },
+    "nextSteps": {
+      "title": "Next steps",
+      "empty": "No next steps marked yet.",
+      "more": "And {count} more.",
+      "status": {
+        "todo": "Not started",
+        "doing": "In progress",
+        "review": "In review"
+      }
+    },
+    "deliverables": {
+      "title": "Deliverables",
+      "file": "File",
+      "link": "Link"
+    },
+    "web": {
+      "title": "Your website data",
+      "subtitle": "What Google Search Console and Google Analytics measure for {site}.",
+      "clicks": "Clicks from Google",
+      "impressions": "Appearances on Google",
+      "position": "Average position",
+      "visits": "Website visits",
+      "noChange": "No change",
+      "positionUp": {
+        "one": "{value} position higher",
+        "other": "{value} positions higher"
+      },
+      "positionDown": {
+        "one": "{value} position lower",
+        "other": "{value} positions lower"
+      },
+      "previousMonth": "Previous month: {value}",
+      "channels": "Where visits come from",
+      "queries": "Searches with the most clicks",
+      "query": "Search",
+      "queryClicks": "Clicks",
+      "queryPrevious": "Previous month",
+      "queryPosition": "Average position",
+      "partial": "Data from {from} to {to}.",
+      "noComparison": "No comparison with the previous month: the data doesn’t cover both full months.",
+      "measured": "Data as measured by Google, with no estimates or forecasts.",
+      "demo": "Demo data.",
+      "channelNames": {
+        "organic_search": "Organic search",
+        "paid_search": "Search ads",
+        "organic_social": "Social media",
+        "paid_social": "Social ads",
+        "direct": "Direct",
+        "referral": "Other websites",
+        "email": "Email",
+        "other": "Other"
+      }
+    },
+    "services": {
+      "title": "Active services",
+      "recurring": "Services",
+      "oneOff": "Projects",
+      "types": {
+        "one_off": "Project",
+        "monthly": "Monthly",
+        "yearly": "Yearly",
+        "usage": "Usage-based"
+      },
+      "since": "Since {date}",
+      "until": "until {date}",
+      "paused": "Paused for part of the month"
+    },
+    "invoices": {
+      "title": "Billing",
+      "issued": "Invoices this month",
+      "noneIssued": "No invoices were issued this month.",
+      "pending": "Other invoices awaiting payment",
+      "number": "Number",
+      "date": "Date",
+      "due": "Due date",
+      "total": "Total",
+      "outstanding": "Outstanding",
+      "status": "Status",
+      "statuses": {
+        "paid": "Paid",
+        "pending": "Pending",
+        "overdue": "Overdue",
+        "voided": "Voided",
+        "rectifying": "Credit note"
+      },
+      "pendingTotal": "Outstanding as of {date}",
+      "allPaid": "All paid as of {date}.",
+      "note": "Amounts include VAT. Status as of {date}."
+    },
+    "footer": {
+      "page": "Page {current} / {total}"
+    }
+  }
+}

@@ -1,14 +1,19 @@
 import type { Metadata } from "next";
 import { getFormatter, getTranslations } from "next-intl/server";
+import { MemberCostsSection } from "@/components/profitability/member-costs-section";
 import { ReadOnlyNotice, SettingsSectionHeader } from "@/components/settings/settings-card";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { initialsFrom } from "@/domain/people";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { cn } from "@/lib/utils";
+import { type AccessStatus, accessStatus } from "@/server/auth/access-code";
 import { getOrgContext, hasRole } from "@/server/session";
+import { MemberAccessCodeRow } from "./access-code-controls";
 import { InvitationActions, InviteButton } from "./invitation-controls";
 import { MemberAccessButton, MemberRoleSelect } from "./member-controls";
+import { MfaBadge, MfaResetButton, RequireMfaCard } from "./security-controls";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("settings");
@@ -28,6 +33,7 @@ export default async function TeamSettingsPage({ params }: PageProps<"/[org]/set
   // RLS solo deja ver las invitaciones a partir de socio.
   const canSeeInvitations = hasRole(me.role, "partner");
   const t = await getTranslations("settings.team");
+  const tCodes = await getTranslations("settings.accessCode");
   const tRoles = await getTranslations("roles");
   const tCommon = await getTranslations("common");
   const format = await getFormatter();
@@ -36,7 +42,7 @@ export default async function TeamSettingsPage({ params }: PageProps<"/[org]/set
   const [membersRes, invitationsRes] = await Promise.all([
     supabase
       .from("members")
-      .select("id, full_name, initials, role, is_active")
+      .select("id, user_id, full_name, initials, role, is_active")
       .eq("org_id", org.id)
       .order("is_active", { ascending: false })
       .order("full_name"),
@@ -55,6 +61,26 @@ export default async function TeamSettingsPage({ params }: PageProps<"/[org]/set
   const members = membersRes.data;
   const invitations = invitationsRes?.data ?? [];
   const expired = expiredInvitations(invitations);
+
+  // Quién tiene la verificación en dos pasos y su código de acceso: solo lo ven los owners (API
+  // admin de Supabase Auth y tablas sin acceso desde el navegador).
+  const mfaBy = new Map<string, boolean>();
+  const accessBy = new Map<string, AccessStatus>();
+  if (canEdit) {
+    const admin = createAdminClient();
+    await Promise.all(
+      members.map(async (m) => {
+        const [{ data }, access] = await Promise.all([
+          admin.auth.admin.mfa.listFactors({ userId: m.user_id }),
+          m.is_active ? accessStatus(m.user_id) : null,
+        ]);
+        mfaBy.set(m.id, (data?.factors ?? []).some((f) => f.status === "verified"));
+        if (access) accessBy.set(m.id, access);
+      }),
+    );
+  }
+  const activeMembers = members.filter((m) => m.is_active);
+  const enrolled = activeMembers.filter((m) => mfaBy.get(m.id)).length;
 
   return (
     <div className="space-y-10">
@@ -107,19 +133,25 @@ export default async function TeamSettingsPage({ params }: PageProps<"/[org]/set
                       )}
                     </TableCell>
                     <TableCell>
-                      {m.is_active ? (
-                        <Badge className="bg-success/15 text-success">{t("active")}</Badge>
-                      ) : (
-                        <Badge variant="secondary" className="text-muted-foreground">
-                          {t("inactive")}
-                        </Badge>
-                      )}
+                      <span className="flex flex-wrap items-center gap-1.5">
+                        {m.is_active ? (
+                          <Badge className="bg-success/15 text-success">{t("active")}</Badge>
+                        ) : (
+                          <Badge variant="secondary" className="text-muted-foreground">
+                            {t("inactive")}
+                          </Badge>
+                        )}
+                        {canEdit && m.is_active && <MfaBadge enabled={mfaBy.get(m.id) === true} />}
+                      </span>
                     </TableCell>
                     {canEdit && (
                       <TableCell className="text-right">
-                        {!isSelf && (
-                          <MemberAccessButton slug={org.slug} memberId={m.id} name={m.full_name} active={m.is_active} />
-                        )}
+                        <span className="inline-flex items-center gap-1">
+                          {m.is_active && mfaBy.get(m.id) && <MfaResetButton slug={org.slug} memberId={m.id} name={m.full_name} />}
+                          {!isSelf && (
+                            <MemberAccessButton slug={org.slug} memberId={m.id} name={m.full_name} active={m.is_active} />
+                          )}
+                        </span>
                       </TableCell>
                     )}
                   </TableRow>
@@ -129,6 +161,34 @@ export default async function TeamSettingsPage({ params }: PageProps<"/[org]/set
           </Table>
         </div>
       </section>
+
+      <MemberCostsSection org={org} role={me.role} />
+
+      {canEdit && (
+        <section id="codes">
+          <SettingsSectionHeader title={tCodes("title")} description={tCodes("description")} />
+          <ul className="divide-y rounded-2xl border bg-card text-sm">
+            {activeMembers.map((m) => {
+              const access = accessBy.get(m.id);
+              return access ? (
+                <MemberAccessCodeRow
+                  key={m.id}
+                  slug={org.slug}
+                  memberId={m.id}
+                  name={m.full_name}
+                  initials={m.initials}
+                  isSelf={m.id === me.id}
+                  status={access}
+                />
+              ) : null;
+            })}
+          </ul>
+        </section>
+      )}
+
+      {canEdit && (
+        <RequireMfaCard slug={org.slug} required={org.require_mfa} enrolled={enrolled} total={activeMembers.length} canEdit={canEdit} />
+      )}
 
       {canSeeInvitations && (
         <section>

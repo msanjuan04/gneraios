@@ -68,18 +68,23 @@ describe("Search Console", () => {
 });
 
 describe("GA4", () => {
-  it("pide todo el tráfico y el orgánico, con las métricas en orden", async () => {
-    const { client, bodies } = clientFor(() => ({
-      rows: [{ dimensionValues: [{ value: "20260920" }], metricValues: [{ value: "100" }, { value: "80" }, { value: "60" }, { value: "2" }] }],
-    }));
+  it("pide el total del día y el desglose por canales, con las métricas en orden", async () => {
+    const { client, bodies } = clientFor((_url, body) =>
+      (body.dimensions as unknown[]).length === 1
+        ? { rows: [{ dimensionValues: [{ value: "20260920" }], metricValues: [{ value: "100" }, { value: "80" }, { value: "60" }, { value: "2" }] }] }
+        : {
+            rows: [
+              { dimensionValues: [{ value: "20260920" }, { value: "Organic Search" }], metricValues: [{ value: "60" }, { value: "50" }, { value: "40" }, { value: "1" }] },
+              { dimensionValues: [{ value: "20260920" }, { value: "Paid Search" }], metricValues: [{ value: "40" }, { value: "30" }, { value: "20" }, { value: "1" }] },
+            ],
+          },
+    );
     const { out, s } = sink();
     const rows = await new AnalyticsProvider(client).fetchRange(property, { from: "2026-09-01", to: "2026-09-20" }, s);
-    expect(rows).toBe(2);
-    expect(out.web.map((w) => w.channel)).toEqual(["all", "organic_search"]);
+    expect(rows).toBe(3);
+    expect(out.web.map((w) => w.channel)).toEqual(["all", "organic_search", "paid_search"]);
     expect(bodies[0]!.metrics).toEqual([{ name: "sessions" }, { name: "activeUsers" }, { name: "engagedSessions" }, { name: "keyEvents" }]);
-    expect(bodies[0]!.dimensionFilter).toBeUndefined();
-    expect(bodies[1]!.dimensionFilter).toEqual({
-      filter: { fieldName: "sessionDefaultChannelGroup", stringFilter: { matchType: "EXACT", value: "Organic Search" } },
-    });
+    expect(bodies[1]!.dimensions).toEqual([{ name: "date" }, { name: "sessionDefaultChannelGroup" }]);
+    expect(bodies.some((b) => "dimensionFilter" in b)).toBe(false);
   });
 });

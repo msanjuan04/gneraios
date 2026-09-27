@@ -44,6 +44,8 @@ export type DealSheetProps = {
   members: BoardMember[];
   currentMemberId: string;
   canEdit: boolean;
+  /** Tras guardar: el tablero salta a la columna del deal y lo resalta. */
+  onSaved?: (dealId: string, stageId: string) => void;
 };
 
 export function DealSheet(props: DealSheetProps) {
@@ -64,6 +66,7 @@ export function DealSheet(props: DealSheetProps) {
 function DealForm({
   slug,
   onOpenChange,
+  onSaved,
   deal,
   defaults,
   stages,
@@ -105,6 +108,9 @@ function DealForm({
   });
   const { errors } = form.formState;
   const stageId = useWatch({ control: form.control, name: "stage_id" });
+  // Con useWatch (no getValues): al elegir «Crear cliente …» el selector tiene que volver a pintarse
+  // con el nombre nuevo; antes se quedaba en blanco y parecía que no había cogido nada.
+  const newClientName = useWatch({ control: form.control, name: "new_client_name" }) ?? "";
   const stage = stages.find((s) => s.id === stageId);
   const stageName = (id: string | null) => stages.find((s) => s.id === id)?.name ?? "—";
 
@@ -128,6 +134,7 @@ function DealForm({
         return;
       }
       toast.success(deal ? t("saved") : t("created"));
+      onSaved?.(result.id, values.stage_id);
       onOpenChange(false);
     }),
   );
@@ -231,11 +238,11 @@ function DealForm({
                 <ClientPicker
                   clients={clients}
                   clientId={field.value}
-                  newClientName={form.getValues("new_client_name")}
+                  newClientName={newClientName}
                   invalid={Boolean(errors.client_id)}
                   disabled={!canEdit}
-                  onChange={({ clientId, newClientName }) => {
-                    form.setValue("new_client_name", newClientName);
+                  onChange={({ clientId, newClientName: typed }) => {
+                    form.setValue("new_client_name", typed, { shouldValidate: form.formState.isSubmitted });
                     field.onChange(clientId);
                   }}
                 />

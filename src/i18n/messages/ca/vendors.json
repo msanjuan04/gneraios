@@ -1,0 +1,193 @@
+{
+  "vendors": {
+    "tab": "Proveïdors",
+    "kinds": {
+      "company": "Empresa",
+      "freelancer": "Freelance"
+    },
+    "list": {
+      "new": "Nou proveïdor",
+      "readOnly": "Només lectura: els proveïdors els porta un soci.",
+      "search": "Cerca per nom, NIF, contacte o correu",
+      "clearSearch": "Esborra la cerca",
+      "filters": {
+        "label": "Tipus de proveïdor",
+        "all": "Tots",
+        "company": "Empreses",
+        "freelancer": "Freelances"
+      },
+      "showArchived": "{count, plural, one {Mostra # arxivat} other {Mostra # arxivats}}",
+      "summary": {
+        "label": "Resum del que es veu",
+        "vendors": "{count, plural, =0 {Cap proveïdor} one {# proveïdor} other {# proveïdors}}",
+        "freelancers": "{count, plural, =0 {cap freelance} one {# freelance} other {# freelances}}",
+        "year": "Aquest any",
+        "total": "Total",
+        "pending": "Per pagar",
+        "overdue": "{amount} vençut"
+      },
+      "columns": {
+        "vendor": "Proveïdor",
+        "taxId": "NIF",
+        "yearCost": "Aquest any",
+        "cost": "Total",
+        "pending": "Per pagar",
+        "clients": "Clients",
+        "lastExpense": "Última despesa",
+        "sortBy": "Ordena per «{column}»"
+      },
+      "archived": "Arxivat",
+      "overdueHint": "{amount} vençut",
+      "noExpenses": "Sense despeses",
+      "noResultsTitle": "Cap proveïdor no coincideix",
+      "noResultsBody": "Prova amb un altre nom o NIF, o canvia el filtre.",
+      "showAll": "Mostra'ls tots",
+      "createdToast": "«{name}» creat",
+      "open": "Obre la fitxa"
+    },
+    "empty": {
+      "title": "Encara no hi ha proveïdors",
+      "body": "Dona d'alta qui us factura, una empresa o un freelance, per veure què us costa i per a quins clients treballa. També es creen sols en registrar una despesa.",
+      "create": "Nou proveïdor",
+      "readOnly": "Els dona d'alta un soci."
+    },
+    "sheet": {
+      "createTitle": "Nou proveïdor",
+      "editTitle": "Edita el proveïdor",
+      "description": "Una empresa o un freelance que us factura. Només el nom és obligatori.",
+      "sectionWho": "Qui és",
+      "kind": "Tipus de proveïdor",
+      "kindHints": {
+        "company": "SaaS, hosting, gestoria, una altra agència…",
+        "freelancer": "Una persona que us factura la seva feina"
+      },
+      "name": "Nom o raó social",
+      "namePlaceholder": "Clara Font Studio",
+      "taxId": "NIF o VAT",
+      "taxIdHint": "El de les seves factures, sense espais ni guions.",
+      "country": "País",
+      "countryHint": "Codi de 2 lletres: ES, IE, US…",
+      "sectionContact": "Contacte",
+      "contactName": "Persona de contacte",
+      "email": "Correu electrònic",
+      "phone": "Telèfon",
+      "website": "Web",
+      "sectionPayment": "Pagament i despeses",
+      "iban": "IBAN",
+      "ibanHint": "El compte on se li fan les transferències.",
+      "category": "Categoria habitual",
+      "categoryHint": "Es proposa en registrar-ne una despesa.",
+      "noCategory": "Cap",
+      "notes": "Notes",
+      "notesPlaceholder": "Tarifes, condicions, com i quan factura…",
+      "create": "Crea el proveïdor",
+      "save": "Desa",
+      "savedToast": "Proveïdor desat"
+    },
+    "detail": {
+      "back": "Proveïdors",
+      "archivedBadge": "Arxivat",
+      "newExpense": "Registra una despesa",
+      "edit": "Edita",
+      "archive": "Arxiva",
+      "restore": "Recupera",
+      "undo": "Desfés",
+      "archivedToast": "«{name}» arxivat: ja no es proposa a les despeses",
+      "restoredToast": "«{name}» recuperat",
+      "readOnly": "Només lectura: els proveïdors els porta un soci.",
+      "archivedHint": "Està arxivat: recupera'l per registrar-hi despeses.",
+      "noTaxId": "Sense NIF",
+      "copyIban": "Copia l'IBAN",
+      "ibanCopied": "IBAN copiat",
+      "copyFailed": "No s'ha pogut copiar",
+      "notes": "Notes",
+      "meta": {
+        "contact": "Persona de contacte",
+        "email": "Correu electrònic",
+        "phone": "Telèfon",
+        "website": "Web",
+        "taxId": "NIF i país",
+        "iban": "IBAN"
+      },
+      "stats": {
+        "year": "Aquest any",
+        "yearHint": "{count, plural, =0 {Sense despeses el {year}} one {# despesa el {year}} other {# despeses el {year}}}",
+        "total": "Total",
+        "totalHint": "{count, plural, one {# despesa des del {date}} other {# despeses des del {date}}}",
+        "noExpenses": "Encara sense despeses",
+        "pending": "Per pagar",
+        "pendingHint": "{count, plural, =0 {Tot pagat} one {# despesa pendent} other {# despeses pendents}}",
+        "overdueHint": "{amount} vençut ({count, plural, one {# despesa} other {# despeses}})",
+        "clients": "Clients",
+        "clientsHint": "{share} del cost és de clients",
+        "clientsNone": "Tot és de l'empresa"
+      },
+      "allocation": {
+        "title": "Per a qui?",
+        "description": "El que ens ha costat per a cada destinació.",
+        "period": "Període",
+        "year": "Aquest any",
+        "total": "Sempre",
+        "company": "La nostra empresa",
+        "hostedSites": "Webs allotjades",
+        "hostedSitesHint": "Es reparteix entre les webs que allotgem",
+        "unknownClient": "Client",
+        "expenses": "{count, plural, one {# despesa} other {# despeses}}",
+        "pending": "{amount} per pagar",
+        "summary": "{count, plural, one {# despesa} other {# despeses}} · {amount}",
+        "clientShare": "{share} per a {count, plural, one {# client} other {# clients}}",
+        "otherClients": "{count, plural, one {# client més} other {# clients més}}",
+        "caption": "Cost per destinació",
+        "empty": "Encara no hi ha despeses seves: aquí es veurà per a qui ha treballat.",
+        "emptyYear": "Res aquest any. Mira «Sempre»."
+      },
+      "expenses": {
+        "title": "Últimes despeses",
+        "description": "{count, plural, one {# despesa en total} other {# despeses en total}}",
+        "all": "Mostra totes les seves despeses",
+        "more": "{count, plural, one {Mostra la despesa} other {Mostra les # despeses}}",
+        "empty": "Encara no hi ha despeses seves.",
+        "emptyAction": "Registra la primera",
+        "company": "Empresa",
+        "client": "Client",
+        "hostedSites": "Webs allotjades",
+        "hasAttachment": "Amb justificant",
+        "due": "Venç el {date}"
+      }
+    },
+    "client": {
+      "title": "Proveïdors i freelances",
+      "description": "{count, plural, one {# proveïdor ha treballat per a aquest client} other {# proveïdors han treballat per a aquest client}} · {amount} en total",
+      "empty": "Cap proveïdor ni freelance no ha treballat encara per a aquest client.",
+      "vendor": "Proveïdor",
+      "year": "Aquest any",
+      "total": "Total",
+      "expenses": "{count, plural, one {# despesa} other {# despeses}}",
+      "last": "l'última, el {date}",
+      "allExpenses": "Mostra'n les despeses",
+      "yearTotal": "{amount} el {year}"
+    },
+    "notFound": {
+      "title": "Aquest proveïdor no existeix",
+      "body": "Potser l'enllaç no és correcte o ja no hi tens accés.",
+      "back": "Torna a proveïdors"
+    },
+    "validation": {
+      "taxIdVendor": "Només lletres i números (de 2 a 20)",
+      "countryCode": "Codi de país de 2 lletres (ES, IE…)",
+      "phone": "Telèfon no vàlid",
+      "website": "Web no vàlida (p. ex. estudi.cat)"
+    },
+    "errors": {
+      "notFound": "Aquest proveïdor ja no existeix o no hi tens accés. Recarrega la pàgina.",
+      "duplicateTaxId": "Ja hi ha un altre proveïdor amb aquest NIF.",
+      "reference": "La categoria triada ja no existeix. Recarrega la pàgina.",
+      "invalid": "Alguna dada no és vàlida. Revisa el formulari."
+    },
+    "settingsLink": {
+      "title": "Proveïdors i freelances",
+      "body": "{count, plural, =0 {Tenen el seu propi apartat a Finances: el que costa cadascun i per a qui.} one {# proveïdor · tenen el seu propi apartat a Finances: el que costa cadascun i per a qui.} other {# proveïdors · tenen el seu propi apartat a Finances: el que costa cadascun i per a qui.}}",
+      "action": "Ves a Proveïdors"
+    }
+  }
+}

@@ -47,3 +47,8 @@ src/lib/supabase/database.generated.ts.tmp
 
 # Copia local del visor de documentos (se regenera)
 .claude/docs-viewer/
+
+# Despliegue: el bundle y los códigos de los socios nunca se suben
+deploy/out/
+deploy/codigos-*.txt
+deploy/*.log

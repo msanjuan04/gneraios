@@ -1,0 +1,193 @@
+{
+  "vendors": {
+    "tab": "Suppliers",
+    "kinds": {
+      "company": "Company",
+      "freelancer": "Freelancer"
+    },
+    "list": {
+      "new": "New supplier",
+      "readOnly": "Read-only: suppliers are managed by a partner.",
+      "search": "Search by name, NIF, contact or email",
+      "clearSearch": "Clear search",
+      "filters": {
+        "label": "Supplier type",
+        "all": "All",
+        "company": "Companies",
+        "freelancer": "Freelancers"
+      },
+      "showArchived": "{count, plural, one {Show # archived} other {Show # archived}}",
+      "summary": {
+        "label": "Summary of what's shown",
+        "vendors": "{count, plural, =0 {No suppliers} one {# supplier} other {# suppliers}}",
+        "freelancers": "{count, plural, =0 {no freelancers} one {# freelancer} other {# freelancers}}",
+        "year": "This year",
+        "total": "Total",
+        "pending": "To pay",
+        "overdue": "{amount} overdue"
+      },
+      "columns": {
+        "vendor": "Supplier",
+        "taxId": "NIF",
+        "yearCost": "This year",
+        "cost": "Total",
+        "pending": "To pay",
+        "clients": "Clients",
+        "lastExpense": "Last expense",
+        "sortBy": "Sort by “{column}”"
+      },
+      "archived": "Archived",
+      "overdueHint": "{amount} overdue",
+      "noExpenses": "No expenses",
+      "noResultsTitle": "No suppliers match",
+      "noResultsBody": "Try another name or NIF, or change the filter.",
+      "showAll": "Show all",
+      "createdToast": "“{name}” created",
+      "open": "Open"
+    },
+    "empty": {
+      "title": "No suppliers yet",
+      "body": "Add whoever invoices you, a company or a freelancer, to see what they cost you and which clients they work for. They're also created automatically when you record an expense.",
+      "create": "New supplier",
+      "readOnly": "A partner adds them."
+    },
+    "sheet": {
+      "createTitle": "New supplier",
+      "editTitle": "Edit supplier",
+      "description": "A company or a freelancer who invoices you. Only the name is required.",
+      "sectionWho": "Who they are",
+      "kind": "Supplier type",
+      "kindHints": {
+        "company": "SaaS, hosting, accountant, another agency…",
+        "freelancer": "A person who invoices you for their work"
+      },
+      "name": "Name or legal name",
+      "namePlaceholder": "Clara Font Studio",
+      "taxId": "NIF or VAT number",
+      "taxIdHint": "The one on their invoices, without spaces or hyphens.",
+      "country": "Country",
+      "countryHint": "2-letter code: ES, IE, US…",
+      "sectionContact": "Contact",
+      "contactName": "Contact person",
+      "email": "Email",
+      "phone": "Phone",
+      "website": "Website",
+      "sectionPayment": "Payment and expenses",
+      "iban": "IBAN",
+      "ibanHint": "The account you transfer their payments to.",
+      "category": "Usual category",
+      "categoryHint": "Suggested when recording one of their expenses.",
+      "noCategory": "None",
+      "notes": "Notes",
+      "notesPlaceholder": "Rates, terms, how and when they invoice…",
+      "create": "Create supplier",
+      "save": "Save",
+      "savedToast": "Supplier saved"
+    },
+    "detail": {
+      "back": "Suppliers",
+      "archivedBadge": "Archived",
+      "newExpense": "Record expense",
+      "edit": "Edit",
+      "archive": "Archive",
+      "restore": "Restore",
+      "undo": "Undo",
+      "archivedToast": "“{name}” archived: it's no longer suggested for expenses",
+      "restoredToast": "“{name}” restored",
+      "readOnly": "Read-only: suppliers are managed by a partner.",
+      "archivedHint": "It's archived: restore it to record expenses for it.",
+      "noTaxId": "No NIF",
+      "copyIban": "Copy IBAN",
+      "ibanCopied": "IBAN copied",
+      "copyFailed": "Couldn't copy",
+      "notes": "Notes",
+      "meta": {
+        "contact": "Contact person",
+        "email": "Email",
+        "phone": "Phone",
+        "website": "Website",
+        "taxId": "NIF and country",
+        "iban": "IBAN"
+      },
+      "stats": {
+        "year": "This year",
+        "yearHint": "{count, plural, =0 {No expenses in {year}} one {# expense in {year}} other {# expenses in {year}}}",
+        "total": "Total",
+        "totalHint": "{count, plural, one {# expense since {date}} other {# expenses since {date}}}",
+        "noExpenses": "No expenses yet",
+        "pending": "To pay",
+        "pendingHint": "{count, plural, =0 {All paid} one {# expense pending} other {# expenses pending}}",
+        "overdueHint": "{amount} overdue ({count, plural, one {# expense} other {# expenses}})",
+        "clients": "Clients",
+        "clientsHint": "{share} of the cost is for clients",
+        "clientsNone": "All of it is the company's"
+      },
+      "allocation": {
+        "title": "Who was it for?",
+        "description": "What it has cost us for each purpose.",
+        "period": "Period",
+        "year": "This year",
+        "total": "All time",
+        "company": "Our company",
+        "hostedSites": "Hosted websites",
+        "hostedSitesHint": "Split across the websites we host",
+        "unknownClient": "Client",
+        "expenses": "{count, plural, one {# expense} other {# expenses}}",
+        "pending": "{amount} to pay",
+        "summary": "{count, plural, one {# expense} other {# expenses}} · {amount}",
+        "clientShare": "{share} for {count, plural, one {# client} other {# clients}}",
+        "otherClients": "{count, plural, one {# more client} other {# more clients}}",
+        "caption": "Cost by purpose",
+        "empty": "No expenses of theirs yet: this will show who they've worked for.",
+        "emptyYear": "Nothing this year. See “All time”."
+      },
+      "expenses": {
+        "title": "Latest expenses",
+        "description": "{count, plural, one {# expense in total} other {# expenses in total}}",
+        "all": "See all their expenses",
+        "more": "{count, plural, one {See the expense} other {See all # expenses}}",
+        "empty": "No expenses of theirs yet.",
+        "emptyAction": "Record the first one",
+        "company": "Company",
+        "client": "Client",
+        "hostedSites": "Hosted websites",
+        "hasAttachment": "With receipt",
+        "due": "Due {date}"
+      }
+    },
+    "client": {
+      "title": "Suppliers & freelancers",
+      "description": "{count, plural, one {# supplier has worked for this client} other {# suppliers have worked for this client}} · {amount} in total",
+      "empty": "No supplier or freelancer has worked for this client yet.",
+      "vendor": "Supplier",
+      "year": "This year",
+      "total": "Total",
+      "expenses": "{count, plural, one {# expense} other {# expenses}}",
+      "last": "latest on {date}",
+      "allExpenses": "See their expenses",
+      "yearTotal": "{amount} in {year}"
+    },
+    "notFound": {
+      "title": "This supplier doesn't exist",
+      "body": "The link may be wrong, or you may no longer have access to it.",
+      "back": "Back to suppliers"
+    },
+    "validation": {
+      "taxIdVendor": "Letters and numbers only (2 to 20)",
+      "countryCode": "2-letter country code (ES, IE…)",
+      "phone": "Invalid phone number",
+      "website": "Invalid website (e.g. estudi.cat)"
+    },
+    "errors": {
+      "notFound": "That supplier no longer exists or you don't have access. Reload the page.",
+      "duplicateTaxId": "There's already another supplier with that NIF.",
+      "reference": "The chosen category no longer exists. Reload the page.",
+      "invalid": "Some of the data isn't valid. Check the form."
+    },
+    "settingsLink": {
+      "title": "Suppliers and freelancers",
+      "body": "{count, plural, =0 {They have their own section in Finance: what each one costs and who it was for.} one {# supplier · they have their own section in Finance: what each one costs and who it was for.} other {# suppliers · they have their own section in Finance: what each one costs and who it was for.}}",
+      "action": "Go to Suppliers"
+    }
+  }
+}

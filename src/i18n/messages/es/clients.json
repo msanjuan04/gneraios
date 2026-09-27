@@ -35,7 +35,8 @@
       "emptyTitle": "Aún no hay clientes",
       "emptyBody": "Aquí vive cada cliente con sus datos fiscales, contactos, deals y actividad. Un lead también es un cliente: pasa a activo cuando gana su primer deal.",
       "emptyHint": "o pulsa <kbd>C</kbd> desde el listado",
-      "emptyReadOnly": "Cuando un socio dé de alta el primero, aparecerá aquí."
+      "emptyReadOnly": "Cuando un socio dé de alta el primero, aparecerá aquí.",
+      "attention": "{count, plural, one {# requiere atención} other {# requieren atención}}"
     },
     "form": {
       "createTitle": "Nuevo cliente",
@@ -85,7 +86,11 @@
       "countryCode": "Código de país de 2 letras (ES, FR…)",
       "website": "Web no válida (p. ej. gnerai.com)",
       "phone": "Teléfono no válido",
-      "dateTime": "Fecha y hora no válidas"
+      "dateTime": "Fecha y hora no válidas",
+      "money": "Importe no válido (p. ej. 1.250,00)",
+      "amountZero": "El importe no puede ser 0",
+      "receivedInFuture": "Un cobro no puede tener fecha futura",
+      "date": "Fecha no válida"
     },
     "errors": {
       "notFound": "Este cliente ya no existe o ha cambiado. Recarga la página.",
@@ -123,7 +128,7 @@
       "undo": "Deshacer",
       "stats": {
         "ltv": "LTV",
-        "ltvHint": "Sin facturas emitidas todavía",
+        "ltvHint": "Sin cobros ni facturas todavía",
         "since": "Cliente desde",
         "sinceNone": "Aún no ha ganado ningún deal",
         "openDeals": "Deals abiertos",
@@ -131,7 +136,9 @@
         "noAmount": "Sin importe estimado",
         "lastActivity": "Última actividad",
         "noActivity": "Nada registrado todavía",
-        "ltvSince": "Base sin IVA, desde el {date}"
+        "ltvSince": "Base sin IVA, desde el {date}",
+        "ltvSinceReceipts": "Cobrado sin factura, desde el {date}",
+        "ltvSinceMixed": "Facturado sin IVA y cobrado sin factura, desde el {date}"
       }
     },
     "summary": {
@@ -234,7 +241,76 @@
       "contact": "Con quién",
       "noContact": "Sin contacto",
       "submit": "Registrar",
-      "createdToast": "Actividad registrada"
+      "createdToast": "Actividad registrada",
+      "filterLabel": "Filtrar la actividad",
+      "showAll": "Ver toda la actividad ({count})",
+      "filters": {
+        "all": "Todo",
+        "activity": "Llamadas y notas",
+        "billing": "Facturación",
+        "stage": "Deals"
+      }
+    },
+    "health": {
+      "levels": {
+        "good": "Todo bien",
+        "warning": "Atención",
+        "danger": "En riesgo"
+      },
+      "panelTitle": {
+        "warning": "Este cliente pide atención",
+        "danger": "Este cliente está en riesgo"
+      },
+      "signals": {
+        "overdue": "{count, plural, one {# factura vencida} other {# facturas vencidas}} ({amount}): la más antigua, hace {days, plural, one {# día} other {# días}}.",
+        "silent": "{days, plural, =-1 {No hay ningún contacto registrado.} other {Sin contacto desde hace # días.}}",
+        "renewal": "Renueva el {date} ({amount}): {days, plural, =0 {hoy} one {en # día} other {en # días}}.",
+        "seoDrop": "Los clics de su web han caído un {percent} % en 28 días.",
+        "mrrDrop": "Su recurrente ha bajado un {percent} % en 90 días ({before} → {now} al mes)."
+      }
+    },
+    "collections": {
+      "title": "Cobros",
+      "summary": "Cobrado {total} · este año {year}",
+      "emptyShort": "Lo que te ha pagado, con o sin factura.",
+      "empty": "Aún no hay cobros. Registra lo que te ha pagado aunque no haya factura.",
+      "split": "{receipts} sin factura · {invoices} de facturas",
+      "last": "Último cobro el {date}",
+      "history": "{count, plural, one {Ver en el histórico} other {Ver los # en el histórico}}",
+      "invoicePayment": "Factura {number}",
+      "fromInvoice": "Factura",
+      "delete": "Borrar el cobro",
+      "deleteConfirm": "¿Borrar el cobro de {amount} del {date}? Dejará de contar como cobrado.",
+      "deleteConfirmAction": "Borrar",
+      "deletedToast": "Cobro de {amount} borrado",
+      "editTitle": "Cobro sin factura",
+      "editDescription": "{client}: corrige el importe, la fecha o el concepto.",
+      "errors": {
+        "notFound": "Este cobro ya no existe.",
+        "projectClient": "El proyecto no es de este cliente."
+      },
+      "form": {
+        "amount": "Importe",
+        "amountHint": "Lo que entró. En negativo, una devolución.",
+        "refund": "Es una devolución: resta de lo cobrado.",
+        "receivedOn": "Fecha de cobro",
+        "receivedOnHint": "El día en que entró el dinero.",
+        "concept": "Concepto",
+        "conceptPlaceholder": "Mantenimiento web de septiembre",
+        "method": "Método",
+        "project": "Proyecto",
+        "noProject": "Sin proyecto",
+        "reference": "Referencia",
+        "referencePlaceholder": "Nº de transferencia, Bizum…",
+        "notes": "Notas",
+        "save": "Registrar cobro",
+        "savedToast": "Cobro de {amount} registrado",
+        "updatedToast": "Cobro actualizado",
+        "footnote": "Un cobro sin factura no numera ninguna serie ni lleva IVA: cuenta como lo cobrado del cliente en su ficha, en el histórico y en la rentabilidad."
+      }
+    },
+    "expenses": {
+      "button": "Registrar gasto"
     }
   }
 }

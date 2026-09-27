@@ -31,10 +31,11 @@ export function QuoteActivityCard({ basePath, data }: { basePath: string; data: 
           <div className="min-w-0 flex-1">
             <p className="font-semibold">{t("accepted", { date: instant(data.acceptedAt) })}</p>
             {data.contract && (
-              <Button asChild variant="link" size="sm" className="h-auto px-0">
+              <Button asChild variant="link" size="sm" className="h-auto max-w-full shrink px-0">
                 <Link href={`${basePath}/contracts/${data.contract.id}`}>
                   <FileSignature data-icon="inline-start" />
-                  {t("contract", { title: data.contract.title })}
+                  {/* Un título largo se corta: en el móvil no debe ensanchar la página. */}
+                  <span className="min-w-0 truncate">{t("contract", { title: data.contract.title })}</span>
                   <ArrowRight data-icon="inline-end" />
                 </Link>
               </Button>

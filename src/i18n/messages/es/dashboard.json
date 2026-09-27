@@ -173,6 +173,86 @@
       "verifactuFrom": "Proveedor adaptado obligatorio desde el {date}",
       "drafts": "{count, plural, one {borrador por emitir} other {borradores por emitir}}",
       "reminders": "{count, plural, one {recordatorio por aprobar} other {recordatorios por aprobar}}"
-    }
+    },
+    "actionQueue": {
+      "title": "Por hacer",
+      "description": "Lo que espera a que alguien haga algo. Un clic y estás donde se hace.",
+      "emptyTitle": "Todo al día",
+      "empty": "Nada pendiente de emitir, enviar, pagar ni responder.",
+      "items": {
+        "drafts": {
+          "title": "{count, plural, one {# borrador de factura por emitir} other {# borradores de factura por emitir}}",
+          "hint": "Revísalos y emítelos de una vez"
+        },
+        "reminders": {
+          "title": "{count, plural, one {# recordatorio de cobro por enviar} other {# recordatorios de cobro por enviar}}",
+          "hint": "Preparados por el cron: revisa y envía"
+        },
+        "expiringQuotes": {
+          "title": "{count, plural, one {# presupuesto caduca esta semana} other {# presupuestos caducan esta semana}}",
+          "hint": "Un último empujón antes de que caduquen"
+        },
+        "waitingQuotes": {
+          "title": "{count, plural, one {# presupuesto sin respuesta} other {# presupuestos sin respuesta}}",
+          "hint": "Enviados hace más de 7 días: toca seguimiento"
+        },
+        "staleDeals": {
+          "title": "{count, plural, one {# deal con la próxima acción atrasada} other {# deals con la próxima acción atrasada}}",
+          "hint": "En el pipeline, marcados en rojo"
+        },
+        "overdueExpenses": {
+          "title": "{count, plural, one {# gasto vencido sin pagar} other {# gastos vencidos sin pagar}}",
+          "hint": "Evita recargos: págalos o apúntalos como pagados"
+        },
+        "dueExpenses": {
+          "title": "{count, plural, one {# gasto por pagar esta semana} other {# gastos por pagar esta semana}}",
+          "hint": "Vencen en los próximos 7 días"
+        },
+        "recommendations": {
+          "title": "{count, plural, one {# recomendación del consejo por revisar} other {# recomendaciones del consejo por revisar}}",
+          "hint": "Acéptalas, descártalas o pospónlas"
+        },
+        "clientsAtRisk": {
+          "title": "{count, plural, one {# cliente pide atención} other {# clientes piden atención}}",
+          "hint": "Cobros vencidos, sin contacto, renovación cerca o su web cayendo"
+        },
+        "bankPending": {
+          "title": "{count, plural, one {# movimiento del banco por conciliar} other {# movimientos del banco por conciliar}}",
+          "hint": "Casa cobros y gastos con un clic"
+        }
+      }
+    },
+    "goals": {
+      "label": "Objetivos",
+      "empty": "Marcad vuestros objetivos (MRR y facturación del año) y el dashboard os dirá cada día si llegáis.",
+      "mrrTitle": "Objetivo · {target}/mes para el {date}",
+      "progressLabel": "{percent} % del objetivo",
+      "mrrNeeded": "Faltan {gap}: {perMonth} al mes durante {months, plural, one {# mes} other {# meses}}.",
+      "mrrMissed": "La fecha ya pasó y faltaron {gap}.",
+      "mrrReached": "Objetivo cumplido. Toca marcar el siguiente.",
+      "mrrPace": "Al ritmo de los últimos 3 meses ({pace}/mes), llegaríais en {month}.",
+      "mrrNoPace": "El MRR no ha crecido en los últimos 3 meses: a este ritmo no se llega.",
+      "revenueTitle": "Facturación de {year} · objetivo {target}",
+      "invoicedSoFar": "facturado",
+      "revenueBarLabel": "{invoiced} % facturado, {projected} % contando lo firmado",
+      "revenueDetail": "Con lo firmado ({signed}) cerraríais el año en {projected}.",
+      "revenueGap": "Faltan {gap} por vender.",
+      "revenueCovered": "Lo firmado ya cubre el objetivo.",
+      "status": {
+        "reached": "Cumplido",
+        "on_track": "En camino",
+        "behind": "Por detrás",
+        "missed": "No se llegó"
+      }
+    },
+    "setupImportAction": "Importar clientes e histórico",
+    "setupCatalog": "Catálogo de servicios con vuestros precios",
+    "setupCatalogAction": "Crear el catálogo",
+    "setupGoogle": "Google conectado (Search Console y GA4)",
+    "setupGoogleAction": "Conectar",
+    "setupGoals": "Objetivos de MRR y de facturación del año",
+    "setupGoalsAction": "Marcarlos",
+    "setupPush": "Avisos en el móvil y la app instalada",
+    "setupPushAction": "Activarlos"
   }
 }

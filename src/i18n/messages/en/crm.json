@@ -1,0 +1,54 @@
+{
+  "crm": {
+    "clientStatus": {
+      "lead": "Lead",
+      "active": "Active",
+      "paused": "Paused",
+      "former": "Former client",
+      "pending_contact": "Contact pending",
+      "finished": "Finished",
+      "discarded": "Discarded",
+      "manualHint": "Status set by hand by a partner",
+      "autoHint": "Status from their contracts",
+      "change": "Client status",
+      "auto": "Automatic · {status}",
+      "changed": "Marked as “{status}”",
+      "changedAuto": "Back to automatic (from their contracts)",
+      "since": "since {date}",
+      "calculated": "from contracts: {status}"
+    },
+    "stageKind": {
+      "open": "Open",
+      "won": "Won",
+      "lost": "Lost"
+    },
+    "activityKind": {
+      "call": "Call",
+      "meeting": "Meeting",
+      "email": "Email",
+      "note": "Note"
+    },
+    "taxIdKind": {
+      "es": "Spanish NIF",
+      "eu_vat": "EU VAT number",
+      "foreign": "Foreign tax ID"
+    },
+    "timeline": {
+      "dealCreated": "New deal: {deal} · {to}",
+      "stageChange": "{deal}: {from} → {to}",
+      "contractSigned": "Contract signed: {title}",
+      "invoiceIssued": "Invoice {title} issued · {amount}",
+      "invoiceRectifying": "Corrective invoice {title} · {amount}",
+      "payment": "Payment for invoice {title} · {amount}"
+    },
+    "amount": {
+      "oneOff": "One-off",
+      "mrr": "Recurring / month",
+      "perMonth": "{amount}/month"
+    },
+    "daysInStage": "{count, plural, =0 {Today} one {# day} other {# days}}",
+    "overdue": "Overdue",
+    "noOwner": "No owner",
+    "unknownSource": "No source"
+  }
+}

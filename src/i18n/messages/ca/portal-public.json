@@ -1,0 +1,269 @@
+{
+  "portalPublic": {
+    "brand": {
+      "space": "El teu espai {brand}",
+      "privateLink": "Enllaç privat i personal: no el comparteixis.",
+      "providedBy": "Servei de {issuers}.",
+      "questions": "Dubtes? Escriu-nos a <mail>{email}</mail>.",
+      "skip": "Salta al contingut"
+    },
+    "link": {
+      "unknown": {
+        "title": "Aquest enllaç no funciona",
+        "text": "Potser està incomplet. Comprova que l’has copiat sencer o demana’n un de nou a qui te l’ha enviat."
+      },
+      "expired": {
+        "title": "Aquest enllaç ha caducat",
+        "text": "Per seguretat, els enllaços tenen data de caducitat. Demana’n un de nou a qui te l’ha enviat."
+      },
+      "revoked": {
+        "title": "Aquest enllaç ja no està actiu",
+        "text": "L’hem substituït per un altre. Demana el nou a qui te l’ha enviat."
+      }
+    },
+    "quote": {
+      "eyebrow": "Pressupost {number}",
+      "preparedFor": "Per a {client}",
+      "issuedBy": "De {issuer}",
+      "download": "Descarrega el PDF",
+      "backToSpace": "Torna al teu espai",
+      "summary": "D’un cop d’ull",
+      "vatIncluded": "IVA inclòs",
+      "state": {
+        "open": {
+          "title": "El teu pressupost està a punt",
+          "text": "Revisa’l amb calma. Quan vulguis, el pots acceptar aquí mateix en un minut. És vàlid fins al {date}."
+        },
+        "expired": {
+          "title": "Aquest pressupost va caducar el {date}",
+          "text": "Ja no es pot acceptar en línia. Escriu-nos i el revisem amb tu."
+        },
+        "accepted": {
+          "title": "Pressupost acceptat",
+          "byName": "El va acceptar {name} el {date}. Gràcies per la confiança.",
+          "noName": "Es va acceptar el {date}. Gràcies per la confiança."
+        },
+        "rejected": {
+          "title": "Pressupost rebutjat",
+          "text": "Ens ho vas indicar el {date}. Gràcies per respondre: si canvies d’idea, escriu-nos."
+        },
+        "closed": {
+          "title": "Aquest pressupost no està disponible",
+          "text": "Demana a qui te l’ha enviat que el revisi."
+        }
+      },
+      "done": {
+        "accepted": {
+          "title": "Gràcies, {name}!",
+          "text": "Hem rebut la teva acceptació del pressupost {number}. T’escriurem amb els passos següents."
+        },
+        "rejected": {
+          "title": "Gràcies per respondre",
+          "text": "Hem rebut la teva resposta. Si més endavant el vols reprendre, escriu-nos."
+        }
+      },
+      "accept": {
+        "title": "Accepta el pressupost",
+        "intro": "Deixa’ns el teu nom i el teu correu per confirmar-ho.",
+        "name": "Nom i cognoms",
+        "email": "Correu electrònic",
+        "signature": "Signatura",
+        "signatureHint": "Opcional: escriu el teu nom com a signatura.",
+        "consent": "He llegit i accepto el pressupost {number} i les seves condicions.",
+        "submit": "Accepta el pressupost",
+        "submitting": "Acceptant…",
+        "firstPayment": "Primer pagament, en acceptar-lo: {label} · {amount} (IVA inclòs).",
+        "evidence": "En acceptar-lo desem la data i l’hora, la teva IP, el teu navegador i una empremta del PDF d’aquest pressupost com a prova de l’acceptació."
+      },
+      "reject": {
+        "open": "No m’encaixa",
+        "title": "Rebutja el pressupost",
+        "reason": "Ens expliques per què? (opcional)",
+        "reasonPlaceholder": "L’abast, el preu, els terminis…",
+        "submit": "Rebutja el pressupost",
+        "submitting": "Enviant…",
+        "cancel": "Torna"
+      },
+      "errors": {
+        "name": "Escriu el teu nom.",
+        "email": "Escriu un correu vàlid.",
+        "consent": "Marca la casella per acceptar.",
+        "signature": "La signatura és massa llarga.",
+        "reason": "El motiu és massa llarg.",
+        "rateLimited": "Has fet massa intents. Espera una estona i torna-ho a provar.",
+        "changed": "El pressupost s’acaba d’actualitzar. Revisa la versió nova abans d’acceptar-la.",
+        "expired": "La validesa d’aquest pressupost ja ha passat.",
+        "closed": "Aquest pressupost ja té resposta.",
+        "link": "Aquest enllaç ja no és vàlid.",
+        "unavailable": "Ara mateix no podem registrar la teva resposta. Escriu-nos i ho resolem.",
+        "generic": "No s’ha pogut completar. Torna-ho a provar d’aquí a un moment."
+      }
+    },
+    "space": {
+      "greeting": {
+        "morning": "Bon dia, <hl>{name}</hl>",
+        "afternoon": "Bona tarda, <hl>{name}</hl>",
+        "evening": "Bona nit, <hl>{name}</hl>"
+      },
+      "intro": "Tot el teu projecte amb {brand}, en un sol lloc i al dia.",
+      "nav": "Seccions",
+      "highlights": {
+        "phases": "{done} de {total} fases",
+        "toPay": "{count, plural, one {# factura pendent} other {# factures pendents}}",
+        "allPaid": "Factures al dia",
+        "services": "{count, plural, one {# servei actiu} other {# serveis actius}}",
+        "quotes": "{count, plural, one {# pressupost per revisar} other {# pressupostos per revisar}}"
+      },
+      "sections": {
+        "progress": {
+          "title": "En què estem",
+          "subtitle": "Les fases del teu projecte i el que ve ara.",
+          "done": "Fet",
+          "current": "En curs",
+          "upcoming": "Després",
+          "plannedOn": "Previst: {date}",
+          "progress": "{done} de {total} fases completades",
+          "nextSteps": "Propers passos",
+          "empty": "Quan comenci un projecte per fases, veuràs aquí com avança.",
+          "kinds": {
+            "web": "Web",
+            "seo": "SEO",
+            "ads": "Publicitat en línia",
+            "branding": "Marca",
+            "social": "Xarxes socials",
+            "maintenance": "Manteniment",
+            "internal": "Intern",
+            "other": "Projecte"
+          },
+          "statuses": {
+            "planned": "Per començar",
+            "active": "En marxa",
+            "paused": "En pausa",
+            "done": "Acabat",
+            "cancelled": "Cancel·lat"
+          },
+          "tasks": "{done} de {total, plural, one {# tasca feta} other {# tasques fetes}}",
+          "nextDue": "Propera data prevista: {date}",
+          "nextTasks": "A continuació",
+          "taskStates": {
+            "doing": "En curs",
+            "review": "En revisió",
+            "todo": "Pendent"
+          },
+          "moreTasks": "{count, plural, one {I # tasca més} other {I # tasques més}}"
+        },
+        "work_log": {
+          "title": "El que hem fet",
+          "subtitle": "El darrer que hem treballat per a tu.",
+          "empty": "Aquí aniràs veient la feina que fem amb tu.",
+          "taskDone": "Tasca acabada · {project}"
+        },
+        "files": {
+          "title": "Lliuraments i material",
+          "subtitle": "Tot el que t’hem lliurat, sempre a mà.",
+          "download": "Descarrega",
+          "open": "Obre",
+          "link": "Enllaç",
+          "empty": "Quan et lliurem alguna cosa, la tindràs aquí."
+        },
+        "services": {
+          "title": "Els teus serveis",
+          "subtitle": "El que tens contractat ara mateix.",
+          "since": "Des del {date}",
+          "until": "fins al {date}",
+          "startsOn": "Comença el {date}",
+          "states": {
+            "active": "Actiu",
+            "paused": "En pausa",
+            "scheduled": "Programat"
+          },
+          "types": {
+            "one_off": "Projecte",
+            "monthly": "Mensual",
+            "yearly": "Anual",
+            "usage": "Per ús"
+          },
+          "empty": "Encara no tens serveis actius."
+        },
+        "documents": {
+          "title": "Documents",
+          "subtitle": "Factures, pressupostos i contractes.",
+          "toPay": "Pendent de pagament",
+          "pay": {
+            "transfer": "Per transferència",
+            "iban": "IBAN",
+            "holder": "Titular",
+            "amount": "Import",
+            "reference": "Concepte",
+            "dueOn": "Venç el {date}",
+            "overdue": "Va vèncer el {date}",
+            "sepa": "Domiciliada: es carregarà automàticament al teu compte. No has de fer res.",
+            "noIban": "Escriu-nos i et passem les dades per a la transferència.",
+            "copy": "Copia {what}",
+            "copied": "Copiat"
+          },
+          "invoices": "Factures",
+          "invoiceIssuedOn": "Emesa el {date}",
+          "invoiceStatus": {
+            "paid": "Pagada",
+            "pending": "Pendent",
+            "overdue": "Vençuda",
+            "voided": "Anul·lada",
+            "rectifying": "Rectificativa"
+          },
+          "downloadInvoice": "Descarrega la factura {number}",
+          "quotes": "Pressupostos",
+          "quoteOpen": "Pendent de la teva resposta · vàlid fins al {date}",
+          "quoteAccepted": "Acceptat el {date}",
+          "review": "Revisa i accepta",
+          "downloadQuote": "Descarrega el pressupost {number}",
+          "contracts": "Contractes",
+          "contractSigned": "Signat el {date}",
+          "contractStates": {
+            "active": "Actiu",
+            "paused": "En pausa",
+            "scheduled": "Programat",
+            "ended": "Finalitzat"
+          },
+          "signedCopy": "Pressupost acceptat",
+          "empty": "Encara no hi ha documents."
+        },
+        "requests": {
+          "title": "Demana alguna cosa",
+          "subtitle": "Un canvi, una idea, un dubte? Explica-ho i ho mirem.",
+          "subject": "Assumpte",
+          "subjectPlaceholder": "Què necessites",
+          "description": "Detalls",
+          "descriptionPlaceholder": "Tot el que ens ajudi a entendre-ho.",
+          "urgent": "És urgent",
+          "submit": "Envia",
+          "submitting": "Enviant…",
+          "sent": {
+            "title": "Rebut!",
+            "text": "Ja ho tenim. Et respondrem tan aviat com puguem."
+          },
+          "another": "Envia una altra petició",
+          "errors": {
+            "subject": "Escriu l’assumpte.",
+            "description": "Explica’ns una mica més.",
+            "rateLimited": "Has enviat diverses peticions seguides. Espera una estona i torna-ho a provar.",
+            "generic": "No s’ha pogut enviar. Torna-ho a provar d’aquí a un moment."
+          }
+        },
+        "web_data": {
+          "title": "Dades del teu web",
+          "subtitle": "El que mesuren Google Search Console i Google Analytics de {site}.",
+          "range": "Del {from} al {to}",
+          "clicks": "Clics des de Google",
+          "impressions": "Aparicions a Google",
+          "position": "Posició mitjana",
+          "sessions": "Visites des de cercadors",
+          "change": "{value} respecte als 28 dies anteriors",
+          "measured": "Dades mesurades tal qual, sense estimacions ni previsions.",
+          "demo": "Dades de demostració.",
+          "empty": "Encara no hi ha dades mesurades del teu web."
+        }
+      }
+    }
+  }
+}

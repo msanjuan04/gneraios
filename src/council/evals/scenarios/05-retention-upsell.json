@@ -1,0 +1,63 @@
+{
+  "id": "retention-upsell",
+  "title": "Retención: venta cruzada según una regla de la org",
+  "description": "Can Sorra tiene web y mantenimiento pero no SEO; la regla «Web sin SEO» tiene precio de referencia (450 €/mes), que es el impacto.",
+  "job": {
+    "agent": "retention",
+    "trigger": "weekly"
+  },
+  "replay": {
+    "retention:scan": [
+      {
+        "calls": [
+          {
+            "name": "get_upsell_candidates"
+          }
+        ],
+        "output": {
+          "recommendations": [
+            {
+              "kind": "decision",
+              "title": "Proponer SEO local a Restaurant Can Sorra",
+              "summary": "Can Sorra tiene la web con mantenimiento y no tiene SEO. El SEO local tiene un precio de referencia de 450 € al mes.",
+              "reasoning": "Regla de la org «Web sin SEO»: cliente desde hace 19 meses, con un MRR de 90 € y un solo servicio.",
+              "evidence": [
+                "upsell.rule-web-seo.c1.potential",
+                "upsell.rule-web-seo.c1.months",
+                "upsell.rule-web-seo.c1.mrr"
+              ],
+              "impact_ref": "upsell.rule-web-seo.c1.potential",
+              "proposed_actions": [
+                {
+                  "title": "Preparar una propuesta de SEO local para Can Sorra",
+                  "due_in_days": 14
+                }
+              ],
+              "confidence": "media",
+              "urgency": "este_mes",
+              "risks": "Que el restaurante no tenga presupuesto este trimestre.",
+              "requires_professional_review": false,
+              "subject": "upsell:rule-web-seo:c1",
+              "policy_rule": null,
+              "missing_data": []
+            }
+          ],
+          "silence_reason": null
+        }
+      }
+    ]
+  },
+  "expect": {
+    "published": {
+      "min": 1,
+      "max": 1
+    },
+    "tools": [
+      "get_upsell_candidates"
+    ],
+    "titles": [
+      "Can Sorra"
+    ],
+    "impactCents": 45000
+  }
+}

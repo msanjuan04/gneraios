@@ -1,0 +1,16 @@
+{
+  "issuerKind": {
+    "company": "Company",
+    "self_employed": "Self-employed"
+  },
+  "seriesKind": {
+    "ordinary": "Standard",
+    "rectifying": "Corrective"
+  },
+  "vatRegime": {
+    "general": "General",
+    "exempt": "Exempt",
+    "reverse_charge_eu": "Reverse charge (EU)",
+    "not_subject": "Not subject to VAT"
+  }
+}

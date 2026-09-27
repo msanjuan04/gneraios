@@ -1,0 +1,73 @@
+{
+  "id": "dismissed-cooldown",
+  "title": "Deduplicación: descartada hace poco, y el motivo vuelve al agente",
+  "description": "Los socios descartaron hace diez días reclamar a Mar Blau («ya han pagado por transferencia»). El motivo tiene que llegar al agente y la recomendación no se repite.",
+  "job": {
+    "agent": "retention",
+    "trigger": "weekly"
+  },
+  "existing": [
+    {
+      "agent": "retention",
+      "title": "Reclamar las facturas vencidas de Mar Blau",
+      "subject": "client:c2",
+      "status": "descartada",
+      "decisionNote": "Ya han pagado por transferencia, falta conciliar",
+      "daysAgo": 10,
+      "impactCents": 145200
+    }
+  ],
+  "replay": {
+    "retention:scan": [
+      {
+        "calls": [
+          {
+            "name": "get_at_risk_clients"
+          },
+          {
+            "name": "get_receivables"
+          }
+        ],
+        "output": {
+          "recommendations": [
+            {
+              "kind": "decision",
+              "title": "Reclamar hoy las facturas vencidas de Mar Blau",
+              "summary": "Mar Blau debe 1.452 € con 57 días de retraso y no hay actividad desde hace 117 días.",
+              "reasoning": "Tiene 3 facturas vencidas y un MRR de 750 € en juego si se enfría la relación.",
+              "evidence": [
+                "receivables.client.c2.overdue",
+                "receivables.client.c2.max_days",
+                "risk.c2.quiet_days",
+                "receivables.client.c2.count",
+                "risk.c2.mrr"
+              ],
+              "impact_ref": "receivables.client.c2.overdue",
+              "proposed_actions": [
+                {
+                  "title": "Llamar a la clínica para acordar el pago",
+                  "due_in_days": 0
+                }
+              ],
+              "confidence": "alta",
+              "urgency": "hoy",
+              "risks": "Que el cliente se moleste si la llamada es brusca.",
+              "requires_professional_review": false,
+              "subject": "client:c2",
+              "policy_rule": null,
+              "missing_data": []
+            }
+          ],
+          "silence_reason": null
+        }
+      }
+    ]
+  },
+  "expect": {
+    "silent": true,
+    "silencedReason": "descart",
+    "promptIncludes": [
+      "Ya han pagado por transferencia"
+    ]
+  }
+}

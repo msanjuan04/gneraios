@@ -1,0 +1,115 @@
+{
+  "funnel": {
+    "metaTitle": "Funnel · Pipeline",
+    "deals": "{count, plural, one {# deal} other {# deals}}",
+    "filters": {
+      "label": "Period",
+      "presets": {
+        "last30": "Last 30 days",
+        "last90": "Last 90 days",
+        "thisYear": "This year",
+        "all": "All time"
+      },
+      "custom": "Date range",
+      "from": "From",
+      "to": "To",
+      "apply": "Apply",
+      "since": "Since {date}",
+      "until": "Until {date}"
+    },
+    "kpi": {
+      "label": "Period summary",
+      "created": "Deals created",
+      "createdHint": "Created in the period",
+      "createdHintAll": "Since the first deal",
+      "won": "Won",
+      "lost": "Lost",
+      "closedHint": "Closed in the period",
+      "closedHintAll": "Closed to date",
+      "closeRate": "Close rate",
+      "closeRateHint": "{won} of {closed, plural, one {# closed deal} other {# closed deals}}",
+      "closeRateNone": "No deals closed in the period",
+      "closeRateNoneAll": "No closed deals yet",
+      "wonOneOff": "Won one-off",
+      "wonOneOffHint": "Estimated one-off amount of won deals",
+      "wonMrr": "Won recurring",
+      "wonMrrHint": "Estimated monthly fee of won deals",
+      "perMonth": "{amount}<unit>/month</unit>"
+    },
+    "conversion": {
+      "title": "Conversion by stage",
+      "description": "Deals created in the period, each counted up to the furthest stage it reached.",
+      "overall": "<strong>{rate}</strong> of deals that enter {first} reach {last}.",
+      "footnote": "Reaching a later stage counts as having gone through the earlier ones.",
+      "toNext": "{rate} move on to {stage}",
+      "ofFirst": "{rate} of those that entered",
+      "empty": "No deals created in this period.",
+      "seeAll": "See all history",
+      "noStages": "The pipeline has no open or won stages.",
+      "colStage": "Stage",
+      "colDeals": "Deals",
+      "colOfFirst": "Of entries",
+      "colToNext": "To next stage"
+    },
+    "time": {
+      "title": "Average time per stage",
+      "description": "Average number of days that deals created in the period spend in each stage. Only completed stages count.",
+      "valueShort": "{days} d",
+      "days": "{days, plural, one {# day} other {# days}}",
+      "average": "{days, plural, one {# day} other {# days}} on average",
+      "median": "Median: {days, plural, one {# day} other {# days}}",
+      "samples": "{count, plural, one {# step measured} other {# steps measured}}",
+      "noData": "No data",
+      "empty": "No completed stages yet: time is measured when a deal leaves a stage.",
+      "emptyPeriod": "No deals created in this period.",
+      "colStage": "Stage",
+      "colAverage": "Average",
+      "colMedian": "Median",
+      "colSamples": "Steps measured"
+    },
+    "closeRate": {
+      "sourceTitle": "Close rate by source",
+      "sourceDescription": "Won out of closed (won plus lost) by close date, according to the deal's source.",
+      "partnerTitle": "Close rate by partner",
+      "partnerDescription": "Won out of closed by close date, according to the partner who brought in the deal.",
+      "detail": "{won, plural, one {# won} other {# won}} · {lost, plural, one {# lost} other {# lost}}",
+      "ratio": "{won}/{closed}",
+      "empty": "No deals closed in this period.",
+      "colSource": "Source",
+      "colPartner": "Partner",
+      "colWon": "Won",
+      "colLost": "Lost",
+      "colRate": "Rate"
+    },
+    "loss": {
+      "title": "Loss reasons",
+      "description": "Deals lost by close date, according to the reason.",
+      "share": "{rate} of losses",
+      "others": "And {count, plural, one {# more deal} other {# more deals}} with other reasons.",
+      "empty": "No deals lost in this period.",
+      "colReason": "Reason",
+      "colDeals": "Deals",
+      "colShare": "Of total"
+    },
+    "chart": {
+      "showTable": "Show as table"
+    },
+    "labels": {
+      "noSource": "No source",
+      "archivedSource": "Archived source",
+      "noPartner": "No partner",
+      "inactivePartner": "Inactive partner",
+      "noReason": "No reason",
+      "archivedReason": "Archived reason"
+    },
+    "empty": {
+      "title": "The funnel fills itself",
+      "body": "As soon as there are deals on the board, you'll see here how they move through the pipeline:",
+      "conversion": "How many move from each stage to the next",
+      "time": "How long they spend in each stage",
+      "closeRate": "The close rate by source and by partner",
+      "loss": "Why they are lost",
+      "cta": "Go to the board"
+    }
+  }
+}

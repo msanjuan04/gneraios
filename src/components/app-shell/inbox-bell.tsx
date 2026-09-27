@@ -1,21 +1,50 @@
 "use client";
 
-import { AlertTriangle, Bell, CalendarClock, CheckCheck, Mail, ShieldAlert, type LucideIcon } from "lucide-react";
+import {
+  Activity,
+  AlertTriangle,
+  Bell,
+  CalendarClock,
+  CheckCheck,
+  CircleCheck,
+  CircleX,
+  Globe,
+  LockKeyhole,
+  Mail,
+  MessageSquarePlus,
+  ServerCrash,
+  ShieldAlert,
+  type LucideIcon,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useFormatter, useNow, useTranslations } from "next-intl";
 import { useCallback, useEffect, useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { formatMoney } from "@/domain/money";
+import { notificationMessageKey, notificationValues } from "@/domain/notifications/text";
 import { cn } from "@/lib/utils";
 import { getInbox, type InboxItem, markInboxRead } from "@/server/notifications";
 import { useShell } from "./shell-context";
+import { notAfter } from "@/lib/relative-time";
 
 const ICONS: Record<InboxItem["kind"], { icon: LucideIcon; tone: string }> = {
   renewal: { icon: CalendarClock, tone: "text-primary" },
   reminder_ready: { icon: Mail, tone: "text-warning" },
   job_failed: { icon: AlertTriangle, tone: "text-destructive" },
   verifactu_deadline: { icon: ShieldAlert, tone: "text-warning" },
+  // Portal del cliente (src/server/portal): aceptado o rechazado online y peticiones.
+  quote_accepted: { icon: CircleCheck, tone: "text-success" },
+  quote_rejected: { icon: CircleX, tone: "text-muted-foreground" },
+  portal_request: { icon: MessageSquarePlus, tone: "text-primary" },
+  // Un socio ha entrado desde un dispositivo nuevo (entrada con código).
+  new_device: { icon: ShieldAlert, tone: "text-warning" },
+  // Webs (src/server/sites): caída, vuelta, certificado SSL y dominio a punto de caducar.
+  site_down: { icon: ServerCrash, tone: "text-destructive" },
+  site_up: { icon: Activity, tone: "text-success" },
+  ssl_expiring: { icon: LockKeyhole, tone: "text-warning" },
+  domain_expiring: { icon: Globe, tone: "text-warning" },
+  subscription_renewal: { icon: CalendarClock, tone: "text-warning" },
 };
 
 const REFRESH_MS = 60_000;
@@ -42,21 +71,12 @@ export function InboxBell() {
     return () => clearInterval(timer);
   }, [refresh]);
 
-  const civil = (value: string | number | undefined) =>
-    typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value)
-      ? format.dateTime(new Date(`${value}T12:00:00Z`), { dateStyle: "medium", timeZone: "UTC" })
-      : String(value ?? "");
-
   const text = (item: InboxItem) => {
-    const p = item.params;
-    const values = {
-      ...p,
-      date: civil(p.date),
-      amount: typeof p.amount_cents === "number" ? formatMoney(p.amount_cents) : "",
-      days: typeof p.days === "number" ? p.days : 0,
-    };
-    const key = item.kind === "verifactu_deadline" && values.days === 0 ? "verifactu_required" : item.kind;
-    return t(`kinds.${key}`, values);
+    const values = notificationValues(item.params, {
+      date: (civil) => format.dateTime(new Date(`${civil}T12:00:00Z`), { dateStyle: "medium", timeZone: "UTC" }),
+      money: (cents) => formatMoney(cents),
+    });
+    return t(`kinds.${notificationMessageKey(item.kind, item.params)}`, values);
   };
 
   const openItem = (item: InboxItem) => {
@@ -125,7 +145,7 @@ export function InboxBell() {
                     <span className="min-w-0 flex-1">
                       <span className="block leading-snug">{text(item)}</span>
                       <span className="mt-1 block text-xs text-muted-foreground">
-                        {format.relativeTime(new Date(item.createdAt), now)}
+                        {format.relativeTime(notAfter(new Date(item.createdAt), now), now)}
                       </span>
                     </span>
                     {!item.read && <span aria-hidden className="mt-1.5 size-2 shrink-0 rounded-full bg-primary" />}

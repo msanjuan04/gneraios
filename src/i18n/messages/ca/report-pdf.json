@@ -1,0 +1,156 @@
+{
+  "reportPdf": {
+    "document": "Informe mensual",
+    "filename": "informe",
+    "monthYear": "{month} de {year}",
+    "months": {
+      "01": "gener",
+      "02": "febrer",
+      "03": "març",
+      "04": "abril",
+      "05": "maig",
+      "06": "juny",
+      "07": "juliol",
+      "08": "agost",
+      "09": "setembre",
+      "10": "octubre",
+      "11": "novembre",
+      "12": "desembre"
+    },
+    "versus": {
+      "01": "respecte al gener",
+      "02": "respecte al febrer",
+      "03": "respecte al març",
+      "04": "respecte a l’abril",
+      "05": "respecte al maig",
+      "06": "respecte al juny",
+      "07": "respecte al juliol",
+      "08": "respecte a l’agost",
+      "09": "respecte al setembre",
+      "10": "respecte a l’octubre",
+      "11": "respecte al novembre",
+      "12": "respecte al desembre"
+    },
+    "header": {
+      "period": "Període",
+      "generatedOn": "Data de l’informe",
+      "sender": "Preparat per",
+      "inProgress": "Mes en curs: dades fins al {date}."
+    },
+    "summary": {
+      "tasksDone": "Tasques acabades",
+      "nextSteps": "Propers passos",
+      "deliverables": "Lliuraments",
+      "visits": "Visites al web",
+      "hours": "Hores dedicades"
+    },
+    "workDone": {
+      "title": "El que hem fet",
+      "empty": "Aquest mes no hi ha tasques acabades.",
+      "activities": "Reunions i comunicacions",
+      "kinds": {
+        "call": "Trucada",
+        "meeting": "Reunió",
+        "email": "Correu",
+        "note": "Nota"
+      }
+    },
+    "hours": {
+      "title": "Hores dedicades",
+      "other": "Altres feines",
+      "total": "Total del mes"
+    },
+    "nextSteps": {
+      "title": "Propers passos",
+      "empty": "No hi ha propers passos marcats.",
+      "more": "I {count} més.",
+      "status": {
+        "todo": "Per començar",
+        "doing": "En curs",
+        "review": "En revisió"
+      }
+    },
+    "deliverables": {
+      "title": "Lliuraments",
+      "file": "Fitxer",
+      "link": "Enllaç"
+    },
+    "web": {
+      "title": "Dades del teu web",
+      "subtitle": "El que mesuren Google Search Console i Google Analytics de {site}.",
+      "clicks": "Clics des de Google",
+      "impressions": "Aparicions a Google",
+      "position": "Posició mitjana",
+      "visits": "Visites al web",
+      "noChange": "Sense canvis",
+      "positionUp": {
+        "one": "{value} posició més amunt",
+        "other": "{value} posicions més amunt"
+      },
+      "positionDown": {
+        "one": "{value} posició més avall",
+        "other": "{value} posicions més avall"
+      },
+      "previousMonth": "Mes anterior: {value}",
+      "channels": "D’on venen les visites",
+      "queries": "Cerques amb més clics",
+      "query": "Cerca",
+      "queryClicks": "Clics",
+      "queryPrevious": "Mes anterior",
+      "queryPosition": "Posició mitjana",
+      "partial": "Dades del {from} al {to}.",
+      "noComparison": "Sense comparació amb el mes anterior: no hi ha dades dels dos mesos sencers.",
+      "measured": "Dades mesurades tal qual per Google, sense estimacions ni previsions.",
+      "demo": "Dades de demostració.",
+      "channelNames": {
+        "organic_search": "Cerca orgànica",
+        "paid_search": "Anuncis en cercadors",
+        "organic_social": "Xarxes socials",
+        "paid_social": "Anuncis a les xarxes",
+        "direct": "Directe",
+        "referral": "Altres webs",
+        "email": "Correu",
+        "other": "Altres"
+      }
+    },
+    "services": {
+      "title": "Serveis actius",
+      "recurring": "Serveis",
+      "oneOff": "Projectes",
+      "types": {
+        "one_off": "Projecte",
+        "monthly": "Mensual",
+        "yearly": "Anual",
+        "usage": "Per ús"
+      },
+      "since": "Des del {date}",
+      "until": "fins al {date}",
+      "paused": "En pausa part del mes"
+    },
+    "invoices": {
+      "title": "Facturació",
+      "issued": "Factures del mes",
+      "noneIssued": "Aquest mes no s’ha emès cap factura.",
+      "pending": "Altres factures pendents de pagament",
+      "number": "Número",
+      "date": "Data",
+      "due": "Venciment",
+      "total": "Total",
+      "outstanding": "Pendent",
+      "status": "Estat",
+      "statuses": {
+        "paid": "Pagada",
+        "pending": "Pendent",
+        "overdue": "Vençuda",
+        "voided": "Anul·lada",
+        "rectifying": "Rectificativa"
+      },
+      "pendingTotal": "Pendent de pagament a {date}",
+      "allPaid": "Tot pagat a {date}.",
+      "note": "Imports amb IVA. Estat a {date}."
+    },
+    "footer": {
+      "page": "Pàgina {current} / {total}"
+    }
+  }
+}

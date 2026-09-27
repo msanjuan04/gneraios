@@ -2,12 +2,12 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
-import type { KeyboardEvent } from "react";
+import { type KeyboardEvent, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import { createActivity } from "@/app/[org]/clients/actions";
 import { ACTIVITY_KINDS, type ActivityFormInput, activityFormSchema } from "@/app/[org]/clients/schema";
-import { FormField } from "@/components/settings/form-field";
+import { FormField, ToggleField } from "@/components/settings/form-field";
 import { SettingsSheet, SheetForm } from "@/components/settings/settings-sheet";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -54,7 +54,10 @@ function ActivityForm({
   const t = useTranslations("clients.activity");
   const tKind = useTranslations("crm.activityKind");
   const tCommon = useTranslations("common");
+  const tPortal = useTranslations("portal.activity");
   const message = useClientValidationMessage();
+  // Portal del cliente: si sale en «Lo que hemos hecho». Por defecto, nada es visible.
+  const [clientVisible, setClientVisible] = useState(false);
   const form = useForm<ActivityFormInput>({
     resolver: zodResolver(activityFormSchema),
     defaultValues: { kind: "note", title: "", body: "", occurred_at: defaultOccurredAt, deal_id: "", contact_id: "" },
@@ -65,7 +68,7 @@ function ActivityForm({
   const kind = useWatch({ control, name: "kind" });
 
   const submit = form.handleSubmit(async () => {
-    const result = await createActivity(slug, clientId, getValues());
+    const result = await createActivity(slug, clientId, { ...getValues(), client_visible: clientVisible });
     if (!result.ok) {
       toast.error(result.error);
       return;
@@ -208,6 +211,15 @@ function ActivityForm({
             )}
           />
         )}
+
+        <ToggleField
+          id="activity-client-visible"
+          label={tPortal("clientVisible")}
+          description={tPortal("clientVisibleHint")}
+          checked={clientVisible}
+          onCheckedChange={setClientVisible}
+          className="sm:col-span-2"
+        />
       </div>
     </SheetForm>
   );

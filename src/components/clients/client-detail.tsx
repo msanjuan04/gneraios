@@ -4,7 +4,6 @@ import {
   Archive,
   ArchiveRestore,
   ArrowLeft,
-  FolderKanban,
   IdCard,
   MapPin,
   Megaphone,
@@ -24,14 +23,27 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { formatMoney } from "@/domain/money";
+import { ClientMandateCard } from "@/components/collections/client-mandate-card";
 import { ClientContractsCard } from "@/components/contracts/client-contracts-card";
+import { ClientRebillCard } from "@/components/finance/client-rebill-card";
+import { InvoiceImportButton } from "@/components/invoice-import/invoice-import-button";
 import { ClientInvoicesCard } from "@/components/invoices/client-invoices-card";
 import { CreateQuoteButton } from "@/components/quotes/create-quote-button";
+import { ClientPortalCard } from "@/components/portal/client-portal-card";
+import { ClientProjectsCard } from "@/components/projects/client-projects-card";
+import { HealthPanel } from "./health-badge";
 import { ClientSeoCard } from "@/components/seo/client-seo-card";
+import { ClientSitesCard } from "@/components/sites/client-sites-card";
+import { ClientVendorsCard } from "@/components/vendors/client-vendors-card";
 import { ActivityCard } from "./activity-card";
+import { ClientCollectionsCard } from "./collections-card";
+import { RecordExpenseButton } from "./record-expense-button";
 import { ActivitySheet } from "./activity-sheet";
 import { ClientSheet } from "./client-sheet";
 import { ClientStatusBadge } from "./client-status-badge";
+import { ClientStatusControl } from "./client-status-control";
+import { ClientProfitabilityCard } from "@/components/profitability/client-profitability-card";
+import { ClientReportCard } from "@/components/reports/client-report-card";
 import { ContactsCard } from "./contacts-card";
 import { DealsCard } from "./deals-card";
 import { MemberAvatar } from "./member-avatar";
@@ -53,6 +65,10 @@ export function ClientDetail({ data }: { data: ClientDetailData }) {
   const { client, basePath, slug } = data;
   const archived = client.archived_at !== null;
   const canEdit = data.isPartner && !archived;
+  // LTV: lo facturado (base sin IVA) más lo cobrado sin factura, desde lo primero de los dos.
+  const receiptsCents = data.collections.summary.receiptsCents;
+  const ltvCents = data.billedNetCents + receiptsCents;
+  const ltvFrom = [data.firstInvoiceOn, receiptsCents !== 0 ? data.collections.summary.firstOn : null].filter((d): d is string => Boolean(d)).sort()[0] ?? null;
 
   const [editOpen, setEditOpen] = useState(false);
   const [archiveOpen, setArchiveOpen] = useState(false);
@@ -95,7 +111,18 @@ export function ClientDetail({ data }: { data: ClientDetailData }) {
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
             <h2 className="min-w-0 text-3xl font-extrabold break-words heading-tight md:text-4xl">{client.display_name}</h2>
-            <ClientStatusBadge status={data.status} />
+            {data.isPartner ? (
+              <ClientStatusControl
+                slug={slug}
+                clientId={client.id}
+                status={data.status}
+                manual={data.manualStatus}
+                manualAt={data.manualStatusAt}
+                disabled={archived}
+              />
+            ) : (
+              <ClientStatusBadge status={data.status} manual={data.manualStatus} />
+            )}
             {archived && (
               <Badge variant="outline" className="text-muted-foreground">
                 {t("archivedBadge")}
@@ -182,11 +209,11 @@ export function ClientDetail({ data }: { data: ClientDetailData }) {
       <dl className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <Stat
           label={t("stats.ltv")}
-          value={data.billedNetCents !== 0 ? money(data.billedNetCents) : "—"}
+          value={ltvCents !== 0 ? money(ltvCents) : "—"}
           hint={
-            data.firstInvoiceOn
-              ? t("stats.ltvSince", {
-                  date: format.dateTime(new Date(`${data.firstInvoiceOn}T12:00:00Z`), { dateStyle: "medium", timeZone: "UTC" }),
+            ltvFrom
+              ? t(receiptsCents === 0 ? "stats.ltvSince" : data.billedNetCents === 0 ? "stats.ltvSinceReceipts" : "stats.ltvSinceMixed", {
+                  date: format.dateTime(new Date(`${ltvFrom}T12:00:00Z`), { dateStyle: "medium", timeZone: "UTC" }),
                 })
               : t("stats.ltvHint")
           }
@@ -225,10 +252,41 @@ export function ClientDetail({ data }: { data: ClientDetailData }) {
         />
       </dl>
 
+      {data.health.level !== "good" && (
+        <div className="mt-6">
+          <HealthPanel health={data.health} />
+        </div>
+      )}
+
       <div className="mt-6 grid gap-6 lg:grid-cols-3">
         <div className="min-w-0 space-y-6 lg:col-span-2">
           <ClientContractsCard basePath={basePath} clientId={client.id} contracts={data.contracts} canEdit={canEdit} />
-          <ClientInvoicesCard basePath={basePath} clientId={client.id} data={data.invoices} canEdit={canEdit} />
+          <ClientCollectionsCard
+            slug={slug}
+            basePath={basePath}
+            clientId={client.id}
+            clientName={client.display_name}
+            data={data.collections}
+            projects={data.projects.projects.filter((p) => !p.archived).map((p) => ({ id: p.id, name: p.name }))}
+            today={data.today}
+            // Un cliente archivado también puede pagar lo que debía: el cobro no depende de archivarlo.
+            canEdit={data.isPartner}
+          />
+          <ClientVendorsCard
+            basePath={basePath}
+            clientId={client.id}
+            data={data.vendors}
+            actions={canEdit ? <RecordExpenseButton slug={slug} clientId={client.id} /> : undefined}
+          />
+          <ClientInvoicesCard
+            basePath={basePath}
+            clientId={client.id}
+            data={data.invoices}
+            canEdit={canEdit}
+            extraActions={canEdit ? <InvoiceImportButton slug={slug} clientId={client.id} size="sm" /> : undefined}
+          />
+          <ClientRebillCard slug={slug} clientId={client.id} clientName={client.display_name} data={data.rebills} canEdit={canEdit} />
+          <ClientProjectsCard slug={slug} basePath={basePath} clientId={client.id} data={data.projects} canEdit={canEdit} />
           <DealsCard basePath={basePath} clientId={client.id} deals={data.deals} canEdit={canEdit} />
           <ActivityCard
             slug={slug}
@@ -245,8 +303,12 @@ export function ClientDetail({ data }: { data: ClientDetailData }) {
         <div className="min-w-0 space-y-6">
           <SummaryCard data={data} />
           <ContactsCard slug={slug} clientId={client.id} contacts={data.contacts} canEdit={canEdit} />
+          <ClientPortalCard slug={slug} clientName={client.display_name} data={data.portal} canEdit={data.isPartner} />
+          <ClientMandateCard slug={slug} basePath={basePath} clientId={client.id} data={data.mandates} canEdit={canEdit} />
           <ClientSeoCard summary={data.seo} basePath={basePath} clientId={client.id} canManage={data.isPartner} />
-          <UpcomingCards />
+          <ClientSitesCard basePath={basePath} clientId={client.id} data={data.sites} canEdit={canEdit} />
+          {data.isPartner && <ClientProfitabilityCard slug={slug} clientId={client.id} />}
+          {data.isPartner && <ClientReportCard slug={slug} clientId={client.id} timeZone={data.timeZone} />}
         </div>
       </div>
 
@@ -358,25 +420,3 @@ function SummaryCard({ data }: { data: ClientDetailData }) {
   );
 }
 
-const UPCOMING = [
-  { key: "projects", icon: FolderKanban, badge: "phase2" },
-] as const;
-
-/** Lo que aún no ha llegado a la ficha, para que se vea el hueco y cuándo se llena. */
-function UpcomingCards() {
-  const t = useTranslations("clients.upcoming");
-  return (
-    <div className="space-y-2">
-      {UPCOMING.map((item) => (
-        <div key={item.key} className="flex items-center gap-3 rounded-2xl border border-dashed px-4 py-3 text-sm text-muted-foreground">
-          <item.icon className="size-4 shrink-0" />
-          <div className="min-w-0 flex-1">
-            <p className="font-semibold">{t(`${item.key}.title`)}</p>
-            <p className="truncate text-xs">{t(`${item.key}.body`)}</p>
-          </div>
-          <span className="shrink-0 rounded-full border px-2 py-0.5 text-[11px] font-semibold">{t(item.badge)}</span>
-        </div>
-      ))}
-    </div>
-  );
-}

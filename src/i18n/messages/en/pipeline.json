@@ -1,0 +1,80 @@
+{
+  "pipeline": {
+    "tabs": {
+      "board": "Board",
+      "funnel": "Funnel"
+    },
+    "title": "Pipeline",
+    "newDeal": "New deal",
+    "emptyTitle": "Your pipeline is empty",
+    "emptyBody": "Create your first lead: a client and the opportunity you have with them, in a single form.",
+    "emptyShortcut": "Shortcut: N",
+    "column": {
+      "count": "{count, plural, one {# deal} other {# deals}}",
+      "weighted": "Weighted",
+      "total": "Total",
+      "empty": "Drag here"
+    },
+    "card": {
+      "open": "Open {title}",
+      "moveHint": "⇧← ⇧→ to change stage"
+    },
+    "sheet": {
+      "createTitle": "New deal",
+      "editTitle": "Edit deal",
+      "description": "A lead is a deal in the first stage: create the client right here if it doesn't exist yet.",
+      "title": "Title",
+      "titlePlaceholder": "Website + local SEO",
+      "client": "Client",
+      "clientPlaceholder": "Search or type a new client…",
+      "createClient": "Create client “{name}”",
+      "newClient": "New client: {name}",
+      "noClients": "No matches",
+      "stage": "Stage",
+      "oneOff": "One-off amount",
+      "oneOffHint": "Setup, fixed-price project…",
+      "mrr": "Monthly recurring",
+      "mrrHint": "Maintenance, SEO, Ads, licences…",
+      "probability": "Probability",
+      "probabilityHint": "Empty = the stage default ({value}%)",
+      "source": "Source",
+      "broughtBy": "Brought in by",
+      "owner": "Owner",
+      "nextAction": "Next action",
+      "nextActionPlaceholder": "Call to set a meeting date",
+      "nextActionOn": "Date",
+      "lossReason": "Loss reason",
+      "lossNote": "Note",
+      "none": "—",
+      "save": "Save deal",
+      "create": "Create deal",
+      "saved": "Deal saved",
+      "created": "Deal created",
+      "archive": "Archive deal",
+      "archiveConfirm": "The deal disappears from the board; its history is kept for the funnel.",
+      "archived": "Deal archived",
+      "openClient": "View client",
+      "history": "Stage history",
+      "historyCreated": "Created in {stage}",
+      "historyMoved": "{from} → {to}",
+      "nextStep": "Next step",
+      "createQuote": "Create quote",
+      "createContract": "Create contract"
+    },
+    "loss": {
+      "title": "Why was it lost?",
+      "description": "The reason is required: it feeds the funnel's loss analysis.",
+      "reason": "Reason",
+      "note": "Note (optional)",
+      "confirm": "Mark as lost"
+    },
+    "moved": "Moved to {stage}",
+    "errors": {
+      "lossReasonRequired": "To mark a deal as lost, you need to give a reason.",
+      "notFound": "That deal no longer exists or you don't have access to it.",
+      "clientRequired": "Choose a client or type the name of a new one.",
+      "money": "Invalid amount. Use, for example, 1500 or 450.50."
+    },
+    "stagesNav": "Pipeline stages"
+  }
+}

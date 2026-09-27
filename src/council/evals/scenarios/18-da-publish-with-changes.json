@@ -1,0 +1,83 @@
+{
+  "id": "da-publish-with-changes",
+  "title": "Abogado del diablo: publica con matices y baja la confianza",
+  "description": "El abogado del diablo pide cambios: la recomendación se publica con sus riesgos, su escenario pesimista y la confianza que él le da.",
+  "job": {
+    "agent": "commercial",
+    "trigger": "daily"
+  },
+  "replay": {
+    "commercial:scan": [
+      {
+        "calls": [
+          {
+            "name": "get_stalled_deals"
+          }
+        ],
+        "output": {
+          "recommendations": [
+            {
+              "kind": "decision",
+              "title": "Llamar hoy a Tallers Rius para cerrar la tienda online",
+              "summary": "La tienda online lleva 47 días parada en Propuesta enviada y la próxima acción venció hace 25 días.",
+              "reasoning": "El deal pondera 3.250 € one-off con la probabilidad de su etapa.",
+              "evidence": [
+                "deal.d1.days_stalled",
+                "deal.d1.action_late",
+                "deal.d1.weighted_one_off"
+              ],
+              "impact_ref": "deal.d1.weighted_one_off",
+              "proposed_actions": [
+                {
+                  "title": "Llamar a Tallers Rius",
+                  "due_in_days": 0
+                }
+              ],
+              "confidence": "media",
+              "urgency": "hoy",
+              "risks": "Que ya lo tengan con otra agencia.",
+              "requires_professional_review": false,
+              "subject": "deal:d1",
+              "policy_rule": null,
+              "missing_data": []
+            }
+          ],
+          "silence_reason": null
+        }
+      }
+    ],
+    "devils_advocate:challenge": [
+      {
+        "calls": [
+          {
+            "name": "get_stalled_deals"
+          }
+        ],
+        "output": {
+          "verdict": "publicar_con_cambios",
+          "weak_assumptions": [
+            "Que Tallers Rius siga interesado tras semanas sin respuesta."
+          ],
+          "risks": "El deal lleva 47 días parado: la probabilidad real puede ser menor que la de su etapa.",
+          "pessimistic_scenario": "Si se pierde, no entran los 3.250 € ponderados.",
+          "evidence": [
+            "deal.d1.days_stalled",
+            "deal.d1.weighted_one_off"
+          ],
+          "confidence": "baja"
+        }
+      }
+    ]
+  },
+  "expect": {
+    "published": {
+      "min": 1,
+      "max": 1
+    },
+    "confidence": "baja",
+    "challenge": "revisada",
+    "titles": [
+      "Tallers Rius"
+    ]
+  }
+}

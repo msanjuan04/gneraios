@@ -1,0 +1,370 @@
+{
+  "calendar": {
+    "title": "Calendar",
+    "types": {
+      "fiscal": "Taxes",
+      "collection": "Collections",
+      "reminder": "Reminders",
+      "deal": "Next actions",
+      "task": "Tasks",
+      "meeting": "Meetings",
+      "milestone": "Milestones",
+      "billing": "Billing",
+      "renewal": "Renewals",
+      "contract": "Starts and cancellations",
+      "quote": "Quotes",
+      "issued": "Issued"
+    },
+    "typeHints": {
+      "fiscal": "Deadlines for each issuer's tax returns and its Verifactu date (indicative: check it with your accountant).",
+      "collection": "Due dates of issued invoices awaiting payment. Overdue ones in red.",
+      "reminder": "Payment reminders prepared by the daily run, waiting for a partner to approve them.",
+      "deal": "Each deal's next action. Drag it to move it to another day.",
+      "task": "Dated tasks and project deliveries. Drag an unfinished task to move it to another day.",
+      "meeting": "Meetings and calls logged as activity (future ones are the planned ones).",
+      "milestone": "Dated billing milestones. Those not invoiced yet can be dragged.",
+      "billing": "What the daily run will invoice for monthly fees (and the first yearly fee), by contract.",
+      "renewal": "The anniversary of each yearly line: it's invoiced again on that day.",
+      "contract": "Starts, cancellations and changes of terms of contract lines.",
+      "quote": "How long each sent quote is valid for. Expired ones without a reply in red.",
+      "issued": "Issued invoices, on their issue date (history)."
+    },
+    "status": {
+      "overdue": "Overdue",
+      "pending": "Pending",
+      "scheduled": "Planned",
+      "done": "Done",
+      "past": "Past"
+    },
+    "summary": {
+      "collection": "Payment due · {client}",
+      "issued": "Issued · {client}",
+      "issuedRectifying": "Corrective invoice · {client}",
+      "reminder": "Reminder · {client}",
+      "billing": "Billing · {client}",
+      "renewal": "Renewal · {line}",
+      "milestone": "Milestone · {label}",
+      "contractStart": "Start · {client}",
+      "contractChange": "Change of terms · {client}",
+      "contractEnd": "End · {client}",
+      "contractCancel": "Cancellation · {client}",
+      "dealNoAction": "Next action · {deal}",
+      "projectDue": "Delivery · {project}",
+      "quote": "Expires · {title}",
+      "quoteExpired": "Expired · {title}",
+      "verifactu": "Verifactu mandatory",
+      "fiscal": "Form {model} · {name}"
+    },
+    "views": {
+      "month": "Month",
+      "week": "Week",
+      "agenda": "Agenda"
+    },
+    "toolbar": {
+      "today": "Today",
+      "todayHint": "Go to today",
+      "previous": {
+        "month": "Previous month",
+        "week": "Previous week",
+        "agenda": "30 days earlier"
+      },
+      "next": {
+        "month": "Next month",
+        "week": "Next week",
+        "agenda": "30 days later"
+      },
+      "views": "View",
+      "subscribe": "Subscribe",
+      "filters": "What's shown",
+      "mine": "Only mine",
+      "mineHint": "Yours and what belongs to everyone (such as the SL's deadlines)",
+      "reset": "Reset filters",
+      "expected": "Expected payments: {amount} ({count})",
+      "overdue": "Overdue: {amount} ({count})"
+    },
+    "month": {
+      "openDay": "{date}: {count, plural, =0 {nothing} one {# event} other {# events}}",
+      "more": "+{count} more"
+    },
+    "week": {
+      "empty": "—"
+    },
+    "agenda": {
+      "overdue": "Overdue · {count}",
+      "today": "Today · {date}",
+      "tomorrow": "Tomorrow · {date}",
+      "todayShort": "Today",
+      "tomorrowShort": "Tomorrow",
+      "allDay": "All day"
+    },
+    "overdueBanner": {
+      "title": "{count, plural, one {# overdue item} other {# overdue items}}",
+      "body": "overdue payments, actions, tasks, milestones or reminders from before these dates",
+      "action": "See in the agenda"
+    },
+    "hints": {
+      "collections": "{count} payments on the same day · {amount}",
+      "deadlines": "{count} tax deadlines on the same day",
+      "overlap": "{count} meetings or calls overlap",
+      "busy": "Busy day: {count} items"
+    },
+    "sheet": {
+      "dayEmpty": "Nothing on this day.",
+      "dayCount": "{count, plural, one {# event} other {# events}} on {date}",
+      "backToDay": "Back to the day",
+      "amountGross": "incl. VAT, net of IRPF",
+      "amountBase": "base excl. VAT",
+      "owner": "Owner",
+      "shared": "Everyone's",
+      "moveLabel": "Move to another day",
+      "move": "Move"
+    },
+    "movable": {
+      "deal": "Changes the deal's next action (you can also drag it in the month or week view).",
+      "task": "Changes the task's date (you can also drag it in the month or week view).",
+      "milestone": "Changes the milestone's planned date. If it's automatic, the daily run will prepare it on that day."
+    },
+    "readOnly": {
+      "collection": "The due date comes from the issued invoice and can't be moved. Record the payment or prepare a reminder from the invoice.",
+      "issued": "An issued invoice doesn't change date.",
+      "reminder": "The daily run prepared it on the right day: approve or discard it in the Outbox.",
+      "billing": "It comes from the lines' billing day: to change it, edit the contract lines.",
+      "renewal": "It renews on the line's anniversary: to change it, edit the line in the contract.",
+      "contract": "Starts and cancellations are changed in the contract lines.",
+      "milestoneBilled": "This milestone is already prepared for invoicing: its date can no longer be moved.",
+      "deal": "The date is changed in the deal.",
+      "task": "This task is already done: its date can't be moved. If it needs picking up again, reopen it in its project.",
+      "project": "The delivery date is changed on the project page.",
+      "quote": "The validity is changed by editing the quote.",
+      "fiscal": "The deadlines come from the AEAT calendar: they can't be moved.",
+      "meeting": "The date is changed in the activity, from the client's page.",
+      "permission": "Only a partner can move dates."
+    },
+    "open": {
+      "collection": "Open invoice",
+      "issued": "Open invoice",
+      "reminder": "Go to the Outbox",
+      "billing": "Open contract",
+      "renewal": "Open contract",
+      "contract": "Open contract",
+      "milestone": "Open contract",
+      "deal": "Open in the pipeline",
+      "task": "Open in the project",
+      "project": "Open project",
+      "quote": "Open quote",
+      "fiscal": "View issuers",
+      "meeting": "Open client"
+    },
+    "links": {
+      "invoice": "View invoice",
+      "client": "View client",
+      "contract": "View contract",
+      "deal": "View deal",
+      "quote": "View quote",
+      "outbox": "Outbox",
+      "issuers": "View issuers"
+    },
+    "move": {
+      "done": "{summary} → {date}",
+      "undo": "Undo",
+      "autoMilestone": "It's automatic and already due: the daily run will prepare it next time it runs.",
+      "hint": "Drag next actions, unfinished tasks and uninvoiced milestones to move them to another day. Everything else is changed on its own page."
+    },
+    "facts": {
+      "client": "Client",
+      "contract": "Contract",
+      "project": "Project",
+      "invoice": "Invoice",
+      "issuedOn": "Issued on",
+      "dueOn": "Due",
+      "total": "Total",
+      "paid": "Paid",
+      "outstanding": "Outstanding",
+      "daysOverdue": "Overdue by",
+      "preparedOn": "Prepared on",
+      "deal": "Deal",
+      "stage": "Stage",
+      "estOneOff": "Estimated one-off",
+      "estMrr": "Estimated recurring",
+      "probability": "Probability",
+      "quote": "Quote",
+      "validUntil": "Valid until",
+      "oneOff": "One-off",
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "usageLines": "Usage-based",
+      "line": "Line",
+      "lines": "Lines",
+      "period": "Period",
+      "amount": "Amount",
+      "percent": "Percentage",
+      "auto": "Automatic",
+      "state": "Status",
+      "issuer": "Issuer",
+      "window": "Filing period",
+      "statutoryDue": "Statutory deadline",
+      "provider": "Invoicing provider",
+      "time": "Time",
+      "kind": "Type"
+    },
+    "factValues": {
+      "daysOverdue": "{count, plural, one {# day} other {# days}}",
+      "usageLines": "{count, plural, one {# line} other {# lines}}"
+    },
+    "values": {
+      "yes": "Yes",
+      "no": "No",
+      "provider": {
+        "internal": "Internal (no Verifactu)"
+      },
+      "billable": {
+        "pending": "Pending invoicing",
+        "drafted": "In draft",
+        "invoiced": "Invoiced",
+        "waived": "Waived"
+      },
+      "activity": {
+        "meeting": "Meeting",
+        "call": "Call"
+      },
+      "task": {
+        "todo": "To do",
+        "doing": "In progress",
+        "review": "In review",
+        "done": "Done"
+      },
+      "project": {
+        "planned": "Planned",
+        "active": "In progress",
+        "paused": "Paused",
+        "done": "Done",
+        "cancelled": "Cancelled"
+      }
+    },
+    "range": "{from} – {to}",
+    "amount": {
+      "perMonth": "{amount}/month",
+      "perYear": "{amount}/year"
+    },
+    "fiscal": {
+      "validate": "Check with your accountant",
+      "disclaimer": "Indicative calendar: check it with your accountant. If the last day falls on a Saturday or Sunday, the deadline moves to Monday; public holidays aren't taken into account and, with direct debit, the deadline ends a few days earlier.",
+      "verifactuBody": "From this date, the issuer must issue invoices with a Verifactu-compliant system. With the internal provider, GNERAI OS will block issuing.",
+      "period": {
+        "quarter": "Q{quarter} {year}",
+        "installment": "Instalment {index} ({year})",
+        "year": "Tax year {year}"
+      },
+      "models": {
+        "m303": {
+          "short": "Quarterly VAT",
+          "description": "Quarterly VAT return: the VAT on your invoices minus the VAT on your expenses. If there's tax to pay, it's paid when you file it."
+        },
+        "m111": {
+          "short": "Withholdings",
+          "description": "Payment of the IRPF withheld from employees and professionals (including partners paid by the SL)."
+        },
+        "m115": {
+          "short": "Rent withholdings",
+          "description": "Payment of the 19% withholding on the rent for the premises or office, unless the landlord is exempt."
+        },
+        "m130": {
+          "short": "IRPF instalment payment",
+          "description": "Self-employed under direct assessment: 20% of the year's cumulative net income, minus what has already been paid and withheld. Not filed if at least 70% of the previous year's income was subject to withholding."
+        },
+        "m349": {
+          "short": "Intra-EU operations",
+          "description": "Informative return on sales and purchases of services with companies in other EU countries (including Meta or Google Ads billed from Ireland)."
+        },
+        "m202": {
+          "short": "Corporate tax instalment payment",
+          "description": "Payment on account of the year's Corporate Income Tax. Under the tax-liability method (modalidad de cuota), nothing is paid if the last tax came out at zero, or in the first year of activity."
+        },
+        "m200": {
+          "short": "Corporate Income Tax",
+          "description": "Annual Corporate Income Tax return for the previous financial year (when the financial year matches the calendar year)."
+        },
+        "m390": {
+          "short": "Annual VAT summary",
+          "description": "Informative summary of the year's 303 returns."
+        },
+        "m190": {
+          "short": "Annual withholdings summary",
+          "description": "Informative summary of the year's 111 returns, with each recipient."
+        },
+        "m180": {
+          "short": "Annual rent withholdings summary",
+          "description": "Informative summary of the year's 115 returns."
+        },
+        "m347": {
+          "short": "Third-party transactions",
+          "description": "Clients and suppliers with whom transactions exceeded €3,005.06 (VAT included) in the year, except those already reported in other returns."
+        }
+      }
+    },
+    "empty": {
+      "title": "Nothing on these dates",
+      "body": "Payments, billing, renewals, milestones, next actions, project tasks and deliveries, quotes, meetings and tax deadlines appear here as soon as they exist.",
+      "filteredTitle": "Nothing with these filters",
+      "filteredBody": "Filters are applied: reset them to see everything.",
+      "shortcuts": "Shortcuts: T today · ← → previous and next · M, W, A to change view"
+    },
+    "subscribe": {
+      "title": "Subscribe to the calendar",
+      "description": "A private link to see these dates in Google Calendar, Apple Calendar or Outlook. It updates itself every few hours, with the next 12 months.",
+      "scopeLabel": "What it includes",
+      "scope": {
+        "mine": "Mine",
+        "all": "Everything"
+      },
+      "scopeHint": {
+        "mine": "Yours and what belongs to everyone (the SL's deadlines, for example).",
+        "all": "Everything in the organization, from all partners."
+      },
+      "create": "Create link",
+      "regenerate": "Create a new link",
+      "revoke": "Revoke",
+      "revoked": "Link revoked: it no longer works in any calendar.",
+      "done": "Done",
+      "urlLabel": "Subscription link",
+      "copy": "Copy",
+      "copiedShort": "Copied",
+      "copied": "Link copied",
+      "copyFailed": "It couldn't be copied: select it and copy it manually.",
+      "onlyOnce": "Save it now: for security, it won't be shown again. If you lose it, create a new one (the old one will stop working).",
+      "openGoogle": "Add to Google Calendar",
+      "openApple": "Open in Apple Calendar",
+      "stepGoogle": "Google Calendar (web): Other calendars → + → From URL, and paste the link.",
+      "stepApple": "Apple Calendar: File → New Calendar Subscription, and paste the link.",
+      "stepOutlook": "Outlook: Add calendar → Subscribe from web, and paste the link.",
+      "active": "You've had an active link since {date} ({scope}).",
+      "lastUsed": "Last used: {date}.",
+      "neverUsed": "No calendar has read it yet.",
+      "localWarning": "The app is running locally: Google Calendar can't read a localhost link until it's published (Apple Calendar, on this same computer, can).",
+      "privacy": "Anyone with the link can see your dates, including clients and amounts. Don't share it; if it leaks, revoke it."
+    },
+    "ics": {
+      "name": "GNERAI OS · {org}",
+      "description": "GNERAI OS dates: payments, billing, renewals, milestones, next actions, project tasks and deliveries, quotes, meetings and tax deadlines.",
+      "overdue": "Overdue",
+      "open": "Open in GNERAI OS: {url}"
+    },
+    "upcoming": {
+      "title": "This week",
+      "description": "What's happening in the next 7 days",
+      "overdue": "{count, plural, one {# overdue} other {# overdue}}",
+      "empty": "A quiet week: nothing dated in the next 7 days.",
+      "collections": "Expected payments: {amount} ({count})",
+      "noCollections": "No payments expected this week",
+      "more": "and {count} more",
+      "open": "Open the calendar"
+    },
+    "errors": {
+      "dealNotFound": "That deal no longer exists or you don't have access to it.",
+      "milestoneBilled": "That milestone is already prepared for invoicing: its date can no longer be moved.",
+      "milestoneNotFound": "That milestone no longer exists or you don't have access to it.",
+      "taskNotFound": "That task no longer exists or you don't have access to it.",
+      "taskDone": "That task is already done: its date can no longer be moved."
+    }
+  }
+}

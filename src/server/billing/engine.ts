@@ -346,7 +346,8 @@ export async function runBillingForOrg(admin: Db, orgId: string, opts: { today?:
  */
 export async function runDailyBilling(admin: Db): Promise<Array<BillingRunSummary | { orgId: string; error: string }>> {
   const { savePreviousMonthSnapshot } = await import("@/server/metrics/snapshot");
-  const orgs = must(await admin.from("orgs").select("id"), "billing.orgs");
+  const { generateSubscriptionExpenses } = await import("@/server/finance/generate");
+  const orgs = must(await admin.from("orgs").select("id, timezone"), "billing.orgs");
   const results: Array<BillingRunSummary | { orgId: string; error: string }> = [];
   for (const org of orgs) {
     try {
@@ -354,6 +355,12 @@ export async function runDailyBilling(admin: Db): Promise<Array<BillingRunSummar
     } catch (error) {
       console.error("[cron] billing", org.id, error);
       results.push({ orgId: org.id, error: error instanceof Error ? error.message : String(error) });
+    }
+    // Los cargos de las suscripciones (software, hosting…) del día, con el "hoy" de la org.
+    try {
+      await generateSubscriptionExpenses(admin, org.id, nowInZone(org.timezone).date);
+    } catch (error) {
+      console.error("[cron] subscription expenses", org.id, error);
     }
     try {
       await savePreviousMonthSnapshot(admin, org.id);

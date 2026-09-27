@@ -1,0 +1,44 @@
+{
+  "reports": {
+    "card": {
+      "title": "Informe mensual",
+      "description": "Lo que hemos hecho, lo que viene y los datos del mes, en {language}. Solo hechos, sin promesas.",
+      "month": "Mes del informe",
+      "view": "Ver PDF",
+      "download": "Descargar",
+      "prepare": "Preparar email",
+      "preparing": "Preparando…",
+      "review": "Revisar en Por enviar",
+      "hours": "Incluir las horas dedicadas",
+      "hoursValue": "Incluir las horas dedicadas ({hours})",
+      "loading": "Contando lo del mes…",
+      "loadError": "No se ha podido preparar el resumen del mes.",
+      "retry": "Reintentar",
+      "tasksDone": "{count, plural, =0 {Ninguna tarea terminada} one {# tarea terminada} other {# tareas terminadas}}",
+      "activities": "{count, plural, one {# reunión o comunicación} other {# reuniones o comunicaciones}}",
+      "nextSteps": "{count, plural, =0 {Sin próximos pasos} one {# próximo paso} other {# próximos pasos}}",
+      "deliverables": "{count, plural, one {# entregable} other {# entregables}}",
+      "invoices": "{count, plural, =0 {Sin facturas} one {# factura} other {# facturas}}",
+      "web": {
+        "included": "Con datos de la web",
+        "no_data": "Sin datos de la web este mes",
+        "section_off": "Sin datos de la web: apagados en su portal",
+        "no_property": "Sin web conectada"
+      },
+      "inProgress": "Mes en curso: sale con los datos de hoy.",
+      "visibility": "Solo sale lo marcado como visible para el cliente, como en su portal.",
+      "to": "Para: {emails}",
+      "noRecipients": "Sin email de facturación ni contacto principal: añádelo al revisarlo en Por enviar.",
+      "sentAt": "Enviado el {date}.",
+      "pending": "Preparado y pendiente de revisar en Facturas → Por enviar.",
+      "prepared": "Email preparado en Por enviar",
+      "preparedExisting": "Ya estaba preparado en Por enviar",
+      "preparedHint": "Revísalo y envíalo desde Facturas → Por enviar. El PDF se genera al enviarlo.",
+      "openOutbox": "Abrir"
+    },
+    "errors": {
+      "clientNotFound": "Este cliente ya no existe.",
+      "monthNotAvailable": "Ese mes aún no ha empezado."
+    }
+  }
+}

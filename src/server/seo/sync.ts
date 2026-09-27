@@ -21,7 +21,8 @@ import {
 import { nowInZone } from "@/lib/clock";
 import type { Json } from "@/lib/supabase/database.types";
 import { googleSetup } from "./config";
-import { GoogleApiError } from "./google-api";
+import { resolveSearchConsoleSite } from "@/domain/seo/site-url";
+import { GoogleApiError, listSearchConsoleSites } from "./google-api";
 import { grantedFeatures } from "./google-oauth";
 import { type AdminDb, type GoogleSessionOptions, markReconnectNeeded, openGoogleSession, SeoConnectionError } from "./google-session";
 import { AnalyticsProvider, SearchConsoleProvider } from "./providers";
@@ -203,8 +204,36 @@ export async function syncSeo(admin: AdminDb, orgId: string, opts: SeoSyncOption
     if (propertiesError) throw dbError(propertiesError, "seo.properties");
     if (statesError) throw dbError(statesError, "seo.states");
 
+    // La web de Search Console tiene que ser la propiedad EXACTA de la cuenta (p. ej.
+    // "sc-domain:gnerai.com"): lo escrito a mano se resuelve y se corrige aquí, una vez por sync.
+    let siteUrls: string[] | null = null;
+    if (granted.searchConsole) {
+      try {
+        const sites = await listSearchConsoleSites(session.client);
+        siteUrls = sites.map((site) => site.siteUrl);
+        // La lista exacta queda guardada: la pantalla de webs propone las que faltan.
+        await admin
+          .from("integrations")
+          .update({ discovered_sites: sites as unknown as Json, discovered_at: new Date().toISOString() })
+          .eq("id", session.integrationId);
+      } catch (error) {
+        if (error instanceof GoogleApiError && error.status === 401) {
+          await markReconnectNeeded(admin, session.integrationId, error.message);
+          throw new SeoConnectionError("reconnect");
+        }
+        siteUrls = null;
+      }
+    }
+
     const items: SeoSyncItem[] = [];
     for (const row of properties) {
+      if (row.gsc_site_url && siteUrls) {
+        const resolved = resolveSearchConsoleSite(row.gsc_site_url, siteUrls);
+        if (resolved && resolved !== row.gsc_site_url) {
+          await admin.from("seo_properties").update({ gsc_site_url: resolved }).eq("id", row.id);
+          row.gsc_site_url = resolved;
+        }
+      }
       const property: SyncProperty = { id: row.id, orgId: row.org_id, gscSiteUrl: row.gsc_site_url, ga4PropertyId: row.ga4_property_id };
       const sink = createFactSink(admin, property);
       for (const provider of providers.filter((p) => p.appliesTo(property))) {

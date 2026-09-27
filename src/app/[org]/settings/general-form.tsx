@@ -123,6 +123,57 @@ export function GeneralSettingsForm({
                 {...register("renewal_alert_days")}
               />
             </FormField>
+            <FormField
+              id="quote-validity"
+              label={t("quoteValidity")}
+              description={t("quoteValidityHint")}
+              error={message(errors.quote_validity_days?.message)}
+            >
+              <Input
+                id="quote-validity"
+                type="number"
+                inputMode="numeric"
+                min={1}
+                max={365}
+                className="tabular"
+                aria-invalid={Boolean(errors.quote_validity_days)}
+                {...register("quote_validity_days", { valueAsNumber: true })}
+              />
+            </FormField>
+            <FormField
+              id="concentration-alert"
+              label={t("concentrationAlert")}
+              description={t("concentrationAlertHint")}
+              error={message(errors.concentration_alert_percent?.message)}
+            >
+              <Input
+                id="concentration-alert"
+                type="number"
+                inputMode="numeric"
+                min={1}
+                max={100}
+                className="tabular"
+                aria-invalid={Boolean(errors.concentration_alert_percent)}
+                {...register("concentration_alert_percent", { valueAsNumber: true })}
+              />
+            </FormField>
+            <FormField
+              id="target-hourly-rate"
+              label={t("targetHourlyRate")}
+              description={t("targetHourlyRateHint")}
+              error={message(errors.target_hourly_rate_euros?.message)}
+            >
+              <Input
+                id="target-hourly-rate"
+                type="number"
+                inputMode="numeric"
+                min={1}
+                max={1000}
+                className="tabular"
+                aria-invalid={Boolean(errors.target_hourly_rate_euros)}
+                {...register("target_hourly_rate_euros", { valueAsNumber: true })}
+              />
+            </FormField>
           </div>
         </SettingsCard>
       </fieldset>

@@ -1,8 +1,17 @@
 import type { ClientSeoSummary } from "@/server/seo/queries";
+import type { ClientHealth } from "@/domain/clients/health";
+import type { ClientMandatesData } from "@/components/collections/types";
+import type { ClientPortalCardData } from "@/components/portal/types";
+import type { ClientProjectsData } from "@/components/projects/types";
+import type { ClientSitesData } from "@/components/sites/types";
 import type { ClientInvoicesData } from "@/components/invoices/types";
 import type { ClientContractItem } from "@/components/contracts/types";
 import type { ActivityKind, ClientRow, ClientStatus, ContactRow } from "@/app/[org]/clients/schema";
 import type { Enums } from "@/lib/supabase/database.types";
+import type { ClientManualStatus } from "@/domain/clients/status";
+import type { ClientRebillData } from "@/components/finance/types";
+import type { ClientVendorsData } from "@/components/vendors/types";
+import type { ClientCollectionsData } from "@/server/clients/collections";
 
 /**
  * Lo que las páginas de clientes (servidor) pasan a sus componentes interactivos.
@@ -24,6 +33,8 @@ export type ClientListItem = {
   legalName: string | null;
   taxId: string | null;
   status: ClientStatus;
+  /** Estado marcado a mano por un socio (src/domain/clients/status.ts); null = el calculado. */
+  manualStatus: ClientManualStatus | null;
   owner: MemberRef | null;
   city: string | null;
   sector: string | null;
@@ -31,6 +42,8 @@ export type ClientListItem = {
   lastActivityAt: string | null;
   sourceName: string | null;
   archived: boolean;
+  /** Señales de salud (src/domain/clients/health.ts). */
+  health: ClientHealth;
 };
 
 /** Un deal del cliente (vista `deals_board`): lo puntual y lo recurrente, siempre por separado. */
@@ -97,6 +110,9 @@ export type ClientDetailData = {
   isPartner: boolean;
   client: ClientRow;
   status: ClientStatus;
+  manualStatus: ClientManualStatus | null;
+  /** Cuándo se marcó el estado a mano (ISO). */
+  manualStatusAt: string | null;
   owner: MemberRef | null;
   sourceName: string | null;
   countryName: string;
@@ -119,6 +135,23 @@ export type ClientDetailData = {
   invoices: ClientInvoicesData;
   /** SEO de la web del cliente, si la gestionamos (src/server/seo/queries.ts). */
   seo: ClientSeoSummary | null;
+  health: ClientHealth;
+  /** Proyectos del cliente, con sus horas y el €/hora (src/server/projects/cards.ts). */
+  projects: ClientProjectsData;
+  /** Webs vigiladas del cliente: estado, uptime, SSL y dominio (src/server/sites/queries.ts). */
+  sites: ClientSitesData;
+  /** «Tu espacio GNERAI»: enlace del portal y lo que ve el cliente (src/server/portal/links.ts). */
+  portal: ClientPortalCardData;
+  /** Mandatos SEPA para cobrar por remesa (src/server/collections/mandates.ts). */
+  mandates: ClientMandatesData;
+  /** Lo que ha pagado: cobros de facturas y sin factura (src/server/clients/collections.ts). */
+  collections: ClientCollectionsData;
+  /** Gastos por repercutir y en borrador (src/server/finance/rebill.ts). */
+  rebills: ClientRebillData;
+  /** Proveedores y freelancers con gastos asignados a este cliente (src/server/vendors/queries.ts). */
+  vendors: ClientVendorsData;
+  /** Hoy en la zona de la org ("YYYY-MM-DD"): el máximo de la fecha de un cobro. */
+  today: string;
   /** Socios activos para el selector de responsable (con el actual aunque ya no tenga acceso). */
   ownerOptions: MemberOption[];
   defaultPaymentTerms: number;

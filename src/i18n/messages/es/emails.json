@@ -8,6 +8,12 @@
       "subject": "Recordatorio: factura {number} pendiente de pago",
       "body": "Hola,\n\nTe escribimos porque la factura {number}, del {issued}, sigue pendiente: {outstanding}. Venció el {due}.\n\n{payment}\n\nSi ya la habéis pagado, no hagas caso de este mensaje, y perdona la molestia.\n\nGracias,\n{issuer}"
     },
+    "client_report": {
+      "period": "{month, select, 01 {enero} 02 {febrero} 03 {marzo} 04 {abril} 05 {mayo} 06 {junio} 07 {julio} 08 {agosto} 09 {septiembre} 10 {octubre} 11 {noviembre} 12 {diciembre} other {{month}}} de {year}",
+      "ofPeriod": "{month, select, 01 {de enero} 02 {de febrero} 03 {de marzo} 04 {de abril} 05 {de mayo} 06 {de junio} 07 {de julio} 08 {de agosto} 09 {de septiembre} 10 {de octubre} 11 {de noviembre} 12 {de diciembre} other {de {month}}} de {year}",
+      "subject": "Informe mensual · {period} · {sender}",
+      "body": "Hola,\n\nTe enviamos el informe {ofPeriod}: lo que hemos hecho para {client}, lo que viene ahora y los datos del mes. Lo tienes adjunto en PDF.\n\nSi quieres comentar cualquier cosa, responde a este email.\n\nGracias,\n{sender}"
+    },
     "paymentTransfer": "Puedes pagarla por transferencia a la cuenta {iban}, indicando el número de factura.",
     "paymentOther": "Forma de pago: {method}.",
     "method": {
@@ -16,6 +22,48 @@
       "card": "tarjeta",
       "cash": "efectivo",
       "other": "otra"
+    },
+    "digest": {
+      "subject": "Tu semana en {org}: {collections} en cobros previstos y {todo, plural, =0 {nada pendiente} one {# cosa por hacer} other {# cosas por hacer}}",
+      "hello": "Buenos días, {name}",
+      "range": "Semana del {from} al {to}",
+      "lastWeekTitle": "La semana pasada",
+      "collected": "Cobrado",
+      "invoiced": "Facturado ({count, plural, one {# factura} other {# facturas}}, sin IVA)",
+      "newDeals": "Nuevos deals y leads",
+      "statusTitle": "Cómo estamos",
+      "mrr": "MRR",
+      "perMonth": "/mes",
+      "outstanding": "Pendiente de cobro",
+      "overdue": "Vencido ({count, plural, one {# factura} other {# facturas}})",
+      "goalsTitle": "Objetivos",
+      "goalMrr": "MRR: {current} de {target} ({percent} %) · {status}",
+      "goalRevenue": "Facturación de {year}: {invoiced} de {target} · faltan {gap} por vender · {status}",
+      "weekTitle": "Esta semana",
+      "weekEmpty": "Nada en el calendario esta semana.",
+      "moreEvents": "Y {count, plural, one {# cosa más} other {# cosas más}} en el calendario.",
+      "overdueEvents": "{count, plural, one {# cosa atrasada} other {# cosas atrasadas}} de antes de hoy.",
+      "todoTitle": "Por hacer",
+      "todoEmpty": "Nada pendiente de emitir, enviar, pagar ni responder.",
+      "open": "Abrir GNERAI OS",
+      "footer": "Te llega cada lunes porque tienes el resumen semanal activado. Se desactiva en Ajustes → Preferencias.",
+      "pushTitle": "Tu semana en GNERAI OS",
+      "pushBody": "{count, plural, =0 {Sin cobros previstos} one {# cobro previsto ({collections})} other {# cobros previstos ({collections})}} · {todo, plural, =0 {nada por hacer} one {# cosa por hacer} other {# cosas por hacer}}",
+      "councilTitle": "Del consejo"
+    },
+    "security": {
+      "hello": "Hola, {name}:",
+      "deviceSubject": "¿Eres tú? Confirma tu nuevo dispositivo en {app} ({device})",
+      "deviceBody": "Alguien acaba de escribir tu código de {app} en un dispositivo nuevo: {device}, el {when}.",
+      "deviceConfirm": "Si eres tú, confírmalo aquí (caduca en {minutes} minutos):",
+      "deviceButton": "Sí, soy yo",
+      "deviceNotYou": "Si no eres tú, no abras el enlace y cambia tu código en Ajustes → Preferencias: alguien lo conoce.",
+      "codeSubject": "Tu código de acceso a {app} ha cambiado",
+      "codeSelfNew": "Acabas de crear tu código de acceso a {app}.",
+      "codeSelfChanged": "Acabas de cambiar tu código de acceso a {app}. El anterior ya no funciona.",
+      "codeByNew": "{by} te ha creado un código de acceso a {app} y te lo dará en persona.",
+      "codeByChanged": "{by} ha cambiado tu código de acceso a {app} y te dará el nuevo en persona. El anterior ya no funciona.",
+      "codeNotYou": "Si no sabías nada, avisa a tus socios y cambia el código en Ajustes → Preferencias."
     }
   }
 }

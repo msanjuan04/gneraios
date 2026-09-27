@@ -3,11 +3,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { PageHeader } from "@/components/page-header";
+import { DiscoveredSitesCard } from "@/components/seo/discovered-sites-card";
 import { GoogleConnection } from "@/components/seo/google-connection";
 import { PropertiesManager } from "@/components/seo/properties-manager";
 import { createClient } from "@/lib/supabase/server";
 import { idSchema } from "@/server/action-utils";
-import { getSeoSetup } from "@/server/seo/queries";
+import { getDiscoveredSites, getSeoSetup } from "@/server/seo/queries";
 import { getOrgContext, hasRole } from "@/server/session";
 
 type SearchParams = Record<string, string | string[] | undefined>;
@@ -26,9 +27,10 @@ export default async function SeoPropertiesPage({ params, searchParams }: Proper
   const { org, member } = await getOrgContext(slug);
   const t = await getTranslations("seo");
   const supabase = await createClient();
-  const [setup, clientsRes] = await Promise.all([
+  const [setup, clientsRes, discovered] = await Promise.all([
     getSeoSetup(org.id),
     supabase.from("clients").select("id, display_name").eq("org_id", org.id).is("archived_at", null).order("display_name"),
+    getDiscoveredSites(org.id),
   ]);
   if (clientsRes.error) throw clientsRes.error;
 
@@ -55,6 +57,7 @@ export default async function SeoPropertiesPage({ params, searchParams }: Proper
           isPartner={hasRole(member.role, "partner")}
           startHref={`/api/integrations/google/start?org=${org.slug}`}
         />
+        <DiscoveredSitesCard slug={org.slug} sites={discovered} canEdit={hasRole(member.role, "partner")} />
         <PropertiesManager
           slug={org.slug}
           basePath={basePath}

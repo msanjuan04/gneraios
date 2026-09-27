@@ -1,0 +1,269 @@
+{
+  "portalPublic": {
+    "brand": {
+      "space": "Tu espacio {brand}",
+      "privateLink": "Enlace privado y personal: no lo compartas.",
+      "providedBy": "Servicio de {issuers}.",
+      "questions": "¿Dudas? Escríbenos a <mail>{email}</mail>.",
+      "skip": "Saltar al contenido"
+    },
+    "link": {
+      "unknown": {
+        "title": "Este enlace no funciona",
+        "text": "Puede que esté incompleto. Comprueba que lo has copiado entero o pide uno nuevo a quien te lo envió."
+      },
+      "expired": {
+        "title": "Este enlace ha caducado",
+        "text": "Por seguridad, los enlaces tienen fecha de caducidad. Pide uno nuevo a quien te lo envió."
+      },
+      "revoked": {
+        "title": "Este enlace ya no está activo",
+        "text": "Lo hemos sustituido por otro. Pide el nuevo a quien te lo envió."
+      }
+    },
+    "quote": {
+      "eyebrow": "Presupuesto {number}",
+      "preparedFor": "Para {client}",
+      "issuedBy": "De {issuer}",
+      "download": "Descargar PDF",
+      "backToSpace": "Volver a tu espacio",
+      "summary": "De un vistazo",
+      "vatIncluded": "IVA incluido",
+      "state": {
+        "open": {
+          "title": "Tu presupuesto está listo",
+          "text": "Revísalo con calma. Cuando quieras, puedes aceptarlo aquí mismo en un minuto. Es válido hasta el {date}."
+        },
+        "expired": {
+          "title": "Este presupuesto caducó el {date}",
+          "text": "Ya no se puede aceptar online. Escríbenos y lo revisamos contigo."
+        },
+        "accepted": {
+          "title": "Presupuesto aceptado",
+          "byName": "Lo aceptó {name} el {date}. Gracias por tu confianza.",
+          "noName": "Se aceptó el {date}. Gracias por tu confianza."
+        },
+        "rejected": {
+          "title": "Presupuesto rechazado",
+          "text": "Nos lo indicaste el {date}. Gracias por responder: si cambias de idea, escríbenos."
+        },
+        "closed": {
+          "title": "Este presupuesto no está disponible",
+          "text": "Pide a quien te lo envió que lo revise."
+        }
+      },
+      "done": {
+        "accepted": {
+          "title": "¡Gracias, {name}!",
+          "text": "Hemos recibido tu aceptación del presupuesto {number}. Te escribiremos con los siguientes pasos."
+        },
+        "rejected": {
+          "title": "Gracias por responder",
+          "text": "Hemos recibido tu respuesta. Si más adelante quieres retomarlo, escríbenos."
+        }
+      },
+      "accept": {
+        "title": "Aceptar el presupuesto",
+        "intro": "Déjanos tu nombre y tu email para confirmarlo.",
+        "name": "Nombre y apellidos",
+        "email": "Email",
+        "signature": "Firma",
+        "signatureHint": "Opcional: escribe tu nombre como firma.",
+        "consent": "He leído y acepto el presupuesto {number} y sus condiciones.",
+        "submit": "Aceptar presupuesto",
+        "submitting": "Aceptando…",
+        "firstPayment": "Primer pago, a la aceptación: {label} · {amount} (IVA incluido).",
+        "evidence": "Al aceptarlo guardamos la fecha y la hora, tu IP, tu navegador y una huella del PDF de este presupuesto como prueba de la aceptación."
+      },
+      "reject": {
+        "open": "No me encaja",
+        "title": "Rechazar el presupuesto",
+        "reason": "¿Nos cuentas por qué? (opcional)",
+        "reasonPlaceholder": "El alcance, el precio, los plazos…",
+        "submit": "Rechazar presupuesto",
+        "submitting": "Enviando…",
+        "cancel": "Volver"
+      },
+      "errors": {
+        "name": "Escribe tu nombre.",
+        "email": "Escribe un email válido.",
+        "consent": "Marca la casilla para aceptar.",
+        "signature": "La firma es demasiado larga.",
+        "reason": "El motivo es demasiado largo.",
+        "rateLimited": "Has hecho demasiados intentos. Espera un rato y vuelve a probar.",
+        "changed": "El presupuesto se acaba de actualizar. Revisa la versión nueva antes de aceptarla.",
+        "expired": "La validez de este presupuesto ya ha pasado.",
+        "closed": "Este presupuesto ya tiene respuesta.",
+        "link": "Este enlace ya no es válido.",
+        "unavailable": "Ahora mismo no podemos registrar tu respuesta. Escríbenos y lo resolvemos.",
+        "generic": "No se ha podido completar. Inténtalo de nuevo en un momento."
+      }
+    },
+    "space": {
+      "greeting": {
+        "morning": "Buenos días, <hl>{name}</hl>",
+        "afternoon": "Buenas tardes, <hl>{name}</hl>",
+        "evening": "Buenas noches, <hl>{name}</hl>"
+      },
+      "intro": "Todo lo de tu proyecto con {brand}, en un solo sitio y al día.",
+      "nav": "Secciones",
+      "highlights": {
+        "phases": "{done} de {total} fases",
+        "toPay": "{count, plural, one {# factura pendiente} other {# facturas pendientes}}",
+        "allPaid": "Facturas al día",
+        "services": "{count, plural, one {# servicio activo} other {# servicios activos}}",
+        "quotes": "{count, plural, one {# presupuesto por revisar} other {# presupuestos por revisar}}"
+      },
+      "sections": {
+        "progress": {
+          "title": "En qué estamos",
+          "subtitle": "Las fases de tu proyecto y lo que viene ahora.",
+          "done": "Hecho",
+          "current": "En curso",
+          "upcoming": "Después",
+          "plannedOn": "Previsto: {date}",
+          "progress": "{done} de {total} fases completadas",
+          "nextSteps": "Próximos pasos",
+          "empty": "Cuando arranque un proyecto por fases, verás aquí cómo avanza.",
+          "kinds": {
+            "web": "Web",
+            "seo": "SEO",
+            "ads": "Publicidad online",
+            "branding": "Marca",
+            "social": "Redes sociales",
+            "maintenance": "Mantenimiento",
+            "internal": "Interno",
+            "other": "Proyecto"
+          },
+          "statuses": {
+            "planned": "Por empezar",
+            "active": "En marcha",
+            "paused": "En pausa",
+            "done": "Terminado",
+            "cancelled": "Cancelado"
+          },
+          "tasks": "{done} de {total, plural, one {# tarea hecha} other {# tareas hechas}}",
+          "nextDue": "Próxima fecha prevista: {date}",
+          "nextTasks": "Lo siguiente",
+          "taskStates": {
+            "doing": "En curso",
+            "review": "En revisión",
+            "todo": "Pendiente"
+          },
+          "moreTasks": "{count, plural, one {Y # tarea más} other {Y # tareas más}}"
+        },
+        "work_log": {
+          "title": "Lo que hemos hecho",
+          "subtitle": "Lo último que hemos trabajado para ti.",
+          "empty": "Aquí irás viendo el trabajo que hacemos contigo.",
+          "taskDone": "Tarea terminada · {project}"
+        },
+        "files": {
+          "title": "Entregables y material",
+          "subtitle": "Todo lo que te hemos entregado, siempre a mano.",
+          "download": "Descargar",
+          "open": "Abrir",
+          "link": "Enlace",
+          "empty": "Cuando te entreguemos algo, lo tendrás aquí."
+        },
+        "services": {
+          "title": "Tus servicios",
+          "subtitle": "Lo que tienes contratado ahora mismo.",
+          "since": "Desde el {date}",
+          "until": "hasta el {date}",
+          "startsOn": "Empieza el {date}",
+          "states": {
+            "active": "Activo",
+            "paused": "En pausa",
+            "scheduled": "Programado"
+          },
+          "types": {
+            "one_off": "Proyecto",
+            "monthly": "Mensual",
+            "yearly": "Anual",
+            "usage": "Por uso"
+          },
+          "empty": "Todavía no tienes servicios activos."
+        },
+        "documents": {
+          "title": "Documentos",
+          "subtitle": "Facturas, presupuestos y contratos.",
+          "toPay": "Pendiente de pago",
+          "pay": {
+            "transfer": "Por transferencia",
+            "iban": "IBAN",
+            "holder": "Titular",
+            "amount": "Importe",
+            "reference": "Concepto",
+            "dueOn": "Vence el {date}",
+            "overdue": "Venció el {date}",
+            "sepa": "Domiciliada: se cargará automáticamente en tu cuenta. No tienes que hacer nada.",
+            "noIban": "Escríbenos y te pasamos los datos para la transferencia.",
+            "copy": "Copiar {what}",
+            "copied": "Copiado"
+          },
+          "invoices": "Facturas",
+          "invoiceIssuedOn": "Emitida el {date}",
+          "invoiceStatus": {
+            "paid": "Pagada",
+            "pending": "Pendiente",
+            "overdue": "Vencida",
+            "voided": "Anulada",
+            "rectifying": "Rectificativa"
+          },
+          "downloadInvoice": "Descargar la factura {number}",
+          "quotes": "Presupuestos",
+          "quoteOpen": "Pendiente de tu respuesta · válido hasta el {date}",
+          "quoteAccepted": "Aceptado el {date}",
+          "review": "Revisar y aceptar",
+          "downloadQuote": "Descargar el presupuesto {number}",
+          "contracts": "Contratos",
+          "contractSigned": "Firmado el {date}",
+          "contractStates": {
+            "active": "Activo",
+            "paused": "En pausa",
+            "scheduled": "Programado",
+            "ended": "Finalizado"
+          },
+          "signedCopy": "Presupuesto aceptado",
+          "empty": "Todavía no hay documentos."
+        },
+        "requests": {
+          "title": "Pedir algo",
+          "subtitle": "¿Un cambio, una idea, una duda? Cuéntanoslo y lo vemos.",
+          "subject": "Asunto",
+          "subjectPlaceholder": "Qué necesitas",
+          "description": "Detalles",
+          "descriptionPlaceholder": "Todo lo que nos ayude a entenderlo.",
+          "urgent": "Es urgente",
+          "submit": "Enviar",
+          "submitting": "Enviando…",
+          "sent": {
+            "title": "¡Recibido!",
+            "text": "Ya lo tenemos. Te responderemos lo antes posible."
+          },
+          "another": "Enviar otra petición",
+          "errors": {
+            "subject": "Escribe el asunto.",
+            "description": "Cuéntanos un poco más.",
+            "rateLimited": "Has enviado varias peticiones seguidas. Espera un rato y vuelve a probar.",
+            "generic": "No se ha podido enviar. Inténtalo de nuevo en un momento."
+          }
+        },
+        "web_data": {
+          "title": "Datos de tu web",
+          "subtitle": "Lo que miden Google Search Console y Google Analytics de {site}.",
+          "range": "Del {from} al {to}",
+          "clicks": "Clics desde Google",
+          "impressions": "Apariciones en Google",
+          "position": "Posición media",
+          "sessions": "Visitas desde buscadores",
+          "change": "{value} frente a los 28 días anteriores",
+          "measured": "Datos medidos tal cual, sin estimaciones ni previsiones.",
+          "demo": "Datos de demostración.",
+          "empty": "Aún no hay datos medidos de tu web."
+        }
+      }
+    }
+  }
+}

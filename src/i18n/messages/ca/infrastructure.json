@@ -1,0 +1,109 @@
+{
+  "infrastructure": {
+    "tab": "Infraestructura",
+    "partnersOnly": {
+      "title": "Només per a socis",
+      "body": "La infraestructura ensenya el que costa de debò cada web i cada client: només la veuen els socis."
+    },
+    "intro": "Servidors, bases de dades, dominis i el programari de les webs: el que costen, quan es renoven i quant costa cada web allotjada.",
+    "toolbar": {
+      "settings": "Avisos",
+      "add": "Afegeix una subscripció"
+    },
+    "summary": {
+      "label": "Resum de la infraestructura",
+      "monthly": "Al mes",
+      "monthlyHint": "{count, plural, =0 {Cap subscripció en marxa} one {# subscripció en marxa} other {# subscripcions en marxa}}",
+      "yearly": "A l'any",
+      "yearlyHint": "Les mensuals × 12 i les anuals",
+      "spent": "Gastat en 12 mesos",
+      "spentHint": "{count, plural, =0 {Cap despesa registrada} one {# despesa registrada} other {# despeses registrades}}",
+      "perSite": "Per web allotjada",
+      "perSiteValue": "{amount}/mes",
+      "perSiteHint": "{count, plural, =0 {Cap web allotjada activa} one {# web allotjada activa} other {# webs allotjades actives}}",
+      "dueSoon": "Renovacions",
+      "dueSoonHint": "{days, plural, one {Amb avís avui o demà} other {Amb avís en els propers # dies}}"
+    },
+    "chart": {
+      "byVendor": "Per proveïdor",
+      "byCategory": "Per categoria",
+      "description": "Cost mensual del que està en marxa.",
+      "noVendor": "Sense proveïdor",
+      "noCategory": "Sense categoria",
+      "others": "Altres",
+      "subscriptions": "{count, plural, one {# subscripció} other {# subscripcions}}",
+      "perMonth": "{amount}/mes",
+      "name": "Nom",
+      "count": "Subscripcions",
+      "monthly": "Al mes",
+      "empty": "Res en marxa."
+    },
+    "renewals": {
+      "title": "Renovacions",
+      "description": "Del proper càrrec al més llunyà. Es destaca el que avisa i es renova {days, plural, one {avui o demà} other {en els propers # dies}}.",
+      "open": "Ves a Subscripcions",
+      "empty": "No hi ha subscripcions d'infraestructura: les despeses soltes compten a «Gastat en 12 mesos».",
+      "caption": "Subscripcions d'infraestructura i la seva propera renovació",
+      "columns": {
+        "subscription": "Subscripció",
+        "interval": "Periodicitat",
+        "charge": "Càrrec",
+        "monthly": "Al mes",
+        "renewal": "Propera renovació"
+      },
+      "intervals": {
+        "monthly": "Mensual",
+        "yearly": "Anual"
+      },
+      "hosted": "Webs allotjades",
+      "days": "{days, plural, =0 {avui} =1 {demà} other {d'aquí a # dies}}",
+      "firstCharge": "Primer càrrec",
+      "watched": "S'avisa els socis {days, plural, one {# dia} other {# dies}} abans, a la safata i al mòbil.",
+      "notWatched": "Les mensuals només avisen a partir de {amount} per càrrec.",
+      "off": "Apagada",
+      "ended": "Acabada"
+    },
+    "hosting": {
+      "title": "Cost per web allotjada",
+      "description": "El que es reparteix entre les webs allotjades, a parts iguals entre les actives, i el que li toca a cada client.",
+      "openSites": "Ves a Webs",
+      "perSite": "{amount} per web i mes",
+      "summary": "{count, plural, one {# web allotjada} other {# webs allotjades}} · {amount} al mes",
+      "perMonth": "{amount}/mes",
+      "noSites": "No hi ha webs allotjades actives a Webs: el que es reparteix entre elles no té entre qui repartir-se.",
+      "noShared": "Cap subscripció en marxa es reparteix entre les webs allotjades. Assigna-la a «Webs allotjades» a Subscripcions i el seu cost es repartirà aquí i a la rendibilitat de cada client.",
+      "noClient": "Sense client / intern",
+      "unknownClient": "Client sense nom"
+    },
+    "notes": {
+      "title": "Com es calcula",
+      "scope": "Què hi entra: tot el de les categories d'infraestructura (les de servidors, bases de dades i dominis…) i tot el que es reparteix entre les webs allotjades, sigui de la categoria que sigui.",
+      "monthly": "Al mes i a l'any: les subscripcions en marxa, amb el cost de Finances (la base i, si l'IVA no es dedueix, també l'IVA). Les anuals compten la seva dotzena part al mes; a l'any, les mensuals × 12 i les anuals senceres.",
+      "spent": "Gastat en 12 mesos: les despeses registrades amb data de factura en els últims 12 mesos, també les soltes i les que ja han generat les subscripcions. És una altra manera de veure-ho: no se suma a l'anterior.",
+      "hosting": "Cost per web allotjada: el mensual de les subscripcions repartides entre les webs allotjades, a parts iguals entre les que allotgem i estan actives a Webs. A la rendibilitat de cada client compta el mateix, però amb les despeses de cada període.",
+      "renewals": "Renovacions: el proper càrrec de cada subscripció, amb el mateix calendari que genera les seves despeses. S'avisa els socis {days, plural, one {# dia} other {# dies}} abans de les anuals i de les mensuals a partir de {amount} per càrrec."
+    },
+    "empty": {
+      "title": "Encara no hi ha costos d'infraestructura",
+      "body": "Dona d'alta els servidors, les bases de dades, els dominis i el programari de les webs com a subscripcions. Aquí veuràs el que costen al mes i a l'any, quan es renoven i quant costa cada web allotjada.",
+      "cta": "Afegeix una subscripció",
+      "hint": "Hi entra el que estigui en una categoria d'infraestructura (les de servidors, bases de dades i dominis) o es reparteixi entre les webs allotjades."
+    },
+    "settings": {
+      "title": "Avisos de renovació",
+      "description": "Quan avisar els socis, a la safata i al mòbil, que una subscripció es renova.",
+      "warningDays": "Dies d'avís",
+      "warningDaysHint": "Quants dies abans del càrrec. El que es renova en aquests dies es destaca aquí.",
+      "days": "dies",
+      "monthlyMin": "Import mínim de les mensuals",
+      "monthlyMinHint": "Les anuals avisen sempre; les mensuals, només si cada càrrec (amb IVA) és com a mínim d'aquest import.",
+      "saved": "Avisos desats",
+      "previewOnly": "A la vista prèvia no es desa res."
+    },
+    "validation": {
+      "required": "Obligatori",
+      "warningDays": "Dies enters, d'1 a 180",
+      "amount": "Un import de 0 a 100.000 €"
+    }
+  }
+}

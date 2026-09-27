@@ -1,0 +1,159 @@
+{
+  "portal": {
+    "link": {
+      "status": {
+        "active": "Active",
+        "expired": "Expired",
+        "revoked": "Revoked"
+      },
+      "none": "No link yet.",
+      "create": "Create link",
+      "createNew": "Create new link",
+      "creating": "Creating…",
+      "createNewConfirm": "The current link will stop working and you'll have to send the new one.",
+      "createNewAction": "Yes, create another",
+      "copy": "Copy",
+      "copied": "Link copied",
+      "open": "Open",
+      "freshTitle": "Link ready",
+      "freshNotice": "Copy it now: for security, it isn't stored. If you lose it, create a new one (the old one will stop working).",
+      "revoke": "Revoke",
+      "revokeConfirm": "It will stop working immediately, including for anyone who already has it.",
+      "revokeAction": "Yes, revoke",
+      "revoked": "Link revoked",
+      "renew": "Renew for a year",
+      "renewed": "Renewed until {date}",
+      "created": "Created on {date}",
+      "createdBy": "Created on {date} by {name}",
+      "expires": "Expires on {date}",
+      "expiredOn": "Expired on {date}",
+      "views": "{count, plural, =0 {No views yet} one {# view} other {# views}}",
+      "lastView": "last viewed {when}",
+      "viewsHint": "Views by team members aren't counted."
+    },
+    "quoteShare": {
+      "title": "Share link",
+      "description": "The client can view it, download it and accept it online, without signing in.",
+      "blocked": {
+        "draft": "Send the quote or mark it as sent to be able to share it.",
+        "expired": "Its validity has passed: extend it to share it.",
+        "answered": "This quote has already been answered."
+      },
+      "followsValidity": "The link expires with the quote's validity (plus a margin).",
+      "acceptedOnline": "Accepted online",
+      "acceptedBy": "{name} · {email}",
+      "signature": "Signature: {signature}",
+      "acceptedAt": "On {date}",
+      "ip": "IP {ip}",
+      "fingerprint": "Fingerprint of the accepted PDF: {hash}",
+      "copyStored": "Exact copy stored",
+      "copyMissing": "No copy of the PDF (fingerprint only)"
+    },
+    "card": {
+      "title": "Client portal",
+      "description": "“Your GNERAI space”: a private link where {client} can see their project and documents, and send you requests.",
+      "archived": "The client is archived: their portal still works, but new links can't be created.",
+      "configure": "Configure",
+      "sectionsOn": "{count, plural, one {# visible section} other {# visible sections}}",
+      "files": "{count, plural, =0 {No deliverables} one {# deliverable} other {# deliverables}}",
+      "visibleWork": "{count, plural, =0 {No visible work} one {# visible work item} other {# visible work items}}",
+      "projects": "{count, plural, =0 {No visible projects} one {# visible project} other {# visible projects}}",
+      "visibleTasks": "{count, plural, =0 {No visible tasks} one {# visible task} other {# visible tasks}}",
+      "projectTasks": "{count, plural, =0 {Visible, no tasks marked} one {Visible · # task} other {Visible · # tasks}}",
+      "projectHidden": "Hidden",
+      "projectsMore": "{count, plural, one {And # more project.} other {And # more projects.}}",
+      "projectsHint": "Which projects and tasks the client sees is set on each project's page."
+    },
+    "sheet": {
+      "title": "Portal for {client}",
+      "description": "What the client sees in their space. Changes show up right away.",
+      "tabs": {
+        "sections": "Sections",
+        "files": "Deliverables",
+        "work": "Visible work"
+      },
+      "save": "Save",
+      "saved": "Portal updated",
+      "nextSteps": "Next steps",
+      "nextStepsHint": "Shown in “Where we are”. Plain text, no promises about results.",
+      "nextStepsPlaceholder": "This week we're reviewing the homepage copy and preparing the mobile version.",
+      "webDataUnavailable": "This client has no website connected in SEO: the section would be empty.",
+      "workHint": "Only the activities you mark (title, text and date) and visible tasks once they're completed (title and date) are shown. Everything else stays internal.",
+      "workEmpty": "No activities recorded with this client yet.",
+      "visibleToggle": "Visible to the client"
+    },
+    "sections": {
+      "progress": {
+        "title": "Where we are",
+        "description": "The projects you make visible (status, progress and what's next), the phases of the client's contracts and the next steps."
+      },
+      "work_log": {
+        "title": "What we've done",
+        "description": "The activities you mark as visible and visible tasks as they're completed."
+      },
+      "files": {
+        "title": "Deliverables and files",
+        "description": "Files and links you share with the client."
+      },
+      "services": {
+        "title": "Your services",
+        "description": "The active lines of their contracts, with no prices or internal notes."
+      },
+      "documents": {
+        "title": "Documents",
+        "description": "Invoices with how to pay them, quotes to accept, and contracts."
+      },
+      "requests": {
+        "title": "Ask us for something",
+        "description": "A form that creates a deal with the “Portal” source and notifies you."
+      },
+      "web_data": {
+        "title": "Your website data",
+        "description": "Measured figures from Search Console and Analytics. Off by default."
+      }
+    },
+    "files": {
+      "empty": "You haven't shared anything with this client yet.",
+      "addFile": "Upload file",
+      "addLink": "Add link",
+      "fileTitle": "Title",
+      "fileTitlePlaceholder": "Style guide",
+      "file": "File",
+      "fileHint": "Up to 50 MB.",
+      "url": "Link",
+      "urlPlaceholder": "https://…",
+      "contract": "Contract",
+      "noContract": "No contract",
+      "upload": "Upload",
+      "uploading": "Uploading…",
+      "add": "Add",
+      "adding": "Adding…",
+      "uploaded": "File shared",
+      "added": "Link shared",
+      "remove": "Remove",
+      "removeConfirm": "The client will no longer see it.",
+      "removeAction": "Yes, remove",
+      "removed": "Removed from the portal",
+      "link": "Link"
+    },
+    "activity": {
+      "clientVisible": "Visible to the client",
+      "clientVisibleHint": "It will appear in “What we've done” in their portal (title, text and date)."
+    },
+    "errors": {
+      "quoteDraft": "Send the quote or mark it as sent before sharing it.",
+      "quoteClosed": "This quote has already been answered.",
+      "quoteExpired": "The quote's validity has passed: extend it to share it.",
+      "clientArchived": "The client is archived.",
+      "clientNotFound": "We can't find that client.",
+      "linkRevoked": "A revoked link can't be renewed: create another one.",
+      "linkFollowsQuote": "A quote's link expires with its validity: extend it.",
+      "activityNotFound": "We can't find that activity.",
+      "contractNotFound": "That contract doesn't belong to this client.",
+      "urlInvalid": "The link must start with https:// or http://.",
+      "fileTooLarge": "The file is larger than 50 MB.",
+      "fileNotFound": "We can't find that file.",
+      "uploadFailed": "The file couldn't be uploaded. Please try again."
+    }
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "id": "operations-capacity-missing",
+  "title": "Operaciones: sin horas registradas no propone contratar",
+  "description": "Nadie ha registrado horas en Proyectos en las últimas semanas: no se sabe la carga del equipo. Operaciones pide los datos (data_gap) y no propone contratar: la regla de la política no se puede evaluar.",
+  "job": {
+    "agent": "operations",
+    "trigger": "weekly"
+  },
+  "replay": {
+    "operations:scan": [
+      {
+        "calls": [
+          {
+            "name": "get_capacity"
+          },
+          {
+            "name": "get_pipeline"
+          },
+          {
+            "name": "get_policy"
+          }
+        ],
+        "output": {
+          "recommendations": [
+            {
+              "kind": "data_gap",
+              "title": "Registrar las horas de cada socio para medir la carga del equipo",
+              "summary": "Sin horas registradas no se puede saber cuánta capacidad está comprometida ni si hace falta ayuda.",
+              "reasoning": "get_capacity devuelve missing_data: nadie ha registrado horas en Proyectos en las últimas semanas completas, así que la regla para contratar no se puede evaluar.",
+              "evidence": [
+                "@call:0"
+              ],
+              "impact_ref": null,
+              "proposed_actions": [
+                {
+                  "title": "Importar de GTiQ las horas del último trimestre o registrarlas en Proyectos",
+                  "due_in_days": 14
+                }
+              ],
+              "confidence": "alta",
+              "urgency": "este_mes",
+              "risks": "Ninguno.",
+              "requires_professional_review": false,
+              "subject": "capacity",
+              "policy_rule": null,
+              "missing_data": [
+                "Horas registradas por socio (Proyectos o importación de GTiQ)"
+              ]
+            }
+          ],
+          "silence_reason": null
+        }
+      }
+    ]
+  },
+  "expect": {
+    "published": {
+      "min": 1,
+      "max": 1
+    },
+    "kinds": [
+      "data_gap"
+    ],
+    "tools": [
+      "get_capacity"
+    ],
+    "forbid": [
+      "contrat"
+    ]
+  }
+}

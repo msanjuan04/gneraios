@@ -1,0 +1,56 @@
+{
+  "id": "retention-renewal-below-threshold",
+  "title": "Retención: una renovación pequeña no merece aviso",
+  "description": "El hosting de Costa Nord se renueva en 19 días por 240 € al año, por debajo del umbral de impacto de la política (300 €). Se silencia.",
+  "job": {
+    "agent": "retention",
+    "trigger": "weekly"
+  },
+  "replay": {
+    "retention:scan": [
+      {
+        "calls": [
+          {
+            "name": "get_renewals"
+          }
+        ],
+        "output": {
+          "recommendations": [
+            {
+              "kind": "decision",
+              "title": "Confirmar la renovación del hosting de Immobiliària Costa Nord",
+              "summary": "El hosting y dominio de Costa Nord se renueva en 19 días por 240 € al año.",
+              "reasoning": "Es una renovación anual dentro de la ventana de avisos.",
+              "evidence": [
+                "renewal.l5.amount",
+                "renewal.l5.days_left"
+              ],
+              "impact_ref": "renewal.l5.amount",
+              "proposed_actions": [
+                {
+                  "title": "Enviar el aviso de renovación",
+                  "due_in_days": 7
+                }
+              ],
+              "confidence": "alta",
+              "urgency": "este_mes",
+              "risks": "Ninguno relevante.",
+              "requires_professional_review": false,
+              "subject": "line:l5",
+              "policy_rule": null,
+              "missing_data": []
+            }
+          ],
+          "silence_reason": null
+        }
+      }
+    ]
+  },
+  "expect": {
+    "silent": true,
+    "tools": [
+      "get_renewals"
+    ],
+    "silencedReason": "umbral"
+  }
+}

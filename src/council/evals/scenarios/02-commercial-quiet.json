@@ -1,0 +1,38 @@
+{
+  "id": "commercial-quiet",
+  "title": "Comercial: nada parado, silencio útil",
+  "description": "Sin el deal parado, lo único abierto es una negociación que se movió esta semana. Lo correcto es callarse y decir por qué.",
+  "job": {
+    "agent": "commercial",
+    "trigger": "daily"
+  },
+  "data": {
+    "removeDeals": [
+      "d1"
+    ]
+  },
+  "replay": {
+    "commercial:scan": [
+      {
+        "calls": [
+          {
+            "name": "get_stalled_deals"
+          },
+          {
+            "name": "get_pipeline"
+          }
+        ],
+        "output": {
+          "recommendations": [],
+          "silence_reason": "Ningún deal está parado más allá del umbral y la negociación abierta se movió esta semana."
+        }
+      }
+    ]
+  },
+  "expect": {
+    "silent": true,
+    "tools": [
+      "get_stalled_deals"
+    ]
+  }
+}

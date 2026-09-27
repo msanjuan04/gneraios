@@ -1,0 +1,87 @@
+{
+  "settings": {
+    "tabs": {
+      "pipeline": "Pipeline"
+    },
+    "pipeline": {
+      "name": "Nom",
+      "actions": "Accions",
+      "moveUp": "Puja",
+      "moveDown": "Baixa",
+      "rename": "Canvia el nom",
+      "archive": "Arxiva",
+      "listChanged": "L'ordre ha canviat mentrestant. Recarrega la pàgina i torna-ho a provar.",
+      "errors": {
+        "nameInvalid": "El nom ha de tenir entre 1 i 60 caràcters.",
+        "probabilityInvalid": "La probabilitat ha d'estar entre 0 i 100 %."
+      },
+      "stages": {
+        "title": "Etapes",
+        "description": "Les columnes del tauler, en aquest ordre. Les de tipus «Guanyada» ({won}) compten com a deal guanyat a l'embut, i moure un deal a una de tipus «Perduda» demana el motiu de pèrdua.",
+        "descriptionNoWon": "Les columnes del tauler, en aquest ordre. Les de tipus «Guanyada» compten com a deal guanyat a l'embut, i moure un deal a una de tipus «Perduda» demana el motiu de pèrdua.",
+        "add": "Afegeix etapa",
+        "addTitle": "Nova etapa",
+        "addDescription": "Es col·loca abans de la primera etapa guanyada. Després la pots moure.",
+        "edit": "Edita l'etapa",
+        "editDescription": "El nom i la probabilitat es poden canviar quan vulguis. El tipus, només mentre l'etapa no tingui deals.",
+        "order": "Ordre",
+        "stage": "Etapa",
+        "kind": "Tipus",
+        "probability": "Probabilitat",
+        "probabilityLabel": "Probabilitat per defecte",
+        "probabilityHint": "La dels deals d'aquesta etapa que no en tinguin una de pròpia. Pondera el pipeline.",
+        "deals": "Deals",
+        "namePlaceholder": "p. ex. Demo",
+        "kindHints": {
+          "open": "El deal continua en joc.",
+          "won": "Compta com a deal guanyat a l'embut.",
+          "lost": "En moure un deal aquí es demana el motiu de pèrdua."
+        },
+        "onlyOfKind": {
+          "open": "És l'única etapa oberta: sempre n'hi ha d'haver com a mínim una d'oberta, una de guanyada i una de perduda.",
+          "won": "És l'única etapa guanyada: sempre n'hi ha d'haver com a mínim una d'oberta, una de guanyada i una de perduda.",
+          "lost": "És l'única etapa perduda: sempre n'hi ha d'haver com a mínim una d'oberta, una de guanyada i una de perduda."
+        },
+        "kindLocked": "Ja té deals (també compten els arxivats), així que el seu tipus no canvia. Si ho necessites, crea una altra etapa i arxiva aquesta.",
+        "archiveHasDeals": "{count, plural, one {Té # deal: mou-lo} other {Té # deals: mou-los}} a una altra etapa abans d'arxivar-la.",
+        "archiveTitle": "Vols arxivar l'etapa «{name}»?",
+        "archiveBody": "Desapareixerà del tauler i no s'hi podrà moure cap deal. L'historial i l'embut la conserven.",
+        "createdToast": "Etapa «{name}» afegida",
+        "savedToast": "Etapa desada",
+        "archivedToast": "Etapa «{name}» arxivada",
+        "notFound": "Aquesta etapa ja no existeix o està arxivada. Recarrega la pàgina.",
+        "duplicateName": "Ja hi ha una etapa amb aquest nom.",
+        "empty": "No hi ha etapes."
+      },
+      "sources": {
+        "title": "Fonts d'adquisició",
+        "description": "D'on arriba cada deal. Una font arxivada es queda als deals que ja la tenen, però no es pot triar als nous.",
+        "add": "Afegeix font",
+        "placeholder": "p. ex. Esdeveniment",
+        "createdToast": "Font «{name}» afegida",
+        "renamedToast": "Nom de la font canviat",
+        "archiveTitle": "Vols arxivar la font «{name}»?",
+        "archiveBody": "Els deals que ja la tenen la conserven, però no es podrà triar en deals nous.",
+        "archivedToast": "Font «{name}» arxivada",
+        "notFound": "Aquesta font ja no existeix o està arxivada. Recarrega la pàgina.",
+        "duplicateName": "Ja hi ha una font amb aquest nom.",
+        "empty": "No hi ha fonts. Afegeix la primera."
+      },
+      "reasons": {
+        "title": "Motius de pèrdua",
+        "description": "Es demanen en moure un deal a una etapa perduda i alimenten el top de motius de l'embut. Un d'arxivat es queda als deals ja perduts, però no es pot triar als nous.",
+        "add": "Afegeix motiu",
+        "placeholder": "p. ex. Pressupost",
+        "createdToast": "Motiu «{name}» afegit",
+        "renamedToast": "Nom del motiu canviat",
+        "archiveTitle": "Vols arxivar el motiu «{name}»?",
+        "archiveBody": "Els deals perduts per aquest motiu el conserven, però no es podrà triar en marcar-ne un de nou com a perdut.",
+        "archivedToast": "Motiu «{name}» arxivat",
+        "lastOne": "Ha de quedar com a mínim un motiu: sense cap no es podria marcar un deal com a perdut.",
+        "notFound": "Aquest motiu ja no existeix o està arxivat. Recarrega la pàgina.",
+        "duplicateName": "Ja hi ha un motiu amb aquest nom.",
+        "empty": "No hi ha motius. Afegeix el primer."
+      }
+    }
+  }
+}

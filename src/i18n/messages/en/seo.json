@@ -1,0 +1,388 @@
+{
+  "seo": {
+    "metaTitle": "SEO",
+    "title": "SEO",
+    "description": "How people find you on Google: your website and your clients' sites, and what that brings to the business.",
+    "manage": "Properties",
+    "features": {
+      "searchConsole": "Search Console",
+      "analytics": "Google Analytics"
+    },
+    "googleErrors": {
+      "not_configured": "Google isn't set up on this server yet.",
+      "owner_required": "Only an owner can connect Google.",
+      "state": "The connection expired or was opened in another tab. Try again.",
+      "session": "The connection was started by another user. Try again with your own session.",
+      "denied": "Permission wasn't granted on Google, so nothing was connected.",
+      "google": "Google didn't respond as expected. Try again in a few minutes.",
+      "no_refresh_token": "Google didn't grant permanent access. Remove GNERAI OS's access in your Google account and connect again.",
+      "scopes": "Permission is needed for Search Console or Analytics (tick at least one box).",
+      "save": "The connection couldn't be saved. Try again."
+    },
+    "noProperties": {
+      "title": "Google is connected",
+      "body": "With {email}. Choose which websites you want to track: yours and your clients'.",
+      "cta": "Add the first website"
+    },
+    "banners": {
+      "connected": "Google connected. Data syncs every day.",
+      "demo": "Demo data: generated to show the module, it's not from Google. Connect Google to see the real data.",
+      "reconnect": "Google has stopped granting access (the permission was revoked or has expired). Data won't update until you reconnect.",
+      "reconnectCta": "Reconnect",
+      "notConnected": "Google isn't connected: this data isn't updating.",
+      "notConfigured": "Google isn't set up on this server: this data isn't updating.",
+      "connectCta": "Connect Google",
+      "firstSync": "Syncing for the first time: loading 16 months takes a couple of minutes. Reload the page in a little while.",
+      "loadingHistory": "Loading history: there's data from {date}, and the rest arrives in the next syncs.",
+      "missingScopes": "Permission is missing for {features}. Reconnect Google and tick all the boxes."
+    },
+    "toolbar": {
+      "property": "Website",
+      "own": "Own website",
+      "clients": "Client websites",
+      "manage": "Manage websites",
+      "period": "Period",
+      "periods": {
+        "28d": "28 days",
+        "3m": "3 months",
+        "12m": "12 months"
+      },
+      "compareLabel": "Compare with",
+      "compare": {
+        "previous": "vs previous",
+        "year": "vs last year"
+      },
+      "caption": "{range} · compared with {compare}",
+      "captionNoCompare": "{range} · no data to compare"
+    },
+    "kpi": {
+      "label": "Figures for the period",
+      "clicks": "Clicks",
+      "impressions": "Impressions",
+      "ctr": "Average CTR",
+      "position": "Average position",
+      "sessions": "Organic sessions",
+      "conversions": "Organic conversions",
+      "previous": "Before: {value}",
+      "noCompare": "No period to compare with",
+      "noGa4": "Link GA4 to see them",
+      "noGsc": "Link Search Console to see it",
+      "organicShare": "{share} of all sessions",
+      "organicShareWithPrevious": "{share} of the total · before: {value}",
+      "positionHint": "Average position on Google: the lower, the better",
+      "pp": "pp",
+      "changeLabel": {
+        "relative": "Change: {value} compared with the comparison period",
+        "points": "Change: {value} percentage points compared with the comparison period",
+        "positions": "Change: {value} positions compared with the comparison period"
+      }
+    },
+    "chart": {
+      "title": "Performance on Google",
+      "clicks": "Clicks",
+      "impressions": "Impressions",
+      "ctr": "CTR",
+      "compareTotal": "before {value}",
+      "day": "Day",
+      "compareClicks": "Clicks before",
+      "compareImpressions": "Impressions before",
+      "tableCaption": "Clicks and impressions per day for the period and the comparison period",
+      "showTable": "Show as table",
+      "empty": "No Search Console data in this period."
+    },
+    "top": {
+      "title": "Queries and pages",
+      "description": "What brings the most clicks, with its change and average position.",
+      "queriesTab": "Queries",
+      "pagesTab": "Pages",
+      "queriesCaption": "Queries with the most clicks in the period",
+      "pagesCaption": "Pages with the most clicks in the period",
+      "query": "Query",
+      "page": "Page",
+      "clicks": "Clicks",
+      "impressions": "Impressions",
+      "ctr": "CTR",
+      "position": "Position",
+      "new": "New",
+      "showAll": "See all {count}",
+      "showLess": "See less",
+      "empty": "No queries in this period."
+    },
+    "movers": {
+      "title": "Rising and falling",
+      "description": "The queries gaining or losing the most clicks, with their position before → now.",
+      "up": "Rising",
+      "down": "Falling",
+      "total": "{value} clicks",
+      "noneUp": "No query is clearly rising.",
+      "noneDown": "No query is clearly falling.",
+      "noCompare": "Choose a period with data to compare and you'll see which queries are rising and which are falling."
+    },
+    "opportunities": {
+      "title": "Opportunities",
+      "description": "Queries in position {min}-{max} with lots of impressions: moving into the top {target} would multiply their clicks.",
+      "meta": "Position {position} · {impressions} impressions · CTR {ctr}",
+      "potential": "+{value}/month",
+      "potentialLong": "+{value} potential clicks a month",
+      "tooltipNow": "Now: {clicks} clicks from {impressions} impressions",
+      "empty": "No queries one step away from the top: they're either already there or still have few impressions.",
+      "footnote": "Estimated with a benchmark CTR per position; branded queries and those showing a map or ads deviate from it."
+    },
+    "business": {
+      "title": "SEO → business",
+      "description": "What the {sources} sources bring to the CRM in the same period.",
+      "noSources": "Choose which acquisition sources count as SEO to see what they bring to the CRM.",
+      "suggested": "Suggested by their name: you can change them.",
+      "sources": "Sources",
+      "sourcesLabel": "Count as SEO",
+      "resetSources": "Back to the suggested ones",
+      "leads": "Leads",
+      "won": "Won",
+      "billed": "Invoiced",
+      "inPeriod": "In the period",
+      "shareOfLeads": "{share} of all leads",
+      "shareOfBilled": "{share} of what's invoiced",
+      "perMonth": "{amount}/month",
+      "lifetime": "All time: <strong>{amount}</strong> invoiced to {clients, plural, =0 {no paying clients} one {# paying client} other {# paying clients}} ({share} of the total).",
+      "channels": "By channel, invoiced to date",
+      "channelsLabel": "Revenue by acquisition channel",
+      "noSource": "No source",
+      "archivedSource": "Archived source",
+      "channelTooltip": "{leads, plural, one {# lead} other {# leads}} and {won, plural, one {# won} other {# won}} in the period · {billed} invoiced · {paying, plural, one {# paying client} other {# paying clients}}",
+      "empty": "No leads or revenue to attribute to a channel yet.",
+      "footnote": "Revenue goes by the client's source (that of their first deal); leads and won deals, by each deal's source. Taxable amount, excl. VAT."
+    },
+    "client": {
+      "description": "This client's website, tied to what they're billed.",
+      "billed": "Invoiced",
+      "since": "First invoice",
+      "sinceStart": "Since you started working together",
+      "sinceData": "Since the first data available",
+      "clicksFrom": "{value} clicks",
+      "clicksTo": "{value} clicks",
+      "windows": "{from} compared with {to}",
+      "noHistory": "There isn't enough data yet to see the trend.",
+      "open": "Open the client's page"
+    },
+    "sync": {
+      "now": "Sync",
+      "running": "Syncing…",
+      "done": "Synced: {rows, plural, =0 {nothing new} one {# row updated} other {# rows updated}}.",
+      "pending": "The most recent data is synced; the history continues in the next syncs.",
+      "partialErrors": "Synced with {count, plural, one {an error on one website} other {errors on # websites}}. See the details in Properties."
+    },
+    "connect": {
+      "setup": {
+        "title": "Connect Search Console and GA4",
+        "body": "To see the SEO of your website and your clients' sites here, GNERAI OS needs to be registered in Google Cloud just once.",
+        "stepsTitle": "What's needed",
+        "steps": {
+          "project": {
+            "title": "A Google Cloud project",
+            "body": "Enable the Google Search Console API, the Google Analytics Data API and the Google Analytics Admin API."
+          },
+          "consent": {
+            "title": "Internal consent screen",
+            "body": "Of the “Internal” type (Google Workspace): it doesn't need verification, and access doesn't expire after 7 days."
+          },
+          "client": {
+            "title": "A web application OAuth client ID",
+            "body": "With this authorized redirect URI:"
+          },
+          "env": {
+            "title": "Three environment variables on the server",
+            "body": "The client ID and secret, and a key to encrypt the tokens (openssl rand -base64 32). Then restart the app."
+          }
+        },
+        "missing": "missing",
+        "present": "set",
+        "demo": "In the meantime, you can see how it looks with sample data in the <link>demo org</link>."
+      },
+      "connect": {
+        "title": "Connect your Google account",
+        "body": "An owner connects, once, the account that has access to Search Console and Analytics for your website and your clients' sites. After that, it syncs every day."
+      },
+      "reconnect": {
+        "title": "Reconnect Google",
+        "body": "Google has stopped granting access (the permission was revoked or has expired). Reconnect to keep syncing."
+      },
+      "benefits": {
+        "search": {
+          "title": "Clicks, impressions and position",
+          "body": "From Search Console, day by day, with 16 months of history."
+        },
+        "traffic": {
+          "title": "Sessions and conversions",
+          "body": "From GA4, for organic traffic and the total."
+        },
+        "opportunities": {
+          "title": "Quick wins",
+          "body": "Queries one step away from the top 3, and the ones rising or falling."
+        },
+        "business": {
+          "title": "SEO → business",
+          "body": "Leads, clients won and revenue that come through SEO."
+        }
+      },
+      "cta": "Connect with Google",
+      "reconnectCta": "Reconnect with Google",
+      "readOnly": "Read-only: GNERAI OS can't change anything in Google.",
+      "ownerOnly": "Ask an owner of the organization to connect Google."
+    },
+    "connection": {
+      "title": "Google connection",
+      "description": "One account per organization, with access to Search Console and Analytics for all the websites.",
+      "notConfigured": "Google isn't set up on this server (environment variables are missing).",
+      "connect": "Connect",
+      "reconnect": "Reconnect",
+      "never": "No account has been connected yet.",
+      "disconnected": "Disconnected. The existing data is kept.",
+      "connected": "Connected",
+      "error": "Needs reconnecting",
+      "errorBody": "Google has stopped granting access: data won't update until you reconnect.",
+      "missingScopes": "Permission is missing for {features}: reconnect and tick all the boxes.",
+      "features": {
+        "searchConsole": "Search Console",
+        "analytics": "Google Analytics"
+      },
+      "connectedBy": "Connected by",
+      "lastSync": "Last sync",
+      "neverSynced": "Not yet",
+      "lastError": "Last error",
+      "disconnect": "Disconnect",
+      "disconnectTitle": "Disconnect Google?",
+      "disconnectBody": "Access is revoked on Google and the token is deleted. Data already synced is kept, but stops updating.",
+      "disconnectedToast": "Google disconnected"
+    },
+    "properties": {
+      "back": "SEO",
+      "pageTitle": "Websites and connection",
+      "pageDescription": "Which websites are tracked, who they belong to and where their data comes from.",
+      "title": "Websites",
+      "description": "Your website and your clients' sites. Each with its Search Console property and, if you like, its GA4 property.",
+      "add": "Add website",
+      "emptyTitle": "You're not tracking any websites yet",
+      "emptyConnected": "Add your website and your clients' sites: the last 16 months are loaded.",
+      "emptyBody": "Connect Google to pick them from your account, or add them manually.",
+      "primary": "Primary",
+      "demo": "Demo",
+      "ownSite": "Own website",
+      "ga4Id": "GA4 {id}",
+      "coverage": "Data from {from} to {to}",
+      "waiting": "No data yet: it loads in the next sync",
+      "noData": "No data",
+      "syncError": "Sync error: {error}",
+      "open": "View",
+      "edit": "Edit",
+      "archive": "Archive",
+      "restore": "Restore",
+      "archivedToast": "“{name}” archived",
+      "restoredToast": "“{name}” restored",
+      "undo": "Undo",
+      "showArchived": "Show {count, plural, one {the archived one} other {the # archived ones}}",
+      "hideArchived": "Hide archived"
+    },
+    "form": {
+      "createTitle": "Add website",
+      "editTitle": "Edit website",
+      "description": "Who it belongs to and where its data comes from.",
+      "create": "Add",
+      "owner": "Belongs to",
+      "owners": {
+        "own": "Own website",
+        "ownHint": "Your organization's",
+        "client": "A client's",
+        "clientHint": "A website you manage for them"
+      },
+      "client": "Client",
+      "clientPlaceholder": "Choose the client",
+      "noClients": "No clients",
+      "gsc": "Search Console property",
+      "gscHint": "The domain property (sc-domain:) covers every version of the website.",
+      "gscAccount": "From the connected account",
+      "domainProperty": "domain",
+      "noGsc": "No Search Console",
+      "ga4": "GA4 property",
+      "ga4Hint": "For organic sessions and conversions.",
+      "ga4Account": "From the connected account",
+      "noGa4": "No GA4",
+      "manual": "Type it manually…",
+      "pick": "Choose",
+      "loadingGoogle": "Reading your Google account…",
+      "label": "Name",
+      "labelHint": "How it will appear in the list, e.g. “gnerai.com”.",
+      "primary": "Primary website",
+      "primaryOwnHint": "The one that opens by default in SEO.",
+      "primaryClientHint": "The one shown on the client's page.",
+      "createdToast": "Website added",
+      "createdSyncToast": "Website added. Loading its last 16 months…",
+      "savedToast": "Changes saved"
+    },
+    "validation": {
+      "clientRequired": "Choose the client",
+      "gscSite": "It must be “sc-domain:example.com” or a URL like “https://www.example.com/”",
+      "ga4Property": "The property's numeric ID (e.g. 123456789)",
+      "sourceRequired": "Search Console or GA4 is required"
+    },
+    "card": {
+      "title": "SEO",
+      "demo": "Demo",
+      "open": "View in SEO",
+      "empty": "No website linked yet.",
+      "link": "Link website",
+      "clicks": "Clicks",
+      "impressions": "Impressions",
+      "position": "Position",
+      "ctr": "CTR {value}",
+      "pp": "pp",
+      "sessions": "{value} organic sessions",
+      "others": "{count, plural, one {# more website} other {# more websites}}"
+    },
+    "errors": {
+      "notFound": "That website no longer exists.",
+      "archived": "That website is archived: restore it before editing it.",
+      "duplicateSite": "That Search Console property has already been added.",
+      "duplicateGa4": "That GA4 property has already been added.",
+      "primaryConflict": "Another website was marked as primary at the same time. Try again.",
+      "clientNotFound": "That client doesn't exist in this organization.",
+      "syncBusy": "A sync is already in progress.",
+      "reconnect": "Google has stopped granting access: you need to reconnect.",
+      "notConnected": "Google isn't connected.",
+      "sync": "It couldn't sync. Try again in a few minutes.",
+      "google": "Your Google account couldn't be read. Type the property manually or try again.",
+      "gscSiteNotFound": "That website isn't in the connected account's Search Console. Pick it from the list (e.g. “sc-domain:gnerai.com”)."
+    },
+    "discovered": {
+      "title": "{count, plural, one {# website in your Search Console not added yet} other {# websites in your Search Console not added yet}}",
+      "description": "The connected Google account has these properties. Add them and they sync on their own; if the website matches a client's, it's linked to them.",
+      "suggestedClient": "for {client}",
+      "ownOrUnlinked": "no linked client",
+      "add": "Add",
+      "adding": "Adding…",
+      "added": "{site} added: it's syncing."
+    },
+    "channels": {
+      "title": "Where visits come from",
+      "description": "GA4 sessions by channel in the period. Paid channels (Google Ads, Meta…) are in blue, so you can see what the campaigns bring.",
+      "paidPill": "Campaigns: {share} of traffic",
+      "channel": "Channel",
+      "share": "Share",
+      "sessions": "Sessions",
+      "change": "Change",
+      "conversions": "Conversions",
+      "names": {
+        "organic_search": "Organic search",
+        "paid_search": "Search ads",
+        "organic_social": "Social media",
+        "paid_social": "Social ads",
+        "direct": "Direct",
+        "referral": "Other websites",
+        "email": "Email",
+        "other": "Other"
+      },
+      "paidSummary": "Campaigns brought {sessions} visits and {conversions} conversions{hasChange, select, yes { ({change} compared with the previous period)} other {}}.",
+      "noPaid": "There's no paid campaign traffic in this period.",
+      "footnote": "Conversions = GA4 key events."
+    }
+  }
+}

@@ -30,8 +30,20 @@ const SUPABASE_SHIM = `
       (nullif(current_setting('request.jwt.claims', true), '')::jsonb ->> 'sub')
     )::uuid
   $$;
+  create function auth.jwt() returns jsonb language sql stable as $$
+    select coalesce(
+      nullif(current_setting('request.jwt.claims', true), ''),
+      jsonb_build_object('sub', nullif(current_setting('request.jwt.claim.sub', true), ''))::text
+    )::jsonb
+  $$;
+  create table auth.sessions (
+    id uuid primary key default gen_random_uuid(),
+    user_id uuid not null references auth.users (id) on delete cascade,
+    created_at timestamptz not null default now()
+  );
   grant usage on schema auth to anon, authenticated, service_role;
   grant execute on function auth.uid() to anon, authenticated, service_role;
+  grant execute on function auth.jwt() to anon, authenticated, service_role;
 
   grant usage on schema public to anon, authenticated, service_role;
   alter default privileges in schema public grant all on tables to anon, authenticated, service_role;
@@ -65,14 +77,19 @@ export async function createUser(db: Db, email: string): Promise<string> {
  * Ejecuta `fn` como lo haría PostgREST para ese usuario: rol `authenticated`
  * (o `anon` si no hay usuario) y el `sub` del JWT en la sesión.
  */
-export async function as<T>(db: Db, userId: string | null, fn: () => Promise<T>): Promise<T> {
+export async function as<T>(db: Db, userId: string | null, fn: () => Promise<T>, opts: { aal?: "aal1" | "aal2" } = {}): Promise<T> {
   await db.exec(`set role ${userId ? "authenticated" : "anon"}`);
   await db.query("select set_config('request.jwt.claim.sub', $1, false)", [userId ?? ""]);
+  // Los claims completos solo si el test pide un nivel de verificación (como el JWT de Supabase).
+  await db.query("select set_config('request.jwt.claims', $1, false)", [
+    userId && opts.aal ? JSON.stringify({ sub: userId, role: "authenticated", aal: opts.aal }) : "",
+  ]);
   try {
     return await fn();
   } finally {
     await db.exec("reset role");
     await db.query("select set_config('request.jwt.claim.sub', '', false)");
+    await db.query("select set_config('request.jwt.claims', '', false)");
   }
 }
 

@@ -10,3 +10,4 @@ export * from "./receivables";
 export * from "./renewals";
 export * from "./revenue";
 export * from "./snapshot";
+export * from "./goals";

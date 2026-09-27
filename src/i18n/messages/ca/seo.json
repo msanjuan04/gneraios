@@ -1,0 +1,388 @@
+{
+  "seo": {
+    "metaTitle": "SEO",
+    "title": "SEO",
+    "description": "Com et troben a Google: el teu web i els dels teus clients, i el que això aporta al negoci.",
+    "manage": "Propietats",
+    "features": {
+      "searchConsole": "Search Console",
+      "analytics": "Google Analytics"
+    },
+    "googleErrors": {
+      "not_configured": "Google encara no està configurat en aquest servidor.",
+      "owner_required": "Només un owner pot connectar Google.",
+      "state": "La connexió ha caducat o s'ha obert en una altra pestanya. Torna-ho a provar.",
+      "session": "La connexió la va començar un altre usuari. Torna-ho a provar amb la teva sessió.",
+      "denied": "No s'ha donat permís a Google, així que no s'ha connectat res.",
+      "google": "Google no ha respost com s'esperava. Torna-ho a provar d'aquí a uns minuts.",
+      "no_refresh_token": "Google no ha donat accés permanent. Treu l'accés de GNERAI OS al teu compte de Google i torna a connectar.",
+      "scopes": "Cal permís per a Search Console o per a Analytics (marca almenys una casella).",
+      "save": "No s'ha pogut desar la connexió. Torna-ho a provar."
+    },
+    "noProperties": {
+      "title": "Google està connectat",
+      "body": "Amb {email}. Tria quins webs vols seguir: el teu i els dels teus clients.",
+      "cta": "Afegeix el primer web"
+    },
+    "banners": {
+      "connected": "Google connectat. Les dades se sincronitzen cada dia.",
+      "demo": "Dades de demostració: generades per mostrar el mòdul, no són de Google. Connecta Google per veure les reals.",
+      "reconnect": "Google ha deixat de donar accés (el permís s'ha revocat o ha caducat). Les dades no s'actualitzen fins que reconnectis.",
+      "reconnectCta": "Reconnecta",
+      "notConnected": "Google no està connectat: aquestes dades no s'actualitzen.",
+      "notConfigured": "Google no està configurat en aquest servidor: aquestes dades no s'actualitzen.",
+      "connectCta": "Connecta Google",
+      "firstSync": "Sincronitzant per primera vegada: la càrrega de 16 mesos triga un parell de minuts. Torna a carregar la pàgina d'aquí a una estona.",
+      "loadingHistory": "Carregant l'històric: hi ha dades des del {date} i la resta arriba en les properes sincronitzacions.",
+      "missingScopes": "Falta permís per a {features}. Reconnecta Google i marca totes les caselles."
+    },
+    "toolbar": {
+      "property": "Web",
+      "own": "Web propi",
+      "clients": "Webs de clients",
+      "manage": "Gestiona webs",
+      "period": "Període",
+      "periods": {
+        "28d": "28 dies",
+        "3m": "3 mesos",
+        "12m": "12 mesos"
+      },
+      "compareLabel": "Comparar amb",
+      "compare": {
+        "previous": "vs anterior",
+        "year": "vs any passat"
+      },
+      "caption": "{range} · enfront de {compare}",
+      "captionNoCompare": "{range} · sense dades per comparar"
+    },
+    "kpi": {
+      "label": "Xifres del període",
+      "clicks": "Clics",
+      "impressions": "Impressions",
+      "ctr": "CTR mitjà",
+      "position": "Posició mitjana",
+      "sessions": "Sessions orgàniques",
+      "conversions": "Conversions orgàniques",
+      "previous": "Abans: {value}",
+      "noCompare": "Sense període amb què comparar",
+      "noGa4": "Vincula GA4 per veure-les",
+      "noGsc": "Vincula Search Console per veure-ho",
+      "organicShare": "{share} de totes les sessions",
+      "organicShareWithPrevious": "{share} del total · abans: {value}",
+      "positionHint": "Posició mitjana a Google: com més baixa, millor",
+      "pp": "pp",
+      "changeLabel": {
+        "relative": "Variació: {value} respecte al període de comparació",
+        "points": "Variació: {value} punts percentuals respecte al període de comparació",
+        "positions": "Variació: {value} posicions respecte al període de comparació"
+      }
+    },
+    "chart": {
+      "title": "Rendiment a Google",
+      "clicks": "Clics",
+      "impressions": "Impressions",
+      "ctr": "CTR",
+      "compareTotal": "abans {value}",
+      "day": "Dia",
+      "compareClicks": "Clics abans",
+      "compareImpressions": "Impressions abans",
+      "tableCaption": "Clics i impressions per dia del període i del període de comparació",
+      "showTable": "Mostra com a taula",
+      "empty": "Sense dades de Search Console en aquest període."
+    },
+    "top": {
+      "title": "Consultes i pàgines",
+      "description": "El que porta més clics, amb la seva variació i la seva posició mitjana.",
+      "queriesTab": "Consultes",
+      "pagesTab": "Pàgines",
+      "queriesCaption": "Consultes amb més clics del període",
+      "pagesCaption": "Pàgines amb més clics del període",
+      "query": "Consulta",
+      "page": "Pàgina",
+      "clicks": "Clics",
+      "impressions": "Impressions",
+      "ctr": "CTR",
+      "position": "Posició",
+      "new": "Nova",
+      "showAll": "Mostra les {count}",
+      "showLess": "Mostra'n menys",
+      "empty": "Sense consultes en aquest període."
+    },
+    "movers": {
+      "title": "Pugen i baixen",
+      "description": "Les consultes que guanyen o perden més clics, amb la seva posició abans → ara.",
+      "up": "Pugen",
+      "down": "Baixen",
+      "total": "{value} clics",
+      "noneUp": "Cap consulta no puja clarament.",
+      "noneDown": "Cap consulta no baixa clarament.",
+      "noCompare": "Tria un període amb dades per comparar i veuràs quines consultes pugen i quines baixen."
+    },
+    "opportunities": {
+      "title": "Oportunitats",
+      "description": "Consultes en posició {min}-{max} amb moltes impressions: pujar al top {target} multiplicaria els seus clics.",
+      "meta": "Posició {position} · {impressions} impressions · CTR {ctr}",
+      "potential": "+{value}/mes",
+      "potentialLong": "+{value} clics possibles al mes",
+      "tooltipNow": "Ara: {clicks} clics de {impressions} impressions",
+      "empty": "No hi ha consultes a un pas del top: o ja són a dalt o encara tenen poques impressions.",
+      "footnote": "Estimació amb un CTR de referència per posició; les consultes de marca i les que mostren mapa o anuncis se n'allunyen."
+    },
+    "business": {
+      "title": "SEO → negoci",
+      "description": "El que aporten al CRM les fonts {sources} en el mateix període.",
+      "noSources": "Tria quines fonts d'adquisició compten com a SEO per veure el que aporten al CRM.",
+      "suggested": "Suggerides pel seu nom: pots canviar-les.",
+      "sources": "Fonts",
+      "sourcesLabel": "Compten com a SEO",
+      "resetSources": "Torna a les suggerides",
+      "leads": "Leads",
+      "won": "Guanyats",
+      "billed": "Facturat",
+      "inPeriod": "En el període",
+      "shareOfLeads": "{share} de tots els leads",
+      "shareOfBilled": "{share} del facturat",
+      "perMonth": "{amount}/mes",
+      "lifetime": "Des de sempre: <strong>{amount}</strong> facturats a {clients, plural, =0 {cap client que pagui} one {# client que paga} other {# clients que paguen}} ({share} del total).",
+      "channels": "Per canal, el facturat des de sempre",
+      "channelsLabel": "Facturació per canal d'adquisició",
+      "noSource": "Sense font",
+      "archivedSource": "Font arxivada",
+      "channelTooltip": "{leads, plural, one {# lead} other {# leads}} i {won, plural, one {# guanyat} other {# guanyats}} en el període · {billed} facturats · {paying, plural, one {# client que paga} other {# clients que paguen}}",
+      "empty": "Encara no hi ha leads ni facturació per atribuir a un canal.",
+      "footnote": "La facturació va per la font del client (la del seu primer deal); els leads i els guanyats, per la de cada deal. Base imposable, sense IVA."
+    },
+    "client": {
+      "description": "El web d'aquest client, lligat al que factura.",
+      "billed": "Facturat",
+      "since": "Primera factura",
+      "sinceStart": "Des que treballeu junts",
+      "sinceData": "Des de la primera dada disponible",
+      "clicksFrom": "{value} clics",
+      "clicksTo": "{value} clics",
+      "windows": "{from} enfront de {to}",
+      "noHistory": "Encara no hi ha prou dades per veure l'evolució.",
+      "open": "Obre la fitxa del client"
+    },
+    "sync": {
+      "now": "Sincronitza",
+      "running": "Sincronitzant…",
+      "done": "Sincronitzat: {rows, plural, =0 {res de nou} one {# fila actualitzada} other {# files actualitzades}}.",
+      "pending": "Sincronitzat el més recent; l'històric continua en les properes sincronitzacions.",
+      "partialErrors": "Sincronitzat amb {count, plural, one {un error en un web} other {errors en # webs}}. Mira el detall a Propietats."
+    },
+    "connect": {
+      "setup": {
+        "title": "Connecta Search Console i GA4",
+        "body": "Per veure aquí el SEO del teu web i dels webs dels teus clients, cal donar d'alta GNERAI OS a Google Cloud una sola vegada.",
+        "stepsTitle": "Què cal",
+        "steps": {
+          "project": {
+            "title": "Un projecte a Google Cloud",
+            "body": "Activa Google Search Console API, Google Analytics Data API i Google Analytics Admin API."
+          },
+          "consent": {
+            "title": "Pantalla de consentiment interna",
+            "body": "De tipus «Intern» (Google Workspace): no necessita verificació i l'accés no caduca als 7 dies."
+          },
+          "client": {
+            "title": "Un ID de client OAuth d'aplicació web",
+            "body": "Amb aquest URI de redirecció autoritzat:"
+          },
+          "env": {
+            "title": "Tres variables d'entorn al servidor",
+            "body": "L'ID i el secret del client, i una clau per xifrar els tokens (openssl rand -base64 32). Després, reinicia l'app."
+          }
+        },
+        "missing": "falta",
+        "present": "configurada",
+        "demo": "Mentrestant, pots veure com queda amb dades d'exemple a <link>l'org demo</link>."
+      },
+      "connect": {
+        "title": "Connecta el teu compte de Google",
+        "body": "Un owner connecta una vegada el compte que té accés a Search Console i a Analytics del teu web i dels webs dels teus clients. Després se sincronitza cada dia."
+      },
+      "reconnect": {
+        "title": "Torna a connectar Google",
+        "body": "Google ha deixat de donar accés (el permís s'ha revocat o ha caducat). Reconnecta per continuar sincronitzant."
+      },
+      "benefits": {
+        "search": {
+          "title": "Clics, impressions i posició",
+          "body": "De Search Console, dia a dia i amb 16 mesos d'històric."
+        },
+        "traffic": {
+          "title": "Sessions i conversions",
+          "body": "De GA4, del trànsit orgànic i del total."
+        },
+        "opportunities": {
+          "title": "Quick wins",
+          "body": "Consultes a un pas del top 3 i les que pugen o baixen."
+        },
+        "business": {
+          "title": "SEO → negoci",
+          "body": "Leads, clients guanyats i facturació que arriben per SEO."
+        }
+      },
+      "cta": "Connecta amb Google",
+      "reconnectCta": "Reconnecta amb Google",
+      "readOnly": "Només lectura: GNERAI OS no pot canviar res a Google.",
+      "ownerOnly": "Demana a un owner de l'organització que connecti Google."
+    },
+    "connection": {
+      "title": "Connexió amb Google",
+      "description": "Un compte per organització, amb accés a Search Console i a Analytics de tots els webs.",
+      "notConfigured": "Google no està configurat en aquest servidor (falten variables d'entorn).",
+      "connect": "Connecta",
+      "reconnect": "Reconnecta",
+      "never": "Encara no s'ha connectat cap compte.",
+      "disconnected": "Desconnectada. Les dades que ja hi havia es conserven.",
+      "connected": "Connectada",
+      "error": "Cal reconnectar",
+      "errorBody": "Google ha deixat de donar accés: les dades no s'actualitzen fins que reconnectis.",
+      "missingScopes": "Falta permís per a {features}: reconnecta i marca totes les caselles.",
+      "features": {
+        "searchConsole": "Search Console",
+        "analytics": "Google Analytics"
+      },
+      "connectedBy": "Connectada per",
+      "lastSync": "Última sincronització",
+      "neverSynced": "Encara no",
+      "lastError": "Últim error",
+      "disconnect": "Desconnecta",
+      "disconnectTitle": "Vols desconnectar Google?",
+      "disconnectBody": "Es revoca l'accés a Google i s'esborra el token. Les dades ja sincronitzades es conserven, però deixen d'actualitzar-se.",
+      "disconnectedToast": "Google desconnectat"
+    },
+    "properties": {
+      "back": "SEO",
+      "pageTitle": "Webs i connexió",
+      "pageDescription": "Quins webs se segueixen, de qui són i d'on surten les seves dades.",
+      "title": "Webs",
+      "description": "El teu web i els dels teus clients. Cadascun amb la seva propietat de Search Console i, si vols, la de GA4.",
+      "add": "Afegeix web",
+      "emptyTitle": "Encara no segueixes cap web",
+      "emptyConnected": "Afegeix el teu web i els dels teus clients: es carreguen els últims 16 mesos.",
+      "emptyBody": "Connecta Google per triar-los del teu compte, o afegeix-los a mà.",
+      "primary": "Principal",
+      "demo": "Demo",
+      "ownSite": "Web propi",
+      "ga4Id": "GA4 {id}",
+      "coverage": "Dades del {from} al {to}",
+      "waiting": "Encara sense dades: es carreguen en la propera sincronització",
+      "noData": "Sense dades",
+      "syncError": "Error en sincronitzar: {error}",
+      "open": "Obre",
+      "edit": "Edita",
+      "archive": "Arxiva",
+      "restore": "Recupera",
+      "archivedToast": "«{name}» arxivat",
+      "restoredToast": "«{name}» recuperat",
+      "undo": "Desfés",
+      "showArchived": "Mostra {count, plural, one {l'arxivat} other {els # arxivats}}",
+      "hideArchived": "Amaga els arxivats"
+    },
+    "form": {
+      "createTitle": "Afegeix un web",
+      "editTitle": "Edita el web",
+      "description": "De qui és i d'on surten les seves dades.",
+      "create": "Afegeix",
+      "owner": "De qui és",
+      "owners": {
+        "own": "Web propi",
+        "ownHint": "El de la teva organització",
+        "client": "D'un client",
+        "clientHint": "Un web que li portes"
+      },
+      "client": "Client",
+      "clientPlaceholder": "Tria el client",
+      "noClients": "No hi ha clients",
+      "gsc": "Propietat de Search Console",
+      "gscHint": "La de domini (sc-domain:) recull totes les versions del web.",
+      "gscAccount": "Del compte connectat",
+      "domainProperty": "domini",
+      "noGsc": "Sense Search Console",
+      "ga4": "Propietat de GA4",
+      "ga4Hint": "Per a les sessions i conversions orgàniques.",
+      "ga4Account": "Del compte connectat",
+      "noGa4": "Sense GA4",
+      "manual": "Escriure-la a mà…",
+      "pick": "Tria",
+      "loadingGoogle": "Llegint el teu compte de Google…",
+      "label": "Nom",
+      "labelHint": "Com es veurà a la llista, p. ex. «gnerai.com».",
+      "primary": "Web principal",
+      "primaryOwnHint": "El que s'obre per defecte a SEO.",
+      "primaryClientHint": "El que es mostra a la fitxa del client.",
+      "createdToast": "Web afegit",
+      "createdSyncToast": "Web afegit. Carregant-ne els últims 16 mesos…",
+      "savedToast": "Canvis desats"
+    },
+    "validation": {
+      "clientRequired": "Tria el client",
+      "gscSite": "Ha de ser «sc-domain:exemple.com» o una URL com «https://www.exemple.com/»",
+      "ga4Property": "L'id numèric de la propietat (p. ex. 123456789)",
+      "sourceRequired": "Cal Search Console o GA4"
+    },
+    "card": {
+      "title": "SEO",
+      "demo": "Demo",
+      "open": "Obre a SEO",
+      "empty": "Encara sense web vinculat.",
+      "link": "Vincula web",
+      "clicks": "Clics",
+      "impressions": "Impressions",
+      "position": "Posició",
+      "ctr": "CTR {value}",
+      "pp": "pp",
+      "sessions": "{value} sessions orgàniques",
+      "others": "{count, plural, one {# web més} other {# webs més}}"
+    },
+    "errors": {
+      "notFound": "Aquest web ja no existeix.",
+      "archived": "Aquest web està arxivat: recupera'l abans d'editar-lo.",
+      "duplicateSite": "Aquesta propietat de Search Console ja està donada d'alta.",
+      "duplicateGa4": "Aquesta propietat de GA4 ja està donada d'alta.",
+      "primaryConflict": "Un altre web s'ha marcat com a principal alhora. Torna-ho a provar.",
+      "clientNotFound": "Aquest client no existeix en aquesta organització.",
+      "syncBusy": "Ja hi ha una sincronització en marxa.",
+      "reconnect": "Google ha deixat de donar accés: cal reconnectar.",
+      "notConnected": "Google no està connectat.",
+      "sync": "No s'ha pogut sincronitzar. Torna-ho a provar d'aquí a uns minuts.",
+      "google": "No s'ha pogut llegir el teu compte de Google. Escriu la propietat a mà o torna-ho a provar.",
+      "gscSiteNotFound": "Aquest web no és al Search Console del compte connectat. Tria'l de la llista (p. ex. «sc-domain:gnerai.com»)."
+    },
+    "discovered": {
+      "title": "{count, plural, one {# web del teu Search Console sense donar d'alta} other {# webs del teu Search Console sense donar d'alta}}",
+      "description": "El compte de Google connectat té aquestes propietats. Afegeix-les i se sincronitzen soles; si el web coincideix amb el d'un client, hi queda vinculat.",
+      "suggestedClient": "de {client}",
+      "ownOrUnlinked": "sense client vinculat",
+      "add": "Afegeix",
+      "adding": "Afegint…",
+      "added": "{site} afegit: s'està sincronitzant."
+    },
+    "channels": {
+      "title": "D'on arriben les visites",
+      "description": "Sessions de GA4 per canal en el període. Els de pagament (Google Ads, Meta…) en blau: així es veu el que aporten les campanyes.",
+      "paidPill": "Campanyes: {share} del trànsit",
+      "channel": "Canal",
+      "share": "Pes",
+      "sessions": "Sessions",
+      "change": "Variació",
+      "conversions": "Conversions",
+      "names": {
+        "organic_search": "Cerca orgànica",
+        "paid_search": "Anuncis en cercadors",
+        "organic_social": "Xarxes socials",
+        "paid_social": "Anuncis en xarxes",
+        "direct": "Directe",
+        "referral": "Altres webs",
+        "email": "Email",
+        "other": "Altres"
+      },
+      "paidSummary": "Les campanyes han portat {sessions} visites i {conversions} conversions{hasChange, select, yes { ({change} respecte al període anterior)} other {}}.",
+      "noPaid": "En aquest període no hi ha trànsit de campanyes de pagament.",
+      "footnote": "Conversions = esdeveniments clau de GA4."
+    }
+  }
+}

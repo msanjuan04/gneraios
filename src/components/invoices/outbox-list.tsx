@@ -53,7 +53,7 @@ export function OutboxList({ basePath, slug, tab, items, pendingCount, dunningDa
       <InvoicesNav basePath={basePath} outboxCount={pendingCount} />
       {!canEdit && <ReadOnlyNotice className="-mt-2 mb-6">{t("readOnly")}</ReadOnlyNotice>}
 
-      <nav aria-label={t("tabs.label")} className="mb-4 flex w-fit gap-1 rounded-full border bg-card/60 p-1">
+      <nav aria-label={t("tabs.label")} className="mb-4 flex w-fit max-w-full gap-1 overflow-x-auto rounded-full border bg-card/60 p-1 [scrollbar-width:none]">
         {tabs.map((item) => (
           <Link
             key={item.key}

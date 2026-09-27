@@ -1,0 +1,161 @@
+{
+  "id": "operations-bottleneck",
+  "title": "Operaciones: una socia desbordada con el equipo por debajo del mínimo, repartir y no contratar",
+  "description": "El equipo está al 71,3 %, lejos del 85 % de la regla para contratar, pero Helena registra 35 h a la semana frente a 30 h de capacidad y tiene 70 h de tareas en las próximas 4 semanas. Operaciones propone repartir su carga con las cifras de get_capacity y no propone contratar: la regla no se cumple.",
+  "job": {
+    "agent": "operations",
+    "trigger": "weekly"
+  },
+  "data": {
+    "projects": [
+      {
+        "id": "p2",
+        "name": "Redes sociales Costa Nord",
+        "clientId": "c3",
+        "contractId": "k3",
+        "ownerMemberId": "m3",
+        "hours": [
+          {
+            "memberId": "m3",
+            "from": "2026-08-03",
+            "to": "2026-09-25",
+            "minutesPerDay": 420
+          }
+        ],
+        "tasks": [
+          {
+            "id": "t1",
+            "assigneeMemberId": "m3",
+            "dueOn": "2026-09-30",
+            "estimateMinutes": 900
+          },
+          {
+            "id": "t2",
+            "assigneeMemberId": "m3",
+            "dueOn": "2026-10-07",
+            "estimateMinutes": 1200
+          },
+          {
+            "id": "t3",
+            "assigneeMemberId": "m3",
+            "dueOn": "2026-10-14",
+            "estimateMinutes": 1500
+          },
+          {
+            "id": "t4",
+            "assigneeMemberId": "m3",
+            "dueOn": "2026-09-21",
+            "estimateMinutes": 600
+          }
+        ]
+      },
+      {
+        "id": "p3",
+        "name": "SEO Hotel Llevant",
+        "clientId": "c5",
+        "contractId": "k5",
+        "ownerMemberId": "m1",
+        "hours": [
+          {
+            "memberId": "m1",
+            "from": "2026-08-03",
+            "to": "2026-09-25",
+            "minutesPerDay": 200
+          }
+        ]
+      },
+      {
+        "id": "p1",
+        "name": "SEO local Mar Blau",
+        "clientId": "c2",
+        "contractId": "k2",
+        "ownerMemberId": "m2",
+        "hours": [
+          {
+            "memberId": "m2",
+            "from": "2026-08-03",
+            "to": "2026-09-25",
+            "minutesPerDay": 150
+          }
+        ]
+      }
+    ]
+  },
+  "replay": {
+    "operations:scan": [
+      {
+        "calls": [
+          {
+            "name": "get_capacity"
+          },
+          {
+            "name": "get_policy"
+          },
+          {
+            "name": "get_pipeline"
+          }
+        ],
+        "output": {
+          "recommendations": [
+            {
+              "kind": "decision",
+              "title": "Repartir parte de las tareas de Helena Lluch con Marc Costa",
+              "summary": "Helena registra 35 h a la semana, el 116,67 % de su capacidad semanal de 30 h, y tiene 70 h de tareas en las próximas 4 semanas. Marc Costa está al 41,67 %.",
+              "reasoning": "La carga del equipo es del 71,3 %, por debajo del mínimo de la política para contratar (85 %, política de ejemplo): el problema es de reparto, no de capacidad. De las tareas de Helena, 10 h ya están vencidas.",
+              "evidence": [
+                "capacity.m3.avg",
+                "capacity.m3.load",
+                "capacity.weekly_capacity",
+                "capacity.m3.planned",
+                "capacity.m3.planned_load",
+                "capacity.m2.load",
+                "capacity.team.avg_load",
+                "policy.hire.min_capacity",
+                "capacity.m3.overdue"
+              ],
+              "impact_ref": null,
+              "proposed_actions": [
+                {
+                  "title": "Revisar con Helena y Marc Costa qué tareas de Costa Nord pasan a Marc",
+                  "due_in_days": 3
+                },
+                {
+                  "title": "Reprogramar las tareas vencidas de Costa Nord",
+                  "due_in_days": 7
+                }
+              ],
+              "confidence": "alta",
+              "urgency": "esta_semana",
+              "risks": "Que Marc Costa no conozca la cuenta de Costa Nord y aprenderla se coma las horas que se liberan.",
+              "requires_professional_review": false,
+              "subject": "member:m3",
+              "policy_rule": null,
+              "missing_data": []
+            }
+          ],
+          "silence_reason": null
+        }
+      }
+    ]
+  },
+  "expect": {
+    "published": {
+      "min": 1,
+      "max": 1
+    },
+    "kinds": [
+      "decision"
+    ],
+    "tools": [
+      "get_capacity",
+      "get_policy"
+    ],
+    "titles": [
+      "Helena"
+    ],
+    "forbid": [
+      "contrat"
+    ],
+    "professional": "none"
+  }
+}

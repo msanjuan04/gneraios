@@ -1,4 +1,5 @@
 import "server-only";
+import { siteHost, suggestClientForSite } from "@/domain/seo/site-url";
 import { cache } from "react";
 import { addDays, type CivilDate } from "@/domain/dates/civil-date";
 import type { FunnelDeal, StageChange } from "@/domain/pipeline";
@@ -30,6 +31,9 @@ import {
   type SeoPeriodSelection,
   sparkBucketDays,
   toMover,
+  type TrafficChannel,
+  type TrafficChannels,
+  trafficChannels,
   type WebDay,
   webSpark,
   webTotals,
@@ -222,6 +226,8 @@ export type SeoOverview = {
   };
   /** Sesiones orgánicas / todas las sesiones del periodo (GA4). */
   organicShare: number | null;
+  /** De dónde vienen las visitas (GA4, por canal); null sin desglose todavía. */
+  channels: TrafficChannels | null;
   chart: ChartPoint[];
   topQueries: QueryRow[];
   topPages: QueryRow[];
@@ -300,7 +306,11 @@ async function loadSearchDays(supabase: Supabase, propertyId: string, range: Day
   return rows.map((r) => ({ date: r.metric_on, clicks: r.clicks, impressions: r.impressions, position: r.position === null ? null : Number(r.position) }));
 }
 
-async function loadWebDays(supabase: Supabase, propertyId: string, range: DayRange): Promise<{ all: WebDay[]; organic: WebDay[] }> {
+async function loadWebDays(
+  supabase: Supabase,
+  propertyId: string,
+  range: DayRange,
+): Promise<{ all: WebDay[]; organic: WebDay[]; byChannel: Map<TrafficChannel, WebDay[]> }> {
   const rows = await fetchAll((from, to) =>
     supabase
       .from("web_analytics_daily")
@@ -319,7 +329,18 @@ async function loadWebDays(supabase: Supabase, propertyId: string, range: DayRan
     engagedSessions: r.engaged_sessions,
     conversions: r.conversions,
   });
-  return { all: rows.filter((r) => r.channel === "all").map(toDay), organic: rows.filter((r) => r.channel === "organic_search").map(toDay) };
+  const byChannel = new Map<TrafficChannel, WebDay[]>();
+  for (const row of rows) {
+    if (row.channel === "all") continue;
+    const list = byChannel.get(row.channel) ?? [];
+    list.push(toDay(row));
+    byChannel.set(row.channel, list);
+  }
+  return {
+    all: rows.filter((r) => r.channel === "all").map(toDay),
+    organic: rows.filter((r) => r.channel === "organic_search").map(toDay),
+    byChannel,
+  };
 }
 
 const union = (a: DayRange, b: DayRange): DayRange => ({ from: a.from < b.from ? a.from : b.from, to: a.to > b.to ? a.to : b.to });
@@ -334,7 +355,7 @@ export async function getSeoOverview(property: SeoPropertyView, selection: SeoPe
 
   const [searchDays, web, topQueries, topPages, gains, losses, candidates] = await Promise.all([
     hasSearch ? loadSearchDays(supabase, property.id, window) : Promise.resolve([]),
-    hasWeb ? loadWebDays(supabase, property.id, window) : Promise.resolve({ all: [], organic: [] }),
+    hasWeb ? loadWebDays(supabase, property.id, window) : Promise.resolve({ all: [], organic: [], byChannel: new Map<TrafficChannel, WebDay[]>() }),
     hasSearch ? queryStats(supabase, property.id, selection, { dimension: "query", order: "clicks", limit: 50 }) : Promise.resolve([]),
     hasSearch ? queryStats(supabase, property.id, selection, { dimension: "page", order: "clicks", limit: 50 }) : Promise.resolve([]),
     hasSearch && comparable ? queryStats(supabase, property.id, selection, { dimension: "query", order: "gain", limit: 20 }) : Promise.resolve([]),
@@ -396,6 +417,7 @@ export async function getSeoOverview(property: SeoPropertyView, selection: SeoPe
       ),
     },
     organicShare: hasWeb && allNow.sessions > 0 ? organicNow.sessions / allNow.sessions : null,
+    channels: hasWeb ? trafficChannels(web.byChannel, range, comparable ? compare : null, bucket) : null,
     chart: hasSearch ? performanceSeries(searchDays, range, comparable ? compare : null) : [],
     topQueries: topQueries.map((s) => toQueryRow(s, comparable)),
     topPages: topPages.map((s) => toQueryRow(s, comparable)),
@@ -622,4 +644,56 @@ export async function getClientSeoSummary(orgId: string, clientId: string): Prom
     organicSessions: property.webSpan ? organic.sessions : null,
     organicConversions: property.webSpan ? organic.conversions : null,
   };
+}
+
+export type DiscoveredSite = {
+  siteUrl: string;
+  host: string;
+  permissionLevel: string;
+  suggestedClientId: string | null;
+  suggestedClientName: string | null;
+};
+
+/**
+ * Webs de Search Console de la cuenta conectada que aún no están en GNERAI OS (guardadas en cada
+ * sincronización). Una por dominio: si la cuenta tiene la de dominio y la de prefijo, se propone la
+ * de dominio. Con el cliente cuya web coincide, si hay uno.
+ */
+export async function getDiscoveredSites(orgId: string): Promise<DiscoveredSite[]> {
+  const supabase = await createClient();
+  const [integrationRes, propertiesRes, clientsRes] = await Promise.all([
+    supabase.from("integrations").select("status, discovered_sites").eq("org_id", orgId).eq("provider", "google").maybeSingle(),
+    supabase.from("seo_properties").select("gsc_site_url").eq("org_id", orgId).is("archived_at", null),
+    supabase.from("clients").select("id, display_name, website").eq("org_id", orgId).is("archived_at", null),
+  ]);
+  const integration = integrationRes.data;
+  if (!integration || integration.status !== "connected") return [];
+  const sites = Array.isArray(integration.discovered_sites)
+    ? (integration.discovered_sites as { siteUrl?: unknown; permissionLevel?: unknown }[]).flatMap((s) =>
+        typeof s.siteUrl === "string" ? [{ siteUrl: s.siteUrl, permissionLevel: typeof s.permissionLevel === "string" ? s.permissionLevel : "" }] : [],
+      )
+    : [];
+  const takenHosts = new Set(
+    (propertiesRes.data ?? []).flatMap((p) => (p.gsc_site_url ? [siteHost(p.gsc_site_url)] : [])).filter((h): h is string => Boolean(h)),
+  );
+  const clients = clientsRes.data ?? [];
+  const byHost = new Map<string, { siteUrl: string; permissionLevel: string }>();
+  for (const site of sites) {
+    const host = siteHost(site.siteUrl);
+    if (!host || takenHosts.has(host)) continue;
+    const current = byHost.get(host);
+    if (!current || (site.siteUrl.startsWith("sc-domain:") && !current.siteUrl.startsWith("sc-domain:"))) byHost.set(host, site);
+  }
+  return [...byHost.entries()]
+    .map(([host, site]) => {
+      const suggestedClientId = suggestClientForSite(site.siteUrl, clients);
+      return {
+        siteUrl: site.siteUrl,
+        host,
+        permissionLevel: site.permissionLevel,
+        suggestedClientId,
+        suggestedClientName: clients.find((c) => c.id === suggestedClientId)?.display_name ?? null,
+      };
+    })
+    .sort((a, b) => a.host.localeCompare(b.host));
 }

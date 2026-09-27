@@ -39,7 +39,13 @@
     "search": "Buscar o crear…",
     "switchOrg": "Cambiar de organización",
     "toggleSidebar": "Mostrar u ocultar la barra lateral",
-    "seo": "SEO"
+    "seo": "SEO",
+    "council": "Consejo",
+    "finance": "Finanzas",
+    "calendar": "Calendario",
+    "projects": "Proyectos",
+    "groupWork": "Trabajo",
+    "sites": "Webs"
   },
   "user": {
     "menu": "Tu cuenta",
@@ -90,7 +96,11 @@
     "billingDay": "Un día del 1 al 31",
     "daysList": "Días enteros de 0 a 365 separados por comas (máximo 10)",
     "rateNotGeneral": "Fuera del régimen general, el tipo tiene que ser 0 %",
-    "invalid": "Valor no válido"
+    "invalid": "Valor no válido",
+    "percent": "Un número entero del 1 al 100",
+    "hourlyRate": "Euros enteros, de 1 a 1.000",
+    "seriesCode": "Hasta 12 letras, números o guiones",
+    "seriesFormat": "Tiene que llevar '{n}' y, si lleva año, '{yyyy}' o '{yy}'"
   },
   "commandMenu": {
     "placeholder": "Busca o escribe un comando…",
@@ -113,9 +123,12 @@
       "deal": "Deal",
       "contract": "Contrato",
       "invoice": "Factura",
-      "quote": "Presupuesto"
+      "quote": "Presupuesto",
+      "project": "Proyecto"
     },
-    "newContract": "Nuevo contrato"
+    "newContract": "Nuevo contrato",
+    "newProject": "Nuevo proyecto",
+    "newExpense": "Nuevo gasto"
   },
   "shortcuts": {
     "title": "Atajos de teclado",
@@ -140,7 +153,18 @@
     "pipelineDrag": "Coger y soltar la tarjeta con el teclado",
     "goSeo": "Ir a SEO",
     "goContracts": "Ir a contratos",
-    "goQuotes": "Ir a presupuestos"
+    "goQuotes": "Ir a presupuestos",
+    "goCouncil": "Ir al consejo",
+    "goFinance": "Ir a finanzas",
+    "goCalendar": "Ir al calendario",
+    "goProjects": "Ir a proyectos",
+    "groupCalendar": "Calendario",
+    "calendarToday": "Ir a hoy",
+    "calendarPrevNext": "Periodo anterior o siguiente",
+    "calendarMonth": "Vista de mes",
+    "calendarWeek": "Vista de semana",
+    "calendarAgenda": "Vista de agenda",
+    "calendarAgendaMove": "Moverse por la agenda"
   },
   "modules": {
     "pipeline": "Kanban de oportunidades con drag & drop, días en etapa, próxima acción y embudo analítico.",
@@ -167,7 +191,36 @@
       "reminder_ready": "Recordatorio listo para {client}: la factura {number} lleva {days, plural, one {# día} other {# días}} vencida ({amount}). Revísalo y envíalo.",
       "job_failed": "La facturación automática del {date} ha fallado. Revisa Facturas y vuelve a lanzarla.",
       "verifactu_deadline": "{issuer} tendrá que emitir con Verifactu desde el {date}: faltan {days, plural, one {# día} other {# días}}. Hay que elegir proveedor.",
-      "verifactu_required": "{issuer} ya está obligado a Verifactu desde el {date}: con el proveedor interno no puede emitir."
+      "verifactu_required": "{issuer} ya está obligado a Verifactu desde el {date}: con el proveedor interno no puede emitir.",
+      "quote_accepted": "{client} ha aceptado online el presupuesto {number} «{title}» (lo firma {signer}). El contrato ya está creado.",
+      "quote_rejected": "{client} ha rechazado el presupuesto {number} «{title}».",
+      "quote_rejected_reason": "{client} ha rechazado el presupuesto {number} «{title}»: «{reason}».",
+      "portal_request": "{urgent, select, yes {Urgente · } other {}}{client} ha pedido algo desde su espacio: «{subject}».",
+      "new_device": "{member} ha entrado desde un dispositivo nuevo: {device}. Si no lo reconocéis, quitadlo en Ajustes → Equipo.",
+      "site_down": "La web {site} está caída: {error, select, timeout {no responde a tiempo} dns {el dominio no resuelve} refused {el servidor rechaza la conexión} reset {se corta la conexión} tls_expired {el certificado SSL ha caducado} tls_invalid {el certificado SSL no es válido} redirects {entra en un bucle de redirecciones} http {responde con el error {status}} other {no se puede conectar}}.",
+      "site_up": "La web {site} vuelve a funcionar (ha estado caída {duration}).",
+      "ssl_expiring": "El certificado SSL de {site} caduca {days, plural, =0 {hoy} =1 {mañana} other {en # días}} ({date}). Revisa la renovación automática.",
+      "ssl_expired": "El certificado SSL de {site} caducó el {date}: los navegadores avisan de que la web no es segura.",
+      "domain_expiring": "El dominio de {site} caduca {days, plural, =0 {hoy} =1 {mañana} other {en # días}} ({date}). Renuévalo antes de que la web deje de funcionar.",
+      "domain_expired": "El dominio de {site} caducó el {date}. Renuévalo cuanto antes.",
+      "subscription_renewal": "«{name}» se renueva {days, plural, =0 {hoy} =1 {mañana} other {en # días}} ({date}): {amount}."
+    }
+  },
+  "push": {
+    "titles": {
+      "renewal": "Renovación próxima",
+      "reminder_ready": "Recordatorio listo para enviar",
+      "job_failed": "Fallo en la facturación automática",
+      "verifactu_deadline": "Verifactu",
+      "quote_accepted": "Presupuesto aceptado",
+      "quote_rejected": "Presupuesto rechazado",
+      "portal_request": "Nueva petición de un cliente",
+      "new_device": "Dispositivo nuevo",
+      "site_down": "Web caída",
+      "site_up": "Web recuperada",
+      "ssl_expiring": "Certificado SSL por renovar",
+      "domain_expiring": "Dominio por renovar",
+      "subscription_renewal": "Renovación de suscripción"
     }
   }
 }

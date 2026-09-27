@@ -1,9 +1,10 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Banknote, Plus, Trash2 } from "lucide-react";
+import { Banknote, Plus, Repeat, Trash2 } from "lucide-react";
+import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { useMemo, useState, useTransition } from "react";
+import { type ReactNode, useMemo, useState, useTransition } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import { addPayment, deletePayment } from "@/app/[org]/invoices/actions";
@@ -35,6 +36,13 @@ type Props = {
   /** El formulario de cobro abierto (también desde la cabecera de la factura). */
   formOpen: boolean;
   onFormOpenChange: (open: boolean) => void;
+  /**
+   * Cobros que vienen de una remesa SEPA → enlace a la remesa. No se borran aquí: se deshacen
+   * registrando la devolución en la remesa.
+   */
+  remittancePayments?: Record<string, string>;
+  /** Al pie: cómo cobrarla (transferencia, domiciliación). */
+  footer?: ReactNode;
 };
 
 /** Cobros de una factura emitida: la única fuente de «cobrada», de la fecha y del método. */
@@ -50,8 +58,11 @@ export function PaymentsCard({
   canEdit,
   formOpen,
   onFormOpenChange,
+  remittancePayments = {},
+  footer,
 }: Props) {
   const t = useTranslations("invoices.payments");
+  const tCollections = useTranslations("collections.payments");
   const tMethod = useTranslations("billing.paymentMethod");
   const { money, date } = useInvoiceFormat();
   const [deleting, setDeleting] = useState<string | null>(null);
@@ -80,7 +91,7 @@ export function PaymentsCard({
           </Button>
         ) : undefined
       }
-      bodyClassName={payments.length > 0 || formOpen ? "p-0" : undefined}
+      bodyClassName={payments.length > 0 || formOpen || footer ? "p-0" : undefined}
     >
       {formOpen && canEdit && (
         <PaymentForm
@@ -94,7 +105,7 @@ export function PaymentsCard({
       )}
       {payments.length === 0 ? (
         !formOpen && (
-          <div className="text-center">
+          <div className={cn("text-center", footer && "px-5 py-5")}>
             <Banknote className="mx-auto size-5 text-muted-foreground" />
             <p className="mt-2 text-muted-foreground">{t("empty")}</p>
           </div>
@@ -114,7 +125,21 @@ export function PaymentsCard({
                     {payment.reference && <> · {payment.reference}</>}
                   </p>
                 </div>
-                {canEdit && deleting !== payment.id && (
+                {remittancePayments[payment.id] && (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Link
+                        href={remittancePayments[payment.id]!}
+                        className="inline-flex items-center gap-1 text-xs font-semibold text-muted-foreground hover:text-foreground"
+                      >
+                        <Repeat className="size-3.5" />
+                        {tCollections("fromRemittance")}
+                      </Link>
+                    </TooltipTrigger>
+                    <TooltipContent className="max-w-xs">{tCollections("fromRemittanceHint")}</TooltipContent>
+                  </Tooltip>
+                )}
+                {canEdit && deleting !== payment.id && !remittancePayments[payment.id] && (
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Button
@@ -147,6 +172,7 @@ export function PaymentsCard({
           ))}
         </ul>
       )}
+      {footer}
     </SettingsCard>
   );
 }

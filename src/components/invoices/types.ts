@@ -215,6 +215,8 @@ export type InvoiceViewData = {
   number: string | null;
   kind: InvoiceKind;
   lifecycle: Enums<"invoice_lifecycle">;
+  /** import: histórica traída de otra herramienta (su PDF, si lo tiene, es el original). */
+  source: Enums<"invoice_source">;
   status: InvoiceStatus;
   issuedOn: string | null;
   operationOn: string | null;

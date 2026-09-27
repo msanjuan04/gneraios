@@ -15,6 +15,22 @@ import contracts from "./contracts.json";
 import invoices from "./invoices.json";
 import seo from "./seo.json";
 import quotes from "./quotes.json";
+import finance from "./finance.json";
+import council from "./council.json";
+import dataio from "./dataio.json";
+import calendar from "./calendar.json";
+import portal from "./portal.json";
+import collections from "./collections.json";
+import projects from "./projects.json";
+import catalog from "./catalog.json";
+import banking from "./banking.json";
+import reports from "./reports.json";
+import sites from "./sites.json";
+import profitability from "./profitability.json";
+import errors from "./errors.json";
+import infrastructure from "./infrastructure.json";
+import invoiceImport from "./invoice-import.json";
+import vendors from "./vendors.json";
 
 const messages: Messages = deepMerge(
   core,
@@ -33,6 +49,22 @@ const messages: Messages = deepMerge(
   invoices,
   seo,
   quotes,
+  finance,
+  council,
+  dataio,
+  calendar,
+  portal,
+  collections,
+  projects,
+  catalog,
+  banking,
+  reports,
+  sites,
+  profitability,
+  errors,
+  infrastructure,
+  invoiceImport,
+  vendors,
 );
 
 export default messages;

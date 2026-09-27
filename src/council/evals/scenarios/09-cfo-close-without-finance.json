@@ -1,0 +1,87 @@
+{
+  "id": "cfo-close-without-finance",
+  "title": "CFO: cierre sin gastos ni caja",
+  "description": "Sin Finanzas no hay reparto: el cierre dice qué falta y propone conseguirlo (data_gap), sin inventar cifras.",
+  "job": {
+    "agent": "cfo",
+    "trigger": "monthly_close",
+    "payload": {
+      "task": "monthly_close",
+      "month": "2026-08-01"
+    }
+  },
+  "replay": {
+    "cfo:monthly_close": [
+      {
+        "calls": [
+          {
+            "name": "get_monthly_close",
+            "input": {
+              "month": "2026-08"
+            }
+          },
+          {
+            "name": "get_policy"
+          }
+        ],
+        "output": {
+          "close": {
+            "headline": "Agosto sin propuesta de reparto: faltan gastos y caja (política de ejemplo)",
+            "summary": "En agosto se facturaron 3.340 € recurrentes y se cobraron 3.133,90 €. Sin gastos ni saldo de caja no se puede proponer el reparto.",
+            "highlights": [],
+            "distribution_comment": "No hay propuesta: faltan los gastos de agosto y el saldo de caja.",
+            "evidence": [
+              "close.revenue.recurring",
+              "close.collected",
+              "@call:0"
+            ]
+          },
+          "recommendations": [
+            {
+              "kind": "data_gap",
+              "title": "Registrar los gastos y el saldo de caja para poder cerrar el mes",
+              "summary": "Sin gastos ni caja el consejo no puede proponer cuánto guardar ni cuánto repartir.",
+              "reasoning": "get_monthly_close devuelve missing_data para el reparto.",
+              "evidence": [
+                "@call:0"
+              ],
+              "impact_ref": null,
+              "proposed_actions": [
+                {
+                  "title": "Registrar los gastos de agosto en Finanzas",
+                  "due_in_days": 7
+                }
+              ],
+              "confidence": "alta",
+              "urgency": "esta_semana",
+              "risks": "Ninguno.",
+              "requires_professional_review": false,
+              "subject": "close:2026-08",
+              "policy_rule": null,
+              "missing_data": [
+                "Gastos de agosto",
+                "Saldo de caja"
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "expect": {
+    "report": {
+      "kind": "monthly_close",
+      "distribution": false
+    },
+    "published": {
+      "min": 1,
+      "max": 1
+    },
+    "kinds": [
+      "data_gap"
+    ],
+    "titles": [
+      "gastos"
+    ]
+  }
+}

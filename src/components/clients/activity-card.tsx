@@ -62,6 +62,11 @@ const BILLING_ICONS: Record<BillingEntry["kind"], { icon: LucideIcon; tone: stri
 };
 
 /** Timeline 360: la actividad humana, los cambios de etapa y la facturación, de lo más reciente a lo más antiguo. */
+/** Eventos que se ven al abrir la ficha; el resto, con «Ver toda la actividad». */
+const INITIAL_ENTRIES = 15;
+const TIMELINE_FILTERS = ["all", "activity", "billing", "stage"] as const;
+type TimelineFilter = (typeof TIMELINE_FILTERS)[number];
+
 export function ActivityCard({ slug, basePath, clientId, timeline, truncated, timeZone, now, canEdit, onLogActivity }: Props) {
   const t = useTranslations("clients.activity");
   const tKind = useTranslations("crm.activityKind");
@@ -69,6 +74,11 @@ export function ActivityCard({ slug, basePath, clientId, timeline, truncated, ti
   const format = useFormatter();
   const [deleting, setDeleting] = useState<{ open: boolean; entry: ActivityEntry | null }>({ open: false, entry: null });
   const [pending, startTransition] = useTransition();
+  // Un cliente con años de historia tiene cientos de eventos: se ven los últimos y el resto a demanda.
+  const [filter, setFilter] = useState<TimelineFilter>("all");
+  const [showAll, setShowAll] = useState(false);
+  const filtered = filter === "all" ? timeline : timeline.filter((entry) => entry.type === filter);
+  const visible = showAll ? filtered : filtered.slice(0, INITIAL_ENTRIES);
 
   const confirmDelete = () =>
     startTransition(async () => {
@@ -126,9 +136,33 @@ export function ActivityCard({ slug, basePath, clientId, timeline, truncated, ti
           )}
         </div>
       ) : (
+        <>
+        <div role="group" aria-label={t("filterLabel")} className="mb-4 flex flex-wrap gap-1.5">
+          {TIMELINE_FILTERS.map((key) => {
+            const count = key === "all" ? timeline.length : timeline.filter((entry) => entry.type === key).length;
+            if (key !== "all" && count === 0) return null;
+            return (
+              <button
+                key={key}
+                type="button"
+                aria-pressed={filter === key}
+                onClick={() => {
+                  setFilter(key);
+                  setShowAll(false);
+                }}
+                className={cn(
+                  "rounded-full border px-2.5 py-1 text-xs font-medium transition-colors",
+                  filter === key ? "border-primary/50 bg-primary/10 text-foreground" : "text-muted-foreground hover:text-foreground",
+                )}
+              >
+                {t(`filters.${key}`)} <span className="tabular opacity-70">{count}</span>
+              </button>
+            );
+          })}
+        </div>
         <ol>
-          {timeline.map((entry, index) => {
-            const last = index === timeline.length - 1;
+          {visible.map((entry, index) => {
+            const last = index === visible.length - 1;
             const { icon: Icon, tone } =
               entry.type === "activity"
                 ? { icon: ACTIVITY_ICONS[entry.kind], tone: "text-foreground" }
@@ -221,9 +255,15 @@ export function ActivityCard({ slug, basePath, clientId, timeline, truncated, ti
             );
           })}
         </ol>
+        {filtered.length > visible.length && (
+          <Button variant="ghost" size="sm" className="mt-4 w-full" onClick={() => setShowAll(true)}>
+            {t("showAll", { count: filtered.length })}
+          </Button>
+        )}
+        </>
       )}
 
-      {truncated && <p className="mt-5 text-xs text-muted-foreground">{t("truncated", { count: timeline.length })}</p>}
+      {truncated && showAll && <p className="mt-5 text-xs text-muted-foreground">{t("truncated", { count: timeline.length })}</p>}
 
       {canEdit && (
         <ConfirmDialog

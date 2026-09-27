@@ -221,6 +221,38 @@ export function paymentFormSchema(today: CivilDate) {
 
 export type PaymentFormInput = z.input<ReturnType<typeof paymentFormSchema>>;
 
+/** Como mucho, facturas que se cobran de una vez desde la ficha del cliente o del proyecto. */
+export const MAX_PAYMENT_ALLOCATIONS = 50;
+
+/**
+ * «Registrar cobro» desde la ficha del cliente o del proyecto: un mismo cobro (el día en que entró
+ * el dinero, el método y la referencia) que paga una o varias facturas, cada una con su importe.
+ * Aquí solo cobros: las devoluciones (en negativo) se registran en la propia factura.
+ */
+export function clientPaymentSchema(today: CivilDate) {
+  return z.object({
+    paid_on: z.iso.date("date").refine((v) => v <= today, "paidInFuture"),
+    method: z.enum(PAYMENT_METHODS),
+    reference: text(200),
+    allocations: z
+      .array(
+        z.object({
+          invoice_id: z.guid(),
+          amount: z.string().superRefine((value, ctx) => {
+            const cents = parseMoneyInput(value);
+            if (cents === null) ctx.addIssue({ code: "custom", message: value.trim() === "" ? "required" : "money" });
+            else if (cents <= 0) ctx.addIssue({ code: "custom", message: "amountPositive" });
+          }),
+        }),
+      )
+      .min(1, "allocationsRequired")
+      .max(MAX_PAYMENT_ALLOCATIONS)
+      .refine((list) => new Set(list.map((a) => a.invoice_id)).size === list.length, "allocationsRequired"),
+  });
+}
+
+export type ClientPaymentInput = z.input<ReturnType<typeof clientPaymentSchema>>;
+
 // ---------------------------------------------------------------------------
 // Emails (factura y recordatorios por aprobar)
 // ---------------------------------------------------------------------------

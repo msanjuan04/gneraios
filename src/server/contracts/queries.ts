@@ -70,7 +70,7 @@ export function orgToday(timeZone: string): string {
 export const getContractFormOptions = cache(async (org: OrgRef): Promise<ContractFormOptions> => {
   const supabase = await createClient();
   const [clients, issuers, rates] = await Promise.all([
-    supabase.from("clients").select("id, display_name").eq("org_id", org.id).is("archived_at", null).order("display_name"),
+    supabase.from("clients").select("id, display_name, preferred_language").eq("org_id", org.id).is("archived_at", null).order("display_name"),
     supabase
       .from("issuers")
       .select("id, legal_name, trade_name, kind, is_primary, active_from")
@@ -98,7 +98,7 @@ export const getContractFormOptions = cache(async (org: OrgRef): Promise<Contrac
   }));
   const vatRates = (rates.data ?? []).map((r) => ({ id: r.id, name: r.name, rateBps: r.rate_bps, isDefault: r.is_default }));
   return {
-    clients: (clients.data ?? []).map((c) => ({ id: c.id, name: c.display_name })),
+    clients: (clients.data ?? []).map((c) => ({ id: c.id, name: c.display_name, language: c.preferred_language })),
     issuers: issuerOptions,
     vatRates,
     defaultIssuerId: (issuerOptions.find((i) => i.isPrimary) ?? issuerOptions[0])?.id ?? null,

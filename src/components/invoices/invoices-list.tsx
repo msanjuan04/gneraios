@@ -29,6 +29,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { daysBetween } from "@/domain/dates/civil-date";
 import { cn } from "@/lib/utils";
+import { InvoiceImportButton } from "@/components/invoice-import/invoice-import-button";
 import { useInvoiceFormat } from "./format";
 import { InlineConfirm } from "./inline-confirm";
 import { InvoiceKindBadge, InvoiceStatusBadge } from "./invoice-status-badge";
@@ -275,13 +276,17 @@ export function InvoicesList({
 
   const newHref = `${basePath}/invoices/new${client ? `?client=${client.id}` : ""}`;
   const headerActions = canEdit ? (
-    <Button asChild>
-      <Link href={newHref}>
-        <Plus data-icon="inline-start" />
-        {t("new")}
-        <Kbd className="ml-1 hidden bg-white/15 text-white sm:inline-flex">C</Kbd>
-      </Link>
-    </Button>
+    <div className="flex flex-wrap items-center gap-2">
+      {/* Las facturas emitidas con otra herramienta: se leen del PDF y quedan con su original. */}
+      <InvoiceImportButton slug={slug} clientId={client?.id ?? null} />
+      <Button asChild>
+        <Link href={newHref}>
+          <Plus data-icon="inline-start" />
+          {t("new")}
+          <Kbd className="ml-1 hidden bg-white/15 text-white sm:inline-flex">C</Kbd>
+        </Link>
+      </Button>
+    </div>
   ) : undefined;
 
   const billingControls = (

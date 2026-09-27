@@ -15,6 +15,7 @@ import {
   type FactSink,
   GA4_METRICS,
   historyStart,
+  parseGa4ChannelRows,
   parseGa4Rows,
   parseGscDateRows,
   parseGscQueryRows,
@@ -127,16 +128,11 @@ export class AnalyticsProvider implements SeoProvider {
       keepEmptyRows: false,
     };
     const all = parseGa4Rows(await runGa4Report(this.client, id, body), "all");
-    const organic = parseGa4Rows(
-      await runGa4Report(this.client, id, {
-        ...body,
-        dimensionFilter: {
-          filter: { fieldName: "sessionDefaultChannelGroup", stringFilter: { matchType: "EXACT", value: "Organic Search" } },
-        },
-      }),
-      "organic_search",
+    // Cada canal por defecto de GA4, agrupado en los de GNERAI OS (el orgánico entre ellos).
+    const channels = parseGa4ChannelRows(
+      await runGa4Report(this.client, id, { ...body, dimensions: [{ name: "date" }, { name: "sessionDefaultChannelGroup" }] }),
     );
-    const rows = [...all, ...organic];
+    const rows = [...all, ...channels];
     await sink.webDaily(rows);
     return rows.length;
   }

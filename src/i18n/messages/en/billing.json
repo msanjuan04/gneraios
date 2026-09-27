@@ -1,0 +1,156 @@
+{
+  "billing": {
+    "billingType": {
+      "one_off": "One-off",
+      "monthly": "Monthly",
+      "yearly": "Yearly",
+      "usage": "Usage-based"
+    },
+    "billingTypeSuffix": {
+      "one_off": "",
+      "monthly": "/month",
+      "yearly": "/year",
+      "usage": "/use"
+    },
+    "paymentMethod": {
+      "transfer": "Bank transfer",
+      "sepa_debit": "SEPA direct debit",
+      "card": "Card",
+      "cash": "Cash",
+      "other": "Other"
+    },
+    "invoiceStatus": {
+      "draft": "Draft",
+      "issuing": "Issuing",
+      "issued": "Issued",
+      "overdue": "Overdue",
+      "paid": "Paid",
+      "voided": "Voided"
+    },
+    "invoiceKind": {
+      "ordinary": "Invoice",
+      "rectifying": "Corrective"
+    },
+    "lineStatus": {
+      "scheduled": "Scheduled",
+      "active": "Active",
+      "paused": "Paused",
+      "ended": "Ended"
+    },
+    "contractStatus": {
+      "draft": "Unsigned",
+      "scheduled": "Scheduled",
+      "active": "Active",
+      "paused": "Paused",
+      "ended": "Ended"
+    },
+    "billableState": {
+      "pending": "Pending",
+      "drafted": "In draft",
+      "invoiced": "Invoiced",
+      "waived": "Waived"
+    },
+    "billableSource": {
+      "recurring": "Period",
+      "usage": "Usage",
+      "milestone": "Milestone"
+    },
+    "vatRegime": {
+      "general": "General",
+      "exempt": "Exempt",
+      "reverse_charge_eu": "Reverse charge",
+      "not_subject": "Not subject to VAT"
+    },
+    "invoiceGrouping": {
+      "client": "One invoice per client",
+      "contract": "One invoice per contract"
+    },
+    "emailStatus": {
+      "pending_approval": "Awaiting approval",
+      "sent": "Sent",
+      "failed": "Failed",
+      "cancelled": "Discarded"
+    },
+    "revenueKind": {
+      "recurring": "Recurring",
+      "usage": "Variable",
+      "one_off": "One-off"
+    },
+    "period": "{from} – {to}",
+    "perMonth": "{amount}/month",
+    "perYear": "{amount}/year",
+    "fiscalFields": {
+      "issuer_tax_id": "the issuer's NIF",
+      "issuer_address_line": "the issuer's address",
+      "issuer_postal_code": "the issuer's postcode",
+      "issuer_city": "the issuer's city",
+      "client_tax_id": "the client's NIF",
+      "client_address_line": "the client's address",
+      "client_postal_code": "the client's postcode",
+      "client_city": "the client's city"
+    },
+    "errors": {
+      "lineBilled": "This line has already been invoiced: to change its terms, create a new version from a given date.",
+      "milestonesStarted": "This contract has already started invoicing its milestones: new work goes in another contract.",
+      "milestoneBilled": "This milestone has already been invoiced: it can't be deleted, and its percentage and order can't change.",
+      "milestonesTotal": "Milestones must add up to exactly 100%.",
+      "milestoneOrder": "The earlier milestones have to be invoiced first.",
+      "milestoneAlreadyBilled": "This milestone has already been invoiced.",
+      "noOneOffLines": "The contract has no one-off lines to split into milestones.",
+      "vatRateRequired": "Choose a VAT rate for the line.",
+      "pauseRecurringOnly": "Only monthly or yearly lines can be paused.",
+      "versionDateInvalid": "The new version must start after what has already been invoiced and within the line's term.",
+      "versionNotRecurring": "A one-off line has no versions.",
+      "contractBilled": "This contract has already generated invoices: its signature can't be removed.",
+      "contractNotSigned": "The contract isn't signed yet: sign it to be able to invoice it.",
+      "noIssuer": "The contract has no issuer assigned.",
+      "invoiceImmutable": "An issued invoice can't be modified: it's fixed with a corrective invoice.",
+      "invoiceLifecycle": "An invoice has to go through issuing.",
+      "draftChanged": "Someone changed this draft while you were editing it. Reload and try again.",
+      "draftNotFound": "This draft no longer exists.",
+      "itemTaken": "Some items are no longer pending invoicing.",
+      "itemInvoiced": "This item has already been invoiced.",
+      "lineForeign": "A line from another invoice can't be moved here.",
+      "futureDate": "An invoice can't have a future date.",
+      "issuerInactive": "The issuer isn't active on the invoice date. Check its registration dates in Settings → Issuers.",
+      "verifactuRequired": "This issuer is already required to use Verifactu: it has to issue through a certified provider.",
+      "fiscalDataMissing": "Missing tax details: {fields}.",
+      "noLines": "The invoice has no lines.",
+      "totalsMismatch": "The totals don't match the lines. Save the draft again.",
+      "rectifiedInvalid": "The corrected invoice isn't valid.",
+      "seriesInvalid": "The issuer has no valid series for this type of invoice. Create one in Settings → Issuers.",
+      "dateBeforePrevious": "The series already has an invoice dated {date}: this one can't have an earlier date.",
+      "rectifyInvalid": "Only an issued standard invoice can be corrected.",
+      "rectificationReasonRequired": "Give the reason for the correction.",
+      "alreadyRectified": "This invoice already has corrective invoices: the next one is issued for the difference.",
+      "rectifyingSeriesMissing": "The issuer has no corrective series. Create one in Settings → Issuers.",
+      "invoiceNotVoided": "Items can only be released from a voided invoice.",
+      "invoiceNotIssuing": "The invoice isn't being issued.",
+      "paymentNotIssued": "Payments can only be recorded for issued invoices.",
+      "seriesInUse": "This series already has invoices issued from GNERAI OS this year: its numbering continues on its own.",
+      "clientNotFound": "Client not found.",
+      "contractNotFound": "Contract not found.",
+      "lineNotFound": "Line not found.",
+      "lineHasBilling": "This line has already been invoiced: instead of deleting it, end it with an end date.",
+      "emailNotConfigured": "Email sending isn't set up (RESEND_API_KEY or BREVO_API_KEY is missing).",
+      "emailNoRecipients": "Add at least one recipient.",
+      "emailFailed": "The email couldn't be sent.",
+      "pdfFailed": "The PDF couldn't be generated. The invoice is still being issued: try again.",
+      "billingRunBusy": "A billing run is already in progress for this organization.",
+      "providerUnavailable": "The invoicing provider didn't respond. The invoice is still being issued: try again.",
+      "issuing": "Issuing stopped halfway: try again to complete it with the same number.",
+      "invoiceNotIssued": "Only issued invoices can be sent.",
+      "emailCancelled": "This email was discarded: prepare a new one if you want to send it.",
+      "draftPartyLocked": "This draft comes from a contract or corrects another invoice: its issuer and client can't be changed."
+    },
+    "forecast": {
+      "title": "Forecast billing · {months} months",
+      "description": "What the daily billing run will invoice from signed contracts, if nothing changes. Amounts before VAT.",
+      "next3": "{amount} in the next 3 months",
+      "recurring": "Recurring",
+      "oneOff": "Milestones",
+      "chartLabel": "Forecast billing by month, recurring and milestones",
+      "footnote": "Includes prorations, pauses, cancellations already scheduled and yearly renewals. Usage (campaigns) can't be forecast."
+    }
+  }
+}

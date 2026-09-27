@@ -1,9 +1,20 @@
+import type { CSSProperties } from "react";
 import Image from "next/image";
 import { brand } from "@/brand";
 import { cn } from "@/lib/utils";
 
 /** Isotipo de GNERAI: metálico en oscuro, silueta negra en claro. */
-export function Isotype({ size = 24, className, priority }: { size?: number; className?: string; priority?: boolean }) {
+export function Isotype({
+  size = 24,
+  className,
+  priority,
+  style,
+}: {
+  size?: number;
+  className?: string;
+  priority?: boolean;
+  style?: CSSProperties;
+}) {
   return (
     <Image
       src={brand.logos.isotypeMetal}
@@ -11,6 +22,7 @@ export function Isotype({ size = 24, className, priority }: { size?: number; cla
       width={size}
       height={size}
       priority={priority}
+      style={style}
       className={cn("shrink-0 select-none brightness-0 dark:brightness-100", className)}
     />
   );

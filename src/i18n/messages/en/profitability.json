@@ -1,0 +1,230 @@
+{
+  "profitability": {
+    "tab": "Profitability",
+    "partnersOnly": {
+      "title": "Partners only",
+      "body": "Profitability uses each person's internal hourly cost, which only partners can see."
+    },
+    "toolbar": {
+      "settings": "Thresholds",
+      "teamCosts": "Team costs"
+    },
+    "period": {
+      "label": "Period",
+      "kinds": {
+        "last3m": "3 months",
+        "last12m": "12 months",
+        "month": "Month",
+        "quarter": "Quarter",
+        "year": "Year",
+        "all": "All time",
+        "custom": "Custom"
+      },
+      "last3m": "Last 3 months",
+      "last12m": "Last 12 months",
+      "all": "All time",
+      "quarter": "Q{quarter} {year}",
+      "previous": "Previous period",
+      "next": "Next period",
+      "inProgress": "in progress",
+      "from": "From",
+      "to": "To",
+      "apply": "Apply",
+      "invalid": "Check the dates: “from” must come before “to”, it can't start in the future and the range can be 3 years at most."
+    },
+    "summary": {
+      "label": "Period summary",
+      "revenue": "Revenue",
+      "revenueHint": "Net of VAT and withholding, as issued",
+      "revenueReceipts": "Net issued + {amount} without invoice",
+      "collected": "Collected",
+      "collectedHint": "VAT included, by payment date",
+      "collectedPending": "VAT incl. · {amount} outstanding",
+      "collectedReceipts": "VAT incl. · {amount} without invoice",
+      "cost": "Cost",
+      "costHint": "Hours, expenses and infrastructure",
+      "costSplit": "Hours {hours} · other {amount}",
+      "margin": "Margin",
+      "marginHint": "Revenue − cost",
+      "marginShare": "Margin %",
+      "rate": "€/hour",
+      "minimum": "Minimum: {value}",
+      "hours": "Hours",
+      "clients": "{count, plural, =0 {No clients} one {# client} other {# clients}}"
+    },
+    "perHour": "{amount}/h",
+    "table": {
+      "title": "By client",
+      "description": "From the one that earns the most to the one that earns the least. Open a client to see its projects.",
+      "client": "Client",
+      "revenue": "Revenue",
+      "collected": "Collected",
+      "pending": "Outstanding",
+      "withVat": "VAT incl.",
+      "hours": "Hours",
+      "cost": "Cost",
+      "hoursCost": "Hours cost",
+      "otherCosts": "Other costs",
+      "costs": {
+        "expenses": "Client expenses",
+        "rebill": "Rebillable",
+        "rebillPending": "Not rebilled yet",
+        "hosting": "Infrastructure ({count, plural, =0 {no websites} one {# website} other {# websites}})"
+      },
+      "margin": "Margin",
+      "marginShare": "Margin %",
+      "rate": "€/hour",
+      "sortBy": "Sort by {column}",
+      "expand": "Show {client}'s projects",
+      "collapse": "Hide {client}'s projects",
+      "openClient": "Open {client}'s record",
+      "total": "Total",
+      "unassigned": "No project",
+      "unassignedHint": "Invoiced amounts that don't come from a contract with a project and can't be split by hours among the projects without a contract.",
+      "unknownClient": "Unnamed client",
+      "archived": "archived",
+      "internal": "Internal work",
+      "internalHint": "Projects without a client: they cost money, but aren't part of the client totals.",
+      "unassignedHosting": "Infrastructure without a client",
+      "unassignedHostingHint": "The share of {count, plural, one {# hosted website without a client} other {# hosted websites without a client}} (out of {total}): ours or nobody's in particular. It isn't part of the client totals.",
+      "unassignedHostingBeforeStart": "The share of clients before their first invoice or their first direct expense (they weren't clients yet). It isn't part of the client totals.",
+      "unassignedHostingBoth": "The share of {count, plural, one {# hosted website without a client} other {# hosted websites without a client}} (out of {total}) and that of clients before their first invoice or their first direct expense. It isn't part of the client totals.",
+      "unassignedHostingNoSites": "There are expenses shared among hosted websites, but no active hosted website in Websites: there's nobody to split them among, so they aren't part of the client totals.",
+      "empty": "No revenue or hours in this period.",
+      "caption": "Profitability by client in the period"
+    },
+    "flags": {
+      "lowMargin": "Low margin",
+      "lowRate": "Low €/h",
+      "hoursWithoutRevenue": "Unbilled hours",
+      "revenueWithoutHours": "No hours"
+    },
+    "flagHints": {
+      "lowMargin": "The margin is below the minimum ({min}).",
+      "lowRate": "The effective hourly rate is below the minimum ({min}).",
+      "hoursWithoutRevenue": "There are hours logged in the period, but nothing invoiced.",
+      "revenueWithoutHours": "There's revenue in the period, but no hours logged."
+    },
+    "basis": {
+      "shared": "Shared contract",
+      "sharedHint": "What its contract invoiced is split among the projects that share it, by their hours in the period.",
+      "hours": "By hours",
+      "hoursHint": "What the client was invoiced outside a contract is split among its projects without a contract, by their hours in the period.",
+      "direct": "Direct receipt",
+      "directHint": "Payments received without an invoice and recorded for this project: they're all its own."
+    },
+    "notes": {
+      "title": "How it's calculated",
+      "revenue": "Revenue: the amount net of VAT and withholding of the invoices issued in the period (credit notes subtract on their own date). It goes to a project when the line comes from that project's contract; if the contract has several projects, it's split among them by their hours in the period.",
+      "allocation": "Whatever is invoiced outside a contract (or from contracts without a project) is split among the client's projects without a contract by their hours in the period (marked “By hours”). If none has hours, it stays under “No project”.",
+      "receipts": "Payments without an invoice (what's recorded while invoices aren't issued from GNERAI OS): they count as revenue as they are, with no VAT to take out, on the day the money arrived, and as collected too. If they have a project, they go to that project (“Direct receipt”); if not, they're split like whatever is invoiced outside a contract.",
+      "cost": "Cost: the hours, the client's expenses and its share of the infrastructure. Every logged hour is valued at the hourly cost its author had that day (Settings → Team); non-billable hours count too.",
+      "expenses": "Expenses: those assigned to the client with an invoice date in the period, at their Finance cost (the net amount and, if the VAT isn't deductible, the VAT too). They belong to the client, not to a project: they go on its row (“Other costs”) and not on its projects' rows.",
+      "hosting": "Infrastructure: each expense shared among hosted websites is split equally among the websites we host that are active today in Websites, and each client adds up its own; a client doesn't carry anything from before its first invoice or its first direct expense. That share and the share of websites without a client stay under “Infrastructure without a client”, outside the totals. Subscriptions count through the expenses they generate (each charge, on its date), never through their fee: nothing is counted twice.",
+      "rebill": "Rebilled: an expense rebilled to the client is a cost on its date and its invoice line is revenue once issued, so only the markup stays in the margin. Until it's invoiced it weighs as a cost (“Not rebilled yet”).",
+      "collection": "Collected and outstanding (a cash view: they don't count in the margin, which is still on revenue net of VAT): collected are the invoice payments recorded with a date in the period, VAT included, whether from invoices of the period or earlier ones, plus the payments without an invoice in the period; outstanding is what's still unpaid today from the invoices issued in the period, VAT included too.",
+      "lifetime": "All time: from the first issued invoice, the first payment without an invoice or the first cost until today. Imported historical invoices count like any other issued invoice, and their payments like any payment.",
+      "defaultCost": "{hours} were valued at the default cost ({amount}/h): they belong to people with no cost of their own that day."
+    },
+    "chart": {
+      "title": "Margin by client",
+      "description": "What each client leaves in the period: revenue − its hours, its expenses and its infrastructure.",
+      "positive": "Positive margin",
+      "negative": "Losses",
+      "hidden": "{count, plural, one {# more client} other {# more clients}} in the table.",
+      "tableCaption": "Margin of each client in the period"
+    },
+    "empty": {
+      "title": "The team's hourly cost is missing",
+      "body": "Profitability matches what was invoiced against each person's hours times what their hour costs. Costs are set up in Settings → Team; until there's at least one, there's no margin to calculate.",
+      "cta": "Set up costs",
+      "readOnly": "Ask an owner to set them up in Settings → Team."
+    },
+    "settings": {
+      "title": "Profitability thresholds",
+      "description": "The hourly cost for people without their own and when to raise a warning.",
+      "defaultCost": "Default hourly cost",
+      "defaultCostHint": "For anyone without their own cost in force that day.",
+      "minMargin": "Minimum margin",
+      "minMarginHint": "Below it, the “Low margin” warning.",
+      "minRate": "Minimum €/hour",
+      "minRateHint": "Below it, the “Low €/h” warning.",
+      "saved": "Thresholds saved"
+    },
+    "costs": {
+      "title": "Internal hourly cost",
+      "description": "What each hour of each person costs the organization (salary, social security, tools…), from a given date. It's what client and project profitability is calculated with. Only partners can see it.",
+      "readOnly": "Only an owner can change costs.",
+      "member": "Member",
+      "current": "Hourly cost",
+      "since": "Since",
+      "next": "Next change",
+      "noCost": "No cost of their own",
+      "usesDefault": "Uses the organization's: {amount}/h",
+      "default": "Default: {amount}/h",
+      "editSettings": "Thresholds and default cost",
+      "open": "{name}'s cost",
+      "inactive": "No access",
+      "sheetDescription": "Each cost applies from its date until the next one. Changing it from a given day doesn't touch what came before.",
+      "inForceSince": "{amount}/h since {date}",
+      "newCost": "New cost",
+      "hourlyCost": "Hourly cost",
+      "validFrom": "From",
+      "validFromHint": "If there's already a cost on that same day, it's corrected.",
+      "save": "Save cost",
+      "saved": "Cost saved",
+      "history": "History",
+      "historyEmpty": "No cost yet: their hours are valued at the organization's.",
+      "inForce": "In force",
+      "scheduled": "Scheduled",
+      "delete": "Delete the cost from {date}",
+      "deleteConfirm": "Delete",
+      "deleteBody": "The cost from {date} will be deleted: those hours will be valued at the previous one.",
+      "deleted": "Cost deleted"
+    },
+    "card": {
+      "title": "Profitability",
+      "last3m": "Last 3 months",
+      "last12m": "Last 12 months",
+      "lifetime": "All time",
+      "since": "since {date}",
+      "collected": "Collected (VAT incl.)",
+      "collectedReceipts": "of which {amount} without invoice",
+      "collectedShort": "Collected",
+      "pending": "Outstanding (VAT incl.)",
+      "revenueBase": "Revenue (net of VAT)",
+      "cost": "Cost",
+      "costSplit": "hours {hours} · expenses & infra {amount}",
+      "marginValue": "{amount} ({value})",
+      "revenue": "Revenue",
+      "hours": "Hours",
+      "otherCosts": "Expenses & infra",
+      "margin": "Margin",
+      "rate": "€/hour",
+      "open": "View in Profitability",
+      "noCosts": "No hourly costs yet: without them there's no margin. They're set up in Settings → Team.",
+      "empty": "No invoices, hours or costs for this client yet.",
+      "error": "Couldn't load profitability."
+    },
+    "validation": {
+      "required": "Required",
+      "hourly": "An amount from €0 to €1,000",
+      "percent": "A percentage from 0 to 100",
+      "date": "A valid date (from the year 2000 onwards)"
+    },
+    "errors": {
+      "memberNotFound": "That member doesn't belong to this organization.",
+      "invalidCost": "The cost isn't valid: from €0 to €1,000 per hour."
+    }
+  },
+  "dashboard": {
+    "actionQueue": {
+      "items": {
+        "profitability": {
+          "title": "{count, plural, one {# client below the thresholds} other {# clients below the thresholds}}",
+          "hint": "Margin, €/hour or unbilled hours in the last 3 months"
+        }
+      }
+    }
+  }
+}

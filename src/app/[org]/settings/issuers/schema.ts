@@ -1,4 +1,6 @@
 import { z } from "zod";
+import { formatHasYear } from "@/domain/dataio/invoice-number";
+import { isValidSeriesFormat } from "@/domain/invoicing/number-format";
 import { formatIban } from "@/domain/tax-id";
 import type { Tables } from "@/lib/supabase/database.types";
 import { issuerSchema } from "@/lib/validation/fiscal";
@@ -27,6 +29,29 @@ export const seriesNumberSchema = z.object({
 });
 
 export type SeriesNumberInput = z.input<typeof seriesNumberSchema>;
+
+/**
+ * Una serie nueva de un emisor (p. ej. la de un histórico que numeraba «2026-BRK-001»). El código
+ * y el nombre pueden ir vacíos: salen del formato. Se reinicia cada año si el formato lleva el año.
+ */
+export const seriesFormSchema = z.object({
+  issuer_id: z.guid(),
+  code: z
+    .string()
+    .trim()
+    .toUpperCase()
+    .regex(/^[A-Z0-9-]{0,12}$/, "seriesCode"),
+  name: z.string().trim().max(80, "tooLong"),
+  kind: z.enum(["ordinary", "rectifying"]),
+  format: z
+    .string()
+    .trim()
+    .min(1, "required")
+    .max(40, "tooLong")
+    .refine((f) => isValidSeriesFormat(f, formatHasYear(f)), "seriesFormat"),
+});
+
+export type SeriesFormInput = z.input<typeof seriesFormSchema>;
 
 /** Retenciones habituales de un autónomo: general, inicio de actividad y sin retención. */
 export const IRPF_OPTIONS = [

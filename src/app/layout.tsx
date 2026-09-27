@@ -16,6 +16,8 @@ export async function generateMetadata(): Promise<Metadata> {
     description: t("description"),
     applicationName: brand.product,
     robots: { index: false, follow: false },
+    // Instalada en iPhone/iPad (Añadir a pantalla de inicio): pantalla completa y barra oscura.
+    appleWebApp: { capable: true, title: brand.name, statusBarStyle: "black-translucent" },
   };
 }
 

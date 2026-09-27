@@ -24,3 +24,7 @@ export type {
 export { renderQuotePdf } from "./quote-render";
 export { QuoteDocument, createQuoteDocument } from "./quote-document";
 export { buildQuoteView, type QuoteView } from "./quote-view-model";
+export { renderClientReportPdf } from "./report-render";
+export { ReportDocument, createReportDocument } from "./report-document";
+export { buildReportView, reportPdfFilename, type ReportView } from "./report-view-model";
+export { getReportPdfLabels, type ReportPdfLabels } from "./report-labels";

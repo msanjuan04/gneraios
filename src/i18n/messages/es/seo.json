@@ -349,7 +349,40 @@
       "reconnect": "Google ha dejado de dar acceso: hay que reconectar.",
       "notConnected": "Google no está conectado.",
       "sync": "No se ha podido sincronizar. Vuelve a intentarlo en unos minutos.",
-      "google": "No se ha podido leer tu cuenta de Google. Escribe la propiedad a mano o vuelve a intentarlo."
+      "google": "No se ha podido leer tu cuenta de Google. Escribe la propiedad a mano o vuelve a intentarlo.",
+      "gscSiteNotFound": "Esa web no está en el Search Console de la cuenta conectada. Elígela de la lista (p. ej. «sc-domain:gnerai.com»)."
+    },
+    "discovered": {
+      "title": "{count, plural, one {# web de tu Search Console sin dar de alta} other {# webs de tu Search Console sin dar de alta}}",
+      "description": "La cuenta de Google conectada tiene estas propiedades. Añádelas y se sincronizan solas; si la web coincide con la de un cliente, queda vinculada a él.",
+      "suggestedClient": "de {client}",
+      "ownOrUnlinked": "sin cliente vinculado",
+      "add": "Añadir",
+      "adding": "Añadiendo…",
+      "added": "{site} añadida: se está sincronizando."
+    },
+    "channels": {
+      "title": "De dónde vienen las visitas",
+      "description": "Sesiones de GA4 por canal en el periodo. Los de pago (Google Ads, Meta…) en azul: así se ve lo que traen las campañas.",
+      "paidPill": "Campañas: {share} del tráfico",
+      "channel": "Canal",
+      "share": "Peso",
+      "sessions": "Sesiones",
+      "change": "Variación",
+      "conversions": "Conversiones",
+      "names": {
+        "organic_search": "Búsqueda orgánica",
+        "paid_search": "Anuncios en buscadores",
+        "organic_social": "Redes sociales",
+        "paid_social": "Anuncios en redes",
+        "direct": "Directo",
+        "referral": "Otras webs",
+        "email": "Email",
+        "other": "Otros"
+      },
+      "paidSummary": "Las campañas han traído {sessions} visitas y {conversions} conversiones{hasChange, select, yes { ({change} frente al periodo anterior)} other {}}.",
+      "noPaid": "En este periodo no hay tráfico de campañas de pago.",
+      "footnote": "Conversiones = eventos clave de GA4."
     }
   }
 }

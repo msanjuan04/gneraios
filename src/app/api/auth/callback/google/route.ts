@@ -14,6 +14,7 @@ import {
 import { SeoConnectionError, SeoSyncBusyError, syncSeo } from "@/server/seo/run";
 import { integrationSecretContext, secretStoreFromEnv } from "@/server/seo/secret-store";
 import { getSessionUser } from "@/server/session";
+import { publicUrl } from "@/lib/public-url";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -32,12 +33,12 @@ export async function GET(request: NextRequest) {
     response.cookies.set(OAUTH_COOKIE, "", { path: OAUTH_COOKIE_PATH, maxAge: 0 });
     return response;
   };
-  if (!config) return clearCookie(NextResponse.redirect(new URL("/", request.url)));
+  if (!config) return clearCookie(NextResponse.redirect(publicUrl("/")));
 
   const state = verifyState(params.get("state"), config.stateKey);
-  if (!state) return clearCookie(NextResponse.redirect(new URL("/", request.url)));
+  if (!state) return clearCookie(NextResponse.redirect(publicUrl("/")));
   const done = (query: string, path = "seo") =>
-    clearCookie(NextResponse.redirect(new URL(`/${state.slug}/${path}?${query}`, request.url)));
+    clearCookie(NextResponse.redirect(publicUrl(`/${state.slug}/${path}?${query}`)));
 
   const [nonce, verifier] = (request.cookies.get(OAUTH_COOKIE)?.value ?? "").split(".");
   if (!nonce || !verifier || nonce !== state.nonce) return done("google_error=state");

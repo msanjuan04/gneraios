@@ -5,7 +5,8 @@ import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useFormatter, useTranslations } from "next-intl";
 import { type KeyboardEvent as ReactKeyboardEvent, type MouseEvent, useMemo, useRef, useState } from "react";
-import { CLIENT_STATUSES, type ClientStatus, newClientDefaults } from "@/app/[org]/clients/schema";
+import { newClientDefaults } from "@/app/[org]/clients/schema";
+import { CLIENT_MANUAL_STATUSES, type ClientManualStatus, effectiveClientStatus } from "@/domain/clients/status";
 import { useShell } from "@/components/app-shell/shell-context";
 import { useHotkeys } from "@/components/app-shell/use-hotkeys";
 import { PageHeader } from "@/components/page-header";
@@ -19,11 +20,12 @@ import { Switch } from "@/components/ui/switch";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { ClientSheet } from "./client-sheet";
+import { HealthBadge } from "./health-badge";
 import { ClientStatusBadge } from "./client-status-badge";
 import { MemberAvatar } from "./member-avatar";
 import type { ClientListItem, MemberOption } from "./types";
 
-type Filters = { q: string; status: ClientStatus | ""; owner: string; archived: boolean };
+type Filters = { q: string; status: ClientManualStatus | ""; owner: string; archived: boolean; attention: boolean };
 
 const ALL = "all";
 /** Filtro de responsable: clientes sin socio asignado. */
@@ -31,14 +33,15 @@ const NO_OWNER = "none";
 // Ventana de tinykeys para las secuencias "g …": la "c" de "g c" no debe abrir el panel.
 const SEQUENCE_MS = 1000;
 
-const EMPTY_FILTERS: Filters = { q: "", status: "", owner: "", archived: false };
+const EMPTY_FILTERS: Filters = { q: "", status: "", owner: "", archived: false, attention: false };
 
 function readFilters(params: { get(name: string): string | null }): Filters {
   return {
     q: params.get("q") ?? "",
-    status: CLIENT_STATUSES.find((s) => s === params.get("status")) ?? "",
+    status: CLIENT_MANUAL_STATUSES.find((s) => s === params.get("status")) ?? "",
     owner: params.get("owner") ?? "",
     archived: params.get("archived") === "1",
+    attention: params.get("health") === "attention",
   };
 }
 
@@ -48,6 +51,7 @@ function filtersQuery(filters: Filters): string {
   if (filters.status) params.set("status", filters.status);
   if (filters.owner) params.set("owner", filters.owner);
   if (filters.archived) params.set("archived", "1");
+  if (filters.attention) params.set("health", "attention");
   const query = params.toString();
   return query ? `?${query}` : "";
 }
@@ -128,7 +132,8 @@ export function ClientsList({ basePath, slug, clients, members, canEdit, current
       .filter(
         ({ client, haystack }) =>
           (filters.archived || !client.archived) &&
-          (!filters.status || client.status === filters.status) &&
+          (!filters.status || effectiveClientStatus(client.status, client.manualStatus) === filters.status) &&
+          (!filters.attention || client.health.level !== "good") &&
           (!filters.owner || (filters.owner === NO_OWNER ? client.owner === null : client.owner?.id === filters.owner)) &&
           terms.every((term) => haystack.includes(term)),
       )
@@ -137,7 +142,8 @@ export function ClientsList({ basePath, slug, clients, members, canEdit, current
 
   const archivedCount = clients.filter((c) => c.archived).length;
   const hiddenArchived = filters.archived ? 0 : archivedCount;
-  const filtering = filters.q.trim() !== "" || filters.status !== "" || filters.owner !== "" || filters.archived;
+  const filtering = filters.q.trim() !== "" || filters.status !== "" || filters.owner !== "" || filters.archived || filters.attention;
+  const attentionCount = clients.filter((c) => !c.archived && c.health.level !== "good").length;
   const activeIndex = activeId ? visible.findIndex((c) => c.id === activeId) : -1;
   const clientHref = (id: string) => `${basePath}/clients/${id}`;
 
@@ -251,14 +257,14 @@ export function ClientsList({ basePath, slug, clients, members, canEdit, current
 
             <Select
               value={filters.status || ALL}
-              onValueChange={(v) => updateFilters({ status: CLIENT_STATUSES.find((s) => s === v) ?? "" })}
+              onValueChange={(v) => updateFilters({ status: CLIENT_MANUAL_STATUSES.find((s) => s === v) ?? "" })}
             >
               <SelectTrigger size="sm" className="w-40" aria-label={t("list.statusFilter")}>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value={ALL}>{t("list.statusAll")}</SelectItem>
-                {CLIENT_STATUSES.map((s) => (
+                {CLIENT_MANUAL_STATUSES.map((s) => (
                   <SelectItem key={s} value={s}>
                     {tStatus(s)}
                   </SelectItem>
@@ -280,6 +286,21 @@ export function ClientsList({ basePath, slug, clients, members, canEdit, current
                 <SelectItem value={NO_OWNER}>{tCrm("noOwner")}</SelectItem>
               </SelectContent>
             </Select>
+
+            {attentionCount > 0 && (
+              <button
+                type="button"
+                aria-pressed={filters.attention}
+                onClick={() => updateFilters({ attention: !filters.attention })}
+                className={cn(
+                  "inline-flex h-7 items-center gap-1.5 rounded-full border px-2.5 text-[0.8rem] font-semibold transition-colors",
+                  filters.attention ? "border-warning/50 bg-warning/10 text-foreground" : "text-muted-foreground hover:text-foreground",
+                )}
+              >
+                <span aria-hidden className="size-2 rounded-full bg-warning" />
+                {t("list.attention", { count: attentionCount })}
+              </button>
+            )}
 
             {archivedCount > 0 && (
               <label className="flex h-7 cursor-pointer items-center gap-2 rounded-full px-2 text-[0.8rem] font-semibold text-muted-foreground hover:text-foreground">
@@ -368,6 +389,7 @@ export function ClientsList({ basePath, slug, clients, members, canEdit, current
                             >
                               {client.displayName}
                             </Link>
+                            <HealthBadge health={client.health} />
                             {client.archived && (
                               <Badge variant="outline" className="text-muted-foreground">
                                 {t("list.archived")}
@@ -379,7 +401,7 @@ export function ClientsList({ basePath, slug, clients, members, canEdit, current
                           )}
                         </TableCell>
                         <TableCell>
-                          <ClientStatusBadge status={client.status} />
+                          <ClientStatusBadge status={client.status} manual={client.manualStatus} />
                         </TableCell>
                         <TableCell className="hidden sm:table-cell">
                           {client.owner ? (

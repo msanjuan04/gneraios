@@ -1,0 +1,270 @@
+{
+  "sites": {
+    "title": "Websites",
+    "description": "Uptime, SSL certificates and domains for your clients' websites. Checked every 5 minutes; partners get an alert if something fails.",
+    "new": "New website",
+    "readOnly": "Read only: adding or changing websites is up to a partner.",
+    "status": {
+      "up": "Up",
+      "slow": "Slow",
+      "down": "Down",
+      "unknown": "No data",
+      "paused": "Paused"
+    },
+    "summary": {
+      "label": "Summary",
+      "up": "{count, plural, other {up}}",
+      "down": "{count, plural, other {down}}",
+      "expiring": "{count, plural, other {expiring soon}}",
+      "slow": "{count, plural, other {# slow}}",
+      "unknown": "{count, plural, other {# without data}}",
+      "paused": "{count, plural, other {# paused}}",
+      "cadence": "Checked every 5 min"
+    },
+    "filters": {
+      "label": "Filter websites",
+      "all": "All",
+      "problems": "With problems",
+      "hosted": "Hosted by us",
+      "search": "Search by name, domain or client",
+      "clear": "Clear search",
+      "noResultsTitle": "No websites match",
+      "noResultsBody": "Try another name or clear the filters.",
+      "noProblemsTitle": "All good",
+      "noProblemsBody": "No website is down, slow or about to expire.",
+      "showAll": "Show all"
+    },
+    "list": {
+      "columns": {
+        "site": "Website",
+        "client": "Client",
+        "response": "Response",
+        "uptime": "Uptime 7d",
+        "ssl": "SSL",
+        "domain": "Domain",
+        "checked": "Checked",
+        "actions": "Actions"
+      },
+      "expired": "Expired",
+      "sslUntil": "Certificate valid until {date}",
+      "domainUntil": "Domain paid until {date}",
+      "downSince": "{reason} · since {since}",
+      "unconfirmed": "unconfirmed",
+      "slowLine": "Responding slowly",
+      "stale": "No recent checks",
+      "neverChecked": "Not checked yet",
+      "pausedLine": "Paused: not being checked",
+      "hostedByUs": "Hosted by us",
+      "noClient": "No client",
+      "never": "Never"
+    },
+    "empty": {
+      "title": "Monitor your clients' websites",
+      "body": "Add the websites you host and GNERAI OS will check them every 5 minutes: if one goes down, or its SSL certificate or domain is about to expire, the partners get an alert.",
+      "bulk": "Paste several websites",
+      "one": "Add a website",
+      "readOnly": "No websites yet. A partner adds them."
+    },
+    "actions": {
+      "checkNow": "Check now",
+      "checking": "Checking…",
+      "checkedUp": "{name} is up: it responded in {time}.",
+      "checkedDown": "{name} is down: {reason}.",
+      "previewOnly": "Preview: nothing is saved here.",
+      "more": "More actions for {name}",
+      "edit": "Edit",
+      "pause": "Pause",
+      "resume": "Resume",
+      "paused": "{name} paused: it's no longer checked and won't alert.",
+      "resumed": "{name} is monitored again.",
+      "delete": "Remove",
+      "deleteTitle": "Remove {name}?",
+      "deleteBody": "It stops being monitored and its checks are deleted. To stop the alerts for a while, pause it instead.",
+      "deleted": "{name} is no longer monitored."
+    },
+    "sheet": {
+      "createTitle": "New website",
+      "editTitle": "Edit website",
+      "description": "Checked every 5 minutes: whether it responds, how long it takes and when its SSL certificate expires.",
+      "url": "URL",
+      "urlHint": "The website's address; without https:// works too.",
+      "urlNormalized": "We'll check {url}",
+      "label": "Name",
+      "labelHint": "Empty: the URL is shown.",
+      "labelPlaceholder": "Mar Blau Dental Clinic",
+      "client": "Client",
+      "clientHint": "Whose website it is.",
+      "clientSuggestion": "Is it {name}'s? Choose it",
+      "noClient": "No client (our own)",
+      "domainExpiresOn": "Domain expiry",
+      "domainHint": "The date from the registrar: we'll warn you before it expires.",
+      "hostedByUs": "Hosted by us",
+      "hostedByUsHint": "It's on our server (otherwise we only monitor it).",
+      "active": "Monitor",
+      "activeHint": "While paused it isn't checked and doesn't alert.",
+      "notes": "Notes",
+      "notesPlaceholder": "Where it's hosted, who manages the domain…",
+      "create": "Add website",
+      "save": "Save",
+      "created": "Website added: we're checking it right now.",
+      "saved": "Website saved.",
+      "previewOnly": "Preview: nothing is saved here."
+    },
+    "bulk": {
+      "open": "Add several",
+      "title": "Add several websites",
+      "description": "Paste the domains, one per line. Websites already monitored are skipped.",
+      "label": "Websites",
+      "hint": "One per line (up to {max}). Without https:// works too; lines starting with # are ignored.",
+      "placeholder": "clinicamarblau.com\nhotel-llevant.cat\nhttps://www.gnerai.com",
+      "tooMany": "At most {max} websites at once.",
+      "hostedByUs": "Hosted by us",
+      "hostedByUsHint": "They're all on our server.",
+      "matchClients": "Link to their client",
+      "matchClientsHint": "If the website matches the one on a client's record.",
+      "client": "Client for all",
+      "clientHint": "If they all belong to the same client.",
+      "noClient": "None in particular",
+      "previewTitle": "What will be added",
+      "previewSummary": "{add, plural, other {# new}} · {known, plural, other {# already monitored}} · {invalid, plural, other {# invalid}}",
+      "alreadyWatched": "Already monitored",
+      "noClientShort": "No client",
+      "invalid": "Not a website",
+      "more": "and {count} more",
+      "submit": "{count, plural, =0 {Add} one {Add # website} other {Add # websites}}",
+      "added": "{count, plural, =0 {No new websites} one {# website added} other {# websites added}}",
+      "skipped": "{count, plural, one {# was already monitored.} other {# were already monitored.}}",
+      "checkingSoon": "We're checking them right now.",
+      "previewOnly": "Preview: nothing is saved here."
+    },
+    "thresholds": {
+      "open": "Thresholds",
+      "title": "Alert thresholds",
+      "description": "When to alert the partners. They apply to every website in the organization.",
+      "ssl_warn_days": {
+        "label": "SSL certificate alert",
+        "hint": "Days before it expires ({min}–{max})."
+      },
+      "domain_warn_days": {
+        "label": "Domain alert",
+        "hint": "Days before it expires ({min}–{max})."
+      },
+      "slow_ms": {
+        "label": "Slow from",
+        "hint": "Response time in milliseconds ({min}–{max})."
+      },
+      "down_after_failures": {
+        "label": "Failures in a row to alert",
+        "hint": "A one-off failure doesn't alert: how many in a row count as down ({min}–{max})."
+      },
+      "units": {
+        "days": "days",
+        "ms": "ms",
+        "checks": "failures"
+      },
+      "saved": "Thresholds saved.",
+      "previewOnly": "Preview: nothing is saved here."
+    },
+    "detail": {
+      "back": "Websites",
+      "noClient": "No client",
+      "hostedByUs": "Hosted by us",
+      "edit": "Edit",
+      "readOnly": "Read only: partners manage it.",
+      "sslUnknown": "Couldn't be read",
+      "domainUnknown": "Add it in Edit",
+      "expiresOn": "Expires on {date}",
+      "expiredOn": "Expired on {date}",
+      "expired": "Expired",
+      "daysLeft": "{count, plural, =0 {Today} one {# day} other {# days}}",
+      "stats": {
+        "response": "Response",
+        "avg24h": "24 h average: {value}",
+        "neverChecked": "Not checked yet",
+        "uptime": "Uptime 7 days",
+        "uptimeHint": "24 h: {day} · 30 days: {month}",
+        "ssl": "SSL certificate",
+        "domain": "Domain"
+      },
+      "incidents": {
+        "title": "Downtime",
+        "summary": "{count, plural, one {# incident} other {# incidents}} in 7 days{blips, plural, =0 {} one { · # one-off failure} other { · # one-off failures}}",
+        "empty": "No downtime in the last 7 days.",
+        "emptyWithBlips": "No downtime in 7 days ({count, plural, one {# one-off failure} other {# one-off failures}}, unconfirmed).",
+        "resolved": "Down for {duration}",
+        "ongoing": "Down for {duration} so far",
+        "failures": "{count, plural, one {# failed check} other {# failed checks}}",
+        "until": "until {time}"
+      },
+      "recent": {
+        "title": "Latest checks",
+        "empty": "Not checked yet.",
+        "ok": "HTTP {status}"
+      },
+      "notes": "Notes"
+    },
+    "chart": {
+      "title": "Last 7 days",
+      "description": "Hourly: how long it took to respond and the failures.",
+      "showTable": "Show table",
+      "showChart": "Show chart",
+      "latencyTitle": "Response time",
+      "slowLine": "Slow from {value}",
+      "failuresTitle": "Failures",
+      "legendOk": "No failures",
+      "legendPartial": "Some failures",
+      "legendDown": "Down the whole hour",
+      "hourRange": "{day} – {end}",
+      "noData": "No checks",
+      "avg": "Average",
+      "max": "Slowest",
+      "checks": "{ok}/{total} OK",
+      "tableCaption": "Checks per hour over the last 7 days",
+      "hour": "Hour",
+      "okChecks": "OK",
+      "uptime": "Uptime",
+      "empty": "No checks in the last 7 days yet."
+    },
+    "client": {
+      "title": "Websites",
+      "empty": "We don't monitor any website for this client.",
+      "add": "Add website",
+      "problems": "{count, plural, other {# with problems}}",
+      "allGood": "{count, plural, one {# website, all good} other {# websites, all good}}",
+      "open": "See all websites"
+    },
+    "notFound": {
+      "title": "This website doesn't exist",
+      "body": "It may have been removed, or the link isn't right.",
+      "back": "Back to Websites"
+    },
+    "format": {
+      "ms": "{value} ms",
+      "seconds": "{value} s",
+      "daysShort": "{count} d"
+    },
+    "errors": {
+      "timeout": "Timed out",
+      "dns": "Domain doesn't resolve",
+      "refused": "Connection refused",
+      "reset": "Connection dropped",
+      "tls_expired": "SSL certificate expired",
+      "tls_invalid": "Invalid SSL certificate",
+      "redirects": "Too many redirects",
+      "http": "HTTP error",
+      "network": "Can't connect",
+      "httpStatus": "HTTP {status}",
+      "duplicate": "That website is already monitored.",
+      "clientNotFound": "That client no longer exists.",
+      "invalidUrl": "That URL isn't valid: it must be an https website.",
+      "notFound": "That website no longer exists."
+    },
+    "validation": {
+      "url": "Not a valid website: type a domain (e.g. clinicamarblau.com).",
+      "date": "Invalid date",
+      "bulkEmpty": "Paste at least one website.",
+      "bulkTooMany": "Too many websites at once.",
+      "thresholdRange": "Out of range"
+    }
+  }
+}

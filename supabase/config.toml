@@ -172,16 +172,16 @@ enable_refresh_token_rotation = true
 # Requires enable_refresh_token_rotation = true.
 refresh_token_reuse_interval = 10
 # Allow/disallow new user signups to your project.
-enable_signup = true
+enable_signup = false  # GNERAI OS: solo por invitación (API admin); nadie se registra solo.
 # Allow/disallow anonymous sign-ins to your project.
 enable_anonymous_sign_ins = false
 # Allow/disallow testing manual linking of accounts
 enable_manual_linking = false
 # Passwords shorter than this value will be rejected as weak. Minimum 6, recommended 8 or more.
-minimum_password_length = 6
+minimum_password_length = 12
 # Passwords that do not meet the following requirements will be rejected as weak. Supported values
 # are: `letters_digits`, `lower_upper_letters_digits`, `lower_upper_letters_digits_symbols`
-password_requirements = ""
+password_requirements = "lower_upper_letters_digits"
 
 # Configure passkey sign-ins.
 # [auth.passkey]
@@ -217,7 +217,7 @@ web3 = 30
 
 [auth.email]
 # Allow/disallow new user signups via email to your project.
-enable_signup = true
+enable_signup = false  # GNERAI OS: solo por invitación (API admin); nadie se registra solo.
 # If enabled, a user will be required to confirm any email change on both the old, and new email
 # addresses. If disabled, only the new email is required to confirm.
 double_confirm_changes = true
@@ -247,6 +247,10 @@ otp_expiry = 3600
 [auth.email.template.magic_link]
 subject = "Tu acceso a GNERAI OS"
 content_path = "./supabase/templates/magic_link.html"
+
+[auth.email.template.recovery]
+subject = "Crea una contraseña nueva para GNERAI OS"
+content_path = "./supabase/templates/recovery.html"
 
 [auth.email.template.invite]
 subject = "Te han invitado a GNERAI OS"

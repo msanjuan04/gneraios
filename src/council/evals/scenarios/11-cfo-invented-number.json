@@ -1,0 +1,184 @@
+{
+  "id": "cfo-invented-number",
+  "title": "CFO: una cifra inventada se rechaza y se regenera",
+  "description": "La primera respuesta redondea a ojo el beneficio y se inventa un reparto. El guardarraíl lo rechaza y el CFO lo rehace con las cifras de la tool.",
+  "job": {
+    "agent": "cfo",
+    "trigger": "monthly_close",
+    "payload": {
+      "task": "monthly_close",
+      "month": "2026-08-01"
+    }
+  },
+  "data": {
+    "finance": "default"
+  },
+  "replay": {
+    "cfo:monthly_close": [
+      {
+        "calls": [
+          {
+            "name": "get_monthly_close",
+            "input": {
+              "month": "2026-08"
+            }
+          },
+          {
+            "name": "get_policy"
+          },
+          {
+            "name": "get_tax_provisions"
+          }
+        ],
+        "output": {
+          "close": {
+            "headline": "Agosto: 3.340 € recurrentes y propuesta de reparto con la política de ejemplo",
+            "summary": "En agosto se facturaron 3.340 € recurrentes y el beneficio rondó los 2.000 €, así que se pueden repartir unos 1.500 € entre los socios.",
+            "highlights": [
+              {
+                "text": "Beneficio de 1.940 € antes de Sociedades.",
+                "evidence": [
+                  "close.profit"
+                ]
+              },
+              {
+                "text": "Hay 1.180,20 € de IVA pendiente de ingresar.",
+                "evidence": [
+                  "close.taxes_due"
+                ]
+              }
+            ],
+            "distribution_comment": "Con la política de ejemplo: 485 € para impuestos, nada para el colchón porque la caja libre ya lo cubre, 436,50 € de reinversión y 1.018,50 € para los socios. Validar con la gestoría antes de repartir.",
+            "evidence": [
+              "close.revenue.recurring",
+              "close.collected",
+              "close.outstanding",
+              "close.overdue",
+              "close.distribution.taxes",
+              "close.distribution.cushion",
+              "close.distribution.reinvestment",
+              "close.distribution.partners"
+            ]
+          },
+          "recommendations": [
+            {
+              "kind": "decision",
+              "title": "Reservar el IVA del tercer trimestre antes del 20 de octubre",
+              "summary": "El IVA a ingresar del trimestre es de 1.180,20 € y el plazo acaba en 24 días.",
+              "reasoning": "Repercutido de 1.600,20 € menos soportado de 420 €, según get_tax_provisions.",
+              "evidence": [
+                "tax.2026-Q3.issuer-sl.vat_payable",
+                "tax.2026-Q3.days_left",
+                "tax.2026-Q3.issuer-sl.vat_output",
+                "tax.2026-Q3.issuer-sl.vat_input"
+              ],
+              "impact_ref": "tax.2026-Q3.issuer-sl.vat_payable",
+              "proposed_actions": [
+                {
+                  "title": "Pasar a la gestoría las cifras del trimestre",
+                  "due_in_days": 7
+                }
+              ],
+              "confidence": "alta",
+              "urgency": "esta_semana",
+              "risks": "El soportado puede cambiar si faltan gastos por registrar.",
+              "requires_professional_review": true,
+              "subject": "tax:2026-Q3:issuer-sl",
+              "policy_rule": null,
+              "missing_data": []
+            }
+          ]
+        }
+      },
+      {
+        "calls": [
+          {
+            "name": "get_monthly_close",
+            "input": {
+              "month": "2026-08"
+            }
+          },
+          {
+            "name": "get_policy"
+          },
+          {
+            "name": "get_tax_provisions"
+          }
+        ],
+        "output": {
+          "close": {
+            "headline": "Agosto: 3.340 € recurrentes y propuesta de reparto con la política de ejemplo",
+            "summary": "En agosto se facturaron 3.340 € recurrentes y se cobraron 3.133,90 €. Quedan 1.452 € pendientes de cobro, de los que 544,50 € ya están vencidos.",
+            "highlights": [
+              {
+                "text": "Beneficio de 1.940 € antes de Sociedades.",
+                "evidence": [
+                  "close.profit"
+                ]
+              },
+              {
+                "text": "Hay 1.180,20 € de IVA pendiente de ingresar.",
+                "evidence": [
+                  "close.taxes_due"
+                ]
+              }
+            ],
+            "distribution_comment": "Con la política de ejemplo: 485 € para impuestos, nada para el colchón porque la caja libre ya lo cubre, 436,50 € de reinversión y 1.018,50 € para los socios. Validar con la gestoría antes de repartir.",
+            "evidence": [
+              "close.revenue.recurring",
+              "close.collected",
+              "close.outstanding",
+              "close.overdue",
+              "close.distribution.taxes",
+              "close.distribution.cushion",
+              "close.distribution.reinvestment",
+              "close.distribution.partners"
+            ]
+          },
+          "recommendations": [
+            {
+              "kind": "decision",
+              "title": "Reservar el IVA del tercer trimestre antes del 20 de octubre",
+              "summary": "El IVA a ingresar del trimestre es de 1.180,20 € y el plazo acaba en 24 días.",
+              "reasoning": "Repercutido de 1.600,20 € menos soportado de 420 €, según get_tax_provisions.",
+              "evidence": [
+                "tax.2026-Q3.issuer-sl.vat_payable",
+                "tax.2026-Q3.days_left",
+                "tax.2026-Q3.issuer-sl.vat_output",
+                "tax.2026-Q3.issuer-sl.vat_input"
+              ],
+              "impact_ref": "tax.2026-Q3.issuer-sl.vat_payable",
+              "proposed_actions": [
+                {
+                  "title": "Pasar a la gestoría las cifras del trimestre",
+                  "due_in_days": 7
+                }
+              ],
+              "confidence": "alta",
+              "urgency": "esta_semana",
+              "risks": "El soportado puede cambiar si faltan gastos por registrar.",
+              "requires_professional_review": true,
+              "subject": "tax:2026-Q3:issuer-sl",
+              "policy_rule": null,
+              "missing_data": []
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "expect": {
+    "report": {
+      "kind": "monthly_close",
+      "distribution": true
+    },
+    "published": {
+      "min": 1,
+      "max": 1
+    },
+    "professional": "all",
+    "replayOnly": {
+      "attempts": 2
+    }
+  }
+}

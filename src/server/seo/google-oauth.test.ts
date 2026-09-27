@@ -51,13 +51,20 @@ describe("pantalla de consentimiento", () => {
       redirect_uri: config.redirectUri,
       response_type: "code",
       access_type: "offline",
-      prompt: "consent",
+      prompt: "consent select_account",
       state: "s",
       code_challenge: challenge,
       code_challenge_method: "S256",
       login_hint: "marc@gnerai.com",
     });
     expect(url.searchParams.get("scope")!.split(" ")).toEqual(["openid", "email", GOOGLE_SCOPES.searchConsole, GOOGLE_SCOPES.analytics]);
+  });
+
+  it("sin pista de cuenta, Google deja elegir con qué cuenta conectar", () => {
+    const { challenge } = createPkce();
+    const url = new URL(authorizationUrl({ config, state: "s", challenge }));
+    expect(url.searchParams.has("login_hint")).toBe(false);
+    expect(url.searchParams.get("prompt")).toContain("select_account");
   });
 });
 

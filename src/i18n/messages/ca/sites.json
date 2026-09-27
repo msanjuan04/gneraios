@@ -1,0 +1,270 @@
+{
+  "sites": {
+    "title": "Webs",
+    "description": "Uptime, certificats SSL i dominis de les webs dels clients. Es comproven cada 5 minuts i els socis reben un avís si alguna cosa falla.",
+    "new": "Nova web",
+    "readOnly": "Només lectura: donar d'alta o canviar webs és cosa d'un soci.",
+    "status": {
+      "up": "Funciona",
+      "slow": "Lenta",
+      "down": "Caiguda",
+      "unknown": "Sense dades",
+      "paused": "En pausa"
+    },
+    "summary": {
+      "label": "Resum",
+      "up": "{count, plural, one {funciona} other {funcionen}}",
+      "down": "{count, plural, one {caiguda} other {caigudes}}",
+      "expiring": "{count, plural, one {caduca aviat} other {caduquen aviat}}",
+      "slow": "{count, plural, one {# lenta} other {# lentes}}",
+      "unknown": "{count, plural, other {# sense dades}}",
+      "paused": "{count, plural, other {# en pausa}}",
+      "cadence": "Es comproven cada 5 min"
+    },
+    "filters": {
+      "label": "Filtra les webs",
+      "all": "Totes",
+      "problems": "Amb problemes",
+      "hosted": "Allotjades per nosaltres",
+      "search": "Cerca per nom, domini o client",
+      "clear": "Esborra la cerca",
+      "noResultsTitle": "Cap web no coincideix",
+      "noResultsBody": "Prova amb un altre nom o treu els filtres.",
+      "noProblemsTitle": "Tot en ordre",
+      "noProblemsBody": "Cap web no està caiguda, lenta o a punt de caducar.",
+      "showAll": "Mostra-les totes"
+    },
+    "list": {
+      "columns": {
+        "site": "Web",
+        "client": "Client",
+        "response": "Resposta",
+        "uptime": "Uptime 7 d",
+        "ssl": "SSL",
+        "domain": "Domini",
+        "checked": "Comprovada",
+        "actions": "Accions"
+      },
+      "expired": "Caducat",
+      "sslUntil": "Certificat vàlid fins al {date}",
+      "domainUntil": "Domini pagat fins al {date}",
+      "downSince": "{reason} · des de {since}",
+      "unconfirmed": "sense confirmar",
+      "slowLine": "Respon lenta",
+      "stale": "Sense comprovacions recents",
+      "neverChecked": "Encara sense comprovar",
+      "pausedLine": "En pausa: no es comprova",
+      "hostedByUs": "L'allotgem nosaltres",
+      "noClient": "Sense client",
+      "never": "Mai"
+    },
+    "empty": {
+      "title": "Vigila les webs dels teus clients",
+      "body": "Dona d'alta les webs que allotgeu i GNERAI OS les comprovarà cada 5 minuts: si una cau, o el seu certificat SSL o el seu domini estan a punt de caducar, els socis reben un avís.",
+      "bulk": "Enganxa diverses webs",
+      "one": "Afegeix una web",
+      "readOnly": "Encara no hi ha webs. Les dona d'alta un soci."
+    },
+    "actions": {
+      "checkNow": "Comprova-ho ara",
+      "checking": "Comprovant…",
+      "checkedUp": "{name} funciona: ha respost en {time}.",
+      "checkedDown": "{name} no funciona: {reason}.",
+      "previewOnly": "Vista prèvia: aquí no es desa res.",
+      "more": "Més accions de {name}",
+      "edit": "Edita",
+      "pause": "Posa en pausa",
+      "resume": "Reprèn",
+      "paused": "{name} en pausa: ja no es comprova ni avisa.",
+      "resumed": "{name} es torna a vigilar.",
+      "delete": "Treu",
+      "deleteTitle": "Vols treure {name}?",
+      "deleteBody": "Es deixa de vigilar i se n'esborren les comprovacions. Si només vols deixar de rebre avisos una temporada, posa la web en pausa.",
+      "deleted": "{name} ja no es vigila."
+    },
+    "sheet": {
+      "createTitle": "Nova web",
+      "editTitle": "Edita la web",
+      "description": "Es comprova cada 5 minuts: si respon, quant triga i quan caduca el seu certificat SSL.",
+      "url": "URL",
+      "urlHint": "L'adreça de la web; sense https:// també val.",
+      "urlNormalized": "Es comprovarà {url}",
+      "label": "Nom",
+      "labelHint": "Buit: es mostra la URL.",
+      "labelPlaceholder": "Clínica Mar Blau",
+      "client": "Client",
+      "clientHint": "De qui és la web.",
+      "clientSuggestion": "És de {name}? Tria'l",
+      "noClient": "Sense client (pròpia)",
+      "domainExpiresOn": "Caducitat del domini",
+      "domainHint": "La data del registrador: avisem abans que caduqui.",
+      "hostedByUs": "L'allotgem nosaltres",
+      "hostedByUsHint": "És al nostre servidor (si no, només la vigilem).",
+      "active": "Vigila-la",
+      "activeHint": "En pausa no es comprova ni avisa.",
+      "notes": "Notes",
+      "notesPlaceholder": "On està allotjada, qui gestiona el domini…",
+      "create": "Afegeix la web",
+      "save": "Desa",
+      "created": "Web afegida: la comprovem ara mateix.",
+      "saved": "Web desada.",
+      "previewOnly": "Vista prèvia: aquí no es desa res."
+    },
+    "bulk": {
+      "open": "Afegeix-ne diverses",
+      "title": "Afegeix diverses webs",
+      "description": "Enganxa els dominis, un per línia. Les que ja es vigilen se salten.",
+      "label": "Webs",
+      "hint": "Una per línia (fins a {max}). Sense https:// també val; les línies que comencen per # s'ignoren.",
+      "placeholder": "clinicamarblau.com\nhotel-llevant.cat\nhttps://www.gnerai.com",
+      "tooMany": "Com a molt {max} webs de cop.",
+      "hostedByUs": "Les allotgem nosaltres",
+      "hostedByUsHint": "Totes són al nostre servidor.",
+      "matchClients": "Vincula-les amb el seu client",
+      "matchClientsHint": "Si la web coincideix amb la de la fitxa d'un client.",
+      "client": "Client per a totes",
+      "clientHint": "Si totes són del mateix client.",
+      "noClient": "Cap en concret",
+      "previewTitle": "El que s'afegirà",
+      "previewSummary": "{add, plural, one {# nova} other {# noves}} · {known, plural, one {# ja vigilada} other {# ja vigilades}} · {invalid, plural, one {# no vàlida} other {# no vàlides}}",
+      "alreadyWatched": "Ja es vigila",
+      "noClientShort": "Sense client",
+      "invalid": "No és una web",
+      "more": "i {count} més",
+      "submit": "{count, plural, =0 {Afegeix} one {Afegeix # web} other {Afegeix # webs}}",
+      "added": "{count, plural, =0 {No hi havia webs noves} one {# web afegida} other {# webs afegides}}",
+      "skipped": "{count, plural, one {# ja es vigilava.} other {# ja es vigilaven.}}",
+      "checkingSoon": "Les comprovem ara mateix.",
+      "previewOnly": "Vista prèvia: aquí no es desa res."
+    },
+    "thresholds": {
+      "open": "Llindars",
+      "title": "Llindars d'avís",
+      "description": "Quan cal avisar els socis. Valen per a totes les webs de l'organització.",
+      "ssl_warn_days": {
+        "label": "Avís del certificat SSL",
+        "hint": "Dies abans que caduqui ({min}–{max})."
+      },
+      "domain_warn_days": {
+        "label": "Avís del domini",
+        "hint": "Dies abans que caduqui ({min}–{max})."
+      },
+      "slow_ms": {
+        "label": "Lenta a partir de",
+        "hint": "Temps de resposta en mil·lisegons ({min}–{max})."
+      },
+      "down_after_failures": {
+        "label": "Errors seguits per avisar",
+        "hint": "Un error solt no avisa: quants de seguits són una caiguda ({min}–{max})."
+      },
+      "units": {
+        "days": "dies",
+        "ms": "ms",
+        "checks": "errors"
+      },
+      "saved": "Llindars desats.",
+      "previewOnly": "Vista prèvia: aquí no es desa res."
+    },
+    "detail": {
+      "back": "Webs",
+      "noClient": "Sense client",
+      "hostedByUs": "L'allotgem",
+      "edit": "Edita",
+      "readOnly": "Només lectura: la porten els socis.",
+      "sslUnknown": "No s'ha pogut llegir",
+      "domainUnknown": "Apunta-la a Edita",
+      "expiresOn": "Caduca el {date}",
+      "expiredOn": "Va caducar el {date}",
+      "expired": "Caducat",
+      "daysLeft": "{count, plural, =0 {Avui} one {# dia} other {# dies}}",
+      "stats": {
+        "response": "Resposta",
+        "avg24h": "mitjana 24 h: {value}",
+        "neverChecked": "Encara sense comprovar",
+        "uptime": "Uptime 7 dies",
+        "uptimeHint": "24 h: {day} · 30 dies: {month}",
+        "ssl": "Certificat SSL",
+        "domain": "Domini"
+      },
+      "incidents": {
+        "title": "Caigudes",
+        "summary": "{count, plural, one {# caiguda} other {# caigudes}} en 7 dies{blips, plural, =0 {} one { · # error solt} other { · # errors solts}}",
+        "empty": "Cap caiguda en els últims 7 dies.",
+        "emptyWithBlips": "Cap caiguda en 7 dies ({count, plural, one {# error solt} other {# errors solts}}, sense confirmar).",
+        "resolved": "Caiguda de {duration}",
+        "ongoing": "Caiguda des de fa {duration}",
+        "failures": "{count, plural, one {# comprovació fallida} other {# comprovacions fallides}}",
+        "until": "fins a les {time}"
+      },
+      "recent": {
+        "title": "Últimes comprovacions",
+        "empty": "Encara no s'ha comprovat.",
+        "ok": "HTTP {status}"
+      },
+      "notes": "Notes"
+    },
+    "chart": {
+      "title": "Últims 7 dies",
+      "description": "Per hores: el que va trigar a respondre i els errors.",
+      "showTable": "Mostra la taula",
+      "showChart": "Mostra el gràfic",
+      "latencyTitle": "Temps de resposta",
+      "slowLine": "Lenta a partir de {value}",
+      "failuresTitle": "Errors",
+      "legendOk": "Sense errors",
+      "legendPartial": "Algun error",
+      "legendDown": "Caiguda tota l'hora",
+      "hourRange": "{day} – {end}",
+      "noData": "Sense comprovacions",
+      "avg": "Mitjana",
+      "max": "La més lenta",
+      "checks": "{ok}/{total} bé",
+      "tableCaption": "Comprovacions per hora dels últims 7 dies",
+      "hour": "Hora",
+      "okChecks": "Bé",
+      "uptime": "Uptime",
+      "empty": "Encara no hi ha comprovacions dels últims 7 dies."
+    },
+    "client": {
+      "title": "Webs",
+      "empty": "No vigilem cap web d'aquest client.",
+      "add": "Afegeix una web",
+      "problems": "{count, plural, other {# amb problemes}}",
+      "allGood": "{count, plural, one {# web, tot en ordre} other {# webs, tot en ordre}}",
+      "open": "Mostra totes les webs"
+    },
+    "notFound": {
+      "title": "Aquesta web no existeix",
+      "body": "Potser l'han treta o l'enllaç no és correcte.",
+      "back": "Torna a Webs"
+    },
+    "format": {
+      "ms": "{value} ms",
+      "seconds": "{value} s",
+      "daysShort": "{count} d"
+    },
+    "errors": {
+      "timeout": "Temps d'espera esgotat",
+      "dns": "El domini no resol",
+      "refused": "Connexió rebutjada",
+      "reset": "Connexió tallada",
+      "tls_expired": "Certificat SSL caducat",
+      "tls_invalid": "Certificat SSL no vàlid",
+      "redirects": "Massa redireccions",
+      "http": "Error HTTP",
+      "network": "No s'hi pot connectar",
+      "httpStatus": "HTTP {status}",
+      "duplicate": "Aquesta web ja es vigila.",
+      "clientNotFound": "Aquest client ja no existeix.",
+      "invalidUrl": "La URL no és vàlida: ha de ser una web amb https.",
+      "notFound": "Aquesta web ja no existeix."
+    },
+    "validation": {
+      "url": "No és una web vàlida: escriu un domini (p. ex. clinicamarblau.com).",
+      "date": "Data no vàlida",
+      "bulkEmpty": "Enganxa almenys una web.",
+      "bulkTooMany": "Massa webs de cop.",
+      "thresholdRange": "Fora dels límits"
+    }
+  }
+}

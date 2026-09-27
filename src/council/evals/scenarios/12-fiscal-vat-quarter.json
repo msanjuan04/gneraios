@@ -1,0 +1,91 @@
+{
+  "id": "fiscal-vat-quarter",
+  "title": "Fiscal: IVA del trimestre y Verifactu, siempre para la gestoría",
+  "description": "El agente fiscal avisa del IVA del 3T y del plazo de Verifactu. Aunque se olvide de marcarlo, todo lo fiscal sale con «Validar con gestoría».",
+  "job": {
+    "agent": "fiscal",
+    "trigger": "monthly"
+  },
+  "data": {
+    "finance": "default"
+  },
+  "replay": {
+    "fiscal:scan": [
+      {
+        "calls": [
+          {
+            "name": "get_tax_provisions"
+          }
+        ],
+        "output": {
+          "recommendations": [
+            {
+              "kind": "decision",
+              "title": "Preparar con la gestoría el modelo 303 del tercer trimestre",
+              "summary": "El IVA a ingresar del 3T 2026 es de 1.180,20 € y el plazo acaba en 24 días.",
+              "reasoning": "Repercutido de 1.600,20 € y soportado deducible de 420 €, según get_tax_provisions.",
+              "evidence": [
+                "tax.2026-Q3.issuer-sl.vat_payable",
+                "tax.2026-Q3.days_left",
+                "tax.2026-Q3.issuer-sl.vat_output",
+                "tax.2026-Q3.issuer-sl.vat_input"
+              ],
+              "impact_ref": "tax.2026-Q3.issuer-sl.vat_payable",
+              "proposed_actions": [
+                {
+                  "title": "Enviar a la gestoría las facturas del trimestre",
+                  "due_in_days": 5
+                }
+              ],
+              "confidence": "alta",
+              "urgency": "esta_semana",
+              "risks": "Puede faltar algún gasto por registrar.",
+              "requires_professional_review": false,
+              "subject": "tax:2026-Q3:issuer-sl",
+              "policy_rule": null,
+              "missing_data": []
+            },
+            {
+              "kind": "alert",
+              "title": "Elegir proveedor de Verifactu antes de que sea obligatorio",
+              "summary": "GNERAI SL tiene que facturar con Verifactu en 97 días y todavía no hay proveedor elegido.",
+              "reasoning": "get_tax_provisions marca que hay que elegir proveedor.",
+              "evidence": [
+                "verifactu.issuer-sl.days_left"
+              ],
+              "impact_ref": null,
+              "proposed_actions": [
+                {
+                  "title": "Pedir a la gestoría dos opciones de proveedor",
+                  "due_in_days": 30
+                }
+              ],
+              "confidence": "alta",
+              "urgency": "este_mes",
+              "risks": "Dejarlo para diciembre.",
+              "requires_professional_review": false,
+              "subject": "verifactu:issuer-sl",
+              "policy_rule": null,
+              "missing_data": []
+            }
+          ],
+          "silence_reason": null
+        }
+      }
+    ]
+  },
+  "expect": {
+    "published": {
+      "min": 2,
+      "max": 2
+    },
+    "tools": [
+      "get_tax_provisions"
+    ],
+    "professional": "all",
+    "titles": [
+      "303",
+      "Verifactu"
+    ]
+  }
+}

@@ -5,8 +5,10 @@ import { ArrowLeft, CircleCheck, CircleX, Copy, FileSignature, Hash, Lock, Mail,
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { useEffect, useMemo, useState, useTransition } from "react";
+import { type ReactNode, useEffect, useMemo, useState, useTransition } from "react";
 import { Controller, useFieldArray, useForm, useWatch } from "react-hook-form";
+import { CatalogPicker } from "@/components/catalog/catalog-picker";
+import { CreateProjectButton } from "@/components/projects/create-project-button";
 import { toast } from "sonner";
 import { discountToBps, moneyInputToCents, parseQuantity } from "@/app/[org]/contracts/schema";
 import { acceptQuote, deleteQuote, duplicateQuote, prepareQuoteEmail, rejectQuote, saveQuote } from "@/app/[org]/quotes/actions";
@@ -73,6 +75,8 @@ type Props = {
   /** Hoy en la zona de la org (YYYY-MM-DD). */
   today: string;
   data: QuoteEditorData;
+  /** «Compartir enlace» (src/components/quotes/quote-share-card.tsx), debajo de la actividad. */
+  share?: ReactNode;
 };
 
 /**
@@ -82,7 +86,7 @@ type Props = {
  * se ve pero no se edita. Los importes se calculan aquí solo para verlos: al guardar, el servidor
  * los recalcula con el dominio.
  */
-export function QuoteEditor({ slug, basePath, today, data }: Props) {
+export function QuoteEditor({ slug, basePath, today, data, share }: Props) {
   const t = useTranslations("quotes.editor");
   const tCommon = useTranslations("common");
   const tErrors = useTranslations("quotes.errors");
@@ -339,6 +343,18 @@ export function QuoteEditor({ slug, basePath, today, data }: Props) {
     }
   };
 
+  /** Líneas del catálogo: sustituyen a la línea vacía de un presupuesto nuevo y, si traen la primera puntual, su plan. */
+  const onPickCatalog = (picked: QuoteLineInput[]) => {
+    if (picked.length === 0) return;
+    const current = getValues("lines");
+    const onlyEmpty = current.length === 1 && current[0]!.description.trim() === "" && current[0]!.unit_price.trim() === "";
+    if (onlyEmpty) lines.replace(picked);
+    else lines.append(picked);
+    if (!hasOneOff(current) && hasOneOff(picked) && getValues("plan").length === 0) {
+      plan.replace(presetPlan("full", getValues("language")));
+    }
+  };
+
   /** Al cambiar de idioma, las etiquetas de los planes habituales se traducen con él. */
   const onLanguageChange = (next: AppLocale) => {
     const previous = getValues("language");
@@ -394,6 +410,17 @@ export function QuoteEditor({ slug, basePath, today, data }: Props) {
                   <FileSignature className="size-3.5" />
                   {t("viewContract")}
                 </Link>
+              )}
+              {data.contract && clientId && data.canAct && (
+                <CreateProjectButton
+                  slug={slug}
+                  clientId={clientId}
+                  contractId={data.contract.id}
+                  defaultName={title || null}
+                  variant="ghost"
+                  size="sm"
+                  className="-my-1 h-7 px-2"
+                />
               )}
               {dirty && editable && <span className="text-warning">{t("unsaved")}</span>}
             </div>
@@ -677,7 +704,15 @@ export function QuoteEditor({ slug, basePath, today, data }: Props) {
               </div>
             </SettingsCard>
 
-            <SettingsCard title={t("sections.lines")} description={t("linesHint")}>
+            <SettingsCard
+              title={t("sections.lines")}
+              description={t("linesHint")}
+              actions={
+                editable ? (
+                  <CatalogPicker slug={slug} locale={language} target="quote" onPick={onPickCatalog} variant="outline" size="sm" align="start" />
+                ) : undefined
+              }
+            >
               <QuoteLines
                 form={form}
                 fieldArray={lines}
@@ -706,6 +741,7 @@ export function QuoteEditor({ slug, basePath, today, data }: Props) {
           <aside className="min-w-0 space-y-6 xl:sticky xl:top-20 xl:self-start">
             <QuoteSummaryCard totals={totals} firstPayment={firstPayment} validUntil={validityText} />
             {!creating && <QuoteActivityCard basePath={basePath} data={data} />}
+            {!creating && share}
           </aside>
         </div>
       </form>

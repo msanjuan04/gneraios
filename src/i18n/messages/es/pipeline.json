@@ -74,6 +74,7 @@
       "notFound": "Ese deal ya no existe o no tienes acceso.",
       "clientRequired": "Elige un cliente o escribe el nombre de uno nuevo.",
       "money": "Importe no válido. Usa, por ejemplo, 1.500 o 450,50."
-    }
+    },
+    "stagesNav": "Etapas del pipeline"
   }
 }

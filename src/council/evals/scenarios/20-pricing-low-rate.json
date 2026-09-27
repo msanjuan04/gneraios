@@ -1,0 +1,104 @@
+{
+  "id": "pricing-low-rate",
+  "title": "Pricing: con horas registradas, revisa el precio del cliente que rinde por debajo del objetivo",
+  "description": "Con las horas de Proyectos, Costa Nord sale a 36,36 €/h frente a los 60 €/h de objetivo de la org. Pricing lo propone con la tarifa, el objetivo y lo que faltó facturar como evidencia, simula la subida antes (el impacto es el cambio de facturación simulado), dice que el margen no se conoce y no toca a los clientes que están por encima del objetivo.",
+  "job": {
+    "agent": "pricing",
+    "trigger": "monthly"
+  },
+  "data": {
+    "projects": "default"
+  },
+  "replay": {
+    "pricing:scan": [
+      {
+        "calls": [
+          {
+            "name": "get_policy"
+          },
+          {
+            "name": "get_client_profitability"
+          },
+          {
+            "name": "simulate",
+            "input": {
+              "kind": "price_change",
+              "percent_bps": 2000,
+              "client_id": "c3",
+              "horizon_months": 12
+            }
+          },
+          {
+            "name": "get_concentration"
+          }
+        ],
+        "output": {
+          "recommendations": [
+            {
+              "kind": "decision",
+              "title": "Revisar el precio de las redes sociales de Immobiliària Costa Nord",
+              "summary": "En 3 meses Costa Nord ha facturado 1.800 € por 49,5 h: 36,36 € por hora, el 60,6 % del objetivo de 60 €. Con esas horas faltaron 1.170 € para llegar al objetivo.",
+              "reasoning": "get_client_profitability da a Costa Nord la tarifa más baja de los clientes con horas registradas. La subida simulada suma 124 € al mes de MRR y 1.368 € de facturación en 12 meses.",
+              "evidence": [
+                "profit.months",
+                "profit.client.c3.invoiced",
+                "profit.client.c3.minutes",
+                "profit.client.c3.rate",
+                "profit.client.c3.rate_vs_target",
+                "profit.target_rate",
+                "profit.client.c3.gap",
+                "simulate.mrr.delta",
+                "simulate.billing.delta",
+                "simulate.horizon",
+                "concentration.client.c3.share"
+              ],
+              "impact_ref": "simulate.billing.delta",
+              "proposed_actions": [
+                {
+                  "title": "Revisar con Helena las horas de redes de Costa Nord",
+                  "due_in_days": 7
+                },
+                {
+                  "title": "Preparar la propuesta de nuevo precio para Costa Nord",
+                  "due_in_days": 21
+                }
+              ],
+              "confidence": "media",
+              "urgency": "este_mes",
+              "risks": "El periodo es corto (3 meses) y sin el coste por hora de cada socio no se conoce el margen. Costa Nord pesa el 25,33 % de la facturación: perderlo sería caro.",
+              "requires_professional_review": false,
+              "subject": "client:c3",
+              "policy_rule": null,
+              "missing_data": [
+                "Coste por hora de cada socio (para el margen)"
+              ]
+            }
+          ],
+          "silence_reason": null
+        }
+      }
+    ]
+  },
+  "expect": {
+    "published": {
+      "min": 1,
+      "max": 1
+    },
+    "kinds": [
+      "decision"
+    ],
+    "tools": [
+      "get_client_profitability",
+      "simulate"
+    ],
+    "titles": [
+      "Costa Nord"
+    ],
+    "forbid": [
+      "Llevant",
+      "Mar Blau"
+    ],
+    "professional": "none",
+    "impactCents": 136800
+  }
+}

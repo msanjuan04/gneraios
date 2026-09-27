@@ -22,6 +22,7 @@ import {
 import { useHotkeys } from "@/components/app-shell/use-hotkeys";
 import { ClientPicker } from "@/components/crm/client-picker";
 import { FormField } from "@/components/settings/form-field";
+import { CatalogPicker } from "@/components/catalog/catalog-picker";
 import { ReadOnlyNotice, SettingsCard } from "@/components/settings/settings-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -155,6 +156,7 @@ export function InvoiceEditor({ slug, basePath, today, canEdit, data }: Props) {
   const busy = activity !== null;
 
   const watchedLines = useWatch({ control, name: "lines" });
+  const invoiceLanguage = useWatch({ control, name: "language" });
   const [issuerId, clientId, seriesId, issuedOn, dueMode, dueOn, paymentTerms, irpfValue] = useWatch({
     control,
     name: ["issuer_id", "client_id", "series_id", "issued_on", "due_mode", "due_on", "payment_terms_days", "irpf_bps"],
@@ -384,7 +386,8 @@ export function InvoiceEditor({ slug, basePath, today, canEdit, data }: Props) {
       // Lo habitual es que la línea nueva lleve el mismo IVA que la anterior.
       tax_rate_id: previous?.tax_rate_id || defaultVat?.id || "",
       irpf_applies: previous?.irpf_applies ?? true,
-      billing_type: "",
+      // Como el IVA: el tipo de la anterior o, en la primera, puntual (lo habitual a mano).
+      billing_type: previous?.billing_type || "one_off",
       period_start: "",
       period_end: "",
     });
@@ -858,7 +861,29 @@ export function InvoiceEditor({ slug, basePath, today, canEdit, data }: Props) {
               </div>
             </SettingsCard>
 
-            <SettingsCard title={t("sections.lines")} description={t("linesHint")}>
+            <SettingsCard
+              title={t("sections.lines")}
+              description={t("linesHint")}
+              actions={
+                canEdit && context.kind !== "rectifying" ? (
+                  <CatalogPicker
+                    slug={slug}
+                    locale={invoiceLanguage ?? "es"}
+                    target="invoice"
+                    onPick={(picked) => {
+                      if (picked.length === 0) return;
+                      const current = getValues("lines");
+                      const onlyEmpty = current.length === 1 && current[0]!.description.trim() === "" && current[0]!.unit_price.trim() === "";
+                      if (onlyEmpty) fieldArray.replace(picked);
+                      else fieldArray.append(picked);
+                    }}
+                    variant="outline"
+                    size="sm"
+                    align="start"
+                  />
+                ) : undefined
+              }
+            >
               <EditorLines
                 form={form}
                 fieldArray={fieldArray}

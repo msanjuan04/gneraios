@@ -1,0 +1,159 @@
+{
+  "portal": {
+    "link": {
+      "status": {
+        "active": "Actiu",
+        "expired": "Caducat",
+        "revoked": "Revocat"
+      },
+      "none": "Encara no hi ha cap enllaç.",
+      "create": "Crea un enllaç",
+      "createNew": "Crea un enllaç nou",
+      "creating": "Creant…",
+      "createNewConfirm": "L'enllaç actual deixarà de funcionar i hauràs d'enviar el nou.",
+      "createNewAction": "Sí, crea'n un altre",
+      "copy": "Copia",
+      "copied": "Enllaç copiat",
+      "open": "Obre",
+      "freshTitle": "Enllaç a punt",
+      "freshNotice": "Copia'l ara: per seguretat, no es desa. Si el perds, crea'n un de nou (l'anterior deixarà de funcionar).",
+      "revoke": "Revoca",
+      "revokeConfirm": "Deixarà de funcionar a l'instant, també per a qui ja el tingui.",
+      "revokeAction": "Sí, revoca'l",
+      "revoked": "Enllaç revocat",
+      "renew": "Renova per un any",
+      "renewed": "Renovat fins al {date}",
+      "created": "Creat el {date}",
+      "createdBy": "Creat el {date} per {name}",
+      "expires": "Caduca el {date}",
+      "expiredOn": "Va caducar el {date}",
+      "views": "{count, plural, =0 {Encara sense visites} one {# visita} other {# visites}}",
+      "lastView": "última {when}",
+      "viewsHint": "No compten les visites dels membres de l'equip."
+    },
+    "quoteShare": {
+      "title": "Comparteix l'enllaç",
+      "description": "El client el veu, el descarrega i l'accepta en línia, sense iniciar sessió.",
+      "blocked": {
+        "draft": "Envia el pressupost o marca'l com a enviat per poder compartir-lo.",
+        "expired": "La validesa ja ha passat: amplia-la per compartir-lo.",
+        "answered": "Aquest pressupost ja té resposta."
+      },
+      "followsValidity": "L'enllaç caduca amb la validesa del pressupost (més un marge).",
+      "acceptedOnline": "Acceptat en línia",
+      "acceptedBy": "{name} · {email}",
+      "signature": "Signatura: {signature}",
+      "acceptedAt": "El {date}",
+      "ip": "IP {ip}",
+      "fingerprint": "Empremta del PDF acceptat: {hash}",
+      "copyStored": "Còpia exacta desada",
+      "copyMissing": "Sense còpia del PDF (només l'empremta)"
+    },
+    "card": {
+      "title": "Portal del client",
+      "description": "«El teu espai GNERAI»: un enllaç privat on {client} veu el seu projecte i els seus documents, i et demana coses.",
+      "archived": "El client està arxivat: el seu portal continua funcionant, però no es poden crear enllaços nous.",
+      "configure": "Configura",
+      "sectionsOn": "{count, plural, one {# secció visible} other {# seccions visibles}}",
+      "files": "{count, plural, =0 {Sense lliuraments} one {# lliurament} other {# lliuraments}}",
+      "visibleWork": "{count, plural, =0 {Cap feina visible} one {# feina visible} other {# feines visibles}}",
+      "projects": "{count, plural, =0 {Cap projecte visible} one {# projecte visible} other {# projectes visibles}}",
+      "visibleTasks": "{count, plural, =0 {Cap tasca visible} one {# tasca visible} other {# tasques visibles}}",
+      "projectTasks": "{count, plural, =0 {Visible, sense tasques marcades} one {Visible · # tasca} other {Visible · # tasques}}",
+      "projectHidden": "Amagat",
+      "projectsMore": "{count, plural, one {I # projecte més.} other {I # projectes més.}}",
+      "projectsHint": "Quins projectes i quines tasques veu el client es decideix a la fitxa de cada projecte."
+    },
+    "sheet": {
+      "title": "Portal de {client}",
+      "description": "Què veu el client al seu espai. Els canvis es veuen a l'instant.",
+      "tabs": {
+        "sections": "Seccions",
+        "files": "Lliuraments",
+        "work": "Feina visible"
+      },
+      "save": "Desa",
+      "saved": "Portal actualitzat",
+      "nextSteps": "Propers passos",
+      "nextStepsHint": "Es veuen a «En què estem». Text senzill, sense prometre resultats.",
+      "nextStepsPlaceholder": "Aquesta setmana revisem els textos de la home i preparem la versió per a mòbil.",
+      "webDataUnavailable": "Aquest client no té cap web connectat a SEO: la secció sortiria buida.",
+      "workHint": "Només es veuen les activitats que marquis (títol, text i dia) i les tasques visibles que s'acabin (títol i dia). La resta continua sent interna.",
+      "workEmpty": "Encara no hi ha activitats registrades amb aquest client.",
+      "visibleToggle": "Visible per al client"
+    },
+    "sections": {
+      "progress": {
+        "title": "En què estem",
+        "description": "Els projectes que facis visibles (estat, progrés i el que ve), les fases dels seus contractes i els propers passos."
+      },
+      "work_log": {
+        "title": "El que hem fet",
+        "description": "Les activitats que marquis com a visibles i les tasques visibles que es vagin acabant."
+      },
+      "files": {
+        "title": "Lliuraments i material",
+        "description": "Fitxers i enllaços que comparteixes amb el client."
+      },
+      "services": {
+        "title": "Els teus serveis",
+        "description": "Les línies vigents dels seus contractes, sense preus ni notes internes."
+      },
+      "documents": {
+        "title": "Documents",
+        "description": "Factures amb com pagar-les, pressupostos per acceptar i contractes."
+      },
+      "requests": {
+        "title": "Demana alguna cosa",
+        "description": "Un formulari que crea un deal amb la font «Portal» i t'avisa."
+      },
+      "web_data": {
+        "title": "Dades del teu web",
+        "description": "Xifres mesurades de Search Console i Analytics. Desactivat per defecte."
+      }
+    },
+    "files": {
+      "empty": "Encara no has compartit res amb aquest client.",
+      "addFile": "Puja un fitxer",
+      "addLink": "Afegeix un enllaç",
+      "fileTitle": "Títol",
+      "fileTitlePlaceholder": "Guia d'estil",
+      "file": "Fitxer",
+      "fileHint": "Fins a 50 MB.",
+      "url": "Enllaç",
+      "urlPlaceholder": "https://…",
+      "contract": "Contracte",
+      "noContract": "Sense contracte",
+      "upload": "Puja",
+      "uploading": "Pujant…",
+      "add": "Afegeix",
+      "adding": "Afegint…",
+      "uploaded": "Fitxer compartit",
+      "added": "Enllaç compartit",
+      "remove": "Treu",
+      "removeConfirm": "El client deixarà de veure'l.",
+      "removeAction": "Sí, treu-lo",
+      "removed": "Tret del portal",
+      "link": "Enllaç"
+    },
+    "activity": {
+      "clientVisible": "Visible per al client",
+      "clientVisibleHint": "Apareixerà a «El que hem fet» del seu portal (títol, text i data)."
+    },
+    "errors": {
+      "quoteDraft": "Envia el pressupost o marca'l com a enviat abans de compartir-lo.",
+      "quoteClosed": "Aquest pressupost ja té resposta.",
+      "quoteExpired": "La validesa del pressupost ja ha passat: amplia-la per compartir-lo.",
+      "clientArchived": "El client està arxivat.",
+      "clientNotFound": "No trobem aquest client.",
+      "linkRevoked": "Un enllaç revocat no es renova: crea'n un altre.",
+      "linkFollowsQuote": "L'enllaç d'un pressupost caduca amb la seva validesa: amplia-la.",
+      "activityNotFound": "No trobem aquesta activitat.",
+      "contractNotFound": "Aquest contracte no és d'aquest client.",
+      "urlInvalid": "L'enllaç ha de començar per https:// o http://.",
+      "fileTooLarge": "El fitxer pesa més de 50 MB.",
+      "fileNotFound": "No trobem aquest fitxer.",
+      "uploadFailed": "No s'ha pogut pujar el fitxer. Torna-ho a provar."
+    }
+  }
+}

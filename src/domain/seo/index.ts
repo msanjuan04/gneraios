@@ -6,3 +6,4 @@ export * from "./opportunities";
 export * from "./period";
 export * from "./provider";
 export * from "./sync-plan";
+export * from "./channels";

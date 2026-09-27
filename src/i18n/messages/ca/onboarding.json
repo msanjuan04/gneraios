@@ -1,0 +1,90 @@
+{
+  "onboarding": {
+    "title": "Posem en marxa GNERAI OS",
+    "subtitle": "Cinc minuts. Tot es pot canviar després a Configuració.",
+    "steps": {
+      "org": "Organització",
+      "issuers": "Emissors",
+      "taxes": "Impostos",
+      "team": "Equip",
+      "review": "Revisió"
+    },
+    "org": {
+      "title": "La teva organització",
+      "description": "El nom de l'agència i com apareixes tu a l'app.",
+      "name": "Nom de l'organització",
+      "slug": "Identificador a la URL",
+      "slugHint": "El teu espai serà a {url}",
+      "yourName": "El teu nom",
+      "yourNamePlaceholder": "Nom i cognoms",
+      "initials": "Inicials",
+      "initialsHint": "Es fan servir a les targetes i els llistats; distingeixen socis amb el mateix nom."
+    },
+    "issuers": {
+      "title": "Emissors fiscals",
+      "description": "Qui emet les factures: la societat com a emissor principal i els socis que facturen com a autònoms.",
+      "company": "Societat (emissor principal)",
+      "notConstituted": "Encara no està constituïda",
+      "notConstitutedHint": "Pots donar-la d'alta ja i completar el NIF i la data d'alta quan existeixi.",
+      "activeFrom": "Data d'alta",
+      "selfEmployed": "Socis autònoms",
+      "selfEmployedHint": "Mantenen el seu històric i els seus contractes vius fins al traspàs a la societat.",
+      "addSelfEmployed": "Afegeix autònom",
+      "itsMe": "Soc jo",
+      "legalName": "Raó social o nom fiscal",
+      "tradeName": "Nom comercial",
+      "taxId": "NIF",
+      "address": "Adreça",
+      "postalCode": "Codi postal",
+      "city": "Ciutat",
+      "province": "Província",
+      "iban": "IBAN",
+      "email": "Email de facturació",
+      "irpf": "Retenció d'IRPF per defecte",
+      "irpfGeneral": "15 % (general)",
+      "irpfNew": "7 % (tres primers anys)",
+      "irpfNone": "0 % (sense retenció)",
+      "registryInfo": "Dades registrals",
+      "registryInfoHint": "Registre Mercantil: tom, foli, full. Van al peu de les factures de la societat.",
+      "series": "Numeració",
+      "seriesFormat": "Format",
+      "seriesFormatHint": "'{yyyy}' és l'any i '{n:4}' el número amb 4 xifres.",
+      "lastNumber": "Última factura emesa aquest any",
+      "lastNumberHint": "Per continuar la numeració que ja porteu. 0 si no n'has emès cap.",
+      "nextNumber": "La següent serà la {number}",
+      "verifactu": "Obligat a Verifactu des del {date}"
+    },
+    "taxes": {
+      "title": "Impostos",
+      "description": "Tipus d'IVA i retencions disponibles en facturar. Reviseu les mencions legals amb la gestoria.",
+      "include": "Incloure",
+      "name": "Nom",
+      "rate": "Tipus",
+      "regime": "Règim",
+      "legalNote": "Menció a la factura",
+      "default": "Per defecte"
+    },
+    "team": {
+      "title": "Convida els teus socis",
+      "description": "Rebran un enllaç d'accés per email. També ho pots fer més tard.",
+      "email": "Email",
+      "name": "Nom",
+      "role": "Rol",
+      "add": "Afegeix una persona",
+      "empty": "Encara no has afegit ningú."
+    },
+    "review": {
+      "title": "Revisa i crea",
+      "description": "Això és el que crearem. Tot es pot canviar després.",
+      "issuersCount": "{count, plural, one {# emissor} other {# emissors}}",
+      "taxesCount": "{count, plural, one {# tipus d'impost} other {# tipus d'impost}}",
+      "invitesCount": "{count, plural, =0 {Sense invitacions} one {# invitació} other {# invitacions}}",
+      "submit": "Crea l'organització",
+      "submitting": "Creant…"
+    },
+    "errors": {
+      "slugTaken": "Aquest identificador ja està en ús. Prova'n un altre.",
+      "invitesNotSent": "L'organització està creada, però no s'han pogut enviar les invitacions. Les pots reenviar des de Configuració → Equip."
+    }
+  }
+}

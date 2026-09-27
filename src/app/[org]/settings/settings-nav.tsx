@@ -1,6 +1,18 @@
 "use client";
 
-import { Landmark, type LucideIcon, Percent, SlidersHorizontal, SquareKanban, UserRound, Users } from "lucide-react";
+import {
+  BrainCircuit,
+  DatabaseZap,
+  Landmark,
+  type LucideIcon,
+  Package,
+  Percent,
+  ReceiptEuro,
+  SlidersHorizontal,
+  SquareKanban,
+  UserRound,
+  Users,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -8,14 +20,18 @@ import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 
 const TABS: {
-  key: "general" | "issuers" | "taxes" | "pipeline" | "team" | "preferences";
+  key: "general" | "issuers" | "taxes" | "catalog" | "expenses" | "pipeline" | "council" | "data" | "team" | "preferences";
   path: string;
   icon: LucideIcon;
 }[] = [
   { key: "general", path: "", icon: SlidersHorizontal },
   { key: "issuers", path: "/issuers", icon: Landmark },
   { key: "taxes", path: "/taxes", icon: Percent },
+  { key: "catalog", path: "/catalog", icon: Package },
+  { key: "expenses", path: "/expenses", icon: ReceiptEuro },
   { key: "pipeline", path: "/pipeline", icon: SquareKanban },
+  { key: "council", path: "/council", icon: BrainCircuit },
+  { key: "data", path: "/data", icon: DatabaseZap },
   { key: "team", path: "/team", icon: Users },
   { key: "preferences", path: "/preferences", icon: UserRound },
 ];

@@ -72,11 +72,11 @@ Dependencias extra, todas pequeñas:
 | `react-hook-form` + `@hookform/resolvers` | Editores con líneas (contrato, factura, presupuesto) | Listas de campos dinámicas validadas con Zod |
 | `next-themes` | Modo oscuro/claro sin parpadeo | ~1 KB |
 | `tinykeys` | Atajos del tipo `g f` o `j/k` | Menos de 1 KB |
-| `papaparse` | Importador CSV | Comillas, separador `;` y BOM: parsear CSV bien no es trivial |
-| `write-excel-file` | XLSX para la gestoría (solo en servidor) | 1 dependencia, frente a las 9 de exceljs |
+| `web-push` | Avisos push de la app instalada (VAPID + cifrado del mensaje) | El cifrado aes128gcm y la firma VAPID son fáciles de hacer mal |
 | `@electric-sql/pglite` (dev) | Tests de base de datos | Postgres real en proceso: los tests de RLS corren en local y en CI sin Docker |
 
 **Descartado a propósito:**
+- `papaparse` y `write-excel-file`: el lector/escritor de CSV, el XLSX mínimo y el ZIP de la exportación para la gestoría son TS propio y puro (`src/domain/dataio`), validados con `zipfile` y `openpyxl`.
 - ORM: los tipos salen de `supabase gen types` y las transacciones van en funciones Postgres.
 - Librerías de fechas: basta un módulo propio de fechas civiles (§7.1), con el formateo vía `Intl`.
 - Sentry y analítica de producto en fase 1.

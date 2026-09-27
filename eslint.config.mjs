@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // El bundle de producción que compila deploy/subir.sh (código ya minificado).
+    "deploy/out/**",
   ]),
 ]);
 

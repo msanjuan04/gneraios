@@ -14,6 +14,7 @@ import {
   lineVersionSheetSchema,
   newLineDefaults,
 } from "@/app/[org]/contracts/schema";
+import { CatalogPicker } from "@/components/catalog/catalog-picker";
 import { FormField } from "@/components/settings/form-field";
 import { SheetForm } from "@/components/settings/settings-sheet";
 import { Button } from "@/components/ui/button";
@@ -170,6 +171,26 @@ function LineForm({
                 </p>
                 <p className="mt-0.5 tabular">{t("currentBase", { amount: fmt.perCycle(line.baseCents, line.billingType) })}</p>
               </div>
+            </div>
+          )}
+
+          {mode === "create" && (
+            <div className="flex justify-end">
+              <CatalogPicker
+                slug={slug}
+                locale="es"
+                target="contract"
+                today={today}
+                billingDay={options.billingDay}
+                bundles={false}
+                onPick={(picked) => {
+                  const first = picked[0];
+                  if (first) form.setValue("lines.0", first, { shouldDirty: true, shouldValidate: true });
+                }}
+                variant="outline"
+                size="sm"
+                align="end"
+              />
             </div>
           )}
 

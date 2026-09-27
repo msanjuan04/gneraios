@@ -5,6 +5,7 @@ import { getFormatter, getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 import { PageHeader } from "@/components/page-header";
 import { BusinessCard } from "@/components/seo/business-card";
+import { ChannelsCard } from "@/components/seo/channels-card";
 import { ClientRelationCard } from "@/components/seo/client-relation-card";
 import { ConnectState } from "@/components/seo/connect-state";
 import { formatDay, formatRange, siteName } from "@/components/seo/format";
@@ -262,6 +263,7 @@ export default async function SeoPage({ params, searchParams }: SeoPageProps) {
               hasSearch={overview.hasSearch}
               hasWeb={overview.hasWeb}
             />
+            {overview.channels && <ChannelsCard data={overview.channels} comparable={selection.comparable} />}
             {overview.hasSearch && (
               <>
                 <PerformanceChart points={overview.chart} comparable={selection.comparable} rangeLabel={rangeLabel} compareLabel={compareLabel} />

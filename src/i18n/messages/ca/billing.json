@@ -1,0 +1,156 @@
+{
+  "billing": {
+    "billingType": {
+      "one_off": "Puntual",
+      "monthly": "Mensual",
+      "yearly": "Anual",
+      "usage": "Per ús"
+    },
+    "billingTypeSuffix": {
+      "one_off": "",
+      "monthly": "/mes",
+      "yearly": "/any",
+      "usage": "/ús"
+    },
+    "paymentMethod": {
+      "transfer": "Transferència",
+      "sepa_debit": "Domiciliació SEPA",
+      "card": "Targeta",
+      "cash": "Efectiu",
+      "other": "Altres"
+    },
+    "invoiceStatus": {
+      "draft": "Esborrany",
+      "issuing": "Emetent",
+      "issued": "Emesa",
+      "overdue": "Vençuda",
+      "paid": "Cobrada",
+      "voided": "Anul·lada"
+    },
+    "invoiceKind": {
+      "ordinary": "Factura",
+      "rectifying": "Rectificativa"
+    },
+    "lineStatus": {
+      "scheduled": "Programada",
+      "active": "Activa",
+      "paused": "En pausa",
+      "ended": "Acabada"
+    },
+    "contractStatus": {
+      "draft": "Sense signar",
+      "scheduled": "Programat",
+      "active": "Actiu",
+      "paused": "En pausa",
+      "ended": "Acabat"
+    },
+    "billableState": {
+      "pending": "Pendent",
+      "drafted": "En esborrany",
+      "invoiced": "Facturat",
+      "waived": "Condonat"
+    },
+    "billableSource": {
+      "recurring": "Període",
+      "usage": "Ús",
+      "milestone": "Fita"
+    },
+    "vatRegime": {
+      "general": "General",
+      "exempt": "Exempt",
+      "reverse_charge_eu": "Inversió del subjecte passiu",
+      "not_subject": "No subjecte"
+    },
+    "invoiceGrouping": {
+      "client": "Una factura per client",
+      "contract": "Una factura per contracte"
+    },
+    "emailStatus": {
+      "pending_approval": "Per aprovar",
+      "sent": "Enviat",
+      "failed": "Ha fallat",
+      "cancelled": "Descartat"
+    },
+    "revenueKind": {
+      "recurring": "Recurrent",
+      "usage": "Variable",
+      "one_off": "Puntual"
+    },
+    "period": "{from} – {to}",
+    "perMonth": "{amount}/mes",
+    "perYear": "{amount}/any",
+    "fiscalFields": {
+      "issuer_tax_id": "el NIF de l'emissor",
+      "issuer_address_line": "l'adreça de l'emissor",
+      "issuer_postal_code": "el codi postal de l'emissor",
+      "issuer_city": "la població de l'emissor",
+      "client_tax_id": "el NIF del client",
+      "client_address_line": "l'adreça del client",
+      "client_postal_code": "el codi postal del client",
+      "client_city": "la població del client"
+    },
+    "errors": {
+      "lineBilled": "Aquesta línia ja s'ha facturat: per canviar-ne les condicions, crea'n una versió nova a partir d'una data.",
+      "milestonesStarted": "Aquest contracte ja ha començat a facturar les seves fites: la feina nova va en un altre contracte.",
+      "milestoneBilled": "Aquesta fita ja s'ha facturat: no es pot esborrar ni canviar-ne el percentatge o l'ordre.",
+      "milestonesTotal": "Les fites han de sumar exactament el 100 %.",
+      "milestoneOrder": "Primer cal facturar les fites anteriors.",
+      "milestoneAlreadyBilled": "Aquesta fita ja està facturada.",
+      "noOneOffLines": "El contracte no té línies puntuals per repartir en fites.",
+      "vatRateRequired": "Tria un tipus d'IVA per a la línia.",
+      "pauseRecurringOnly": "Només es poden pausar les línies mensuals o anuals.",
+      "versionDateInvalid": "La versió nova ha de començar després del que ja s'ha facturat i dins de la vigència de la línia.",
+      "versionNotRecurring": "Una línia puntual no té versions.",
+      "contractBilled": "Aquest contracte ja ha generat facturació: no se'n pot treure la signatura.",
+      "contractNotSigned": "El contracte encara no està signat: signa'l per poder-lo facturar.",
+      "noIssuer": "El contracte no té cap emissor assignat.",
+      "invoiceImmutable": "Una factura emesa no es modifica: es corregeix amb una rectificativa.",
+      "invoiceLifecycle": "Una factura ha de passar per l'emissió.",
+      "draftChanged": "Algú ha canviat aquest esborrany mentre l'editaves. Recarrega i torna-ho a provar.",
+      "draftNotFound": "Aquest esborrany ja no existeix.",
+      "itemTaken": "Algun concepte ja no està pendent de facturar.",
+      "itemInvoiced": "Aquest concepte ja està facturat.",
+      "lineForeign": "Una línia d'una altra factura no es pot moure aquí.",
+      "futureDate": "Una factura no pot tenir una data futura.",
+      "issuerInactive": "L'emissor no està actiu en la data de la factura. Revisa'n les dates d'alta a Configuració → Emissors.",
+      "verifactuRequired": "Aquest emissor ja està obligat a Verifactu: ha d'emetre amb un proveïdor certificat.",
+      "fiscalDataMissing": "Falten dades fiscals: {fields}.",
+      "noLines": "La factura no té línies.",
+      "totalsMismatch": "Els totals no quadren amb les línies. Torna a desar l'esborrany.",
+      "rectifiedInvalid": "La factura rectificada no és vàlida.",
+      "seriesInvalid": "L'emissor no té una sèrie vàlida per a aquest tipus de factura. Crea-la a Configuració → Emissors.",
+      "dateBeforePrevious": "La sèrie ja té una factura del {date}: aquesta no pot tenir una data anterior.",
+      "rectifyInvalid": "Només es rectifica una factura ordinària emesa.",
+      "rectificationReasonRequired": "Indica el motiu de la rectificació.",
+      "alreadyRectified": "Aquesta factura ja té rectificatives: la següent es fa per diferències.",
+      "rectifyingSeriesMissing": "L'emissor no té sèrie rectificativa. Crea-la a Configuració → Emissors.",
+      "invoiceNotVoided": "Només s'alliberen els conceptes d'una factura anul·lada.",
+      "invoiceNotIssuing": "La factura no està en emissió.",
+      "paymentNotIssued": "Només es registren cobraments de factures emeses.",
+      "seriesInUse": "Aquesta sèrie ja té factures emeses des de GNERAI OS aquest any: la seva numeració continua sola.",
+      "clientNotFound": "Client no trobat.",
+      "contractNotFound": "Contracte no trobat.",
+      "lineNotFound": "Línia no trobada.",
+      "lineHasBilling": "Aquesta línia ja té facturació: en lloc d'esborrar-la, dona-la de baixa amb una data de fi.",
+      "emailNotConfigured": "L'enviament d'emails no està configurat (falta RESEND_API_KEY o BREVO_API_KEY).",
+      "emailNoRecipients": "Afegeix com a mínim un destinatari.",
+      "emailFailed": "No s'ha pogut enviar l'email.",
+      "pdfFailed": "No s'ha pogut generar el PDF. La factura continua en emissió: torna-ho a provar.",
+      "billingRunBusy": "Ja hi ha una facturació en marxa per a aquesta organització.",
+      "providerUnavailable": "El proveïdor fiscal no ha respost. La factura continua en emissió: torna-ho a provar.",
+      "issuing": "Es va quedar a mitges en emetre-la: torna-ho a provar per completar-la amb el mateix número.",
+      "invoiceNotIssued": "Només s'envien factures emeses.",
+      "emailCancelled": "Aquest email es va descartar: prepara'n un de nou si el vols enviar.",
+      "draftPartyLocked": "Aquest esborrany ve d'un contracte o rectifica una altra factura: el seu emissor i el seu client no es canvien."
+    },
+    "forecast": {
+      "title": "Facturació prevista · {months} mesos",
+      "description": "El que el cron facturarà amb els contractes signats, si res no canvia. Base sense IVA.",
+      "next3": "{amount} en els propers 3 mesos",
+      "recurring": "Recurrent",
+      "oneOff": "Fites",
+      "chartLabel": "Facturació prevista per mes, recurrent i fites",
+      "footnote": "Inclou prorrateigs, pauses, baixes ja programades i renovacions anuals. L'ús (campanyes) no es pot preveure."
+    }
+  }
+}

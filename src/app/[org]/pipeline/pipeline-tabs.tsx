@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 export function PipelineTabs({ tabs }: { tabs: { href: string; label: string }[] }) {
   const pathname = usePathname();
   return (
-    <nav className="mb-6 flex w-fit gap-1 rounded-full border bg-card/60 p-1">
+    <nav className="mb-6 flex w-fit max-w-full gap-1 overflow-x-auto rounded-full border bg-card/60 p-1 [scrollbar-width:none]">
       {tabs.map((tab) => {
         const active = pathname === tab.href;
         return (

@@ -1,0 +1,90 @@
+{
+  "onboarding": {
+    "title": "Let's get GNERAI OS up and running",
+    "subtitle": "Five minutes. You can change everything later in Settings.",
+    "steps": {
+      "org": "Organization",
+      "issuers": "Issuers",
+      "taxes": "Taxes",
+      "team": "Team",
+      "review": "Review"
+    },
+    "org": {
+      "title": "Your organization",
+      "description": "The agency's name and how you appear in the app.",
+      "name": "Organization name",
+      "slug": "URL identifier",
+      "slugHint": "Your workspace will be at {url}",
+      "yourName": "Your name",
+      "yourNamePlaceholder": "First and last name",
+      "initials": "Initials",
+      "initialsHint": "Used on cards and lists; they tell apart partners with the same name."
+    },
+    "issuers": {
+      "title": "Tax issuers",
+      "description": "Who issues the invoices: the company as the primary issuer, and the partners who invoice as self-employed.",
+      "company": "Company (primary issuer)",
+      "notConstituted": "Not incorporated yet",
+      "notConstitutedHint": "You can add it now and fill in the NIF and registration date once it exists.",
+      "activeFrom": "Registration date",
+      "selfEmployed": "Self-employed partners",
+      "selfEmployedHint": "They keep their history and their live contracts until these are transferred to the company.",
+      "addSelfEmployed": "Add self-employed partner",
+      "itsMe": "That's me",
+      "legalName": "Legal name",
+      "tradeName": "Trade name",
+      "taxId": "NIF",
+      "address": "Address",
+      "postalCode": "Postcode",
+      "city": "City",
+      "province": "Province",
+      "iban": "IBAN",
+      "email": "Billing email",
+      "irpf": "Default IRPF withholding",
+      "irpfGeneral": "15% (standard)",
+      "irpfNew": "7% (first three years)",
+      "irpfNone": "0% (no withholding)",
+      "registryInfo": "Registry details",
+      "registryInfoHint": "Mercantile Registry: volume, folio and sheet (tomo, folio, hoja). Shown in the footer of the company's invoices.",
+      "series": "Numbering",
+      "seriesFormat": "Format",
+      "seriesFormatHint": "'{yyyy}' is the year and '{n:4}' is the number with 4 digits.",
+      "lastNumber": "Last invoice issued this year",
+      "lastNumberHint": "To continue the numbering you already use. 0 if you haven't issued any.",
+      "nextNumber": "The next one will be {number}",
+      "verifactu": "Verifactu mandatory from {date}"
+    },
+    "taxes": {
+      "title": "Taxes",
+      "description": "VAT rates and withholdings available when invoicing. Check the legal notes with your accountant.",
+      "include": "Include",
+      "name": "Name",
+      "rate": "Rate",
+      "regime": "Regime",
+      "legalNote": "Note on the invoice",
+      "default": "Default"
+    },
+    "team": {
+      "title": "Invite your partners",
+      "description": "They'll get a sign-in link by email. You can also do this later.",
+      "email": "Email",
+      "name": "Name",
+      "role": "Role",
+      "add": "Add person",
+      "empty": "You haven't added anyone yet."
+    },
+    "review": {
+      "title": "Review and create",
+      "description": "This is what we're about to create. Everything can be changed later.",
+      "issuersCount": "{count, plural, one {# issuer} other {# issuers}}",
+      "taxesCount": "{count, plural, one {# tax rate} other {# tax rates}}",
+      "invitesCount": "{count, plural, =0 {No invitations} one {# invitation} other {# invitations}}",
+      "submit": "Create organization",
+      "submitting": "Creating…"
+    },
+    "errors": {
+      "slugTaken": "That identifier is already in use. Try another one.",
+      "invitesNotSent": "The organization has been created, but the invitations couldn't be sent. You can resend them from Settings → Team."
+    }
+  }
+}

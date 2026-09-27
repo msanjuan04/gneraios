@@ -1,0 +1,258 @@
+{
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "GNERAI at a glance.",
+    "headline": "Here's how the business is doing today, {date}.",
+    "kpiMrr": "MRR",
+    "kpiArr": "ARR",
+    "kpiRevenue": "Revenue this month",
+    "kpiReceivables": "Outstanding",
+    "kpiPending": "It will appear with the first contract or the first invoice",
+    "setupTitle": "Getting started",
+    "setupOrg": "Organization created",
+    "setupIssuers": "{count, plural, one {# issuer set up} other {# issuers set up}}",
+    "setupCompanyTaxId": "Fill in the company's NIF once it's incorporated",
+    "setupInvite": "Invite the other partners",
+    "setupInvitePending": "{count, plural, one {# pending invitation} other {# pending invitations}}",
+    "setupCrm": "Clients and pipeline",
+    "setupBilling": "Contracts and billing",
+    "setupBillingAction": "Create the first contract",
+    "goSettings": "Go to Settings",
+    "verifactuTitle": "Verifactu",
+    "verifactuBody": "{issuer} must issue invoices with a Verifactu-compliant provider from {date}. {days} days to go.",
+    "verifactuHint": "Without a connected provider, GNERAI OS will block issuing from that date.",
+    "cronPillOk": "Daily run up to date · {hours, plural, =0 {less than 1 h ago} other {# h ago}}",
+    "cronPillStale": "Check the daily run",
+    "cronPillNever": "The daily run hasn't completed successfully yet",
+    "listsLabel": "Clients, renewals and payments",
+    "operationsLabel": "Pipeline and system health",
+    "kpi": {
+      "label": "Key figures",
+      "base": "Before VAT",
+      "withVat": "Incl. VAT, net of IRPF",
+      "perMonth": "{amount}<unit>/month</unit>",
+      "today": "today",
+      "mrr": "MRR",
+      "goContracts": "View contracts",
+      "vsClose": "vs {month} close",
+      "vsCloseEstimated": "vs {month} close (estimated)",
+      "sparkline": "MRR over the last 12 months",
+      "arr": "ARR",
+      "arrYoy": "{delta} vs {month}",
+      "arrYoyNone": "No MRR a year ago",
+      "arrHint": "MRR × 12: a year of recurring revenue at today's rate.",
+      "clients": "Active clients",
+      "goClients": "View clients",
+      "clientsDelta": "{delta} vs {month} close",
+      "clientsBreakdown": "{paused} paused · {former, plural, one {# former client} other {# former clients}} · {leads, plural, one {# lead} other {# leads}}",
+      "receivables": "Outstanding",
+      "goInvoices": "View invoices",
+      "openInvoices": "{count, plural, =0 {No invoices to collect} one {# invoice to collect} other {# invoices to collect}}",
+      "overdueShare": "Overdue: {share} of outstanding",
+      "overdue": "Overdue: {amount} · {count, plural, one {# invoice} other {# invoices}}",
+      "overdueNone": "Nothing overdue",
+      "collection": "Paid in {days} days on average · {onTime} on time (12 months)",
+      "collectionNone": "No payments in the last 12 months",
+      "pipeline": "Weighted pipeline",
+      "goPipeline": "View pipeline",
+      "pipelineOneOff": "One-off",
+      "pipelineMrr": "MRR",
+      "pipelineHint": "{count, plural, =0 {No open deals} one {# open deal} other {# open deals}} · amount × probability",
+      "revenue": "{month} revenue",
+      "inProgress": "In progress",
+      "revenueTotal": "Invoiced in the month, with its breakdown",
+      "revenueCaption": "Revenue for the month by type, compared with the previous month and the same month last year",
+      "category": "Type",
+      "thisMonth": "This month",
+      "vsMonth": "vs {month}",
+      "recurring": "Recurring",
+      "usage": "Usage",
+      "oneOff": "One-off",
+      "new": "New",
+      "revenueFootnote": "The current month counts up to today and is compared with full months. Recurring = monthly + yearly; amounts are before VAT, and corrective invoices are subtracted in their month."
+    },
+    "history": {
+      "title": "Trends",
+      "description": "What's been invoiced by type, MRR and what made it grow or drop.",
+      "range": "Period",
+      "months": "{count} months"
+    },
+    "chart": {
+      "title": "Revenue and MRR",
+      "description": "Bars: what's invoiced each month by type (before VAT). Line: MRR at the close of each month.",
+      "showTable": "Show as table",
+      "recurring": "Recurring",
+      "usage": "Usage",
+      "oneOff": "One-off",
+      "mrr": "MRR",
+      "mrrLegend": "MRR at close",
+      "mrrEstimated": "Estimated MRR",
+      "stateCurrent": "In progress",
+      "stateEstimated": "Estimated",
+      "stateSnapshot": "Close",
+      "invoicedTotal": "Total invoiced",
+      "tableCaption": "Revenue by type and MRR for each month",
+      "month": "Month",
+      "empty": "No issued invoices or MRR in this period yet.",
+      "estimatedNote": "Months without a monthly snapshot are rebuilt from today's contracts: their MRR is dotted (and marked with * in the table)."
+    },
+    "bridge": {
+      "title": "MRR movements",
+      "description": "{months, plural, one {This month} other {Last # months}}: what added to and subtracted from MRR (before VAT).",
+      "net": "{hasGrowth, select, yes {<strong>{amount}</strong> net ({growth}) in the period.} other {<strong>{amount}</strong> net in the period.}}",
+      "start": "{month} close",
+      "startEmpty": "Start",
+      "startHint": "MRR at the close of the month before the period.",
+      "new": "New",
+      "newHint": "Clients who had no MRR (and nothing paused) and start paying every month.",
+      "expansion": "Expansion",
+      "expansionHint": "Clients who were already paying and now pay more: price rises, new services or the end of a pause.",
+      "contraction": "Contraction",
+      "contractionHint": "Clients who pay less without leaving: price cuts, cancelled services or pauses.",
+      "churn": "Churn",
+      "churnHint": "Clients left with no MRR and nothing paused.",
+      "adjustment": "Adjustments",
+      "adjustmentHint": "Differences between monthly snapshots taken with different data (e.g. a cancellation recorded with a backdated effect).",
+      "end": "Today",
+      "endHint": "Today's MRR.",
+      "endShort": "MRR at close",
+      "month": "Month",
+      "tableCaption": "MRR movements for each month",
+      "estimatedNote": "Includes months without a monthly snapshot, rebuilt from today's contracts (* in the table)."
+    },
+    "topClients": {
+      "title": "Top clients",
+      "description": "Net revenue: before VAT, with corrective invoices subtracted.",
+      "period": "Period",
+      "lastYear": "12 months",
+      "allTime": "All time",
+      "empty": "No revenue in this period.",
+      "alert": "{client} accounts for {share} of revenue (the alert triggers from {threshold}).",
+      "healthy": "{count, plural, one {The largest client accounts for} other {The # largest clients account for}} {share} of revenue.",
+      "total": "{amount} across {count, plural, one {# client} other {# clients}}."
+    },
+    "renewals": {
+      "title": "Upcoming renewals",
+      "description": "Yearly lines renewing in the next {days} days.",
+      "empty": "No yearly lines renew in the next {days} days.",
+      "inDays": "{days, plural, one {tomorrow} other {in # days}}",
+      "footer": "{amount} to renew (yearly base before VAT).",
+      "footerEmpty": "Each renewal alerts the partner in charge in advance."
+    },
+    "overdue": {
+      "title": "Overdue invoices",
+      "description": "What's left to collect on each one.",
+      "empty": "No overdue invoices.",
+      "daysOverdue": "{days, plural, one {# day overdue} other {# days overdue}}",
+      "footer": "Incl. VAT, net of IRPF",
+      "seeAll": "See all {count}",
+      "goInvoices": "Go to invoices"
+    },
+    "stages": {
+      "title": "Pipeline by stage",
+      "description": "Open deals in each stage, unweighted.",
+      "empty": "No open deals.",
+      "deals": "{count, plural, one {# deal} other {# deals}}",
+      "amounts": "{oneOff} one-off · {mrr}/month",
+      "weighted": "Weighted (amount × probability): {oneOff} one-off and {mrr}/month, before VAT."
+    },
+    "health": {
+      "title": "System health",
+      "description": "The daily run, Verifactu and what's waiting for a partner.",
+      "cronOk": "The daily run is up to date",
+      "cronStale": "The daily run hasn't completed successfully for over {hours} h",
+      "cronNever": "The daily run hasn't completed a run yet",
+      "cronLast": "Last OK: {when} ({ago})",
+      "cronLastNone": "No successful runs recorded.",
+      "cronError": "Last error: {error}",
+      "cronAction": "Billing",
+      "verifactu": "Verifactu",
+      "verifactuRequired": "Mandatory: issuing blocked",
+      "verifactuDays": "{days, plural, one {# day left} other {# days left}}",
+      "verifactuMeter": "Verifactu countdown: {days, plural, one {# day left} other {# days left}}; shown from {window} days before",
+      "verifactuFrom": "Compliant provider mandatory from {date}",
+      "drafts": "{count, plural, one {draft to issue} other {drafts to issue}}",
+      "reminders": "{count, plural, one {reminder to approve} other {reminders to approve}}"
+    },
+    "actionQueue": {
+      "title": "To do",
+      "description": "What's waiting for someone to act. One click and you're where it gets done.",
+      "emptyTitle": "All caught up",
+      "empty": "Nothing waiting to be issued, sent, paid or answered.",
+      "items": {
+        "drafts": {
+          "title": "{count, plural, one {# invoice draft to issue} other {# invoice drafts to issue}}",
+          "hint": "Review them and issue them in one go"
+        },
+        "reminders": {
+          "title": "{count, plural, one {# payment reminder to send} other {# payment reminders to send}}",
+          "hint": "Prepared by the daily run: review and send"
+        },
+        "expiringQuotes": {
+          "title": "{count, plural, one {# quote expires this week} other {# quotes expire this week}}",
+          "hint": "One last push before they expire"
+        },
+        "waitingQuotes": {
+          "title": "{count, plural, one {# quote without a reply} other {# quotes without a reply}}",
+          "hint": "Sent more than 7 days ago: time to follow up"
+        },
+        "staleDeals": {
+          "title": "{count, plural, one {# deal with an overdue next action} other {# deals with an overdue next action}}",
+          "hint": "Marked in red in the pipeline"
+        },
+        "overdueExpenses": {
+          "title": "{count, plural, one {# overdue unpaid expense} other {# overdue unpaid expenses}}",
+          "hint": "Avoid surcharges: pay them or mark them as paid"
+        },
+        "dueExpenses": {
+          "title": "{count, plural, one {# expense to pay this week} other {# expenses to pay this week}}",
+          "hint": "Due in the next 7 days"
+        },
+        "recommendations": {
+          "title": "{count, plural, one {# council recommendation to review} other {# council recommendations to review}}",
+          "hint": "Accept, dismiss or snooze them"
+        },
+        "clientsAtRisk": {
+          "title": "{count, plural, one {# client needs attention} other {# clients need attention}}",
+          "hint": "Overdue payments, no contact, a renewal coming up or their website slipping"
+        },
+        "bankPending": {
+          "title": "{count, plural, one {# bank transaction to reconcile} other {# bank transactions to reconcile}}",
+          "hint": "Match payments and expenses in one click"
+        }
+      }
+    },
+    "goals": {
+      "label": "Goals",
+      "empty": "Set your goals (MRR and revenue for the year) and the dashboard will tell you every day whether you're on track.",
+      "mrrTitle": "Goal · {target}/month by {date}",
+      "progressLabel": "{percent}% of goal",
+      "mrrNeeded": "{gap} to go: {perMonth} a month for {months, plural, one {# month} other {# months}}.",
+      "mrrMissed": "The date has passed and it fell {gap} short.",
+      "mrrReached": "Goal reached. Time to set the next one.",
+      "mrrPace": "At the pace of the last 3 months ({pace}/month), you'd get there in {month}.",
+      "mrrNoPace": "MRR hasn't grown in the last 3 months: at this pace you won't get there.",
+      "revenueTitle": "{year} revenue · goal {target}",
+      "invoicedSoFar": "invoiced",
+      "revenueBarLabel": "{invoiced}% invoiced, {projected}% counting what's signed",
+      "revenueDetail": "With what's signed ({signed}), you'd close the year at {projected}.",
+      "revenueGap": "{gap} still to sell.",
+      "revenueCovered": "What's signed already covers the goal.",
+      "status": {
+        "reached": "Reached",
+        "on_track": "On track",
+        "behind": "Behind",
+        "missed": "Missed"
+      }
+    },
+    "setupImportAction": "Import clients and history",
+    "setupCatalog": "Service catalog with your prices",
+    "setupCatalogAction": "Create the catalog",
+    "setupGoogle": "Google connected (Search Console and GA4)",
+    "setupGoogleAction": "Connect",
+    "setupGoals": "MRR and yearly revenue goals",
+    "setupGoalsAction": "Set them",
+    "setupPush": "Notifications on your phone and the installed app",
+    "setupPushAction": "Turn them on"
+  }
+}

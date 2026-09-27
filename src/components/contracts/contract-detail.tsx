@@ -24,6 +24,7 @@ import { PendingCard } from "./pending-card";
 import { ContractStatusBadge } from "./status-badges";
 import { IssuerSheet, TermsSheet } from "./terms-sheet";
 import type { ContractDetailData } from "./types";
+import { CreateProjectButton } from "@/components/projects/create-project-button";
 
 const OVERLAY = '[role="dialog"], [role="alertdialog"], [role="menu"], [role="listbox"]';
 // Ventana de tinykeys para las secuencias "g …".
@@ -198,6 +199,8 @@ function Header({
             <Pencil data-icon="inline-start" />
             {t("editTerms")}
           </Button>
+          {/* El trabajo del contrato, con sus tareas y sus horas (proyectos). */}
+          <CreateProjectButton slug={data.slug} clientId={contract.clientId} contractId={contract.id} defaultName={contract.title} size="default" />
         </div>
       )}
     </header>

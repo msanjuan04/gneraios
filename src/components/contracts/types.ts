@@ -13,7 +13,8 @@ export type BillableState = Enums<"billable_state">;
 export type BillableSource = Enums<"billable_source">;
 export type InvoiceStatus = Enums<"invoice_status">;
 
-export type ClientOption = { id: string; name: string };
+/** `language`: el idioma de sus documentos (las líneas del catálogo salen en él). */
+export type ClientOption = { id: string; name: string; language?: "es" | "ca" | "en" };
 /** `pendingConstitution`: una SL sin fecha de alta, que aún no puede emitir. */
 export type IssuerOption = { id: string; name: string; isPrimary: boolean; pendingConstitution: boolean };
 export type VatRateOption = { id: string; name: string; rateBps: number; isDefault: boolean };

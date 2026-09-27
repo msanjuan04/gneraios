@@ -1,0 +1,80 @@
+{
+  "pipeline": {
+    "tabs": {
+      "board": "Tauler",
+      "funnel": "Embut"
+    },
+    "title": "Pipeline",
+    "newDeal": "Nou deal",
+    "emptyTitle": "El teu pipeline està buit",
+    "emptyBody": "Crea el primer lead: un client i l'oportunitat que tens amb ell, en una sola fitxa.",
+    "emptyShortcut": "Drecera: N",
+    "column": {
+      "count": "{count, plural, one {# deal} other {# deals}}",
+      "weighted": "Ponderat",
+      "total": "Total",
+      "empty": "Arrossega aquí"
+    },
+    "card": {
+      "open": "Obre {title}",
+      "moveHint": "⇧← ⇧→ per canviar d'etapa"
+    },
+    "sheet": {
+      "createTitle": "Nou deal",
+      "editTitle": "Edita el deal",
+      "description": "Un lead és un deal a la primera etapa: crea el client aquí mateix si encara no existeix.",
+      "title": "Títol",
+      "titlePlaceholder": "Web + SEO local",
+      "client": "Client",
+      "clientPlaceholder": "Cerca o escriu un client nou…",
+      "createClient": "Crea el client «{name}»",
+      "newClient": "Client nou: {name}",
+      "noClients": "Sense coincidències",
+      "stage": "Etapa",
+      "oneOff": "Import puntual",
+      "oneOffHint": "Setup, projecte tancat…",
+      "mrr": "Recurrent al mes",
+      "mrrHint": "Manteniment, SEO, Ads, llicències…",
+      "probability": "Probabilitat",
+      "probabilityHint": "Buit = la de l'etapa ({value} %)",
+      "source": "Font",
+      "broughtBy": "Portat per",
+      "owner": "Responsable",
+      "nextAction": "Propera acció",
+      "nextActionPlaceholder": "Trucar per tancar la data de la reunió",
+      "nextActionOn": "Data",
+      "lossReason": "Motiu de pèrdua",
+      "lossNote": "Nota",
+      "none": "—",
+      "save": "Desa el deal",
+      "create": "Crea el deal",
+      "saved": "Deal desat",
+      "created": "Deal creat",
+      "archive": "Arxiva el deal",
+      "archiveConfirm": "El deal desapareix del tauler; el seu historial es conserva per a l'embut.",
+      "archived": "Deal arxivat",
+      "openClient": "Mostra el client",
+      "history": "Historial d'etapes",
+      "historyCreated": "Creat a {stage}",
+      "historyMoved": "{from} → {to}",
+      "nextStep": "Següent pas",
+      "createQuote": "Crea un pressupost",
+      "createContract": "Crea un contracte"
+    },
+    "loss": {
+      "title": "Per què s'ha perdut?",
+      "description": "El motiu és obligatori: alimenta l'anàlisi de pèrdues de l'embut.",
+      "reason": "Motiu",
+      "note": "Nota (opcional)",
+      "confirm": "Marca com a perdut"
+    },
+    "moved": "Mogut a {stage}",
+    "errors": {
+      "lossReasonRequired": "Per marcar un deal com a perdut cal indicar-ne el motiu.",
+      "notFound": "Aquest deal ja no existeix o no hi tens accés.",
+      "clientRequired": "Tria un client o escriu el nom d'un de nou.",
+      "money": "Import no vàlid. Fes servir, per exemple, 1.500 o 450,50."
+    },
+    "stagesNav": "Etapes del pipeline"
+  }
+}

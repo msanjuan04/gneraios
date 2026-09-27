@@ -133,9 +133,11 @@ describe("RLS", () => {
         [orgId],
       ),
     );
-    // Incluye la configuración del pipeline que siembra el trigger al crear la org (hito 1.1).
+    // Incluye lo que siembran los triggers al crear la org: el pipeline (hito 1.1), las categorías
+    // de gasto (finanzas) y las reglas de upsell del consejo.
     expect(rows.rows.map((r) => r.table_name)).toEqual([
       "acquisition_sources",
+      "expense_categories",
       "invoice_series",
       "issuers",
       "loss_reasons",
@@ -144,6 +146,7 @@ describe("RLS", () => {
       "orgs",
       "pipeline_stages",
       "tax_rates",
+      "upsell_rules",
     ]);
     expect(new Set(rows.rows.map((r) => r.actor_id))).toEqual(new Set([owner]));
   });

@@ -1,0 +1,54 @@
+{
+  "crm": {
+    "clientStatus": {
+      "lead": "Lead",
+      "active": "Actiu",
+      "paused": "En pausa",
+      "former": "Exclient",
+      "pending_contact": "Contacte pendent",
+      "finished": "Finalitzat",
+      "discarded": "Descartat",
+      "manualHint": "Estat marcat a mà per un soci",
+      "autoHint": "Estat segons els seus contractes",
+      "change": "Estat del client",
+      "auto": "Automàtic · {status}",
+      "changed": "Marcat com a «{status}»",
+      "changedAuto": "Torna a ser automàtic (segons els seus contractes)",
+      "since": "des del {date}",
+      "calculated": "segons contractes: {status}"
+    },
+    "stageKind": {
+      "open": "Oberta",
+      "won": "Guanyada",
+      "lost": "Perduda"
+    },
+    "activityKind": {
+      "call": "Trucada",
+      "meeting": "Reunió",
+      "email": "Email",
+      "note": "Nota"
+    },
+    "taxIdKind": {
+      "es": "NIF espanyol",
+      "eu_vat": "NIF-IVA europeu",
+      "foreign": "Identificador estranger"
+    },
+    "timeline": {
+      "dealCreated": "Nou deal: {deal} · {to}",
+      "stageChange": "{deal}: {from} → {to}",
+      "contractSigned": "Contracte signat: {title}",
+      "invoiceIssued": "Factura {title} emesa · {amount}",
+      "invoiceRectifying": "Rectificativa {title} · {amount}",
+      "payment": "Cobrament de la factura {title} · {amount}"
+    },
+    "amount": {
+      "oneOff": "Puntual",
+      "mrr": "Recurrent / mes",
+      "perMonth": "{amount}/mes"
+    },
+    "daysInStage": "{count, plural, =0 {Avui} one {# dia} other {# dies}}",
+    "overdue": "Vençuda",
+    "noOwner": "Sense responsable",
+    "unknownSource": "Sense font"
+  }
+}

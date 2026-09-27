@@ -7,7 +7,8 @@
     "nav": {
       "label": "Secciones de facturación",
       "list": "Facturas",
-      "outbox": "Por enviar"
+      "outbox": "Por enviar",
+      "history": "Histórico"
     },
     "summary": {
       "pending": "Pendiente de cobro",
@@ -321,6 +322,107 @@
       "deleteConfirmAction": "Borrar",
       "deletedToast": "Cobro de {amount} borrado"
     },
+    "recordPayment": {
+      "button": "Registrar cobro",
+      "title": "Registrar cobro",
+      "description": "{client}: apunta lo que te ha pagado. La fecha de cobro es el día en que entró el dinero.",
+      "received": "Importe recibido",
+      "receivedHint": "Escríbelo y se reparte solo entre las facturas, de la más antigua a la más nueva.",
+      "surplus": "Sobran {amount}: no hay más facturas pendientes en las que repartirlo.",
+      "invoices": "{count, plural, one {Factura pendiente} other {# facturas pendientes}}",
+      "select": "Cobrar {number}",
+      "thisProject": "Este proyecto",
+      "issuedOn": "Emitida el {date}",
+      "dueOn": "vence el {date}",
+      "overdueOn": "vencida desde el {date}",
+      "ofTotal": "de {amount}",
+      "amountFor": "Importe cobrado de {number}",
+      "partial": "Cobro parcial: quedarán {amount} pendientes",
+      "full": "La deja cobrada",
+      "paidOnHint": "El día en que entró el dinero; no tiene por qué ser la fecha de la factura.",
+      "beforeIssue": "{count, plural, one {Es anterior a la fecha de {number}: ¿es un anticipo?} other {Es anterior a la fecha de algunas facturas (como {number}): ¿es un anticipo?}}",
+      "total": "{count, plural, one {# factura} other {# facturas}} · {amount}",
+      "noneSelected": "Marca al menos una factura",
+      "save": "Registrar cobro",
+      "savedToast": "{count, plural, one {Cobro de {amount} registrado} other {Cobro de {amount} registrado en # facturas}}",
+      "mode": "Cómo lo registras",
+      "modes": {
+        "invoices": "A facturas",
+        "receipt": "Sin factura"
+      },
+      "invoicesHint": "Marca las facturas que paga este cobro."
+    },
+    "history": {
+      "title": "Histórico de facturación",
+      "description": "Lo facturado, lo cobrado y lo pendiente desde la primera factura (también las importadas), por año, trimestre o mes.",
+      "export": "Exportar CSV",
+      "fileName": "historico-facturacion",
+      "granularity": "Agrupar por",
+      "by": {
+        "year": "Años",
+        "quarter": "Trimestres",
+        "month": "Meses"
+      },
+      "client": "Cliente",
+      "allClients": "Todos los clientes",
+      "archivedClient": "{name} (archivado)",
+      "openClient": "Ver su ficha",
+      "since": "Desde {period}",
+      "quarter": "T{quarter} {year}",
+      "quarterShort": "T{quarter} ’{year}",
+      "emptyTitle": "Aún no hay facturas ni cobros",
+      "emptyClient": "{client} aún no tiene facturas ni cobros",
+      "emptyBody": "Registra lo que te pagan desde la ficha de cada cliente (con o sin factura) o emite facturas: aquí verás cuánto se ha facturado y cobrado en cada periodo.",
+      "kpi": {
+        "billed": "Facturado",
+        "billedHint": "Sin IVA · {total} con IVA · {count, plural, one {# factura} other {# facturas}}",
+        "collected": "Cobrado",
+        "collectedHint": "Con IVA · {percent} de lo facturado",
+        "withVat": "Con IVA",
+        "outstanding": "Pendiente de cobro",
+        "outstandingHint": "Con IVA, de las facturas emitidas",
+        "expenses": "Gastos del cliente",
+        "marginHint": "Sin IVA · margen directo {margin} ({percent}).",
+        "fullProfitability": "Rentabilidad completa",
+        "best": {
+          "year": "Mejor año",
+          "quarter": "Mejor trimestre",
+          "month": "Mejor mes"
+        },
+        "bestHint": "{amount} facturados sin IVA",
+        "noBest": "Sin facturación todavía",
+        "revenue": "Ingresos",
+        "revenueHint": "Sin IVA · {billed} facturado + {receipts} cobrado sin factura",
+        "collectedReceiptsHint": "De facturas (con IVA) y sin factura ({receipts})",
+        "bestRevenueHint": "{amount} de ingresos sin IVA"
+      },
+      "chart": {
+        "title": "Facturado y cobrado",
+        "description": "Todo sin IVA: lo facturado por fecha de emisión y lo cobrado por el día en que entró el dinero.",
+        "descriptionCosts": "Todo sin IVA: lo facturado, lo cobrado (por el día en que entró el dinero) y sus gastos asignados.",
+        "billed": "Facturado",
+        "collected": "Cobrado",
+        "expenses": "Gastos",
+        "invoices": "{count, plural, =0 {Sin facturas} one {# factura} other {# facturas}}",
+        "collectedWithVat": "{amount} cobrados con IVA"
+      },
+      "columns": {
+        "period": "Periodo",
+        "invoices": "Facturas",
+        "base": "Base",
+        "vat": "IVA",
+        "irpf": "IRPF",
+        "total": "Total",
+        "collected": "Cobrado",
+        "outstanding": "Pendiente",
+        "expenses": "Gastos",
+        "margin": "Margen directo",
+        "totalRow": "Total",
+        "receipts": "Sin factura"
+      },
+      "footnote": "Base, IVA e IRPF por fecha de emisión (las rectificativas restan en su periodo). Sin factura: lo cobrado sin factura, sin IVA. Cobrado (de facturas con IVA y sin factura) por el día en que entró el dinero. Pendiente: lo que aún falta de las facturas emitidas en cada periodo.",
+      "footnoteCosts": "Gastos: la base de los gastos asignados a este cliente, por la fecha de su factura. El margen directo no incluye horas ni el reparto de servidores: eso está en Rentabilidad."
+    },
     "email": {
       "title": "Enviar {number} por email",
       "description": "Revísalo antes de enviarlo: va en el idioma del cliente ({language}) y con el PDF de la factura adjunto.",
@@ -339,7 +441,8 @@
       "review": "Revisar",
       "template": {
         "invoice": "Factura",
-        "payment_reminder": "Recordatorio de cobro"
+        "payment_reminder": "Recordatorio de cobro",
+        "client_report": "Informe mensual"
       }
     },
     "rectify": {
@@ -419,7 +522,8 @@
       "billed": "Facturado: {amount} sin IVA",
       "viewAll": "{count, plural, one {Ver la factura} other {Ver las #}}",
       "dueOn": "vencía el {date}",
-      "pendingAmount": "Pendiente {amount}"
+      "pendingAmount": "Pendiente {amount}",
+      "history": "Histórico"
     },
     "validation": {
       "quantity": "Una cantidad mayor que 0, hasta 3 decimales",
@@ -439,12 +543,15 @@
       "emails": "Uno o varios emails válidos, separados por comas",
       "amountZero": "El importe no puede ser 0",
       "paidInFuture": "Un cobro no puede tener fecha futura",
-      "date": "Fecha no válida"
+      "date": "Fecha no válida",
+      "amountPositive": "Tiene que ser mayor que 0",
+      "allocationsRequired": "Marca al menos una factura"
     },
     "errors": {
       "notFound": "Esta factura ya no existe.",
       "paymentNotFound": "Este cobro ya no existe.",
-      "emailNotFound": "Este email ya no está pendiente de enviar."
+      "emailNotFound": "Este email ya no está pendiente de enviar.",
+      "paymentNotOrdinary": "Solo se cobran facturas ordinarias: una rectificativa ajusta lo que queda por cobrar de la original."
     },
     "notFound": {
       "title": "Esta factura no existe",

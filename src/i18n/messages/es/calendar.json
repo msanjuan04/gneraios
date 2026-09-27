@@ -1,0 +1,370 @@
+{
+  "calendar": {
+    "title": "Calendario",
+    "types": {
+      "fiscal": "Impuestos",
+      "collection": "Cobros",
+      "reminder": "Recordatorios",
+      "deal": "Acciones",
+      "task": "Tareas",
+      "meeting": "Reuniones",
+      "milestone": "Hitos",
+      "billing": "Facturación",
+      "renewal": "Renovaciones",
+      "contract": "Altas y bajas",
+      "quote": "Presupuestos",
+      "issued": "Emitidas"
+    },
+    "typeHints": {
+      "fiscal": "Plazos de los modelos de Hacienda de cada emisor y su fecha Verifactu (orientativo: valídalo con la gestoría).",
+      "collection": "Vencimiento de las facturas emitidas pendientes de cobro. En rojo, las vencidas.",
+      "reminder": "Recordatorios de cobro que ha preparado el cron y esperan a que un socio los apruebe.",
+      "deal": "Próxima acción de cada deal. Arrástrala para cambiarla de día.",
+      "task": "Tareas con fecha y entregas de proyectos. Arrastra una tarea sin hacer para cambiarla de día.",
+      "meeting": "Reuniones y llamadas registradas como actividad (las futuras son las previstas).",
+      "milestone": "Hitos de facturación con fecha. Los que aún no se han facturado se pueden arrastrar.",
+      "billing": "Lo que el cron va a facturar de las mensualidades (y de la primera anualidad), por contrato.",
+      "renewal": "Aniversario de cada línea anual: ese día se vuelve a facturar.",
+      "contract": "Altas, bajas y cambios de condiciones de las líneas de contrato.",
+      "quote": "Hasta cuándo vale cada presupuesto enviado. En rojo, los caducados sin respuesta.",
+      "issued": "Facturas emitidas, en su fecha de emisión (historia)."
+    },
+    "status": {
+      "overdue": "Vencido",
+      "pending": "Pendiente",
+      "scheduled": "Previsto",
+      "done": "Hecho",
+      "past": "Pasado"
+    },
+    "summary": {
+      "collection": "Cobro · {client}",
+      "issued": "Emitida · {client}",
+      "issuedRectifying": "Rectificativa · {client}",
+      "reminder": "Recordatorio · {client}",
+      "billing": "Facturación · {client}",
+      "renewal": "Renovación · {line}",
+      "milestone": "Hito · {label}",
+      "contractStart": "Alta · {client}",
+      "contractChange": "Cambio de condiciones · {client}",
+      "contractEnd": "Fin · {client}",
+      "contractCancel": "Baja · {client}",
+      "dealNoAction": "Próxima acción · {deal}",
+      "projectDue": "Entrega · {project}",
+      "quote": "Caduca · {title}",
+      "quoteExpired": "Caducado · {title}",
+      "verifactu": "Verifactu obligatorio",
+      "fiscal": "Modelo {model} · {name}"
+    },
+    "views": {
+      "month": "Mes",
+      "week": "Semana",
+      "agenda": "Agenda"
+    },
+    "toolbar": {
+      "today": "Hoy",
+      "todayHint": "Ir a hoy",
+      "previous": {
+        "month": "Mes anterior",
+        "week": "Semana anterior",
+        "agenda": "30 días antes"
+      },
+      "next": {
+        "month": "Mes siguiente",
+        "week": "Semana siguiente",
+        "agenda": "30 días después"
+      },
+      "views": "Vista",
+      "subscribe": "Suscribirse",
+      "filters": "Qué se ve",
+      "mine": "Solo lo mío",
+      "mineHint": "Lo tuyo y lo que es de todos (como los plazos de la SL)",
+      "reset": "Restablecer filtros",
+      "expected": "Cobros previstos: {amount} ({count})",
+      "overdue": "Vencido: {amount} ({count})"
+    },
+    "month": {
+      "openDay": "{date}: {count, plural, =0 {nada} one {# evento} other {# eventos}}",
+      "more": "+{count} más"
+    },
+    "week": {
+      "empty": "—"
+    },
+    "agenda": {
+      "overdue": "Atrasado · {count}",
+      "today": "Hoy · {date}",
+      "tomorrow": "Mañana · {date}",
+      "todayShort": "Hoy",
+      "tomorrowShort": "Mañana",
+      "allDay": "Todo el día"
+    },
+    "overdueBanner": {
+      "title": "{count, plural, one {# cosa atrasada} other {# cosas atrasadas}}",
+      "body": "cobros vencidos, acciones, tareas, hitos o recordatorios de antes de estas fechas",
+      "action": "Ver en la agenda"
+    },
+    "hints": {
+      "collections": "{count} cobros el mismo día · {amount}",
+      "deadlines": "{count} plazos fiscales el mismo día",
+      "overlap": "{count} reuniones o llamadas se pisan",
+      "busy": "Día cargado: {count} cosas"
+    },
+    "sheet": {
+      "dayEmpty": "Nada este día.",
+      "dayCount": "{count, plural, one {# evento} other {# eventos}} el {date}",
+      "backToDay": "Volver al día",
+      "amountGross": "con IVA, neto de IRPF",
+      "amountBase": "base sin IVA",
+      "owner": "Responsable",
+      "shared": "De todos",
+      "moveLabel": "Mover a otro día",
+      "move": "Mover"
+    },
+    "movable": {
+      "deal": "Cambia la próxima acción del deal (también puedes arrastrarla en el mes o en la semana).",
+      "task": "Cambia la fecha de la tarea (también puedes arrastrarla en el mes o en la semana).",
+      "milestone": "Cambia la fecha prevista del hito. Si es automático, el cron lo preparará ese día."
+    },
+    "readOnly": {
+      "collection": "El vencimiento sale de la factura emitida y no se mueve. Registra el cobro o prepara un recordatorio desde la factura.",
+      "issued": "Una factura emitida no cambia de fecha.",
+      "reminder": "Lo ha preparado el cron el día que tocaba: apruébalo o descártalo en Por enviar.",
+      "billing": "Sale del día de facturación de las líneas: para cambiarlo, edita las líneas del contrato.",
+      "renewal": "Renueva en el aniversario de la línea: para cambiarlo, edita la línea en el contrato.",
+      "contract": "Las altas y las bajas se cambian en las líneas del contrato.",
+      "milestoneBilled": "Este hito ya está preparado para facturar: su fecha ya no se mueve.",
+      "deal": "La fecha se cambia en el deal.",
+      "task": "Esta tarea ya está hecha: su fecha no se mueve. Si hay que retomarla, reábrela en su proyecto.",
+      "project": "La fecha de entrega se cambia en la ficha del proyecto.",
+      "quote": "La validez se cambia editando el presupuesto.",
+      "fiscal": "Los plazos salen del calendario de la AEAT: no se mueven.",
+      "meeting": "La fecha se cambia en la actividad, desde la ficha del cliente.",
+      "permission": "Solo un socio puede mover fechas."
+    },
+    "open": {
+      "collection": "Abrir factura",
+      "issued": "Abrir factura",
+      "reminder": "Ir a Por enviar",
+      "billing": "Abrir contrato",
+      "renewal": "Abrir contrato",
+      "contract": "Abrir contrato",
+      "milestone": "Abrir contrato",
+      "deal": "Abrir en el pipeline",
+      "task": "Abrir en el proyecto",
+      "project": "Abrir proyecto",
+      "quote": "Abrir presupuesto",
+      "fiscal": "Ver emisores",
+      "meeting": "Abrir cliente"
+    },
+    "links": {
+      "invoice": "Ver factura",
+      "client": "Ver cliente",
+      "contract": "Ver contrato",
+      "deal": "Ver deal",
+      "quote": "Ver presupuesto",
+      "outbox": "Por enviar",
+      "issuers": "Ver emisores"
+    },
+    "move": {
+      "done": "{summary} → {date}",
+      "undo": "Deshacer",
+      "autoMilestone": "Es automático y ya le toca: el cron lo preparará en su próxima ejecución.",
+      "hint": "Arrastra las próximas acciones, las tareas sin hacer y los hitos sin facturar para cambiarlos de día. Lo demás se cambia en su ficha."
+    },
+    "facts": {
+      "client": "Cliente",
+      "contract": "Contrato",
+      "project": "Proyecto",
+      "invoice": "Factura",
+      "issuedOn": "Emitida el",
+      "dueOn": "Vence",
+      "total": "Total",
+      "paid": "Cobrado",
+      "outstanding": "Pendiente",
+      "daysOverdue": "Retraso",
+      "preparedOn": "Preparado el",
+      "deal": "Deal",
+      "stage": "Etapa",
+      "estOneOff": "Puntual estimado",
+      "estMrr": "Recurrente estimado",
+      "probability": "Probabilidad",
+      "quote": "Presupuesto",
+      "validUntil": "Válido hasta",
+      "oneOff": "Puntual",
+      "monthly": "Mensual",
+      "yearly": "Anual",
+      "usageLines": "Por uso",
+      "line": "Línea",
+      "lines": "Líneas",
+      "period": "Periodo",
+      "amount": "Importe",
+      "percent": "Porcentaje",
+      "auto": "Automático",
+      "state": "Estado",
+      "issuer": "Emisor",
+      "window": "Plazo",
+      "statutoryDue": "Último día legal",
+      "provider": "Proveedor fiscal",
+      "time": "Hora",
+      "kind": "Tipo"
+    },
+    "factValues": {
+      "daysOverdue": "{count, plural, one {# día} other {# días}}",
+      "usageLines": "{count, plural, one {# línea} other {# líneas}}"
+    },
+    "values": {
+      "yes": "Sí",
+      "no": "No",
+      "provider": {
+        "internal": "Interno (sin Verifactu)"
+      },
+      "billable": {
+        "pending": "Pendiente de facturar",
+        "drafted": "En borrador",
+        "invoiced": "Facturado",
+        "waived": "Condonado"
+      },
+      "activity": {
+        "meeting": "Reunión",
+        "call": "Llamada"
+      },
+      "task": {
+        "todo": "Por hacer",
+        "doing": "En curso",
+        "review": "En revisión",
+        "done": "Hecha"
+      },
+      "project": {
+        "planned": "Planificado",
+        "active": "En marcha",
+        "paused": "En pausa",
+        "done": "Hecho",
+        "cancelled": "Cancelado"
+      }
+    },
+    "range": "{from} – {to}",
+    "amount": {
+      "perMonth": "{amount}/mes",
+      "perYear": "{amount}/año"
+    },
+    "fiscal": {
+      "validate": "Validar con la gestoría",
+      "disclaimer": "Calendario orientativo: valídalo con la gestoría. Si el último día cae en sábado o domingo, el plazo pasa al lunes; los festivos no se tienen en cuenta y, con domiciliación bancaria, el plazo acaba unos días antes.",
+      "verifactuBody": "Desde esta fecha el emisor tiene que emitir con un sistema adaptado a Verifactu. Con el proveedor interno, GNERAI OS bloqueará la emisión.",
+      "period": {
+        "quarter": "{quarter}T {year}",
+        "installment": "{index}.º pago {year}",
+        "year": "Ejercicio {year}"
+      },
+      "models": {
+        "m303": {
+          "short": "IVA trimestral",
+          "description": "Autoliquidación del IVA del trimestre: el IVA de tus facturas menos el de tus gastos. Si sale a ingresar, se paga al presentarlo."
+        },
+        "m111": {
+          "short": "Retenciones",
+          "description": "Ingreso de las retenciones de IRPF practicadas a trabajadores y profesionales (también a los socios que cobran de la SL)."
+        },
+        "m115": {
+          "short": "Retenciones de alquiler",
+          "description": "Ingreso de la retención del 19 % sobre el alquiler del local u oficina, si el arrendador no está exento."
+        },
+        "m130": {
+          "short": "Pago fraccionado del IRPF",
+          "description": "Autónomos en estimación directa: el 20 % del rendimiento acumulado del año, menos lo ya pagado y lo retenido. No se presenta si al menos el 70 % de los ingresos del año anterior llevó retención."
+        },
+        "m349": {
+          "short": "Operaciones intracomunitarias",
+          "description": "Declaración informativa de las ventas y compras de servicios con empresas de otros países de la UE (también las de Meta o Google Ads facturadas desde Irlanda)."
+        },
+        "m202": {
+          "short": "Pago fraccionado de Sociedades",
+          "description": "Pago a cuenta del Impuesto sobre Sociedades del año. En la modalidad de cuota no se paga si el último impuesto salió a cero, ni el primer año de actividad."
+        },
+        "m200": {
+          "short": "Impuesto sobre Sociedades",
+          "description": "Declaración anual del Impuesto sobre Sociedades del ejercicio anterior (con el ejercicio igual al año natural)."
+        },
+        "m390": {
+          "short": "Resumen anual del IVA",
+          "description": "Resumen informativo de los 303 del año."
+        },
+        "m190": {
+          "short": "Resumen anual de retenciones",
+          "description": "Resumen informativo de los 111 del año, con cada perceptor."
+        },
+        "m180": {
+          "short": "Resumen anual de retenciones de alquiler",
+          "description": "Resumen informativo de los 115 del año."
+        },
+        "m347": {
+          "short": "Operaciones con terceros",
+          "description": "Clientes y proveedores con los que se han superado 3.005,06 € (IVA incluido) en el año, salvo lo que ya va en otras declaraciones."
+        }
+      }
+    },
+    "empty": {
+      "title": "Nada en estas fechas",
+      "body": "Aquí aparecen los cobros, la facturación, las renovaciones, los hitos, las próximas acciones, las tareas y entregas de proyectos, los presupuestos, las reuniones y los plazos fiscales en cuanto existan.",
+      "filteredTitle": "Nada con estos filtros",
+      "filteredBody": "Hay filtros puestos: restablécelos para verlo todo.",
+      "shortcuts": "Atajos: T hoy · ← → anterior y siguiente · M, W, A para cambiar de vista"
+    },
+    "subscribe": {
+      "title": "Suscribirse al calendario",
+      "description": "Un enlace privado para ver estas fechas en Google Calendar, Apple Calendar u Outlook. Se actualiza solo, cada pocas horas, con los próximos 12 meses.",
+      "scopeLabel": "Qué incluye",
+      "scope": {
+        "mine": "Lo mío",
+        "all": "Todo"
+      },
+      "scopeHint": {
+        "mine": "Lo tuyo y lo que es de todos (los plazos de la SL, por ejemplo).",
+        "all": "Todo lo de la organización, de todos los socios."
+      },
+      "create": "Crear enlace",
+      "regenerate": "Crear un enlace nuevo",
+      "revoke": "Revocar",
+      "revoked": "Enlace revocado: ya no funciona en ningún calendario.",
+      "done": "Hecho",
+      "urlLabel": "Enlace de suscripción",
+      "copy": "Copiar",
+      "copiedShort": "Copiado",
+      "copied": "Enlace copiado",
+      "copyFailed": "No se ha podido copiar: selecciónalo y cópialo a mano.",
+      "onlyOnce": "Guárdalo ahora: por seguridad no se vuelve a enseñar. Si lo pierdes, crea uno nuevo (el anterior dejará de funcionar).",
+      "openGoogle": "Añadir a Google Calendar",
+      "openApple": "Abrir en Apple Calendar",
+      "stepGoogle": "Google Calendar (web): Otros calendarios → + → Desde URL, y pega el enlace.",
+      "stepApple": "Apple Calendar: Archivo → Nueva suscripción a calendario, y pega el enlace.",
+      "stepOutlook": "Outlook: Añadir calendario → Suscribirse desde la web, y pega el enlace.",
+      "active": "Tienes un enlace activo desde el {date} ({scope}).",
+      "lastUsed": "Último uso: {date}.",
+      "neverUsed": "Aún no lo ha leído ningún calendario.",
+      "localWarning": "La app está en local: Google Calendar no puede leer un enlace de localhost hasta que esté publicada (Apple Calendar, en este mismo ordenador, sí).",
+      "privacy": "Quien tenga el enlace ve tus fechas, con clientes e importes. No lo compartas; si se filtra, revócalo."
+    },
+    "ics": {
+      "name": "GNERAI OS · {org}",
+      "description": "Fechas de GNERAI OS: cobros, facturación, renovaciones, hitos, próximas acciones, tareas y entregas de proyectos, presupuestos, reuniones y plazos fiscales.",
+      "overdue": "Vencido",
+      "open": "Abrir en GNERAI OS: {url}"
+    },
+    "upcoming": {
+      "title": "Esta semana",
+      "description": "Lo que pasa en los próximos 7 días",
+      "overdue": "{count, plural, one {# atrasado} other {# atrasados}}",
+      "empty": "Una semana tranquila: nada con fecha en los próximos 7 días.",
+      "collections": "Cobros previstos: {amount} ({count})",
+      "noCollections": "Sin cobros previstos esta semana",
+      "more": "y {count} más",
+      "open": "Abrir el calendario"
+    },
+    "errors": {
+      "dealNotFound": "Ese deal ya no existe o no tienes acceso.",
+      "milestoneBilled": "Ese hito ya está preparado para facturar: su fecha ya no se mueve.",
+      "milestoneNotFound": "Ese hito ya no existe o no tienes acceso.",
+      "taskNotFound": "Esa tarea ya no existe o no tienes acceso.",
+      "taskDone": "Esa tarea ya está hecha: su fecha ya no se mueve."
+    }
+  }
+}

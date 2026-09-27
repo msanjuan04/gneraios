@@ -6,7 +6,22 @@ import { memberContext } from "@/server/action-utils";
 
 export type InboxItem = {
   id: string;
-  kind: "renewal" | "reminder_ready" | "job_failed" | "verifactu_deadline";
+  kind:
+    | "renewal"
+    | "reminder_ready"
+    | "job_failed"
+    | "verifactu_deadline"
+    | "quote_accepted"
+    | "quote_rejected"
+    | "portal_request"
+    | "new_device"
+    // Webs (src/server/sites): caída, vuelta, certificado y dominio a punto de caducar.
+    | "site_down"
+    | "site_up"
+    | "ssl_expiring"
+    | "domain_expiring"
+    // Una suscripción (dominio, servidor anual…) se renueva pronto (Finanzas → Infraestructura).
+    | "subscription_renewal";
   params: Record<string, string | number>;
   href: string | null;
   createdAt: string;

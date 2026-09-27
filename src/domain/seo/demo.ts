@@ -10,7 +10,7 @@
 import { addDays, type CivilDate, compareCivil, daysInclusive, daysInMonth, parseCivilDate } from "../dates/civil-date";
 import { expectedCtr } from "./opportunities";
 import type { DayRange } from "./period";
-import type { QueryDailyFact, SearchDailyFact, WebDailyFact } from "./provider";
+import type { QueryDailyFact, SearchDailyFact, WebChannel, WebDailyFact } from "./provider";
 
 export type DemoQuery = {
   text: string;
@@ -77,6 +77,18 @@ export type DemoSiteData = { daily: SearchDailyFact[]; queries: QueryDailyFact[]
 // ---------------------------------------------------------------------------
 
 /** Hash de 32 bits de un texto (FNV-1a), para sembrar el generador. */
+
+/** Reparto del tráfico no orgánico de la demo y lo que convierte cada canal (el primero absorbe el redondeo). */
+const DEMO_CHANNEL_MIX = [
+  { channel: "direct", share: 0.38, converts: 1 },
+  { channel: "paid_search", share: 0.22, converts: 1.6 },
+  { channel: "organic_social", share: 0.13, converts: 0.6 },
+  { channel: "paid_social", share: 0.12, converts: 1.2 },
+  { channel: "referral", share: 0.09, converts: 0.8 },
+  { channel: "email", share: 0.04, converts: 1.4 },
+  { channel: "other", share: 0.02, converts: 0.5 },
+] as const satisfies readonly { channel: WebChannel; share: number; converts: number }[];
+
 export function hashSeed(text: string): number {
   let h = 0x811c9dc5;
   for (let i = 0; i < text.length; i++) {
@@ -267,6 +279,39 @@ export function generateDemoSite(profile: DemoSiteProfile, range: DayRange): Dem
         conversions: organicConversions,
       },
     );
+
+    // El resto del tráfico, por canales: el reparto sale de DEMO_CHANNEL_MIX con algo de ruido, y
+    // las conversiones que no son orgánicas se reparten según lo que convierte cada canal.
+    const rest = sessions - organic;
+    const weights = DEMO_CHANNEL_MIX.map((c) => c.share * random.noise(0.25));
+    const totalWeight = weights.reduce((a, b) => a + b, 0);
+    const split = weights.map((w) => Math.floor((rest * w) / totalWeight));
+    split[0] = split[0]! + rest - split.reduce((a, b) => a + b, 0);
+    const otherConversions = conversions - organicConversions;
+    const convWeights = DEMO_CHANNEL_MIX.map((c, i) => split[i]! * c.converts);
+    const convTotal = convWeights.reduce((a, b) => a + b, 0);
+    const conv = convWeights.map((w) => (convTotal === 0 ? 0 : Math.floor((otherConversions * w) / convTotal)));
+    // Lo que queda del redondeo, a los canales con más sesiones (siempre hay alguno si hay resto).
+    let convLeft = otherConversions - conv.reduce((a, b) => a + b, 0);
+    for (const i of split.map((n, i) => ({ n, i })).sort((a, b) => b.n - a.n).map((x) => x.i)) {
+      if (convLeft <= 0) break;
+      if (split[i]! > 0) {
+        conv[i] = conv[i]! + 1;
+        convLeft -= 1;
+      }
+    }
+    DEMO_CHANNEL_MIX.forEach((c, i) => {
+      const n = split[i]!;
+      if (n <= 0) return;
+      web.push({
+        metricOn: date,
+        channel: c.channel,
+        sessions: n,
+        users: Math.round(n * 0.85 * random.noise(0.05)),
+        engagedSessions: engaged(n),
+        conversions: conv[i]!,
+      });
+    });
   }
 
   return { daily, queries: rows, web };

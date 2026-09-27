@@ -1,0 +1,226 @@
+{
+  "catalog": {
+    "title": "Service catalog",
+    "description": "What you quote again and again, with its price, recurrence and VAT. When you pick it in a quote, contract or invoice, the line arrives ready-made and in the client's language.",
+    "readOnly": "Only a partner can change the catalog.",
+    "newItem": "New service",
+    "newBundle": "New bundle",
+    "copySuffix": "(copy)",
+    "copySuffixN": "(copy {n})",
+    "categories": {
+      "web": "Web",
+      "seo": "SEO",
+      "ads": "Advertising",
+      "branding": "Branding",
+      "social": "Social media",
+      "hosting": "Hosting",
+      "maintenance": "Maintenance",
+      "consulting": "Consulting",
+      "other": "Other"
+    },
+    "pricingKinds": {
+      "one_off": "One-off",
+      "recurring": "Recurring",
+      "usage": "Usage-based"
+    },
+    "intervals": {
+      "monthly": "Monthly",
+      "yearly": "Yearly"
+    },
+    "languages": {
+      "es": "Spanish",
+      "ca": "Catalan",
+      "en": "English"
+    },
+    "empty": {
+      "title": "Your catalog is empty",
+      "body": "Save the services you always quote here (websites, SEO, campaigns…) and add them to a quote in one click, with their price and VAT, in the client's language.",
+      "readOnly": "There are no services in the catalog yet.",
+      "starter": "Create sample services",
+      "starterPending": "Creating…",
+      "starterHint": "Corporate website, online shop, monthly SEO, Google and Meta Ads, hosting, maintenance… with indicative prices you can then swap for your own.",
+      "starterToast": "{count, plural, one {# service created} other {# services created}}. Review the prices."
+    },
+    "list": {
+      "noActive": "All services are archived.",
+      "add": "Add",
+      "addTo": "Add a service to {category}",
+      "edit": "Edit",
+      "more": "More actions",
+      "duplicate": "Duplicate",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "archive": "Archive",
+      "restore": "Restore",
+      "translated": "Translated into {language}",
+      "notTranslated": "Not translated into {language}: shown in Spanish",
+      "vatArchived": "Its VAT rate is archived: its lines will use the default VAT until you change it.",
+      "noIrpf": "no IRPF",
+      "noIrpfHint": "The invoice's withholding doesn't apply to it.",
+      "quantity": "× {quantity} by default"
+    },
+    "toasts": {
+      "saved": "Service saved",
+      "created": "“{name}” added to the catalog",
+      "duplicated": "Copy of “{name}” created",
+      "archived": "“{name}” archived",
+      "restored": "“{name}” restored",
+      "bundleSaved": "Bundle saved",
+      "bundleCreated": "Bundle “{name}” created",
+      "bundleArchived": "Bundle “{name}” archived",
+      "bundleDuplicated": "Copy of bundle “{name}” created"
+    },
+    "archive": {
+      "title": "Archive “{name}”?",
+      "body": "It will no longer be suggested in quotes, contracts and invoices, or added with its bundles. Anything already quoted doesn't change. You can restore it whenever you like.",
+      "bundleBody": "It will no longer be suggested. Its services stay in the catalog, and you can restore it whenever you like."
+    },
+    "archived": {
+      "title": "Archived ({count})",
+      "description": "They're not suggested when quoting. Restore them to use them again."
+    },
+    "item": {
+      "createTitle": "New service",
+      "editTitle": "Edit service",
+      "description": "When you pick it, the line arrives with this text (in the client's language), its price, recurrence and VAT. It can then be changed in each document.",
+      "name": "Name",
+      "namePlaceholder": "Corporate website",
+      "category": "Category",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Design and development of a mobile-friendly website of up to 5 pages…",
+      "descriptionHint": "Goes after the name on the line (“Name — description”), on a single line.",
+      "sections": {
+        "price": "Price",
+        "translations": "Translations",
+        "preview": "How it looks in a quote"
+      },
+      "kind": "Price type",
+      "interval": "How often",
+      "kindHints": {
+        "one_off": "Charged once, in the quote's payment plan.",
+        "recurring": "A fixed fee every month or every year, from acceptance.",
+        "usage": "Whatever is used in each period is charged, at this price."
+      },
+      "unitPrice": "Price excl. VAT",
+      "unitPriceHints": {
+        "one_off": "Per unit.",
+        "monthly": "Every month.",
+        "yearly": "Every year.",
+        "usage": "Per use or unit."
+      },
+      "unitLabel": "Unit",
+      "unitLabelPlaceholder": "hour, page, campaign…",
+      "unitLabelHint": "Shown next to the price in the catalog. It doesn't appear on the quote.",
+      "quantity": "Default quantity",
+      "quantityHint": "The quantity the line comes with.",
+      "vat": "VAT",
+      "vatPlaceholder": "Choose a VAT rate",
+      "vatReplaced": "It had {name}, which is archived: the current one is suggested.",
+      "irpf": "Subject to IRPF",
+      "irpfHint": "If the invoice carries withholding (a self-employed partner invoicing a company), this line applies it.",
+      "previewHint": "With the PDF's texts and format, in each language. Anything not translated appears in Spanish.",
+      "previewLanguage": "Preview language",
+      "previewEmpty": "Type a name to see the line.",
+      "create": "Create service"
+    },
+    "translations": {
+      "label": "Translation language",
+      "hint": "Anything you leave empty appears in Spanish.",
+      "name": "Name in {language}",
+      "description": "Description in {language}"
+    },
+    "bundle": {
+      "createTitle": "New bundle",
+      "editTitle": "Edit bundle",
+      "description": "Services sold together, with a discount. When you pick it, all its lines arrive, each with the discount and of its own type: one-off and recurring never mix.",
+      "name": "Name",
+      "namePlaceholder": "Launch bundle",
+      "discount": "Discount",
+      "discountHint": "Applied to every line in the bundle.",
+      "descriptionLabel": "Description",
+      "descriptionPlaceholder": "Everything you need to go to market…",
+      "descriptionHint": "To recognize it when picking it. Each line carries its service's description.",
+      "items": "Services in the bundle",
+      "addItem": "Add service",
+      "searchItems": "Search services…",
+      "noItems": "There are no services left to add.",
+      "emptyItems": "Add the services the bundle includes.",
+      "missingItem": "Service that no longer exists",
+      "archivedItem": "Archived: it won't be added",
+      "quantity": "Quantity",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "remove": "Remove from bundle",
+      "savings": "saves {amount}",
+      "totalsHint": "Amounts before VAT, with the discount, each type separately.",
+      "previewHint": "All its lines, with the PDF's texts and format, in each language.",
+      "previewEmpty": "Add services to see their lines.",
+      "create": "Create bundle"
+    },
+    "bundles": {
+      "title": "Bundles",
+      "description": "Services sold together, with a discount. When you pick one, all its lines arrive.",
+      "empty": "No bundles yet. Combine catalog services (e.g. branding, website and hosting) with a discount.",
+      "one": "Bundle",
+      "noItems": "No active services",
+      "skipped": "{count, plural, one {# archived service won't be added} other {# archived services won't be added}}",
+      "usageCount": "{count, plural, one {# usage-based price} other {# usage-based prices}}",
+      "savings": "Saves {amount}"
+    },
+    "picker": {
+      "trigger": "From catalog",
+      "search": "Search services or bundles…",
+      "language": "Lines arrive in {language}",
+      "filters": "Categories",
+      "all": "All",
+      "bundles": "Bundles",
+      "loading": "Loading the catalog…",
+      "error": "The catalog couldn't be loaded.",
+      "retry": "Retry",
+      "emptyCatalog": "The catalog is empty. Add services in Settings → Catalog.",
+      "empty": "Nothing matches the search.",
+      "bundleEmpty": "All the services in this bundle are archived.",
+      "skipped": "{count, plural, one {# archived service from the bundle wasn't added} other {# archived services from the bundle weren't added}}",
+      "added": "{count, plural, one {# line added} other {# lines added}}",
+      "bundleItems": "{count, plural, one {# service} other {# services}}",
+      "manage": "Manage",
+      "hints": {
+        "navigate": "move",
+        "add": "add",
+        "addMore": "add and continue",
+        "filters": "categories"
+      }
+    },
+    "validation": {
+      "money": "An amount in euros, e.g. 1500 or 450.50",
+      "quantity": "A number greater than 0, with 3 decimals at most",
+      "vatRate": "Choose a VAT rate",
+      "discount": "A percentage from 0 to 100",
+      "bundleEmpty": "Add at least one service",
+      "bundleTooMany": "A bundle has 50 services at most",
+      "bundleRepeated": "Each service goes in only once: increase its quantity"
+    },
+    "errors": {
+      "vatRateArchived": "That VAT rate is archived: choose another one.",
+      "bundleItemsInvalid": "A bundle has 1 to 50 services.",
+      "bundleItemRepeated": "Each service goes in a bundle only once: increase its quantity.",
+      "bundleNotFound": "That bundle no longer exists.",
+      "catalogOrgFixed": "A catalog item can't change organization.",
+      "nameTaken": "There's already another active one with that name.",
+      "reference": "The VAT rate or one of the services is no longer valid. Reload and try again.",
+      "invalid": "Some of the text isn't valid.",
+      "translationsInvalid": "One of the translations isn't valid.",
+      "itemNotFound": "That service no longer exists.",
+      "starterNotEmpty": "The catalog already has services: the samples are only created in an empty one.",
+      "noVatRate": "There's no current VAT rate: create one in Settings → Taxes."
+    },
+    "dnd": {
+      "handle": "Move “{name}”",
+      "instructions": "Press Space to pick up the row, move it with the arrow keys and press Space again to drop it. Escape cancels.",
+      "picked": "You picked up “{name}”.",
+      "over": "“{name}” is over “{target}”.",
+      "dropped": "“{name}” was dropped.",
+      "cancelled": "Moving “{name}” was cancelled."
+    }
+  }
+}

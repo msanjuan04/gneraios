@@ -1,0 +1,370 @@
+{
+  "calendar": {
+    "title": "Calendari",
+    "types": {
+      "fiscal": "Impostos",
+      "collection": "Cobraments",
+      "reminder": "Recordatoris",
+      "deal": "Accions",
+      "task": "Tasques",
+      "meeting": "Reunions",
+      "milestone": "Fites",
+      "billing": "Facturació",
+      "renewal": "Renovacions",
+      "contract": "Altes i baixes",
+      "quote": "Pressupostos",
+      "issued": "Emeses"
+    },
+    "typeHints": {
+      "fiscal": "Terminis dels models d'Hisenda de cada emissor i la seva data Verifactu (orientatiu: valida-ho amb la gestoria).",
+      "collection": "Venciment de les factures emeses pendents de cobrament. En vermell, les vençudes.",
+      "reminder": "Recordatoris de cobrament que ha preparat el cron i que esperen que un soci els aprovi.",
+      "deal": "Propera acció de cada deal. Arrossega-la per canviar-la de dia.",
+      "task": "Tasques amb data i lliuraments de projectes. Arrossega una tasca sense fer per canviar-la de dia.",
+      "meeting": "Reunions i trucades registrades com a activitat (les futures són les previstes).",
+      "milestone": "Fites de facturació amb data. Les que encara no s'han facturat es poden arrossegar.",
+      "billing": "El que el cron facturarà de les mensualitats (i de la primera anualitat), per contracte.",
+      "renewal": "Aniversari de cada línia anual: aquell dia es torna a facturar.",
+      "contract": "Altes, baixes i canvis de condicions de les línies de contracte.",
+      "quote": "Fins quan val cada pressupost enviat. En vermell, els caducats sense resposta.",
+      "issued": "Factures emeses, en la seva data d'emissió (història)."
+    },
+    "status": {
+      "overdue": "Vençut",
+      "pending": "Pendent",
+      "scheduled": "Previst",
+      "done": "Fet",
+      "past": "Passat"
+    },
+    "summary": {
+      "collection": "Cobrament · {client}",
+      "issued": "Emesa · {client}",
+      "issuedRectifying": "Rectificativa · {client}",
+      "reminder": "Recordatori · {client}",
+      "billing": "Facturació · {client}",
+      "renewal": "Renovació · {line}",
+      "milestone": "Fita · {label}",
+      "contractStart": "Alta · {client}",
+      "contractChange": "Canvi de condicions · {client}",
+      "contractEnd": "Fi · {client}",
+      "contractCancel": "Baixa · {client}",
+      "dealNoAction": "Propera acció · {deal}",
+      "projectDue": "Lliurament · {project}",
+      "quote": "Caduca · {title}",
+      "quoteExpired": "Caducat · {title}",
+      "verifactu": "Verifactu obligatori",
+      "fiscal": "Model {model} · {name}"
+    },
+    "views": {
+      "month": "Mes",
+      "week": "Setmana",
+      "agenda": "Agenda"
+    },
+    "toolbar": {
+      "today": "Avui",
+      "todayHint": "Anar a avui",
+      "previous": {
+        "month": "Mes anterior",
+        "week": "Setmana anterior",
+        "agenda": "30 dies abans"
+      },
+      "next": {
+        "month": "Mes següent",
+        "week": "Setmana següent",
+        "agenda": "30 dies després"
+      },
+      "views": "Vista",
+      "subscribe": "Subscriu-te",
+      "filters": "Què es veu",
+      "mine": "Només el meu",
+      "mineHint": "El teu i el que és de tothom (com els terminis de l'SL)",
+      "reset": "Restableix els filtres",
+      "expected": "Cobraments previstos: {amount} ({count})",
+      "overdue": "Vençut: {amount} ({count})"
+    },
+    "month": {
+      "openDay": "{date}: {count, plural, =0 {res} one {# esdeveniment} other {# esdeveniments}}",
+      "more": "+{count} més"
+    },
+    "week": {
+      "empty": "—"
+    },
+    "agenda": {
+      "overdue": "Endarrerit · {count}",
+      "today": "Avui · {date}",
+      "tomorrow": "Demà · {date}",
+      "todayShort": "Avui",
+      "tomorrowShort": "Demà",
+      "allDay": "Tot el dia"
+    },
+    "overdueBanner": {
+      "title": "{count, plural, one {# cosa endarrerida} other {# coses endarrerides}}",
+      "body": "cobraments vençuts, accions, tasques, fites o recordatoris d'abans d'aquestes dates",
+      "action": "Mostra-ho a l'agenda"
+    },
+    "hints": {
+      "collections": "{count} cobraments el mateix dia · {amount}",
+      "deadlines": "{count} terminis fiscals el mateix dia",
+      "overlap": "{count} reunions o trucades se solapen",
+      "busy": "Dia carregat: {count} coses"
+    },
+    "sheet": {
+      "dayEmpty": "Res aquest dia.",
+      "dayCount": "{count, plural, one {# esdeveniment} other {# esdeveniments}} el {date}",
+      "backToDay": "Torna al dia",
+      "amountGross": "amb IVA, net d'IRPF",
+      "amountBase": "base sense IVA",
+      "owner": "Responsable",
+      "shared": "De tothom",
+      "moveLabel": "Moure a un altre dia",
+      "move": "Mou"
+    },
+    "movable": {
+      "deal": "Canvia la propera acció del deal (també la pots arrossegar a la vista de mes o de setmana).",
+      "task": "Canvia la data de la tasca (també la pots arrossegar a la vista de mes o de setmana).",
+      "milestone": "Canvia la data prevista de la fita. Si és automàtica, el cron la prepararà aquell dia."
+    },
+    "readOnly": {
+      "collection": "El venciment surt de la factura emesa i no es mou. Registra el cobrament o prepara un recordatori des de la factura.",
+      "issued": "Una factura emesa no canvia de data.",
+      "reminder": "L'ha preparat el cron el dia que tocava: aprova'l o descarta'l a Per enviar.",
+      "billing": "Surt del dia de facturació de les línies: per canviar-lo, edita les línies del contracte.",
+      "renewal": "Es renova en l'aniversari de la línia: per canviar-ho, edita la línia al contracte.",
+      "contract": "Les altes i les baixes es canvien a les línies del contracte.",
+      "milestoneBilled": "Aquesta fita ja està preparada per facturar: la seva data ja no es mou.",
+      "deal": "La data es canvia al deal.",
+      "task": "Aquesta tasca ja està feta: la seva data no es mou. Si cal reprendre-la, reobre-la al seu projecte.",
+      "project": "La data de lliurament es canvia a la fitxa del projecte.",
+      "quote": "La validesa es canvia editant el pressupost.",
+      "fiscal": "Els terminis surten del calendari de l'AEAT: no es mouen.",
+      "meeting": "La data es canvia a l'activitat, des de la fitxa del client.",
+      "permission": "Només un soci pot moure dates."
+    },
+    "open": {
+      "collection": "Obre la factura",
+      "issued": "Obre la factura",
+      "reminder": "Ves a Per enviar",
+      "billing": "Obre el contracte",
+      "renewal": "Obre el contracte",
+      "contract": "Obre el contracte",
+      "milestone": "Obre el contracte",
+      "deal": "Obre al pipeline",
+      "task": "Obre al projecte",
+      "project": "Obre el projecte",
+      "quote": "Obre el pressupost",
+      "fiscal": "Mostra els emissors",
+      "meeting": "Obre el client"
+    },
+    "links": {
+      "invoice": "Mostra la factura",
+      "client": "Mostra el client",
+      "contract": "Mostra el contracte",
+      "deal": "Mostra el deal",
+      "quote": "Mostra el pressupost",
+      "outbox": "Per enviar",
+      "issuers": "Mostra els emissors"
+    },
+    "move": {
+      "done": "{summary} → {date}",
+      "undo": "Desfés",
+      "autoMilestone": "És automàtica i ja li toca: el cron la prepararà en la propera execució.",
+      "hint": "Arrossega les properes accions, les tasques sense fer i les fites sense facturar per canviar-les de dia. La resta es canvia a la seva fitxa."
+    },
+    "facts": {
+      "client": "Client",
+      "contract": "Contracte",
+      "project": "Projecte",
+      "invoice": "Factura",
+      "issuedOn": "Emesa el",
+      "dueOn": "Venç",
+      "total": "Total",
+      "paid": "Cobrat",
+      "outstanding": "Pendent",
+      "daysOverdue": "Retard",
+      "preparedOn": "Preparat el",
+      "deal": "Deal",
+      "stage": "Etapa",
+      "estOneOff": "Puntual estimat",
+      "estMrr": "Recurrent estimat",
+      "probability": "Probabilitat",
+      "quote": "Pressupost",
+      "validUntil": "Vàlid fins al",
+      "oneOff": "Puntual",
+      "monthly": "Mensual",
+      "yearly": "Anual",
+      "usageLines": "Per ús",
+      "line": "Línia",
+      "lines": "Línies",
+      "period": "Període",
+      "amount": "Import",
+      "percent": "Percentatge",
+      "auto": "Automàtic",
+      "state": "Estat",
+      "issuer": "Emissor",
+      "window": "Termini",
+      "statutoryDue": "Últim dia legal",
+      "provider": "Proveïdor fiscal",
+      "time": "Hora",
+      "kind": "Tipus"
+    },
+    "factValues": {
+      "daysOverdue": "{count, plural, one {# dia} other {# dies}}",
+      "usageLines": "{count, plural, one {# línia} other {# línies}}"
+    },
+    "values": {
+      "yes": "Sí",
+      "no": "No",
+      "provider": {
+        "internal": "Intern (sense Verifactu)"
+      },
+      "billable": {
+        "pending": "Pendent de facturar",
+        "drafted": "En esborrany",
+        "invoiced": "Facturat",
+        "waived": "Condonat"
+      },
+      "activity": {
+        "meeting": "Reunió",
+        "call": "Trucada"
+      },
+      "task": {
+        "todo": "Per fer",
+        "doing": "En curs",
+        "review": "En revisió",
+        "done": "Feta"
+      },
+      "project": {
+        "planned": "Planificat",
+        "active": "En marxa",
+        "paused": "En pausa",
+        "done": "Fet",
+        "cancelled": "Cancel·lat"
+      }
+    },
+    "range": "{from} – {to}",
+    "amount": {
+      "perMonth": "{amount}/mes",
+      "perYear": "{amount}/any"
+    },
+    "fiscal": {
+      "validate": "Valida-ho amb la gestoria",
+      "disclaimer": "Calendari orientatiu: valida'l amb la gestoria. Si l'últim dia cau en dissabte o diumenge, el termini passa al dilluns; els festius no es tenen en compte i, amb domiciliació bancària, el termini acaba uns dies abans.",
+      "verifactuBody": "Des d'aquesta data l'emissor ha d'emetre amb un sistema adaptat a Verifactu. Amb el proveïdor intern, GNERAI OS bloquejarà l'emissió.",
+      "period": {
+        "quarter": "{quarter}T {year}",
+        "installment": "Pagament {index} del {year}",
+        "year": "Exercici {year}"
+      },
+      "models": {
+        "m303": {
+          "short": "IVA trimestral",
+          "description": "Autoliquidació de l'IVA del trimestre: l'IVA de les teves factures menys el de les teves despeses. Si surt a ingressar, es paga en presentar-lo."
+        },
+        "m111": {
+          "short": "Retencions",
+          "description": "Ingrés de les retencions d'IRPF practicades a treballadors i professionals (també als socis que cobren de l'SL)."
+        },
+        "m115": {
+          "short": "Retencions de lloguer",
+          "description": "Ingrés de la retenció del 19 % sobre el lloguer del local o l'oficina, si l'arrendador no està exempt."
+        },
+        "m130": {
+          "short": "Pagament fraccionat de l'IRPF",
+          "description": "Autònoms en estimació directa: el 20 % del rendiment acumulat de l'any, menys el que ja s'ha pagat i el que s'ha retingut. No es presenta si almenys el 70 % dels ingressos de l'any anterior va tenir retenció."
+        },
+        "m349": {
+          "short": "Operacions intracomunitàries",
+          "description": "Declaració informativa de les vendes i compres de serveis amb empreses d'altres països de la UE (també les de Meta o Google Ads facturades des d'Irlanda)."
+        },
+        "m202": {
+          "short": "Pagament fraccionat de Societats",
+          "description": "Pagament a compte de l'Impost sobre Societats de l'any. En la modalitat de quota no es paga si l'últim impost va sortir a zero, ni el primer any d'activitat."
+        },
+        "m200": {
+          "short": "Impost sobre Societats",
+          "description": "Declaració anual de l'Impost sobre Societats de l'exercici anterior (amb l'exercici igual a l'any natural)."
+        },
+        "m390": {
+          "short": "Resum anual de l'IVA",
+          "description": "Resum informatiu dels 303 de l'any."
+        },
+        "m190": {
+          "short": "Resum anual de retencions",
+          "description": "Resum informatiu dels 111 de l'any, amb cada perceptor."
+        },
+        "m180": {
+          "short": "Resum anual de retencions de lloguer",
+          "description": "Resum informatiu dels 115 de l'any."
+        },
+        "m347": {
+          "short": "Operacions amb tercers",
+          "description": "Clients i proveïdors amb els quals s'han superat els 3.005,06 € (IVA inclòs) durant l'any, excepte el que ja va en altres declaracions."
+        }
+      }
+    },
+    "empty": {
+      "title": "Res en aquestes dates",
+      "body": "Aquí apareixen els cobraments, la facturació, les renovacions, les fites, les properes accions, les tasques i els lliuraments de projectes, els pressupostos, les reunions i els terminis fiscals tan bon punt existeixin.",
+      "filteredTitle": "Res amb aquests filtres",
+      "filteredBody": "Hi ha filtres aplicats: restableix-los per veure-ho tot.",
+      "shortcuts": "Dreceres: T avui · ← → anterior i següent · M, W, A per canviar de vista"
+    },
+    "subscribe": {
+      "title": "Subscriure's al calendari",
+      "description": "Un enllaç privat per veure aquestes dates a Google Calendar, Apple Calendar o Outlook. S'actualitza sol, cada poques hores, amb els propers 12 mesos.",
+      "scopeLabel": "Què inclou",
+      "scope": {
+        "mine": "El meu",
+        "all": "Tot"
+      },
+      "scopeHint": {
+        "mine": "El teu i el que és de tothom (els terminis de l'SL, per exemple).",
+        "all": "Tot el de l'organització, de tots els socis."
+      },
+      "create": "Crea un enllaç",
+      "regenerate": "Crea un enllaç nou",
+      "revoke": "Revoca",
+      "revoked": "Enllaç revocat: ja no funciona en cap calendari.",
+      "done": "Fet",
+      "urlLabel": "Enllaç de subscripció",
+      "copy": "Copia",
+      "copiedShort": "Copiat",
+      "copied": "Enllaç copiat",
+      "copyFailed": "No s'ha pogut copiar: selecciona'l i copia'l a mà.",
+      "onlyOnce": "Desa'l ara: per seguretat no es torna a mostrar. Si el perds, crea'n un de nou (l'anterior deixarà de funcionar).",
+      "openGoogle": "Afegeix a Google Calendar",
+      "openApple": "Obre a Apple Calendar",
+      "stepGoogle": "Google Calendar (web): Altres calendaris → + → Des de l'URL, i enganxa l'enllaç.",
+      "stepApple": "Apple Calendar: Arxiu → Nova subscripció a calendari, i enganxa l'enllaç.",
+      "stepOutlook": "Outlook: Afegeix un calendari → Subscriu-te des del web, i enganxa l'enllaç.",
+      "active": "Tens un enllaç actiu des del {date} ({scope}).",
+      "lastUsed": "Últim ús: {date}.",
+      "neverUsed": "Encara no l'ha llegit cap calendari.",
+      "localWarning": "L'app és en local: Google Calendar no pot llegir un enllaç de localhost fins que estigui publicada (Apple Calendar, en aquest mateix ordinador, sí).",
+      "privacy": "Qui tingui l'enllaç veu les teves dates, amb clients i imports. No el comparteixis; si es filtra, revoca'l."
+    },
+    "ics": {
+      "name": "GNERAI OS · {org}",
+      "description": "Dates de GNERAI OS: cobraments, facturació, renovacions, fites, properes accions, tasques i lliuraments de projectes, pressupostos, reunions i terminis fiscals.",
+      "overdue": "Vençut",
+      "open": "Obre a GNERAI OS: {url}"
+    },
+    "upcoming": {
+      "title": "Aquesta setmana",
+      "description": "El que passa en els propers 7 dies",
+      "overdue": "{count, plural, one {# endarrerit} other {# endarrerits}}",
+      "empty": "Una setmana tranquil·la: res amb data en els propers 7 dies.",
+      "collections": "Cobraments previstos: {amount} ({count})",
+      "noCollections": "Sense cobraments previstos aquesta setmana",
+      "more": "i {count} més",
+      "open": "Obre el calendari"
+    },
+    "errors": {
+      "dealNotFound": "Aquest deal ja no existeix o no hi tens accés.",
+      "milestoneBilled": "Aquesta fita ja està preparada per facturar: la seva data ja no es mou.",
+      "milestoneNotFound": "Aquesta fita ja no existeix o no hi tens accés.",
+      "taskNotFound": "Aquesta tasca ja no existeix o no hi tens accés.",
+      "taskDone": "Aquesta tasca ja està feta: la seva data ja no es mou."
+    }
+  }
+}

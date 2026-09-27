@@ -1,0 +1,44 @@
+{
+  "reports": {
+    "card": {
+      "title": "Informe mensual",
+      "description": "El que hem fet, el que ve i les dades del mes, en {language}. Només fets, sense promeses.",
+      "month": "Mes de l'informe",
+      "view": "Obre el PDF",
+      "download": "Descarrega",
+      "prepare": "Prepara l'email",
+      "preparing": "Preparant…",
+      "review": "Revisa'l a Per enviar",
+      "hours": "Incloure les hores dedicades",
+      "hoursValue": "Incloure les hores dedicades ({hours})",
+      "loading": "Fent el recompte del mes…",
+      "loadError": "No s'ha pogut preparar el resum del mes.",
+      "retry": "Reintenta",
+      "tasksDone": "{count, plural, =0 {Cap tasca acabada} one {# tasca acabada} other {# tasques acabades}}",
+      "activities": "{count, plural, one {# reunió o comunicació} other {# reunions o comunicacions}}",
+      "nextSteps": "{count, plural, =0 {Sense propers passos} one {# proper pas} other {# propers passos}}",
+      "deliverables": "{count, plural, one {# lliurament} other {# lliuraments}}",
+      "invoices": "{count, plural, =0 {Sense factures} one {# factura} other {# factures}}",
+      "web": {
+        "included": "Amb dades del web",
+        "no_data": "Sense dades del web aquest mes",
+        "section_off": "Sense dades del web: desactivades al seu portal",
+        "no_property": "Sense web connectat"
+      },
+      "inProgress": "Mes en curs: surt amb les dades d'avui.",
+      "visibility": "Només hi surt el que s'ha marcat com a visible per al client, com al seu portal.",
+      "to": "Per a: {emails}",
+      "noRecipients": "Sense email de facturació ni contacte principal: afegeix-lo quan el revisis a Per enviar.",
+      "sentAt": "Enviat el {date}.",
+      "pending": "Preparat i pendent de revisar a Factures → Per enviar.",
+      "prepared": "Email preparat a Per enviar",
+      "preparedExisting": "Ja estava preparat a Per enviar",
+      "preparedHint": "Revisa'l i envia'l des de Factures → Per enviar. El PDF es genera en enviar-lo.",
+      "openOutbox": "Obre"
+    },
+    "errors": {
+      "clientNotFound": "Aquest client ja no existeix.",
+      "monthNotAvailable": "Aquest mes encara no ha començat."
+    }
+  }
+}

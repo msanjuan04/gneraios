@@ -1,0 +1,87 @@
+{
+  "settings": {
+    "tabs": {
+      "pipeline": "Pipeline"
+    },
+    "pipeline": {
+      "name": "Name",
+      "actions": "Actions",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "rename": "Rename",
+      "archive": "Archive",
+      "listChanged": "The order changed in the meantime. Reload the page and try again.",
+      "errors": {
+        "nameInvalid": "The name must be between 1 and 60 characters.",
+        "probabilityInvalid": "The probability must be between 0 and 100%."
+      },
+      "stages": {
+        "title": "Stages",
+        "description": "The board's columns, in this order. “Won” stages ({won}) count as won deals in the funnel, and moving a deal to a “Lost” stage asks for the loss reason.",
+        "descriptionNoWon": "The board's columns, in this order. “Won” stages count as won deals in the funnel, and moving a deal to a “Lost” stage asks for the loss reason.",
+        "add": "Add stage",
+        "addTitle": "New stage",
+        "addDescription": "It goes before the first won stage. You can move it afterwards.",
+        "edit": "Edit stage",
+        "editDescription": "You can change the name and probability whenever you like. The type only while the stage has no deals.",
+        "order": "Order",
+        "stage": "Stage",
+        "kind": "Type",
+        "probability": "Probability",
+        "probabilityLabel": "Default probability",
+        "probabilityHint": "Used for deals in this stage that don't have their own. It weights the pipeline.",
+        "deals": "Deals",
+        "namePlaceholder": "e.g. Demo",
+        "kindHints": {
+          "open": "The deal is still in play.",
+          "won": "Counts as a won deal in the funnel.",
+          "lost": "Moving a deal here asks for the loss reason."
+        },
+        "onlyOfKind": {
+          "open": "It's the only open stage: there must always be at least one open, one won and one lost stage.",
+          "won": "It's the only won stage: there must always be at least one open, one won and one lost stage.",
+          "lost": "It's the only lost stage: there must always be at least one open, one won and one lost stage."
+        },
+        "kindLocked": "It already has deals (archived ones count too), so its type can't change. If you need to, create another stage and archive this one.",
+        "archiveHasDeals": "{count, plural, one {It has # deal: move it} other {It has # deals: move them}} to another stage before archiving it.",
+        "archiveTitle": "Archive the stage “{name}”?",
+        "archiveBody": "It will disappear from the board and no deal can be moved to it. The history and the funnel keep it.",
+        "createdToast": "Stage “{name}” added",
+        "savedToast": "Stage saved",
+        "archivedToast": "Stage “{name}” archived",
+        "notFound": "That stage no longer exists or has been archived. Reload the page.",
+        "duplicateName": "There's already a stage with that name.",
+        "empty": "No stages."
+      },
+      "sources": {
+        "title": "Acquisition sources",
+        "description": "Where each deal comes from. An archived source stays on the deals that already have it, but can't be chosen for new ones.",
+        "add": "Add source",
+        "placeholder": "e.g. Event",
+        "createdToast": "Source “{name}” added",
+        "renamedToast": "Source renamed",
+        "archiveTitle": "Archive the source “{name}”?",
+        "archiveBody": "Deals that already have it keep it, but it can't be chosen for new deals.",
+        "archivedToast": "Source “{name}” archived",
+        "notFound": "That source no longer exists or has been archived. Reload the page.",
+        "duplicateName": "There's already a source with that name.",
+        "empty": "No sources. Add the first one."
+      },
+      "reasons": {
+        "title": "Loss reasons",
+        "description": "Asked for when a deal moves to a lost stage, they feed the funnel's top reasons. An archived one stays on deals already lost, but can't be chosen for new ones.",
+        "add": "Add reason",
+        "placeholder": "e.g. Budget",
+        "createdToast": "Reason “{name}” added",
+        "renamedToast": "Reason renamed",
+        "archiveTitle": "Archive the reason “{name}”?",
+        "archiveBody": "Deals lost for this reason keep it, but it can't be chosen when marking a new one as lost.",
+        "archivedToast": "Reason “{name}” archived",
+        "lastOne": "There must be at least one reason: without any, a deal couldn't be marked as lost.",
+        "notFound": "That reason no longer exists or has been archived. Reload the page.",
+        "duplicateName": "There's already a reason with that name.",
+        "empty": "No reasons. Add the first one."
+      }
+    }
+  }
+}

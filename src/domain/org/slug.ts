@@ -13,6 +13,9 @@ export const RESERVED_SLUGS = [
   "brand",
   "static",
   "_next",
+  // Enlaces públicos del portal (/p/...) e iconos de la app instalada (/icons/...).
+  "p",
+  "icons",
 ] as const;
 
 const SLUG_MAX_LENGTH = 40;

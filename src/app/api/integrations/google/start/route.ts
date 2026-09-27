@@ -11,6 +11,7 @@ import {
   signState,
 } from "@/server/seo/google-oauth";
 import { getSessionUser } from "@/server/session";
+import { publicIsHttps, publicUrl } from "@/lib/public-url";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -24,18 +25,18 @@ const SLUG = /^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$/;
  */
 export async function GET(request: NextRequest) {
   const slug = request.nextUrl.searchParams.get("org") ?? "";
-  if (!SLUG.test(slug)) return NextResponse.redirect(new URL("/", request.url));
-  const back = (error: string) => NextResponse.redirect(new URL(`/${slug}/seo?google_error=${error}`, request.url));
+  if (!SLUG.test(slug)) return NextResponse.redirect(publicUrl("/"));
+  const back = (error: string) => NextResponse.redirect(publicUrl(`/${slug}/seo?google_error=${error}`));
 
   const user = await getSessionUser();
-  if (!user) return NextResponse.redirect(new URL(`/login?next=${encodeURIComponent(`/${slug}/seo`)}`, request.url));
+  if (!user) return NextResponse.redirect(publicUrl(`/login?next=${encodeURIComponent(`/${slug}/seo`)}`));
 
   const { config } = googleSetup();
   if (!config) return back("not_configured");
 
   const supabase = await createClient();
   const { data: org } = await supabase.from("orgs").select("id, slug").eq("slug", slug).maybeSingle();
-  if (!org) return NextResponse.redirect(new URL("/", request.url));
+  if (!org) return NextResponse.redirect(publicUrl("/"));
   const { data: member } = await supabase
     .from("members")
     .select("role")
@@ -52,10 +53,10 @@ export async function GET(request: NextRequest) {
     config.stateKey,
   );
 
-  const response = NextResponse.redirect(authorizationUrl({ config, state, challenge, loginHint: user.email }));
+  const response = NextResponse.redirect(authorizationUrl({ config, state, challenge }));
   response.cookies.set(OAUTH_COOKIE, `${nonce}.${verifier}`, {
     httpOnly: true,
-    secure: request.nextUrl.protocol === "https:",
+    secure: publicIsHttps(),
     sameSite: "lax",
     path: OAUTH_COOKIE_PATH,
     maxAge: OAUTH_TTL_SECONDS,

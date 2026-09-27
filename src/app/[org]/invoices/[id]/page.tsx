@@ -5,6 +5,7 @@ import { readOrgSettings } from "@/app/[org]/settings/schema";
 import { InvoiceEditor } from "@/components/invoices/invoice-editor";
 import { InvoiceView } from "@/components/invoices/invoice-view";
 import { nowInZone } from "@/lib/clock";
+import { getInvoiceCollections } from "@/server/collections/queries";
 import { getInvoiceRecord, loadDraftEditor, loadInvoiceView } from "@/server/invoices/detail";
 import { getOrgContext, hasRole } from "@/server/session";
 
@@ -41,7 +42,18 @@ export default async function InvoicePage({ params }: Props) {
     return <InvoiceEditor key={record.row.id} slug={org.slug} basePath={basePath} today={today} canEdit={canEdit} data={data} />;
   }
 
-  const invoice = await loadInvoiceView(record);
+  const [invoice, collections] = await Promise.all([
+    loadInvoiceView(record),
+    // Transferencia y domiciliación SEPA: solo tiene sentido en una ordinaria emitida.
+    record.row.lifecycle === "issued" && record.row.kind === "ordinary"
+      ? getInvoiceCollections(org.id, {
+          id: record.row.id,
+          clientId: record.row.client_id,
+          issuerId: record.row.issuer_id,
+          paymentMethod: record.row.payment_method,
+        })
+      : undefined,
+  ]);
   return (
     <InvoiceView
       key={record.row.id}
@@ -51,6 +63,7 @@ export default async function InvoicePage({ params }: Props) {
       timeZone={org.timezone}
       canEdit={canEdit}
       invoice={invoice}
+      collections={collections}
     />
   );
 }

@@ -1,0 +1,109 @@
+{
+  "infrastructure": {
+    "tab": "Infraestructura",
+    "partnersOnly": {
+      "title": "Solo para socios",
+      "body": "La infraestructura enseña lo que cuesta de verdad cada web y cada cliente: solo la ven los socios."
+    },
+    "intro": "Servidores, bases de datos, dominios y el software de las webs: lo que cuestan, cuándo se renuevan y cuánto cuesta cada web alojada.",
+    "toolbar": {
+      "settings": "Avisos",
+      "add": "Añadir suscripción"
+    },
+    "summary": {
+      "label": "Resumen de la infraestructura",
+      "monthly": "Al mes",
+      "monthlyHint": "{count, plural, =0 {Ninguna suscripción en marcha} one {# suscripción en marcha} other {# suscripciones en marcha}}",
+      "yearly": "Al año",
+      "yearlyHint": "Las mensuales × 12 y las anuales",
+      "spent": "Gastado en 12 meses",
+      "spentHint": "{count, plural, =0 {Ningún gasto registrado} one {# gasto registrado} other {# gastos registrados}}",
+      "perSite": "Por web alojada",
+      "perSiteValue": "{amount}/mes",
+      "perSiteHint": "{count, plural, =0 {Ninguna web alojada activa} one {# web alojada activa} other {# webs alojadas activas}}",
+      "dueSoon": "Renovaciones",
+      "dueSoonHint": "{days, plural, one {Con aviso hoy o mañana} other {Con aviso en los próximos # días}}"
+    },
+    "chart": {
+      "byVendor": "Por proveedor",
+      "byCategory": "Por categoría",
+      "description": "Coste mensual de lo que está en marcha.",
+      "noVendor": "Sin proveedor",
+      "noCategory": "Sin categoría",
+      "others": "Otros",
+      "subscriptions": "{count, plural, one {# suscripción} other {# suscripciones}}",
+      "perMonth": "{amount}/mes",
+      "name": "Nombre",
+      "count": "Suscripciones",
+      "monthly": "Al mes",
+      "empty": "Nada en marcha."
+    },
+    "renewals": {
+      "title": "Renovaciones",
+      "description": "Del próximo cargo al más lejano. Se resalta lo que avisa y se renueva {days, plural, one {hoy o mañana} other {en los próximos # días}}.",
+      "open": "Ir a Suscripciones",
+      "empty": "No hay suscripciones de infraestructura: los gastos sueltos cuentan en «Gastado en 12 meses».",
+      "caption": "Suscripciones de infraestructura y su próxima renovación",
+      "columns": {
+        "subscription": "Suscripción",
+        "interval": "Periodicidad",
+        "charge": "Cargo",
+        "monthly": "Al mes",
+        "renewal": "Próxima renovación"
+      },
+      "intervals": {
+        "monthly": "Mensual",
+        "yearly": "Anual"
+      },
+      "hosted": "Webs alojadas",
+      "days": "{days, plural, =0 {hoy} =1 {mañana} other {en # días}}",
+      "firstCharge": "Primer cargo",
+      "watched": "Se avisa a los socios {days, plural, one {# día} other {# días}} antes, en la bandeja y en el móvil.",
+      "notWatched": "Las mensuales solo avisan desde {amount} por cargo.",
+      "off": "Apagada",
+      "ended": "Terminada"
+    },
+    "hosting": {
+      "title": "Coste por web alojada",
+      "description": "Lo que se reparte entre las webs alojadas, a partes iguales entre las activas, y lo que le toca a cada cliente.",
+      "openSites": "Ir a Webs",
+      "perSite": "{amount} por web y mes",
+      "summary": "{count, plural, one {# web alojada} other {# webs alojadas}} · {amount} al mes",
+      "perMonth": "{amount}/mes",
+      "noSites": "No hay webs alojadas activas en Webs: lo que se reparte entre ellas no tiene entre quién repartirse.",
+      "noShared": "Ninguna suscripción en marcha se reparte entre las webs alojadas. Asígnala a «Webs alojadas» en Suscripciones y su coste se repartirá aquí y en la rentabilidad de cada cliente.",
+      "noClient": "Sin cliente / interno",
+      "unknownClient": "Cliente sin nombre"
+    },
+    "notes": {
+      "title": "Cómo se calcula",
+      "scope": "Qué entra: todo lo de las categorías de infraestructura (Servidores y hosting, Bases de datos y APIs, Dominios…) y todo lo que se reparte entre las webs alojadas, sea de la categoría que sea.",
+      "monthly": "Al mes y al año: las suscripciones en marcha, con el coste de Finanzas (la base y, si el IVA no se deduce, también el IVA). Las anuales cuentan su doceava parte al mes; al año, las mensuales × 12 y las anuales enteras.",
+      "spent": "Gastado en 12 meses: los gastos registrados con fecha de factura en los últimos 12 meses, también los sueltos y los que ya han generado las suscripciones. Es otra forma de verlo: no se suma a lo anterior.",
+      "hosting": "Coste por web alojada: lo mensual de las suscripciones repartidas entre las webs alojadas, a partes iguales entre las que alojamos y están activas en Webs. En la rentabilidad de cada cliente cuenta lo mismo, pero con los gastos de cada periodo.",
+      "renewals": "Renovaciones: el próximo cargo de cada suscripción, con el mismo calendario que genera sus gastos. Se avisa a los socios {days, plural, one {# día} other {# días}} antes de las anuales y de las mensuales desde {amount} por cargo."
+    },
+    "empty": {
+      "title": "Aún no hay costes de infraestructura",
+      "body": "Da de alta los servidores, las bases de datos, los dominios y el software de las webs como suscripciones. Aquí verás lo que cuestan al mes y al año, cuándo se renuevan y cuánto cuesta cada web alojada.",
+      "cta": "Añadir una suscripción",
+      "hint": "Entra lo que esté en una categoría de infraestructura (Servidores y hosting, Bases de datos y APIs, Dominios) o se reparta entre las webs alojadas."
+    },
+    "settings": {
+      "title": "Avisos de renovación",
+      "description": "Cuándo avisar a los socios, en la bandeja y en el móvil, de que una suscripción se renueva.",
+      "warningDays": "Días de aviso",
+      "warningDaysHint": "Cuántos días antes del cargo. Lo que se renueva en esos días se resalta aquí.",
+      "days": "días",
+      "monthlyMin": "Importe mínimo de las mensuales",
+      "monthlyMinHint": "Las anuales avisan siempre; las mensuales, solo si cada cargo (con IVA) es de al menos este importe.",
+      "saved": "Avisos guardados",
+      "previewOnly": "En la vista previa no se guarda nada."
+    },
+    "validation": {
+      "required": "Obligatorio",
+      "warningDays": "Días enteros, de 1 a 180",
+      "amount": "Un importe de 0 a 100.000 €"
+    }
+  }
+}

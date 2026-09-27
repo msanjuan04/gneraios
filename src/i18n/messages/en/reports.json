@@ -1,0 +1,44 @@
+{
+  "reports": {
+    "card": {
+      "title": "Monthly report",
+      "description": "What we've done, what's next and the month's figures, in {language}. Facts only, no promises.",
+      "month": "Report month",
+      "view": "View PDF",
+      "download": "Download",
+      "prepare": "Prepare email",
+      "preparing": "Preparing…",
+      "review": "Review in Outbox",
+      "hours": "Include hours spent",
+      "hoursValue": "Include hours spent ({hours})",
+      "loading": "Tallying up the month…",
+      "loadError": "The month's summary couldn't be prepared.",
+      "retry": "Retry",
+      "tasksDone": "{count, plural, =0 {No tasks completed} one {# task completed} other {# tasks completed}}",
+      "activities": "{count, plural, one {# meeting or update} other {# meetings or updates}}",
+      "nextSteps": "{count, plural, =0 {No next steps} one {# next step} other {# next steps}}",
+      "deliverables": "{count, plural, one {# deliverable} other {# deliverables}}",
+      "invoices": "{count, plural, =0 {No invoices} one {# invoice} other {# invoices}}",
+      "web": {
+        "included": "With website data",
+        "no_data": "No website data this month",
+        "section_off": "No website data: turned off in their portal",
+        "no_property": "No website connected"
+      },
+      "inProgress": "Month in progress: it goes out with today's data.",
+      "visibility": "Only what's marked as visible to the client is included, as in their portal.",
+      "to": "To: {emails}",
+      "noRecipients": "No billing email or main contact: add one when you review it in the Outbox.",
+      "sentAt": "Sent on {date}.",
+      "pending": "Prepared and awaiting review in Invoices → Outbox.",
+      "prepared": "Email prepared in the Outbox",
+      "preparedExisting": "It was already in the Outbox",
+      "preparedHint": "Review and send it from Invoices → Outbox. The PDF is generated when it's sent.",
+      "openOutbox": "Open"
+    },
+    "errors": {
+      "clientNotFound": "This client no longer exists.",
+      "monthNotAvailable": "That month hasn't started yet."
+    }
+  }
+}

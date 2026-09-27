@@ -10,9 +10,18 @@ import { calendarDaysBetween } from "@/domain/dates/zoned-time";
 import { localeNames } from "@/i18n/config";
 import { createClient } from "@/lib/supabase/server";
 import { idSchema } from "@/server/action-utils";
+import { loadClientsHealth } from "@/server/clients/health";
+import { getClientMandates } from "@/server/collections/mandates";
 import { getClientContracts } from "@/server/contracts/queries";
+import { nowInZone } from "@/lib/clock";
+import { getClientCollections } from "@/server/clients/collections";
+import { getClientRebills } from "@/server/finance/rebill";
 import { getClientInvoices } from "@/server/invoices/queries";
+import { getClientPortalCardData } from "@/server/portal/links";
+import { getClientProjects } from "@/server/projects/cards";
 import { getClientSeoSummary } from "@/server/seo/queries";
+import { getClientSites } from "@/server/sites/queries";
+import { getClientVendorCosts } from "@/server/vendors/queries";
 import { getCrmConfig } from "@/server/crm/config";
 import { getOrgContext, hasRole } from "@/server/session";
 import { requestTime, resolveNames } from "../names";
@@ -76,11 +85,30 @@ export default async function ClientPage({ params }: PageProps<"/[org]/clients/[
   if (!client) notFound();
 
   const supabase = await createClient();
-  const [config, overviewRes, contactsRes, dealsRes, timelineRes, wonRes, activityContactsRes, contracts, invoices, seo] = await Promise.all([
+  const [
+    config,
+    overviewRes,
+    contactsRes,
+    dealsRes,
+    timelineRes,
+    wonRes,
+    activityContactsRes,
+    contracts,
+    invoices,
+    seo,
+    portal,
+    mandates,
+    healthBy,
+    projects,
+    sites,
+    collections,
+    rebills,
+    vendors,
+  ] = await Promise.all([
     getCrmConfig(org.id),
     supabase
       .from("clients_overview")
-      .select("status, acquisition_source_id, last_activity_at, billed_net_cents, first_invoice_on")
+      .select("status, manual_status, manual_status_at, acquisition_source_id, last_activity_at, billed_net_cents, first_invoice_on")
       .eq("org_id", org.id)
       .eq("id", client.id)
       .maybeSingle(),
@@ -125,6 +153,14 @@ export default async function ClientPage({ params }: PageProps<"/[org]/clients/[
     getClientContracts(org.id, client.id),
     getClientInvoices(org.id, client.id),
     getClientSeoSummary(org.id, client.id),
+    getClientPortalCardData(org.id, client.id),
+    getClientMandates(org, client.id),
+    loadClientsHealth(supabase, org, client.id),
+    getClientProjects(org, client.id, member.id),
+    getClientSites(org, client.id),
+    getClientCollections(org, client.id),
+    getClientRebills(org.id, client.id),
+    getClientVendorCosts(org, client.id),
   ]);
   for (const res of [overviewRes, contactsRes, dealsRes, timelineRes, wonRes, activityContactsRes]) {
     if (res.error) throw res.error;
@@ -261,6 +297,8 @@ export default async function ClientPage({ params }: PageProps<"/[org]/clients/[
     isPartner: hasRole(member.role, "partner"),
     client,
     status: overview?.status ?? "lead",
+    manualStatus: overview?.manual_status ?? null,
+    manualStatusAt: overview?.manual_status_at ?? null,
     owner,
     sourceName: names.source(overview?.acquisition_source_id),
     countryName: regionName(client.country_code, locale),
@@ -280,6 +318,15 @@ export default async function ClientPage({ params }: PageProps<"/[org]/clients/[
     contracts,
     invoices,
     seo,
+    health: healthBy.get(client.id) ?? { level: "good", signals: [] },
+    projects,
+    sites,
+    portal,
+    mandates,
+    collections,
+    rebills,
+    vendors,
+    today: nowInZone(timeZone).date,
     ownerOptions,
     defaultPaymentTerms,
   };

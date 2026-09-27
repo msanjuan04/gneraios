@@ -1,0 +1,159 @@
+{
+  "portal": {
+    "link": {
+      "status": {
+        "active": "Activo",
+        "expired": "Caducado",
+        "revoked": "Revocado"
+      },
+      "none": "Todavía no hay enlace.",
+      "create": "Crear enlace",
+      "createNew": "Crear enlace nuevo",
+      "creating": "Creando…",
+      "createNewConfirm": "El enlace actual dejará de funcionar y tendrás que enviar el nuevo.",
+      "createNewAction": "Sí, crear otro",
+      "copy": "Copiar",
+      "copied": "Enlace copiado",
+      "open": "Abrir",
+      "freshTitle": "Enlace listo",
+      "freshNotice": "Cópialo ahora: por seguridad no se guarda. Si lo pierdes, crea uno nuevo (el anterior dejará de funcionar).",
+      "revoke": "Revocar",
+      "revokeConfirm": "Dejará de funcionar al momento, también para quien ya lo tenga.",
+      "revokeAction": "Sí, revocar",
+      "revoked": "Enlace revocado",
+      "renew": "Renovar un año",
+      "renewed": "Renovado hasta el {date}",
+      "created": "Creado el {date}",
+      "createdBy": "Creado el {date} por {name}",
+      "expires": "Caduca el {date}",
+      "expiredOn": "Caducó el {date}",
+      "views": "{count, plural, =0 {Sin visitas todavía} one {# visita} other {# visitas}}",
+      "lastView": "última {when}",
+      "viewsHint": "No cuentan las visitas de los miembros del equipo."
+    },
+    "quoteShare": {
+      "title": "Compartir enlace",
+      "description": "El cliente lo ve, lo descarga y lo acepta online, sin iniciar sesión.",
+      "blocked": {
+        "draft": "Envía el presupuesto o márcalo como enviado para poder compartirlo.",
+        "expired": "La validez ya ha pasado: amplíala para compartirlo.",
+        "answered": "Este presupuesto ya tiene respuesta."
+      },
+      "followsValidity": "El enlace caduca con la validez del presupuesto (más un margen).",
+      "acceptedOnline": "Aceptado online",
+      "acceptedBy": "{name} · {email}",
+      "signature": "Firma: {signature}",
+      "acceptedAt": "El {date}",
+      "ip": "IP {ip}",
+      "fingerprint": "Huella del PDF aceptado: {hash}",
+      "copyStored": "Copia exacta guardada",
+      "copyMissing": "Sin copia del PDF (solo la huella)"
+    },
+    "card": {
+      "title": "Portal del cliente",
+      "description": "«Tu espacio GNERAI»: un enlace privado donde {client} ve su proyecto, sus documentos y te pide cosas.",
+      "archived": "El cliente está archivado: su portal sigue funcionando, pero no se pueden crear enlaces nuevos.",
+      "configure": "Configurar",
+      "sectionsOn": "{count, plural, one {# sección visible} other {# secciones visibles}}",
+      "files": "{count, plural, =0 {Sin entregables} one {# entregable} other {# entregables}}",
+      "visibleWork": "{count, plural, =0 {Ningún trabajo visible} one {# trabajo visible} other {# trabajos visibles}}",
+      "projects": "{count, plural, =0 {Ningún proyecto visible} one {# proyecto visible} other {# proyectos visibles}}",
+      "visibleTasks": "{count, plural, =0 {Ninguna tarea visible} one {# tarea visible} other {# tareas visibles}}",
+      "projectTasks": "{count, plural, =0 {Visible, sin tareas marcadas} one {Visible · # tarea} other {Visible · # tareas}}",
+      "projectHidden": "Oculto",
+      "projectsMore": "{count, plural, one {Y # proyecto más.} other {Y # proyectos más.}}",
+      "projectsHint": "Qué proyectos y qué tareas ve el cliente se decide en la ficha de cada proyecto."
+    },
+    "sheet": {
+      "title": "Portal de {client}",
+      "description": "Qué ve el cliente en su espacio. Los cambios se ven al momento.",
+      "tabs": {
+        "sections": "Secciones",
+        "files": "Entregables",
+        "work": "Trabajo visible"
+      },
+      "save": "Guardar",
+      "saved": "Portal actualizado",
+      "nextSteps": "Próximos pasos",
+      "nextStepsHint": "Se ven en «En qué estamos». Texto sencillo, sin promesas de resultados.",
+      "nextStepsPlaceholder": "Esta semana revisamos los textos de la home y preparamos la versión para móvil.",
+      "webDataUnavailable": "Este cliente no tiene ninguna web conectada en SEO: la sección saldría vacía.",
+      "workHint": "Solo se ven las actividades que marques (título, texto y día) y las tareas visibles que se terminen (título y día). Lo demás sigue siendo interno.",
+      "workEmpty": "Todavía no hay actividades registradas con este cliente.",
+      "visibleToggle": "Visible para el cliente"
+    },
+    "sections": {
+      "progress": {
+        "title": "En qué estamos",
+        "description": "Los proyectos que hagas visibles (estado, avance y lo siguiente), las fases de sus contratos y los próximos pasos."
+      },
+      "work_log": {
+        "title": "Lo que hemos hecho",
+        "description": "Las actividades que marques como visibles y las tareas visibles que se vayan terminando."
+      },
+      "files": {
+        "title": "Entregables y material",
+        "description": "Ficheros y enlaces que compartes con el cliente."
+      },
+      "services": {
+        "title": "Tus servicios",
+        "description": "Las líneas vivas de sus contratos, sin precios ni notas internas."
+      },
+      "documents": {
+        "title": "Documentos",
+        "description": "Facturas con cómo pagarlas, presupuestos para aceptar y contratos."
+      },
+      "requests": {
+        "title": "Pedir algo",
+        "description": "Un formulario que crea un deal con la fuente «Portal» y te avisa."
+      },
+      "web_data": {
+        "title": "Datos de tu web",
+        "description": "Cifras medidas de Search Console y Analytics. Apagado por defecto."
+      }
+    },
+    "files": {
+      "empty": "Todavía no has compartido nada con este cliente.",
+      "addFile": "Subir fichero",
+      "addLink": "Añadir enlace",
+      "fileTitle": "Título",
+      "fileTitlePlaceholder": "Guía de estilo",
+      "file": "Fichero",
+      "fileHint": "Hasta 50 MB.",
+      "url": "Enlace",
+      "urlPlaceholder": "https://…",
+      "contract": "Contrato",
+      "noContract": "Sin contrato",
+      "upload": "Subir",
+      "uploading": "Subiendo…",
+      "add": "Añadir",
+      "adding": "Añadiendo…",
+      "uploaded": "Fichero compartido",
+      "added": "Enlace compartido",
+      "remove": "Quitar",
+      "removeConfirm": "El cliente dejará de verlo.",
+      "removeAction": "Sí, quitar",
+      "removed": "Quitado del portal",
+      "link": "Enlace"
+    },
+    "activity": {
+      "clientVisible": "Visible para el cliente",
+      "clientVisibleHint": "Aparecerá en «Lo que hemos hecho» de su portal (título, texto y fecha)."
+    },
+    "errors": {
+      "quoteDraft": "Envía el presupuesto o márcalo como enviado antes de compartirlo.",
+      "quoteClosed": "Este presupuesto ya tiene respuesta.",
+      "quoteExpired": "La validez del presupuesto ya ha pasado: amplíala para compartirlo.",
+      "clientArchived": "El cliente está archivado.",
+      "clientNotFound": "No encontramos ese cliente.",
+      "linkRevoked": "Un enlace revocado no se renueva: crea otro.",
+      "linkFollowsQuote": "El enlace de un presupuesto caduca con su validez: amplíala.",
+      "activityNotFound": "No encontramos esa actividad.",
+      "contractNotFound": "Ese contrato no es de este cliente.",
+      "urlInvalid": "El enlace tiene que empezar por https:// o http://.",
+      "fileTooLarge": "El fichero pesa más de 50 MB.",
+      "fileNotFound": "No encontramos ese fichero.",
+      "uploadFailed": "No se ha podido subir el fichero. Inténtalo de nuevo."
+    }
+  }
+}

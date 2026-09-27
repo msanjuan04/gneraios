@@ -1,0 +1,193 @@
+{
+  "vendors": {
+    "tab": "Proveedores",
+    "kinds": {
+      "company": "Empresa",
+      "freelancer": "Freelance"
+    },
+    "list": {
+      "new": "Nuevo proveedor",
+      "readOnly": "Solo lectura: los proveedores los lleva un socio.",
+      "search": "Buscar por nombre, NIF, contacto o email",
+      "clearSearch": "Borrar la búsqueda",
+      "filters": {
+        "label": "Tipo de proveedor",
+        "all": "Todos",
+        "company": "Empresas",
+        "freelancer": "Freelancers"
+      },
+      "showArchived": "{count, plural, one {Ver # archivado} other {Ver # archivados}}",
+      "summary": {
+        "label": "Resumen de lo que se ve",
+        "vendors": "{count, plural, =0 {Ningún proveedor} one {# proveedor} other {# proveedores}}",
+        "freelancers": "{count, plural, =0 {ningún freelance} one {# freelance} other {# freelances}}",
+        "year": "Este año",
+        "total": "Total",
+        "pending": "Por pagar",
+        "overdue": "{amount} vencido"
+      },
+      "columns": {
+        "vendor": "Proveedor",
+        "taxId": "NIF",
+        "yearCost": "Este año",
+        "cost": "Total",
+        "pending": "Por pagar",
+        "clients": "Clientes",
+        "lastExpense": "Último gasto",
+        "sortBy": "Ordenar por «{column}»"
+      },
+      "archived": "Archivado",
+      "overdueHint": "{amount} vencido",
+      "noExpenses": "Sin gastos",
+      "noResultsTitle": "Ningún proveedor coincide",
+      "noResultsBody": "Prueba con otro nombre o NIF, o cambia el filtro.",
+      "showAll": "Ver todos",
+      "createdToast": "«{name}» creado",
+      "open": "Abrir la ficha"
+    },
+    "empty": {
+      "title": "Aún no hay proveedores",
+      "body": "Da de alta a quien os factura, una empresa o un freelance, para ver lo que os cuesta y para qué clientes trabaja. También se crean solos al registrar un gasto.",
+      "create": "Nuevo proveedor",
+      "readOnly": "Los da de alta un socio."
+    },
+    "sheet": {
+      "createTitle": "Nuevo proveedor",
+      "editTitle": "Editar proveedor",
+      "description": "Una empresa o un freelance que os factura. Solo el nombre es obligatorio.",
+      "sectionWho": "Quién es",
+      "kind": "Tipo de proveedor",
+      "kindHints": {
+        "company": "SaaS, hosting, gestoría, otra agencia…",
+        "freelancer": "Una persona que os factura su trabajo"
+      },
+      "name": "Nombre o razón social",
+      "namePlaceholder": "Clara Font Studio",
+      "taxId": "NIF o VAT",
+      "taxIdHint": "El de sus facturas, sin espacios ni guiones.",
+      "country": "País",
+      "countryHint": "Código de 2 letras: ES, IE, US…",
+      "sectionContact": "Contacto",
+      "contactName": "Persona de contacto",
+      "email": "Email",
+      "phone": "Teléfono",
+      "website": "Web",
+      "sectionPayment": "Pago y gastos",
+      "iban": "IBAN",
+      "ibanHint": "La cuenta a la que se le transfiere.",
+      "category": "Categoría habitual",
+      "categoryHint": "Se propone al registrar un gasto suyo.",
+      "noCategory": "Ninguna",
+      "notes": "Notas",
+      "notesPlaceholder": "Tarifas, condiciones, cómo y cuándo factura…",
+      "create": "Crear proveedor",
+      "save": "Guardar",
+      "savedToast": "Proveedor guardado"
+    },
+    "detail": {
+      "back": "Proveedores",
+      "archivedBadge": "Archivado",
+      "newExpense": "Registrar gasto",
+      "edit": "Editar",
+      "archive": "Archivar",
+      "restore": "Recuperar",
+      "undo": "Deshacer",
+      "archivedToast": "«{name}» archivado: ya no se propone en los gastos",
+      "restoredToast": "«{name}» recuperado",
+      "readOnly": "Solo lectura: los proveedores los lleva un socio.",
+      "archivedHint": "Está archivado: recupéralo para registrarle gastos.",
+      "noTaxId": "Sin NIF",
+      "copyIban": "Copiar el IBAN",
+      "ibanCopied": "IBAN copiado",
+      "copyFailed": "No se ha podido copiar",
+      "notes": "Notas",
+      "meta": {
+        "contact": "Persona de contacto",
+        "email": "Email",
+        "phone": "Teléfono",
+        "website": "Web",
+        "taxId": "NIF y país",
+        "iban": "IBAN"
+      },
+      "stats": {
+        "year": "Este año",
+        "yearHint": "{count, plural, =0 {Sin gastos en {year}} one {# gasto en {year}} other {# gastos en {year}}}",
+        "total": "Total",
+        "totalHint": "{count, plural, one {# gasto desde el {date}} other {# gastos desde el {date}}}",
+        "noExpenses": "Sin gastos todavía",
+        "pending": "Por pagar",
+        "pendingHint": "{count, plural, =0 {Todo pagado} one {# gasto pendiente} other {# gastos pendientes}}",
+        "overdueHint": "{amount} vencido ({count, plural, one {# gasto} other {# gastos}})",
+        "clients": "Clientes",
+        "clientsHint": "{share} del coste es de clientes",
+        "clientsNone": "Todo es de la empresa"
+      },
+      "allocation": {
+        "title": "¿Para quién?",
+        "description": "Lo que nos ha costado para cada destino.",
+        "period": "Periodo",
+        "year": "Este año",
+        "total": "Siempre",
+        "company": "Nuestra empresa",
+        "hostedSites": "Webs alojadas",
+        "hostedSitesHint": "Se reparte entre las webs que alojamos",
+        "unknownClient": "Cliente",
+        "expenses": "{count, plural, one {# gasto} other {# gastos}}",
+        "pending": "{amount} por pagar",
+        "summary": "{count, plural, one {# gasto} other {# gastos}} · {amount}",
+        "clientShare": "{share} para {count, plural, one {# cliente} other {# clientes}}",
+        "otherClients": "{count, plural, one {# cliente más} other {# clientes más}}",
+        "caption": "Coste por destino",
+        "empty": "Aún no hay gastos suyos: aquí se verá para quién ha trabajado.",
+        "emptyYear": "Nada este año. Mira «Siempre»."
+      },
+      "expenses": {
+        "title": "Últimos gastos",
+        "description": "{count, plural, one {# gasto en total} other {# gastos en total}}",
+        "all": "Ver todos sus gastos",
+        "more": "{count, plural, one {Ver el gasto} other {Ver los # gastos}}",
+        "empty": "Aún no hay gastos suyos.",
+        "emptyAction": "Registrar el primero",
+        "company": "Empresa",
+        "client": "Cliente",
+        "hostedSites": "Webs alojadas",
+        "hasAttachment": "Con justificante",
+        "due": "Vence el {date}"
+      }
+    },
+    "client": {
+      "title": "Proveedores y freelancers",
+      "description": "{count, plural, one {# proveedor ha trabajado para este cliente} other {# proveedores han trabajado para este cliente}} · {amount} en total",
+      "empty": "Ningún proveedor ni freelance ha trabajado todavía para este cliente.",
+      "vendor": "Proveedor",
+      "year": "Este año",
+      "total": "Total",
+      "expenses": "{count, plural, one {# gasto} other {# gastos}}",
+      "last": "el último, el {date}",
+      "allExpenses": "Ver sus gastos",
+      "yearTotal": "{amount} en {year}"
+    },
+    "notFound": {
+      "title": "Este proveedor no existe",
+      "body": "Puede que el enlace esté mal o que ya no tengas acceso a él.",
+      "back": "Volver a proveedores"
+    },
+    "validation": {
+      "taxIdVendor": "Solo letras y números (2 a 20)",
+      "countryCode": "Código de país de 2 letras (ES, IE…)",
+      "phone": "Teléfono no válido",
+      "website": "Web no válida (p. ej. estudi.cat)"
+    },
+    "errors": {
+      "notFound": "Ese proveedor ya no existe o no tienes acceso. Recarga la página.",
+      "duplicateTaxId": "Ya hay otro proveedor con ese NIF.",
+      "reference": "La categoría elegida ya no existe. Recarga la página.",
+      "invalid": "Algún dato no es válido. Revisa el formulario."
+    },
+    "settingsLink": {
+      "title": "Proveedores y freelancers",
+      "body": "{count, plural, =0 {Tienen su propio apartado en Finanzas: lo que cuesta cada uno y para quién.} one {# proveedor · tienen su propio apartado en Finanzas: lo que cuesta cada uno y para quién.} other {# proveedores · tienen su propio apartado en Finanzas: lo que cuesta cada uno y para quién.}}",
+      "action": "Ir a Proveedores"
+    }
+  }
+}

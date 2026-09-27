@@ -1,0 +1,156 @@
+{
+  "reportPdf": {
+    "document": "Informe mensual",
+    "filename": "informe",
+    "monthYear": "{month} de {year}",
+    "months": {
+      "01": "enero",
+      "02": "febrero",
+      "03": "marzo",
+      "04": "abril",
+      "05": "mayo",
+      "06": "junio",
+      "07": "julio",
+      "08": "agosto",
+      "09": "septiembre",
+      "10": "octubre",
+      "11": "noviembre",
+      "12": "diciembre"
+    },
+    "versus": {
+      "01": "frente a enero",
+      "02": "frente a febrero",
+      "03": "frente a marzo",
+      "04": "frente a abril",
+      "05": "frente a mayo",
+      "06": "frente a junio",
+      "07": "frente a julio",
+      "08": "frente a agosto",
+      "09": "frente a septiembre",
+      "10": "frente a octubre",
+      "11": "frente a noviembre",
+      "12": "frente a diciembre"
+    },
+    "header": {
+      "period": "Periodo",
+      "generatedOn": "Fecha del informe",
+      "sender": "Preparado por",
+      "inProgress": "Mes en curso: datos hasta el {date}."
+    },
+    "summary": {
+      "tasksDone": "Tareas terminadas",
+      "nextSteps": "Próximos pasos",
+      "deliverables": "Entregables",
+      "visits": "Visitas a la web",
+      "hours": "Horas dedicadas"
+    },
+    "workDone": {
+      "title": "Lo que hemos hecho",
+      "empty": "Este mes no hay tareas terminadas.",
+      "activities": "Reuniones y comunicaciones",
+      "kinds": {
+        "call": "Llamada",
+        "meeting": "Reunión",
+        "email": "Email",
+        "note": "Nota"
+      }
+    },
+    "hours": {
+      "title": "Horas dedicadas",
+      "other": "Otro trabajo",
+      "total": "Total del mes"
+    },
+    "nextSteps": {
+      "title": "Próximos pasos",
+      "empty": "No hay próximos pasos marcados.",
+      "more": "Y {count} más.",
+      "status": {
+        "todo": "Por empezar",
+        "doing": "En curso",
+        "review": "En revisión"
+      }
+    },
+    "deliverables": {
+      "title": "Entregables",
+      "file": "Archivo",
+      "link": "Enlace"
+    },
+    "web": {
+      "title": "Datos de tu web",
+      "subtitle": "Lo que miden Google Search Console y Google Analytics de {site}.",
+      "clicks": "Clics desde Google",
+      "impressions": "Apariciones en Google",
+      "position": "Posición media",
+      "visits": "Visitas a la web",
+      "noChange": "Sin cambios",
+      "positionUp": {
+        "one": "{value} posición más arriba",
+        "other": "{value} posiciones más arriba"
+      },
+      "positionDown": {
+        "one": "{value} posición más abajo",
+        "other": "{value} posiciones más abajo"
+      },
+      "previousMonth": "Mes anterior: {value}",
+      "channels": "De dónde vienen las visitas",
+      "queries": "Búsquedas con más clics",
+      "query": "Búsqueda",
+      "queryClicks": "Clics",
+      "queryPrevious": "Mes anterior",
+      "queryPosition": "Posición media",
+      "partial": "Datos del {from} al {to}.",
+      "noComparison": "Sin comparación con el mes anterior: no hay datos de los dos meses completos.",
+      "measured": "Datos medidos tal cual por Google, sin estimaciones ni previsiones.",
+      "demo": "Datos de demostración.",
+      "channelNames": {
+        "organic_search": "Búsqueda orgánica",
+        "paid_search": "Anuncios en buscadores",
+        "organic_social": "Redes sociales",
+        "paid_social": "Anuncios en redes",
+        "direct": "Directo",
+        "referral": "Otras webs",
+        "email": "Email",
+        "other": "Otros"
+      }
+    },
+    "services": {
+      "title": "Servicios activos",
+      "recurring": "Servicios",
+      "oneOff": "Proyectos",
+      "types": {
+        "one_off": "Proyecto",
+        "monthly": "Mensual",
+        "yearly": "Anual",
+        "usage": "Por uso"
+      },
+      "since": "Desde el {date}",
+      "until": "hasta el {date}",
+      "paused": "En pausa parte del mes"
+    },
+    "invoices": {
+      "title": "Facturación",
+      "issued": "Facturas del mes",
+      "noneIssued": "Este mes no se ha emitido ninguna factura.",
+      "pending": "Otras facturas pendientes de pago",
+      "number": "Número",
+      "date": "Fecha",
+      "due": "Vencimiento",
+      "total": "Total",
+      "outstanding": "Pendiente",
+      "status": "Estado",
+      "statuses": {
+        "paid": "Pagada",
+        "pending": "Pendiente",
+        "overdue": "Vencida",
+        "voided": "Anulada",
+        "rectifying": "Rectificativa"
+      },
+      "pendingTotal": "Pendiente de pago a {date}",
+      "allPaid": "Todo pagado a {date}.",
+      "note": "Importes con IVA. Estado a {date}."
+    },
+    "footer": {
+      "page": "Página {current} / {total}"
+    }
+  }
+}

@@ -320,7 +320,8 @@ export async function loadDraftEditor(
           discount: "",
           tax_rate_id: defaultVat?.id ?? "",
           irpf_applies: true,
-          billing_type: "",
+          // Una factura hecha a mano suele ser de algo puntual; se puede cambiar.
+          billing_type: "one_off",
           period_start: "",
           period_end: "",
         },
@@ -426,6 +427,7 @@ export async function loadInvoiceView(record: InvoiceRecord): Promise<InvoiceVie
     number: row.number,
     kind: row.kind,
     lifecycle: row.lifecycle,
+    source: row.source,
     status: overview.status ?? row.lifecycle,
     issuedOn: row.issued_on,
     operationOn: row.operation_on,

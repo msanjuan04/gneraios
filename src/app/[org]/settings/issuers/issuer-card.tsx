@@ -7,6 +7,7 @@ import { formatIban } from "@/domain/tax-id";
 import { ArchiveIssuerButton } from "./archive-issuer-button";
 import { IssuerSheetButton, type MemberOption } from "./issuer-sheet";
 import { issuerFormDefaults, type IssuerRow } from "./schema";
+import { NewSeriesButton } from "./new-series-button";
 import { SeriesNumberButton, type SeriesNumbering } from "./series-number-dialog";
 
 export type IssuerSeries = SeriesNumbering & { kind: "ordinary" | "rectifying"; next: string };
@@ -110,7 +111,10 @@ export async function IssuerCard({ slug, issuer, series, members, canEdit, year 
       </dl>
 
       <div className="border-t px-5 py-4">
-        <h5 className="text-[11px] font-semibold tracking-wider text-muted-foreground uppercase">{t("series")}</h5>
+        <div className="flex items-center justify-between gap-2">
+          <h5 className="text-[11px] font-semibold tracking-wider text-muted-foreground uppercase">{t("series")}</h5>
+          {canEdit && <NewSeriesButton slug={slug} issuerId={issuer.id} takenCodes={series.map((s) => s.code)} year={year} />}
+        </div>
         {series.length === 0 ? (
           <p className="mt-2 text-muted-foreground">{t("noSeries")}</p>
         ) : (

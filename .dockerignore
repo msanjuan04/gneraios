@@ -1,15 +1,30 @@
-.git
-.next
-node_modules
+# Contexto de `docker build`: solo lo que hace falta para instalar y compilar la app.
+
+# Secretos: nunca entran. Las NEXT_PUBLIC_* llegan como --build-arg; el resto, al arrancar.
+# (Un .env.local copiado aquí acabaría incrustado en el bundle de producción.)
 .env*
-!.env.example
+**/.env*
+deploy/.env*
+
+# Dependencias y salidas: se generan dentro de la imagen.
+node_modules
+.next
+deploy/out
+*.tsbuildinfo
+coverage
+*.log
+
+# No forman parte de la app. Fuera también del type-check de `next build` (tsconfig incluye **/*.ts).
+.git
+.github
+.do
 .claude
 .gstack
-coverage
-supabase/.temp
-supabase/.branches
+docs
 tests
 e2e
-docs
-*.md
-!README.md
+scripts
+supabase/.temp
+supabase/.branches
+# Solo los .md de la raíz: los prompts del consejo (src/council/agents/**/*.md) sí hacen falta.
+/*.md

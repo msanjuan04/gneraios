@@ -8,6 +8,12 @@
       "subject": "Reminder: invoice {number} is overdue",
       "body": "Hello,\n\nThis is a friendly reminder that invoice {number}, dated {issued}, is still outstanding: {outstanding}. It was due on {due}.\n\n{payment}\n\nIf you have already paid it, please disregard this message.\n\nThank you,\n{issuer}"
     },
+    "client_report": {
+      "period": "{month, select, 01 {January} 02 {February} 03 {March} 04 {April} 05 {May} 06 {June} 07 {July} 08 {August} 09 {September} 10 {October} 11 {November} 12 {December} other {{month}}} {year}",
+      "ofPeriod": "for {month, select, 01 {January} 02 {February} 03 {March} 04 {April} 05 {May} 06 {June} 07 {July} 08 {August} 09 {September} 10 {October} 11 {November} 12 {December} other {{month}}} {year}",
+      "subject": "Monthly report · {period} · {sender}",
+      "body": "Hello,\n\nPlease find attached your report {ofPeriod}: what we have done for {client}, what comes next and the figures for the month.\n\nIf you would like to discuss anything, just reply to this email.\n\nThank you,\n{sender}"
+    },
     "paymentTransfer": "You can pay by bank transfer to {iban}, quoting the invoice number.",
     "paymentOther": "Payment method: {method}.",
     "method": {
@@ -16,6 +22,48 @@
       "card": "card",
       "cash": "cash",
       "other": "other"
+    },
+    "digest": {
+      "subject": "Your week at {org}: {collections} expected in and {todo, plural, =0 {nothing pending} one {# thing to do} other {# things to do}}",
+      "hello": "Good morning, {name}",
+      "range": "Week of {from} to {to}",
+      "lastWeekTitle": "Last week",
+      "collected": "Collected",
+      "invoiced": "Invoiced ({count, plural, one {# invoice} other {# invoices}}, before VAT)",
+      "newDeals": "New deals and leads",
+      "statusTitle": "Where we are",
+      "mrr": "MRR",
+      "perMonth": "/month",
+      "outstanding": "Outstanding",
+      "overdue": "Overdue ({count, plural, one {# invoice} other {# invoices}})",
+      "goalsTitle": "Goals",
+      "goalMrr": "MRR: {current} of {target} ({percent}%) · {status}",
+      "goalRevenue": "{year} revenue: {invoiced} of {target} · {gap} still to sell · {status}",
+      "weekTitle": "This week",
+      "weekEmpty": "Nothing on the calendar this week.",
+      "moreEvents": "And {count, plural, one {# more item} other {# more items}} on the calendar.",
+      "overdueEvents": "{count, plural, one {# overdue item} other {# overdue items}} from before today.",
+      "todoTitle": "To do",
+      "todoEmpty": "Nothing waiting to be issued, sent, paid or answered.",
+      "open": "Open GNERAI OS",
+      "footer": "You get this every Monday because the weekly summary is on. Turn it off in Settings → Preferences.",
+      "pushTitle": "Your week in GNERAI OS",
+      "pushBody": "{count, plural, =0 {No payments expected} one {# payment expected ({collections})} other {# payments expected ({collections})}} · {todo, plural, =0 {nothing to do} one {# thing to do} other {# things to do}}",
+      "councilTitle": "From the council"
+    },
+    "security": {
+      "hello": "Hi {name},",
+      "deviceSubject": "Is this you? Confirm your new device on {app} ({device})",
+      "deviceBody": "Someone just entered your {app} code on a new device: {device}, on {when}.",
+      "deviceConfirm": "If it was you, confirm it here (the link expires in {minutes} minutes):",
+      "deviceButton": "Yes, it's me",
+      "deviceNotYou": "If it wasn't you, don't open the link and change your code in Settings → Preferences: someone knows it.",
+      "codeSubject": "Your {app} access code has changed",
+      "codeSelfNew": "You just created your {app} access code.",
+      "codeSelfChanged": "You just changed your {app} access code. The old one no longer works.",
+      "codeByNew": "{by} created a {app} access code for you and will give it to you in person.",
+      "codeByChanged": "{by} changed your {app} access code and will give you the new one in person. The old one no longer works.",
+      "codeNotYou": "If you didn't know about this, tell your partners and change the code in Settings → Preferences."
     }
   }
 }

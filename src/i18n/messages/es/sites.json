@@ -1,0 +1,270 @@
+{
+  "sites": {
+    "title": "Webs",
+    "description": "Uptime, certificados SSL y dominios de las webs de los clientes. Se comprueban cada 5 minutos y los socios reciben un aviso si algo falla.",
+    "new": "Nueva web",
+    "readOnly": "Solo lectura: dar de alta o cambiar webs es cosa de un socio.",
+    "status": {
+      "up": "Funciona",
+      "slow": "Lenta",
+      "down": "Caída",
+      "unknown": "Sin datos",
+      "paused": "En pausa"
+    },
+    "summary": {
+      "label": "Resumen",
+      "up": "{count, plural, one {funciona} other {funcionan}}",
+      "down": "{count, plural, one {caída} other {caídas}}",
+      "expiring": "{count, plural, one {caduca pronto} other {caducan pronto}}",
+      "slow": "{count, plural, one {# lenta} other {# lentas}}",
+      "unknown": "{count, plural, other {# sin datos}}",
+      "paused": "{count, plural, other {# en pausa}}",
+      "cadence": "Se comprueban cada 5 min"
+    },
+    "filters": {
+      "label": "Filtrar webs",
+      "all": "Todas",
+      "problems": "Con problemas",
+      "hosted": "Alojadas por nosotros",
+      "search": "Buscar por nombre, dominio o cliente",
+      "clear": "Borrar la búsqueda",
+      "noResultsTitle": "Ninguna web coincide",
+      "noResultsBody": "Prueba con otro nombre o quita los filtros.",
+      "noProblemsTitle": "Todo en orden",
+      "noProblemsBody": "Ninguna web está caída, lenta o a punto de caducar.",
+      "showAll": "Ver todas"
+    },
+    "list": {
+      "columns": {
+        "site": "Web",
+        "client": "Cliente",
+        "response": "Respuesta",
+        "uptime": "Uptime 7 d",
+        "ssl": "SSL",
+        "domain": "Dominio",
+        "checked": "Comprobada",
+        "actions": "Acciones"
+      },
+      "expired": "Caducado",
+      "sslUntil": "Certificado válido hasta el {date}",
+      "domainUntil": "Dominio pagado hasta el {date}",
+      "downSince": "{reason} · desde {since}",
+      "unconfirmed": "sin confirmar",
+      "slowLine": "Responde lenta",
+      "stale": "Sin comprobaciones recientes",
+      "neverChecked": "Aún sin comprobar",
+      "pausedLine": "En pausa: no se comprueba",
+      "hostedByUs": "La alojamos nosotros",
+      "noClient": "Sin cliente",
+      "never": "Nunca"
+    },
+    "empty": {
+      "title": "Vigila las webs de tus clientes",
+      "body": "Da de alta las webs que alojáis y GNERAI OS las comprobará cada 5 minutos: si una se cae, o su certificado SSL o su dominio están a punto de caducar, los socios reciben un aviso.",
+      "bulk": "Pegar varias webs",
+      "one": "Añadir una web",
+      "readOnly": "Aún no hay webs. Las da de alta un socio."
+    },
+    "actions": {
+      "checkNow": "Comprobar ahora",
+      "checking": "Comprobando…",
+      "checkedUp": "{name} funciona: ha respondido en {time}.",
+      "checkedDown": "{name} no funciona: {reason}.",
+      "previewOnly": "Vista previa: aquí no se guarda nada.",
+      "more": "Más acciones de {name}",
+      "edit": "Editar",
+      "pause": "Pausar",
+      "resume": "Reanudar",
+      "paused": "{name} en pausa: ya no se comprueba ni avisa.",
+      "resumed": "{name} vuelve a vigilarse.",
+      "delete": "Quitar",
+      "deleteTitle": "¿Quitar {name}?",
+      "deleteBody": "Deja de vigilarse y se borran sus comprobaciones. Si solo quieres dejar de recibir avisos un tiempo, pausa la web.",
+      "deleted": "{name} ya no se vigila."
+    },
+    "sheet": {
+      "createTitle": "Nueva web",
+      "editTitle": "Editar web",
+      "description": "Se comprueba cada 5 minutos: si responde, cuánto tarda y cuándo caduca su certificado SSL.",
+      "url": "URL",
+      "urlHint": "La dirección de la web; sin https:// también vale.",
+      "urlNormalized": "Se comprobará {url}",
+      "label": "Nombre",
+      "labelHint": "Vacío: se enseña la URL.",
+      "labelPlaceholder": "Clínica Mar Blau",
+      "client": "Cliente",
+      "clientHint": "De quién es la web.",
+      "clientSuggestion": "¿Es de {name}? Elegirlo",
+      "noClient": "Sin cliente (propia)",
+      "domainExpiresOn": "Caducidad del dominio",
+      "domainHint": "La fecha del registrador: avisamos antes de que caduque.",
+      "hostedByUs": "La alojamos nosotros",
+      "hostedByUsHint": "Está en nuestro servidor (si no, solo la vigilamos).",
+      "active": "Vigilar",
+      "activeHint": "En pausa no se comprueba ni avisa.",
+      "notes": "Notas",
+      "notesPlaceholder": "Dónde está alojada, quién gestiona el dominio…",
+      "create": "Añadir web",
+      "save": "Guardar",
+      "created": "Web añadida: la comprobamos ahora mismo.",
+      "saved": "Web guardada.",
+      "previewOnly": "Vista previa: aquí no se guarda nada."
+    },
+    "bulk": {
+      "open": "Añadir varias",
+      "title": "Añadir varias webs",
+      "description": "Pega los dominios, uno por línea. Las que ya se vigilan se saltan.",
+      "label": "Webs",
+      "hint": "Una por línea (hasta {max}). Sin https:// también vale; las líneas que empiezan por # se ignoran.",
+      "placeholder": "clinicamarblau.com\nhotel-llevant.cat\nhttps://www.gnerai.com",
+      "tooMany": "Como mucho {max} webs de una vez.",
+      "hostedByUs": "Las alojamos nosotros",
+      "hostedByUsHint": "Todas están en nuestro servidor.",
+      "matchClients": "Vincular con su cliente",
+      "matchClientsHint": "Si la web coincide con la de la ficha de un cliente.",
+      "client": "Cliente para todas",
+      "clientHint": "Si todas son del mismo cliente.",
+      "noClient": "Ninguno en concreto",
+      "previewTitle": "Lo que se añadirá",
+      "previewSummary": "{add, plural, one {# nueva} other {# nuevas}} · {known, plural, one {# ya vigilada} other {# ya vigiladas}} · {invalid, plural, one {# no válida} other {# no válidas}}",
+      "alreadyWatched": "Ya se vigila",
+      "noClientShort": "Sin cliente",
+      "invalid": "No es una web",
+      "more": "y {count} más",
+      "submit": "{count, plural, =0 {Añadir} one {Añadir # web} other {Añadir # webs}}",
+      "added": "{count, plural, =0 {No había webs nuevas} one {# web añadida} other {# webs añadidas}}",
+      "skipped": "{count, plural, one {# ya se vigilaba.} other {# ya se vigilaban.}}",
+      "checkingSoon": "Las comprobamos ahora mismo.",
+      "previewOnly": "Vista previa: aquí no se guarda nada."
+    },
+    "thresholds": {
+      "open": "Umbrales",
+      "title": "Umbrales de aviso",
+      "description": "Cuándo avisar a los socios. Valen para todas las webs de la organización.",
+      "ssl_warn_days": {
+        "label": "Aviso del certificado SSL",
+        "hint": "Días antes de que caduque ({min}–{max})."
+      },
+      "domain_warn_days": {
+        "label": "Aviso del dominio",
+        "hint": "Días antes de que caduque ({min}–{max})."
+      },
+      "slow_ms": {
+        "label": "Lenta a partir de",
+        "hint": "Tiempo de respuesta en milisegundos ({min}–{max})."
+      },
+      "down_after_failures": {
+        "label": "Fallos seguidos para avisar",
+        "hint": "Un fallo suelto no avisa: cuántos seguidos son una caída ({min}–{max})."
+      },
+      "units": {
+        "days": "días",
+        "ms": "ms",
+        "checks": "fallos"
+      },
+      "saved": "Umbrales guardados.",
+      "previewOnly": "Vista previa: aquí no se guarda nada."
+    },
+    "detail": {
+      "back": "Webs",
+      "noClient": "Sin cliente",
+      "hostedByUs": "La alojamos",
+      "edit": "Editar",
+      "readOnly": "Solo lectura: la llevan los socios.",
+      "sslUnknown": "No se ha podido leer",
+      "domainUnknown": "Apúntala en Editar",
+      "expiresOn": "Caduca el {date}",
+      "expiredOn": "Caducó el {date}",
+      "expired": "Caducado",
+      "daysLeft": "{count, plural, =0 {Hoy} one {# día} other {# días}}",
+      "stats": {
+        "response": "Respuesta",
+        "avg24h": "media 24 h: {value}",
+        "neverChecked": "Aún sin comprobar",
+        "uptime": "Uptime 7 días",
+        "uptimeHint": "24 h: {day} · 30 días: {month}",
+        "ssl": "Certificado SSL",
+        "domain": "Dominio"
+      },
+      "incidents": {
+        "title": "Caídas",
+        "summary": "{count, plural, one {# caída} other {# caídas}} en 7 días{blips, plural, =0 {} one { · # fallo suelto} other { · # fallos sueltos}}",
+        "empty": "Ninguna caída en los últimos 7 días.",
+        "emptyWithBlips": "Ninguna caída en 7 días ({count, plural, one {# fallo suelto} other {# fallos sueltos}}, sin confirmar).",
+        "resolved": "Caída de {duration}",
+        "ongoing": "Caída desde hace {duration}",
+        "failures": "{count, plural, one {# comprobación fallida} other {# comprobaciones fallidas}}",
+        "until": "hasta las {time}"
+      },
+      "recent": {
+        "title": "Últimas comprobaciones",
+        "empty": "Aún no se ha comprobado.",
+        "ok": "HTTP {status}"
+      },
+      "notes": "Notas"
+    },
+    "chart": {
+      "title": "Últimos 7 días",
+      "description": "Por horas: lo que tardó en responder y los fallos.",
+      "showTable": "Ver tabla",
+      "showChart": "Ver gráfica",
+      "latencyTitle": "Tiempo de respuesta",
+      "slowLine": "Lenta a partir de {value}",
+      "failuresTitle": "Fallos",
+      "legendOk": "Sin fallos",
+      "legendPartial": "Algún fallo",
+      "legendDown": "Caída toda la hora",
+      "hourRange": "{day} – {end}",
+      "noData": "Sin comprobaciones",
+      "avg": "Media",
+      "max": "La más lenta",
+      "checks": "{ok}/{total} bien",
+      "tableCaption": "Comprobaciones por hora de los últimos 7 días",
+      "hour": "Hora",
+      "okChecks": "Bien",
+      "uptime": "Uptime",
+      "empty": "Aún no hay comprobaciones de los últimos 7 días."
+    },
+    "client": {
+      "title": "Webs",
+      "empty": "No vigilamos ninguna web de este cliente.",
+      "add": "Añadir web",
+      "problems": "{count, plural, other {# con problemas}}",
+      "allGood": "{count, plural, one {# web, todo en orden} other {# webs, todo en orden}}",
+      "open": "Ver todas las webs"
+    },
+    "notFound": {
+      "title": "Esta web no existe",
+      "body": "Puede que la hayan quitado o que el enlace no sea correcto.",
+      "back": "Volver a Webs"
+    },
+    "format": {
+      "ms": "{value} ms",
+      "seconds": "{value} s",
+      "daysShort": "{count} d"
+    },
+    "errors": {
+      "timeout": "Tiempo de espera agotado",
+      "dns": "El dominio no resuelve",
+      "refused": "Conexión rechazada",
+      "reset": "Conexión cortada",
+      "tls_expired": "Certificado SSL caducado",
+      "tls_invalid": "Certificado SSL no válido",
+      "redirects": "Demasiadas redirecciones",
+      "http": "Error HTTP",
+      "network": "No se puede conectar",
+      "httpStatus": "HTTP {status}",
+      "duplicate": "Esa web ya se vigila.",
+      "clientNotFound": "Ese cliente ya no existe.",
+      "invalidUrl": "La URL no es válida: tiene que ser una web con https.",
+      "notFound": "Esa web ya no existe."
+    },
+    "validation": {
+      "url": "No es una web válida: escribe un dominio (p. ej. clinicamarblau.com).",
+      "date": "Fecha no válida",
+      "bulkEmpty": "Pega al menos una web.",
+      "bulkTooMany": "Demasiadas webs de una vez.",
+      "thresholdRange": "Fuera de los límites"
+    }
+  }
+}

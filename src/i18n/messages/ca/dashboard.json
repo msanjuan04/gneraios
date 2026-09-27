@@ -1,0 +1,258 @@
+{
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "La foto de GNERAI d'un cop d'ull.",
+    "headline": "Així va el negoci avui, {date}.",
+    "kpiMrr": "MRR",
+    "kpiArr": "ARR",
+    "kpiRevenue": "Ingressos del mes",
+    "kpiReceivables": "Pendent de cobrament",
+    "kpiPending": "Apareixerà amb el primer contracte o la primera factura",
+    "setupTitle": "Primers passos",
+    "setupOrg": "Organització creada",
+    "setupIssuers": "{count, plural, one {# emissor configurat} other {# emissors configurats}}",
+    "setupCompanyTaxId": "Completar el NIF de la societat quan estigui constituïda",
+    "setupInvite": "Convidar la resta de socis",
+    "setupInvitePending": "{count, plural, one {# invitació pendent} other {# invitacions pendents}}",
+    "setupCrm": "Clients i pipeline",
+    "setupBilling": "Contractes i facturació",
+    "setupBillingAction": "Crea el primer contracte",
+    "goSettings": "Ves a Configuració",
+    "verifactuTitle": "Verifactu",
+    "verifactuBody": "{issuer} ha d'emetre amb un proveïdor adaptat a Verifactu a partir del {date}. Falten {days} dies.",
+    "verifactuHint": "Sense un proveïdor connectat, GNERAI OS bloquejarà l'emissió a partir d'aquesta data.",
+    "cronPillOk": "Cron al dia · {hours, plural, =0 {fa menys d'1 h} other {fa # h}}",
+    "cronPillStale": "Revisa el cron diari",
+    "cronPillNever": "El cron encara no ha acabat bé",
+    "listsLabel": "Clients, renovacions i cobraments",
+    "operationsLabel": "Pipeline i salut del sistema",
+    "kpi": {
+      "label": "Xifres principals",
+      "base": "Base sense IVA",
+      "withVat": "Amb IVA, net d'IRPF",
+      "perMonth": "{amount}<unit>/mes</unit>",
+      "today": "avui",
+      "mrr": "MRR",
+      "goContracts": "Mostra els contractes",
+      "vsClose": "vs {month} (tancament)",
+      "vsCloseEstimated": "vs {month} (tancament estimat)",
+      "sparkline": "MRR dels últims 12 mesos",
+      "arr": "ARR",
+      "arrYoy": "{delta} vs {month}",
+      "arrYoyNone": "Sense MRR fa un any",
+      "arrHint": "MRR × 12: el recurrent d'un any al ritme d'avui.",
+      "clients": "Clients actius",
+      "goClients": "Mostra els clients",
+      "clientsDelta": "{delta} vs {month} (tancament)",
+      "clientsBreakdown": "{paused} en pausa · {former, plural, one {# exclient} other {# exclients}} · {leads, plural, one {# lead} other {# leads}}",
+      "receivables": "Pendent de cobrament",
+      "goInvoices": "Mostra les factures",
+      "openInvoices": "{count, plural, =0 {Cap factura per cobrar} one {# factura per cobrar} other {# factures per cobrar}}",
+      "overdueShare": "Vençut: {share} del pendent",
+      "overdue": "Vençut: {amount} · {count, plural, one {# factura} other {# factures}}",
+      "overdueNone": "Res vençut",
+      "collection": "Cobrament mitjà en {days} dies · {onTime} dins de termini (12 mesos)",
+      "collectionNone": "Sense cobraments en els últims 12 mesos",
+      "pipeline": "Pipeline ponderat",
+      "goPipeline": "Mostra el pipeline",
+      "pipelineOneOff": "One-off",
+      "pipelineMrr": "MRR",
+      "pipelineHint": "{count, plural, =0 {Sense deals oberts} one {# deal obert} other {# deals oberts}} · import × probabilitat",
+      "revenue": "Ingressos · {month}",
+      "inProgress": "En curs",
+      "revenueTotal": "Facturat durant el mes, desglossat",
+      "revenueCaption": "Ingressos del mes per tipus, respecte al mes anterior i al mateix mes de l'any passat",
+      "category": "Tipus",
+      "thisMonth": "Aquest mes",
+      "vsMonth": "vs {month}",
+      "recurring": "Recurrent",
+      "usage": "Ús",
+      "oneOff": "One-off",
+      "new": "Nou",
+      "revenueFootnote": "El mes en curs compta fins avui i es compara amb mesos complets. Recurrent = mensual + anual; la base és sense IVA i les rectificatives resten en el seu mes."
+    },
+    "history": {
+      "title": "Evolució",
+      "description": "El que s'ha facturat per tipus, l'MRR i què l'ha fet créixer o baixar.",
+      "range": "Període",
+      "months": "{count} mesos"
+    },
+    "chart": {
+      "title": "Ingressos i MRR",
+      "description": "Barres: el que s'ha facturat cada mes per tipus (base sense IVA). Línia: l'MRR al tancament de cada mes.",
+      "showTable": "Mostra com a taula",
+      "recurring": "Recurrent",
+      "usage": "Ús",
+      "oneOff": "One-off",
+      "mrr": "MRR",
+      "mrrLegend": "MRR al tancament",
+      "mrrEstimated": "MRR estimat",
+      "stateCurrent": "En curs",
+      "stateEstimated": "Estimat",
+      "stateSnapshot": "Tancament",
+      "invoicedTotal": "Total facturat",
+      "tableCaption": "Ingressos per tipus i MRR de cada mes",
+      "month": "Mes",
+      "empty": "Encara no hi ha factures emeses ni MRR en aquest període.",
+      "estimatedNote": "Els mesos sense foto mensual es reconstrueixen amb els contractes d'avui: el seu MRR es mostra amb línia de punts (i amb * a la taula)."
+    },
+    "bridge": {
+      "title": "Moviments d'MRR",
+      "description": "{months, plural, one {Aquest mes} other {Els últims # mesos}}: què ha sumat i què ha restat a l'MRR (base sense IVA).",
+      "net": "{hasGrowth, select, yes {<strong>{amount}</strong> nets ({growth}) en el període.} other {<strong>{amount}</strong> nets en el període.}}",
+      "start": "Tancament {month}",
+      "startEmpty": "Inici",
+      "startHint": "L'MRR al tancament del mes anterior al període.",
+      "new": "Nou",
+      "newHint": "Clients que no tenien MRR (ni res en pausa) i comencen a pagar cada mes.",
+      "expansion": "Expansió",
+      "expansionHint": "Clients que ja pagaven i augmenten: pujades de preu, serveis nous o la represa després d'una pausa.",
+      "contraction": "Contracció",
+      "contractionHint": "Clients que baixen sense marxar: baixades de preu, serveis donats de baixa o pauses.",
+      "churn": "Churn",
+      "churnHint": "Clients que es queden sense MRR i sense res en pausa.",
+      "adjustment": "Ajustos",
+      "adjustmentHint": "Diferències entre fotos mensuals fetes amb dades diferents (p. ex. una baixa registrada amb efecte retroactiu).",
+      "end": "Avui",
+      "endHint": "L'MRR d'avui.",
+      "endShort": "MRR al tancament",
+      "month": "Mes",
+      "tableCaption": "Moviments d'MRR de cada mes",
+      "estimatedNote": "Inclou mesos sense foto mensual, reconstruïts amb els contractes d'avui (* a la taula)."
+    },
+    "topClients": {
+      "title": "Top clients",
+      "description": "Facturació neta: base sense IVA, amb les rectificatives restades.",
+      "period": "Període",
+      "lastYear": "12 mesos",
+      "allTime": "Tot",
+      "empty": "Sense facturació en aquest període.",
+      "alert": "{client} concentra el {share} de la facturació (l'avís salta a partir del {threshold}).",
+      "healthy": "{count, plural, one {El client més gran suma} other {Els # més grans sumen}} el {share} de la facturació.",
+      "total": "{amount} entre {count, plural, one {# client} other {# clients}}."
+    },
+    "renewals": {
+      "title": "Renovacions properes",
+      "description": "Línies anuals que es renoven en els propers {days} dies.",
+      "empty": "Cap línia anual no es renova en els propers {days} dies.",
+      "inDays": "{days, plural, one {demà} other {d'aquí a # dies}}",
+      "footer": "{amount} per renovar (base anual sense IVA).",
+      "footerEmpty": "El soci responsable rep un avís abans de cada renovació."
+    },
+    "overdue": {
+      "title": "Factures vençudes",
+      "description": "El que queda per cobrar de cadascuna.",
+      "empty": "No hi ha factures vençudes.",
+      "daysOverdue": "{days, plural, one {vençuda fa # dia} other {vençuda fa # dies}}",
+      "footer": "Amb IVA, net d'IRPF",
+      "seeAll": "Mostra les {count}",
+      "goInvoices": "Ves a factures"
+    },
+    "stages": {
+      "title": "Pipeline per etapa",
+      "description": "Deals oberts a cada etapa, sense ponderar.",
+      "empty": "No hi ha deals oberts.",
+      "deals": "{count, plural, one {# deal} other {# deals}}",
+      "amounts": "{oneOff} one-off · {mrr}/mes",
+      "weighted": "Ponderat (import × probabilitat): {oneOff} one-off i {mrr}/mes, base sense IVA."
+    },
+    "health": {
+      "title": "Salut del sistema",
+      "description": "El cron diari, Verifactu i el que està pendent d'un soci.",
+      "cronOk": "El cron diari està al dia",
+      "cronStale": "Fa més de {hours} h que el cron no acaba bé",
+      "cronNever": "El cron diari encara no ha acabat cap execució",
+      "cronLast": "Últim OK: {when} ({ago})",
+      "cronLastNone": "Sense execucions correctes registrades.",
+      "cronError": "Últim error: {error}",
+      "cronAction": "Facturació",
+      "verifactu": "Verifactu",
+      "verifactuRequired": "Obligatori: emissió bloquejada",
+      "verifactuDays": "{days, plural, one {Falta # dia} other {Falten # dies}}",
+      "verifactuMeter": "Compte enrere de Verifactu: {days, plural, one {falta # dia} other {falten # dies}}; es mostra des de {window} dies abans",
+      "verifactuFrom": "Proveïdor adaptat obligatori a partir del {date}",
+      "drafts": "{count, plural, one {esborrany per emetre} other {esborranys per emetre}}",
+      "reminders": "{count, plural, one {recordatori per aprovar} other {recordatoris per aprovar}}"
+    },
+    "actionQueue": {
+      "title": "Per fer",
+      "description": "El que espera que algú faci alguna cosa. Un clic i ets on es fa.",
+      "emptyTitle": "Tot al dia",
+      "empty": "Res pendent d'emetre, enviar, pagar ni respondre.",
+      "items": {
+        "drafts": {
+          "title": "{count, plural, one {# esborrany de factura per emetre} other {# esborranys de factura per emetre}}",
+          "hint": "Revisa'ls i emet-los tots alhora"
+        },
+        "reminders": {
+          "title": "{count, plural, one {# recordatori de cobrament per enviar} other {# recordatoris de cobrament per enviar}}",
+          "hint": "Preparats pel cron: revisa i envia"
+        },
+        "expiringQuotes": {
+          "title": "{count, plural, one {# pressupost caduca aquesta setmana} other {# pressupostos caduquen aquesta setmana}}",
+          "hint": "Una última empenta abans que caduquin"
+        },
+        "waitingQuotes": {
+          "title": "{count, plural, one {# pressupost sense resposta} other {# pressupostos sense resposta}}",
+          "hint": "Enviats fa més de 7 dies: toca fer-ne el seguiment"
+        },
+        "staleDeals": {
+          "title": "{count, plural, one {# deal amb la propera acció endarrerida} other {# deals amb la propera acció endarrerida}}",
+          "hint": "Al pipeline, marcats en vermell"
+        },
+        "overdueExpenses": {
+          "title": "{count, plural, one {# despesa vençuda sense pagar} other {# despeses vençudes sense pagar}}",
+          "hint": "Evita recàrrecs: paga-les o apunta-les com a pagades"
+        },
+        "dueExpenses": {
+          "title": "{count, plural, one {# despesa per pagar aquesta setmana} other {# despeses per pagar aquesta setmana}}",
+          "hint": "Vencen en els propers 7 dies"
+        },
+        "recommendations": {
+          "title": "{count, plural, one {# recomanació del consell per revisar} other {# recomanacions del consell per revisar}}",
+          "hint": "Accepta-les, descarta-les o posposa-les"
+        },
+        "clientsAtRisk": {
+          "title": "{count, plural, one {# client demana atenció} other {# clients demanen atenció}}",
+          "hint": "Cobraments vençuts, sense contacte, renovació a prop o el seu web a la baixa"
+        },
+        "bankPending": {
+          "title": "{count, plural, one {# moviment del banc per conciliar} other {# moviments del banc per conciliar}}",
+          "hint": "Casa cobraments i despeses amb un clic"
+        }
+      }
+    },
+    "goals": {
+      "label": "Objectius",
+      "empty": "Fixeu els vostres objectius (MRR i facturació de l'any) i el dashboard us dirà cada dia si hi arribeu.",
+      "mrrTitle": "Objectiu · {target}/mes per al {date}",
+      "progressLabel": "{percent} % de l'objectiu",
+      "mrrNeeded": "Falten {gap}: {perMonth} al mes durant {months, plural, one {# mes} other {# mesos}}.",
+      "mrrMissed": "La data ja ha passat i van faltar {gap}.",
+      "mrrReached": "Objectiu assolit. Toca fixar el següent.",
+      "mrrPace": "Al ritme dels últims 3 mesos ({pace}/mes), el mes previst per arribar-hi seria {month}.",
+      "mrrNoPace": "L'MRR no ha crescut en els últims 3 mesos: a aquest ritme no s'hi arriba.",
+      "revenueTitle": "Facturació de {year} · objectiu {target}",
+      "invoicedSoFar": "facturat",
+      "revenueBarLabel": "{invoiced} % facturat, {projected} % comptant el que s'ha signat",
+      "revenueDetail": "Amb el que s'ha signat ({signed}) tancaríeu l'any amb {projected}.",
+      "revenueGap": "Falten {gap} per vendre.",
+      "revenueCovered": "El que s'ha signat ja cobreix l'objectiu.",
+      "status": {
+        "reached": "Assolit",
+        "on_track": "En bon camí",
+        "behind": "Endarrerit",
+        "missed": "No s'hi va arribar"
+      }
+    },
+    "setupImportAction": "Importa clients i històric",
+    "setupCatalog": "Catàleg de serveis amb els vostres preus",
+    "setupCatalogAction": "Crea el catàleg",
+    "setupGoogle": "Google connectat (Search Console i GA4)",
+    "setupGoogleAction": "Connecta",
+    "setupGoals": "Objectius d'MRR i de facturació de l'any",
+    "setupGoalsAction": "Fixa'ls",
+    "setupPush": "Avisos al mòbil i l'app instal·lada",
+    "setupPushAction": "Activa'ls"
+  }
+}

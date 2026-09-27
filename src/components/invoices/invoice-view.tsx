@@ -18,6 +18,9 @@ import { useTranslations } from "next-intl";
 import { type ReactNode, useState, useTransition } from "react";
 import { toast } from "sonner";
 import { composeEmail, issueDrafts } from "@/app/[org]/invoices/actions";
+import { InvoiceCollectionsPanel } from "@/components/collections/invoice-collections-panel";
+import { ImportedBadge } from "@/components/invoice-import/imported-badge";
+import type { InvoiceCollectionsData } from "@/components/collections/types";
 import { DetailItem, ReadOnlyNotice, SettingsCard } from "@/components/settings/settings-card";
 import { Button } from "@/components/ui/button";
 import { daysBetween } from "@/domain/dates/civil-date";
@@ -41,13 +44,15 @@ type Props = {
   timeZone: string;
   canEdit: boolean;
   invoice: InvoiceViewData;
+  /** Cobro por transferencia y domiciliación SEPA (src/server/collections/queries.ts → getInvoiceCollections). */
+  collections?: InvoiceCollectionsData;
 };
 
 /**
  * Factura emitida (o que se quedó emitiendo): lo congelado al emitir, sus totales, el PDF legal,
  * los cobros, los emails y las rectificativas. Nada de lo emitido se edita: se corrige rectificando.
  */
-export function InvoiceView({ slug, basePath, today, timeZone, canEdit, invoice }: Props) {
+export function InvoiceView({ slug, basePath, today, timeZone, canEdit, invoice, collections }: Props) {
   const t = useTranslations("invoices.view");
   const tMethod = useTranslations("billing.paymentMethod");
   const tStatus = useTranslations("billing.invoiceStatus");
@@ -129,6 +134,7 @@ export function InvoiceView({ slug, basePath, today, timeZone, canEdit, invoice 
             <h2 className="font-mono text-3xl font-extrabold tracking-tight md:text-4xl">{number || t("noNumber")}</h2>
             <InvoiceStatusBadge status={invoice.status} />
             <InvoiceKindBadge kind={invoice.kind} />
+            {invoice.source === "import" && <ImportedBadge />}
           </div>
           <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-sm text-muted-foreground">
             <Link href={`${basePath}/clients/${invoice.clientId}`} className="inline-flex items-center gap-1.5 font-medium text-foreground hover:text-primary">
@@ -280,6 +286,30 @@ export function InvoiceView({ slug, basePath, today, timeZone, canEdit, invoice 
                 canEdit={canCollect}
                 formOpen={paymentOpen && canCollect}
                 onFormOpenChange={setPaymentOpen}
+                remittancePayments={Object.fromEntries(
+                  Object.entries(collections?.remittancePayments ?? {}).map(([paymentId, remittanceId]) => [
+                    paymentId,
+                    `${basePath}/invoices/remittances/${remittanceId}`,
+                  ]),
+                )}
+                footer={
+                  collections &&
+                  invoice.status !== "voided" && (
+                    <InvoiceCollectionsPanel
+                      basePath={basePath}
+                      today={today}
+                      invoice={{
+                        number,
+                        clientId: invoice.clientId,
+                        beneficiary: invoice.issuer.legalName,
+                        iban: invoice.issuer.iban,
+                        outstandingCents: invoice.outstandingCents,
+                      }}
+                      data={collections}
+                      canEdit={canCollect}
+                    />
+                  )
+                }
               />
             </div>
           )}

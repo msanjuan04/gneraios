@@ -1,0 +1,743 @@
+{
+  "council": {
+    "meta": {
+      "feed": "Consejo",
+      "briefing": "Briefing semanal · Consejo",
+      "close": "Cierre mensual · Consejo",
+      "runs": "Ejecuciones · Consejo"
+    },
+    "title": "Consejo",
+    "description": "Nueve agentes leen el negocio con herramientas deterministas y proponen decisiones con evidencia. No calculan de cabeza ni ejecutan nada: decidís vosotros.",
+    "nav": {
+      "label": "Secciones del consejo",
+      "feed": "Recomendaciones",
+      "briefing": "Briefing semanal",
+      "close": "Cierre mensual",
+      "runs": "Ejecuciones"
+    },
+    "agents": {
+      "cfo": {
+        "name": "CFO · Tesorería y reparto",
+        "mission": "Cuánto guardar, repartir y reinvertir; provisión de impuestos; cuándo subir la retribución; alertas de caja."
+      },
+      "commercial": {
+        "name": "Director comercial",
+        "mission": "Deals parados, siguiente mejor acción, previsión de cierre y fuentes que convierten."
+      },
+      "pricing": {
+        "name": "Pricing y margen",
+        "mission": "Clientes y servicios poco rentables; cuándo y cuánto subir; qué paquetizar."
+      },
+      "retention": {
+        "name": "Retención y upsell",
+        "mission": "Clientes en riesgo, renovaciones y venta cruzada según vuestras reglas."
+      },
+      "operations": {
+        "name": "Operaciones y capacidad",
+        "mission": "Carga por socio, cuellos de botella y cuándo contratar o externalizar."
+      },
+      "growth": {
+        "name": "Crecimiento y SEO",
+        "mission": "Qué canal trae clientes que pagan y dónde invertir en marketing propio."
+      },
+      "fiscal": {
+        "name": "Fiscal y cumplimiento",
+        "mission": "Calendario de IVA, IS, retenciones y Verifactu: cuantifica y avisa con antelación. Siempre para validar con la gestoría."
+      },
+      "devils_advocate": {
+        "name": "Abogado del diablo",
+        "mission": "Revisa lo de impacto alto antes de publicarlo: supuestos débiles, riesgos y escenario pesimista."
+      },
+      "chief_of_staff": {
+        "name": "Chief of Staff",
+        "mission": "Prioriza por euros y urgencia, resuelve conflictos entre agentes y prepara el briefing del lunes."
+      }
+    },
+    "cadence": {
+      "daily": "Cada día a las {hour}:00",
+      "weekly": "{weekday, select, 1 {Los lunes} 2 {Los martes} 3 {Los miércoles} 4 {Los jueves} 5 {Los viernes} 6 {Los sábados} other {Los domingos}} a las {hour}:00",
+      "monthly": "El día {day} de cada mes",
+      "beforePublishing": "Antes de publicar lo de impacto alto",
+      "manual": "Bajo demanda"
+    },
+    "intro": {
+      "connect": {
+        "title": "Un consejo de dirección que no se inventa nada",
+        "body": "Nueve agentes especializados leen vuestros contratos, facturas, pipeline, gastos y caja con herramientas deterministas, y os proponen decisiones con la evidencia delante. Para empezar a trabajar necesitan la clave de la API de Claude.",
+        "stepsTitle": "Cómo conectarlo",
+        "steps": {
+          "key": {
+            "title": "Crea una clave de la API",
+            "body": "En la consola de Anthropic, con un límite de gasto a vuestra medida. Cada agente tiene además su propio presupuesto mensual."
+          },
+          "env": {
+            "title": "Guárdala en el servidor",
+            "body": "Como variable de entorno. Nunca llega al navegador; sin ella, el consejo no encola nada."
+          },
+          "cron": {
+            "title": "Programa el cron",
+            "body": "Una llamada cada hora pone en marcha el briefing del lunes, el cierre del día 5 y las revisiones diarias y semanales."
+          },
+          "policy": {
+            "title": "Fijad vuestra política financiera",
+            "body": "En Ajustes → Consejo. Hasta entonces se trabaja con valores de ejemplo, y así se dice en cada recomendación."
+          }
+        },
+        "ownerOnly": "La conexión la hace un owner."
+      },
+      "empty": {
+        "title": "El consejo aún no ha dicho nada",
+        "body": "Cuando un agente encuentre algo que supere vuestro umbral de impacto, aparecerá aquí con su cálculo. Si no hay nada relevante, se calla: es a propósito."
+      },
+      "principles": {
+        "neverCalculates": {
+          "title": "No calcula de cabeza",
+          "body": "Cada cifra sale de una herramienta testeada. Si un número del texto no está en la evidencia, se rechaza y se regenera."
+        },
+        "evidence": {
+          "title": "Evidencia siempre",
+          "body": "Métrica, valor, periodo, fuente y enlace a la pantalla. Si faltan datos, lo dice."
+        },
+        "readOnly": {
+          "title": "Solo lectura",
+          "body": "No crea facturas, no mueve dinero, no cambia sueldos ni envía emails. Aceptar solo crea tareas."
+        },
+        "policy": {
+          "title": "La política es vuestra",
+          "body": "Cuánto guardar y cuándo repartir lo decidís vosotros; los agentes lo aplican y citan la versión."
+        },
+        "professional": {
+          "title": "Validar con gestoría",
+          "body": "Lo fiscal, laboral y legal va marcado para revisión profesional. Nunca es asesoramiento."
+        },
+        "silence": {
+          "title": "Silencio útil",
+          "body": "Umbral de impacto y sin repetir lo que sigue abierto o descartasteis hace poco. Menos y mejores."
+        }
+      },
+      "agentsTitle": "Los nueve agentes",
+      "agentsBody": "Cada uno con su misión, sus herramientas y su calendario. Los podéis apagar, cambiar de modelo o limitar su presupuesto."
+    },
+    "strip": {
+      "label": "Estado de los agentes",
+      "disabled": "Apagado",
+      "paused": "Pausado: presupuesto del mes agotado",
+      "working": "Trabajando…",
+      "pending": "En cola",
+      "last": "Última vez {when}",
+      "lastFailed": "Falló {when}",
+      "never": "Aún no ha trabajado",
+      "runNow": "Ejecutar ahora: {agent}",
+      "runNowShort": "Ejecutar ahora",
+      "queued": "{agent} se ha puesto a trabajar"
+    },
+    "evidence": {
+      "from": "vía {tool}",
+      "missing": "Sin datos",
+      "open": "Abrir {label}"
+    },
+    "tools": {
+      "get_revenue": "Ingresos",
+      "get_mrr_history": "Histórico de MRR",
+      "get_churn": "Bajas",
+      "get_nrr": "Retención neta (NRR)",
+      "get_receivables": "Cobros pendientes",
+      "get_concentration": "Concentración de clientes",
+      "get_pipeline": "Pipeline",
+      "get_stalled_deals": "Deals parados",
+      "get_conversion_by_source": "Conversión por fuente",
+      "get_renewals": "Renovaciones",
+      "get_at_risk_clients": "Clientes en riesgo",
+      "get_upsell_candidates": "Venta cruzada",
+      "get_client_profitability": "Rentabilidad por cliente",
+      "get_capacity": "Capacidad",
+      "get_seo_summary": "SEO",
+      "get_policy": "Política financiera",
+      "get_past_recommendations": "Recomendaciones anteriores",
+      "simulate": "Simulación",
+      "get_monthly_close": "Cierre mensual",
+      "get_expenses": "Gastos",
+      "get_cash_position": "Caja",
+      "get_cash_forecast": "Previsión de caja",
+      "get_runway": "Runway",
+      "get_tax_provisions": "Impuestos"
+    },
+    "card": {
+      "confidence": "Confianza {level}",
+      "professional": "Validar con gestoría",
+      "professionalHint": "Requiere revisión profesional: no es asesoramiento",
+      "impact": "Impacto estimado",
+      "noImpact": "Sin cuantificar",
+      "backToday": "Vuelve hoy",
+      "until": "Hasta el {date}",
+      "decided": "{who} · {date}",
+      "someone": "Alguien",
+      "tasksProgress": "{done} de {total} tareas hechas",
+      "accept": "Aceptar",
+      "postpone": "Posponer",
+      "discard": "Descartar",
+      "markDone": "Marcar como hecha",
+      "doneToast": "Marcada como hecha",
+      "bringBack": "Traer de vuelta",
+      "reopen": "Reabrir",
+      "reopenedToast": "Vuelve a estar entre las nuevas",
+      "seeCalc": "Ver cálculo",
+      "hideCalc": "Ocultar cálculo",
+      "acceptTitle": "{count, plural, one {Al aceptar se crea esta tarea:} other {Al aceptar se crean estas # tareas:}}",
+      "dueIn": "{days, plural, =0 {para hoy} one {en # día} other {en # días}}",
+      "acceptHint": "El consejo no ejecuta nada: las tareas las hacéis vosotros. A los 30, 60 y 90 días se compara el impacto real con el estimado.",
+      "acceptConfirm": "Aceptar y crear tareas",
+      "acceptedToast": "Aceptada: tareas creadas",
+      "postponeUntil": "Que vuelva",
+      "postpone7": "En una semana",
+      "postpone14": "En dos semanas",
+      "postpone30": "En un mes",
+      "postponedToast": "Pospuesta hasta el {date}",
+      "discardPlaceholder": "Por qué no, en una línea",
+      "discardReason": "Motivo del descarte",
+      "discardConfirm": "Descartar",
+      "discardedToast": "Descartada. El motivo vuelve al agente la próxima vez.",
+      "discardHint": "El agente leerá el motivo la próxima vez y no volverá a proponerlo en un tiempo.",
+      "cancel": "Cancelar",
+      "reasoning": "Razonamiento",
+      "evidence": "Evidencia",
+      "missing": "Datos que faltan",
+      "risks": "Riesgos",
+      "challenge": "Abogado del diablo",
+      "verdict": {
+        "publicar": "Se sostiene tal cual",
+        "publicar_con_cambios": "Se sostiene con matices",
+        "descartar": "No se sostiene"
+      },
+      "pessimistic": "Escenario pesimista",
+      "notChallenged": "Sin revisar por el abogado del diablo: {reason}",
+      "policyExample": "Con la política de ejemplo",
+      "policyVersion": "Con la política v{version}"
+    },
+    "urgency": {
+      "hoy": "Hoy",
+      "esta_semana": "Esta semana",
+      "este_mes": "Este mes"
+    },
+    "confidence": {
+      "alta": "alta",
+      "media": "media",
+      "baja": "baja"
+    },
+    "kind": {
+      "decision": "Decisión",
+      "alert": "Alerta",
+      "data_gap": "Faltan datos"
+    },
+    "status": {
+      "nueva": "Nueva",
+      "aceptada": "Aceptada",
+      "descartada": "Descartada",
+      "pospuesta": "Pospuesta",
+      "hecha": "Hecha"
+    },
+    "tasks": {
+      "title": "Tareas del consejo",
+      "empty": "Sin tareas abiertas. Al aceptar una recomendación, sus tareas aparecen aquí.",
+      "markDone": "Marcar como hecha: {title}",
+      "doneToast": "Tarea hecha",
+      "due": "para el {date}",
+      "late": "vencía el {date}"
+    },
+    "tabs": {
+      "label": "Estado de las recomendaciones",
+      "new": "Nuevas",
+      "postponed": "Pospuestas",
+      "accepted": "Aceptadas",
+      "history": "Historial"
+    },
+    "banners": {
+      "noApiKey": "El consejo está en pausa: falta la clave de la API de Claude en el servidor. Lo que ya se publicó sigue aquí.",
+      "howToConnect": "Cómo conectarlo"
+    },
+    "empty": {
+      "new": {
+        "title": "Nada nuevo que decidir",
+        "body": "Los agentes han mirado y no hay nada por encima de vuestro umbral de impacto. Callarse también es una respuesta."
+      },
+      "postponed": {
+        "title": "Nada pospuesto",
+        "body": "Lo que pospongáis volverá a Nuevas el día que elijáis."
+      },
+      "accepted": {
+        "title": "Nada aceptado pendiente",
+        "body": "Al aceptar una recomendación se crean sus tareas; cuando esté hecha, marcadla y pasará al historial."
+      },
+      "history": {
+        "title": "Historial vacío",
+        "body": "Aquí quedan las recomendaciones hechas y descartadas, con quién decidió y por qué."
+      }
+    },
+    "reports": {
+      "label": "Informes del consejo",
+      "briefing": "Briefing semanal",
+      "briefingHint": "Las 3-5 decisiones de la semana, caja y semáforo",
+      "close": "Cierre mensual",
+      "closeHint": "Reparto: impuestos, colchón, reinversión y socios"
+    },
+    "briefing": {
+      "week": "Semana del {from} al {to}",
+      "generated": "Preparado el {date}",
+      "policyExample": "política de ejemplo",
+      "policyVersion": "política v{version}",
+      "decisions": "{count, plural, =0 {Decisiones de la semana} one {La decisión de la semana} other {Las # decisiones de la semana}}",
+      "noDecisions": "Esta semana no hay nada que merezca vuestra atención por encima del umbral. Buena señal.",
+      "seeCalc": "Ver cálculo",
+      "openRecommendation": "Abrir la recomendación",
+      "cash": "Caja y runway",
+      "areas": "Semáforo por área",
+      "conflicts": "Tensiones entre agentes",
+      "area": {
+        "caja": "Caja",
+        "ingresos": "Ingresos",
+        "comercial": "Comercial",
+        "clientes": "Clientes",
+        "fiscal": "Fiscal",
+        "crecimiento": "Crecimiento",
+        "operaciones": "Operaciones"
+      },
+      "light": {
+        "verde": "Bien",
+        "ambar": "Atención",
+        "rojo": "Actuar",
+        "sin_datos": "Sin datos"
+      },
+      "regenerate": "¿Ha cambiado algo desde el lunes? El Chief of Staff puede rehacer el briefing con los datos de hoy.",
+      "empty": {
+        "title": "Todavía no hay briefing",
+        "body": "Cada lunes a las 8:00 el Chief of Staff convierte lo que han visto los agentes en un plan de acción: las 3 acciones críticas, las alertas de riesgo, lo que optimizar y los conflictos resueltos, con la caja y un semáforo por área.",
+        "noApiKey": "Hace falta la clave de la API de Claude para prepararlo."
+      },
+      "topActions": "Top 3 acciones críticas",
+      "topActionsHint": "Lo que debe hacerse antes del martes",
+      "noTopActions": "Esta semana no hay nada crítico por encima del umbral. Buena señal.",
+      "priority": "Prioridad {n}",
+      "impact": "Impacto: {amount}",
+      "urgency": "Urgencia: {urgency}",
+      "ifNotDone": "Si no se hace: {text}",
+      "from": "Sale de: {agents}",
+      "riskAlerts": "Alertas de riesgo",
+      "noRiskAlerts": "Nada que pueda romper el negocio esta semana.",
+      "optimizations": "Oportunidades de optimización",
+      "noOptimizations": "Nada nuevo que optimizar esta semana.",
+      "resolvedConflicts": "Conflictos resueltos",
+      "decision": "Decisión: {text}",
+      "risk": {
+        "caja": "Caja",
+        "legal": "Legal",
+        "fiscal": "Fiscal",
+        "cliente": "Cliente",
+        "cuello_de_botella": "Cuello de botella",
+        "margen": "Margen",
+        "otro": "Otro"
+      },
+      "agentShort": {
+        "cfo": "CFO",
+        "commercial": "Comercial",
+        "pricing": "Pricing",
+        "retention": "Retención",
+        "operations": "Operaciones",
+        "growth": "Crecimiento",
+        "fiscal": "Fiscal",
+        "devils_advocate": "Abogado del diablo"
+      }
+    },
+    "history": {
+      "label": "Informes anteriores",
+      "weekly_briefing": "Briefings anteriores",
+      "monthly_close": "Cierres anteriores",
+      "accepted": "Aceptado"
+    },
+    "close": {
+      "professional": "Validar con gestoría",
+      "acceptedBadge": "Aceptado",
+      "policyExample": "Calculado con la política de ejemplo: fijad la vuestra en Ajustes → Consejo.",
+      "policyVersion": "Calculado con la política v{version}.",
+      "figures": "Cifras del mes",
+      "distribution": "Propuesta de reparto",
+      "distributionHint": "Del beneficio disponible ({amount}), en el orden de vuestra política: impuestos, colchón, reinversión y socios. Podéis cambiar cualquier importe antes de aceptar.",
+      "loss": "Mes con pérdidas: no hay nada que repartir",
+      "buckets": {
+        "taxes": {
+          "label": "Impuestos",
+          "hint": "Provisión del Impuesto de Sociedades sobre el beneficio"
+        },
+        "cushion": {
+          "label": "Colchón",
+          "hint": "Lo que falta para llegar a los meses de gastos fijos de la política"
+        },
+        "reinvestment": {
+          "label": "Reinversión",
+          "hint": "Para crecer: herramientas, marketing, formación"
+        },
+        "partners": {
+          "label": "Socios",
+          "hint": "Según las participaciones"
+        }
+      },
+      "proposed": "Propuesta: {amount}",
+      "partnersSplit": "Entre socios: {split}",
+      "cashLimited": "La caja limita el reparto: quedan {freeCash} libres después de impuestos pendientes y del colchón objetivo ({target}).",
+      "acceptedBy": "Aceptado por {who} el {date}",
+      "someone": "alguien",
+      "wasEdited": "con cambios sobre la propuesta",
+      "invalidAmount": "Hay un importe que no se entiende",
+      "balanced": "Cuadra: {total}",
+      "unbalanced": "Suma {total}; tiene que sumar {available}",
+      "note": "Nota del cierre",
+      "notePlaceholder": "Nota (opcional): por qué cambiáis algo",
+      "accept": "Aceptar el reparto",
+      "acceptEdited": "Aceptar con cambios",
+      "acceptHint": "Aceptar deja el reparto registrado con la versión de la política. No mueve dinero: las transferencias las hacéis vosotros, después de validarlo con la gestoría.",
+      "acceptedToast": "Cierre aceptado y registrado",
+      "noDistribution": "No hay propuesta de reparto este mes",
+      "goToFinance": "Completar en Finanzas",
+      "comment": "Comentario del CFO",
+      "seeCalc": "Ver cálculo",
+      "hideCalc": "Ocultar cálculo",
+      "regenerate": "¿Habéis corregido gastos o saldos? El CFO puede rehacer el cierre del mes pasado.",
+      "empty": {
+        "title": "Todavía no hay cierre mensual",
+        "body": "El día 5 de cada mes el CFO cierra el mes anterior: cifras, provisión de impuestos y una propuesta de reparto que podéis editar antes de aceptar.",
+        "noApiKey": "Hace falta la clave de la API de Claude para prepararlo."
+      }
+    },
+    "runs": {
+      "ownerOnly": "El registro de ejecuciones y su coste solo lo ven los owners.",
+      "budgets": "Presupuesto del mes",
+      "monthTotal": "Este mes: {total}",
+      "spent": "{spent} de {budget}",
+      "costNote": "Coste estimado con los precios públicos de la API (entrada, salida y caché). La factura real es la de Anthropic. Si un agente agota su presupuesto, se pausa hasta el mes siguiente.",
+      "empty": "Todavía no hay ejecuciones.",
+      "when": "Cuándo",
+      "agent": "Agente",
+      "trigger": "Disparador",
+      "status": "Estado",
+      "model": "Modelo",
+      "tokens": "Tokens (entrada / salida)",
+      "cost": "Coste",
+      "duration": "Duración",
+      "review": "revisión",
+      "cacheRead": "{tokens} de caché",
+      "toolCalls": "{count, plural, =0 {Sin llamadas a herramientas} one {Una llamada a herramientas} other {# llamadas a herramientas}}",
+      "result": "Resultado",
+      "resultLine": "{published, plural, =0 {Nada publicado} one {Una publicada} other {# publicadas}} · {silenced, plural, =0 {nada silenciado} one {una silenciada} other {# silenciadas}} · {attempts, plural, one {un intento} other {# intentos}}",
+      "silenced": "Silenciado",
+      "issues": "Lo que rechazaron los guardrails",
+      "error": "Error",
+      "statuses": {
+        "running": "En marcha",
+        "succeeded": "Bien",
+        "failed": "Falló",
+        "skipped": "Saltado"
+      },
+      "callStatus": {
+        "ok": "ok",
+        "missing_data": "faltan datos",
+        "error": "error",
+        "denied": "denegada"
+      },
+      "triggers": {
+        "manual": "Ejecutar ahora",
+        "daily": "Diario",
+        "weekly": "Semanal",
+        "monthly": "Mensual",
+        "monthly_close": "Cierre mensual",
+        "weekly_briefing": "Briefing",
+        "challenge": "Revisión",
+        "review": "Seguimiento"
+      }
+    },
+    "errors": {
+      "noApiKey": "Falta la clave de la API de Claude en el servidor: el consejo no puede trabajar.",
+      "discardReason": "Escribe el motivo en una línea (al menos 3 letras).",
+      "postponeDate": "Elige hasta cuándo se pospone.",
+      "transition": "Esa recomendación ya ha cambiado de estado. Recarga la página.",
+      "closeSum": "El reparto tiene que sumar exactamente el beneficio disponible.",
+      "closeInvalid": "Hay un importe del reparto que no es válido.",
+      "closeAccepted": "Este cierre ya está aceptado.",
+      "closeNotAvailable": "Este cierre no tiene propuesta de reparto.",
+      "notRunnable": "Este agente no se lanza a mano: revisa lo que otros publican.",
+      "duplicate": "Ya existe."
+    },
+    "policy": {
+      "exampleTitle": "Son valores de ejemplo, no una recomendación",
+      "exampleBody": "El consejo trabaja con ellos hasta que guardéis los vuestros (y lo dice en cada recomendación). Ajustadlos a vuestra realidad; si os valen tal cual, adoptadlos como versión 1.",
+      "invalidTitle": "La última versión guardada no se puede leer",
+      "invalidBody": "Mientras tanto el consejo usa los valores de ejemplo. Guardad una versión nueva para corregirlo.",
+      "exampleMark": "Ejemplo",
+      "groups": {
+        "reserves": {
+          "title": "Reservas",
+          "description": "Lo primero que se aparta cada mes, antes de repartir nada."
+        },
+        "distribution": {
+          "title": "Reparto de lo que sobra",
+          "description": "Después de impuestos y colchón, cómo se reparte el beneficio disponible."
+        },
+        "raise": {
+          "title": "Subir la retribución de los socios",
+          "description": "El CFO solo lo propone cuando se cumple todo esto."
+        },
+        "hire": {
+          "title": "Contratar",
+          "description": "Operaciones solo lo propone cuando se cumple todo esto."
+        },
+        "projects": {
+          "title": "Proyectos y precio",
+          "description": "La referencia de pricing y margen."
+        },
+        "silence": {
+          "title": "Silencio útil",
+          "description": "Por debajo del primer umbral el consejo calla; desde el segundo, el abogado del diablo revisa antes de publicar."
+        }
+      },
+      "fields": {
+        "cushion_months": {
+          "label": "Colchón objetivo",
+          "hint": "Meses de gastos fijos que tienen que quedar en caja."
+        },
+        "corporate_tax_provision": {
+          "label": "Provisión del Impuesto de Sociedades",
+          "hint": "Sobre el beneficio del mes. Validad el tipo con la gestoría."
+        },
+        "reinvestment": {
+          "label": "Reinversión",
+          "hint": "Parte del beneficio disponible para crecer."
+        },
+        "partners": {
+          "label": "Socios",
+          "hint": "El resto, según las participaciones."
+        },
+        "raise_consecutive_months": {
+          "label": "Meses seguidos",
+          "hint": "Con el MRR por encima del mínimo."
+        },
+        "raise_min_mrr": {
+          "label": "MRR mínimo",
+          "hint": "Ingreso recurrente mensual, sin IVA."
+        },
+        "raise_min_margin": {
+          "label": "Margen mínimo",
+          "hint": "Beneficio sobre ingresos en esos meses."
+        },
+        "raise_require_cushion": {
+          "label": "Con el colchón cumplido",
+          "hint": "No se propone subir mientras la caja no cubra el colchón objetivo."
+        },
+        "hire_min_capacity": {
+          "label": "Capacidad comprometida",
+          "hint": "Horas vendidas sobre las disponibles."
+        },
+        "hire_weeks": {
+          "label": "Durante",
+          "hint": "Semanas seguidas por encima."
+        },
+        "hire_min_pipeline": {
+          "label": "Pipeline ponderado mínimo",
+          "hint": "MRR de los deals abiertos por su probabilidad."
+        },
+        "min_project_margin": {
+          "label": "Margen mínimo por proyecto",
+          "hint": "Por debajo, pricing lo señala."
+        },
+        "target_hourly_rate": {
+          "label": "Precio por hora objetivo",
+          "hint": "Lo que debería salir cada hora facturada."
+        },
+        "impact_threshold": {
+          "label": "Umbral de impacto",
+          "hint": "Por debajo de este impacto no se publica (salvo plazos fiscales)."
+        },
+        "high_impact_threshold": {
+          "label": "Umbral de impacto alto",
+          "hint": "Desde aquí revisa el abogado del diablo."
+        }
+      },
+      "units": {
+        "months": "meses",
+        "weeks": "semanas",
+        "percent": "%",
+        "eur": "€",
+        "eurMonth": "€/mes",
+        "eurHour": "€/h"
+      },
+      "distributionSum": "Reinversión + socios = {sum}",
+      "distributionPending": "Reinversión + socios tienen que sumar 100 %",
+      "changedCount": "{count, plural, one {Un cambio sin guardar} other {# cambios sin guardar}}",
+      "adoptHint": "Guardar tal cual adopta los valores de ejemplo como vuestra versión 1.",
+      "unchanged": "Sin cambios",
+      "note": "Nota de la versión",
+      "notePlaceholder": "Qué cambia y por qué (opcional)",
+      "reset": "Deshacer cambios",
+      "adopt": "Adoptar como versión 1",
+      "saveVersion": "Guardar como versión {version}",
+      "savedToast": "Política guardada: versión {version}",
+      "history": {
+        "title": "Versiones",
+        "description": "Cada guardado es una versión nueva e inmutable. Cada recomendación y cada cierre guardan la versión con la que se hicieron.",
+        "empty": "Todavía no hay ninguna versión guardada.",
+        "current": "Vigente"
+      },
+      "errors": {
+        "fix": "Revisa los campos marcados.",
+        "integer": "Escribe un número entero.",
+        "percent": "Escribe un porcentaje entre 0 y 100 (hasta dos decimales).",
+        "money": "Escribe un importe en euros (sin signo negativo).",
+        "range": "Fuera del rango permitido.",
+        "distributionSum": "Reinversión y socios tienen que sumar 100 %.",
+        "highImpactBelow": "No puede ser menor que el umbral de impacto."
+      }
+    },
+    "settings": {
+      "sectionsLabel": "Secciones de los ajustes del consejo",
+      "sections": {
+        "policy": "Política financiera",
+        "agents": "Agentes",
+        "rules": "Venta cruzada"
+      },
+      "exampleBadge": "Ejemplo",
+      "policyTitle": "Política financiera",
+      "policyDescription": "La que aplican los agentes: vigente la versión {version}.",
+      "policyDescriptionExample": "La que aplican los agentes. Ahora mismo, la de ejemplo.",
+      "agentsTitle": "Agentes",
+      "agentsDescription": "Encended o apagad cada agente, elegid su modelo, su presupuesto mensual y sus umbrales.",
+      "connection": {
+        "readyTitle": "El consejo está conectado",
+        "readyBody": "La clave de la API está en el servidor. Los agentes trabajan según su calendario y cuando pulsáis «Ejecutar ahora».",
+        "missingTitle": "El consejo no está conectado",
+        "missingBody": "Sin la clave de la API de Claude no se encola ni se ejecuta nada. Lo ya publicado se sigue viendo.",
+        "runsLink": "Ejecuciones y coste",
+        "apiKey": {
+          "ok": "Clave de la API",
+          "missing": "Falta la clave de la API"
+        },
+        "cron": {
+          "ok": "Cron protegido",
+          "missing": "Falta CRON_SECRET"
+        },
+        "steps": {
+          "key": "Guarda la clave de la API como variable de entorno del servidor (nunca llega al navegador):",
+          "cron": "Programa una llamada cada hora al cron del consejo, con el secreto del cron:",
+          "policy": "Fijad vuestra política financiera aquí mismo. Hasta entonces, los agentes usan la de ejemplo."
+        }
+      },
+      "agents": {
+        "budgetNote": "Presupuestos en dólares, que es como factura la API. Si un agente agota el suyo, se pausa hasta el mes siguiente.",
+        "accuracy": "acierto: {hit} sí · {partial} a medias · {miss} no",
+        "spent": "{spent} de {budget}",
+        "enabled": "Encender o apagar: {agent}",
+        "configure": "Configurar: {agent}",
+        "model": "Modelo",
+        "modelHint": "Sonnet para lo diario; Opus para lo que pide más criterio.",
+        "modelDefault": "Por defecto ({model})",
+        "budget": "Presupuesto mensual",
+        "budgetHint": "Vacío: el de por defecto ({amount}).",
+        "usdMonth": "US$/mes",
+        "reset": "Deshacer",
+        "savedToast": "{agent}: ajustes guardados",
+        "errors": {
+          "budget": "El presupuesto tiene que ser un importe en dólares.",
+          "threshold": "entre {min} y {max}"
+        }
+      },
+      "thresholds": {
+        "stalled_days": {
+          "label": "Deal parado desde",
+          "hint": "Días sin cambiar de etapa ni actividad. Por defecto {default} ({min}-{max}).",
+          "unit": "días"
+        },
+        "inactivity_days": {
+          "label": "Cliente sin actividad",
+          "hint": "Días sin actividad para marcarlo en riesgo. Por defecto {default} ({min}-{max}).",
+          "unit": "días"
+        },
+        "overdue_days": {
+          "label": "Factura vencida desde",
+          "hint": "Días de retraso para marcar al cliente en riesgo. Por defecto {default} ({min}-{max}).",
+          "unit": "días"
+        },
+        "deadline_days": {
+          "label": "Aviso de plazos fiscales",
+          "hint": "Días de antelación. Por defecto {default} ({min}-{max}).",
+          "unit": "días"
+        },
+        "max_recommendations": {
+          "label": "Recomendaciones por ejecución",
+          "hint": "Como mucho; menos y mejores. Por defecto {default} ({min}-{max}).",
+          "unit": "máx."
+        },
+        "max_decisions": {
+          "label": "Acciones críticas del briefing",
+          "hint": "Como mucho; por defecto {default} ({min}-{max}).",
+          "unit": "máx."
+        },
+        "dismissed_cooldown_days": {
+          "label": "Descartadas no vuelven en",
+          "hint": "Días que una recomendación descartada no se repite. Por defecto {default} ({min}-{max}).",
+          "unit": "días"
+        }
+      },
+      "rules": {
+        "title": "Reglas de venta cruzada",
+        "description": "Las usa el agente de retención para proponer upsells: son datos, no código. Una regla mira qué tiene contratado cada cliente y qué le falta.",
+        "add": "Añadir regla",
+        "addTitle": "Nueva regla de venta cruzada",
+        "editTitle": "Editar regla",
+        "formDescription": "Las palabras se buscan en las líneas de contrato de cada cliente, sin distinguir mayúsculas ni acentos.",
+        "empty": "No hay reglas: el agente de retención no propondrá venta cruzada.",
+        "archive": "Archivar",
+        "restore": "Recuperar",
+        "archivedBadge": "Archivada",
+        "archivedToast": "Regla archivada",
+        "restoredToast": "Regla recuperada",
+        "savedToast": "Regla guardada",
+        "createdToast": "Regla creada",
+        "showArchived": "{count, plural, one {Ver la archivada} other {Ver las # archivadas}}",
+        "hideArchived": "Ocultar las archivadas",
+        "summary": {
+          "requires": "Tiene: {words}",
+          "excludes": "Le falta: {words}",
+          "maxServices": "{count, plural, one {Con un servicio como mucho} other {Con # servicios como mucho}}",
+          "minMonths": "{count, plural, one {Cliente desde hace un mes} other {Cliente desde hace # meses}}",
+          "reference": "Referencia: {amount}/mes",
+          "noReference": "Sin precio de referencia"
+        },
+        "fields": {
+          "label": "Nombre",
+          "requires": "El cliente ha contratado algo con",
+          "requiresHint": "Palabras separadas por comas, p. ej. web, tienda online.",
+          "excludes": "…y no tiene nada con",
+          "excludesHint": "Palabras separadas por comas, p. ej. mantenimiento, seo.",
+          "maxServices": "Servicios recurrentes como mucho",
+          "maxServicesHint": "Vacío: da igual cuántos tenga.",
+          "minMonths": "Cliente desde hace al menos",
+          "minMonthsHint": "Meses. Vacío: da igual.",
+          "suggestion": "Qué proponer",
+          "suggestionHint": "La frase que usará el agente, p. ej. Ofrecer mantenimiento mensual de la web.",
+          "reference": "Precio de referencia",
+          "referenceHint": "Lo que suele costar el servicio sugerido, sin IVA: da el impacto de la regla.",
+          "referenceUnit": "€/mes"
+        },
+        "errors": {
+          "label": "Ponle un nombre.",
+          "suggestion": "Escribe qué proponer.",
+          "requiresAny": "Escribe al menos una palabra (de 2 a 60 letras).",
+          "words": "Cada palabra, de 2 a 60 letras.",
+          "maxServices": "Entre 1 y 20, o vacío.",
+          "minMonths": "Entre 0 y 120, o vacío.",
+          "reference": "Escribe un importe en euros."
+        }
+      },
+      "errors": {
+        "unknownThreshold": "Ese umbral no es de este agente.",
+        "thresholdRange": "Un umbral está fuera de su rango."
+      }
+    }
+  }
+}

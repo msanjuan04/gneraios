@@ -1,0 +1,226 @@
+{
+  "catalog": {
+    "title": "Catàleg de serveis",
+    "description": "El que pressuposteu una vegada i una altra, amb el preu, la recurrència i l'IVA. En triar-lo en un pressupost, un contracte o una factura, la línia arriba feta i en l'idioma del client.",
+    "readOnly": "Només un soci pot canviar el catàleg.",
+    "newItem": "Nou servei",
+    "newBundle": "Nou pack",
+    "copySuffix": "(còpia)",
+    "copySuffixN": "(còpia {n})",
+    "categories": {
+      "web": "Web",
+      "seo": "SEO",
+      "ads": "Publicitat",
+      "branding": "Branding",
+      "social": "Xarxes socials",
+      "hosting": "Hosting",
+      "maintenance": "Manteniment",
+      "consulting": "Consultoria",
+      "other": "Altres"
+    },
+    "pricingKinds": {
+      "one_off": "Puntual",
+      "recurring": "Recurrent",
+      "usage": "Per ús"
+    },
+    "intervals": {
+      "monthly": "Mensual",
+      "yearly": "Anual"
+    },
+    "languages": {
+      "es": "castellà",
+      "ca": "català",
+      "en": "anglès"
+    },
+    "empty": {
+      "title": "El vostre catàleg està buit",
+      "body": "Deseu aquí els serveis que sempre pressuposteu (webs, SEO, campanyes…) i afegiu-los a un pressupost en un clic, amb el preu, l'IVA i en l'idioma del client.",
+      "readOnly": "Encara no hi ha serveis al catàleg.",
+      "starter": "Crea serveis d'exemple",
+      "starterPending": "Creant…",
+      "starterHint": "Web corporativa, botiga en línia, SEO mensual, Google i Meta Ads, hosting, manteniment… amb preus orientatius que després canvieu pels vostres.",
+      "starterToast": "{count, plural, one {# servei creat} other {# serveis creats}}. Reviseu els preus."
+    },
+    "list": {
+      "noActive": "Tots els serveis estan arxivats.",
+      "add": "Afegeix",
+      "addTo": "Afegeix un servei a {category}",
+      "edit": "Edita",
+      "more": "Més accions",
+      "duplicate": "Duplica",
+      "moveUp": "Puja",
+      "moveDown": "Baixa",
+      "archive": "Arxiva",
+      "restore": "Restaura",
+      "translated": "Amb versió en {language}",
+      "notTranslated": "Sense versió en {language}: surt en castellà",
+      "vatArchived": "El seu IVA està arxivat: les seves línies portaran l'IVA per defecte fins que el canvieu.",
+      "noIrpf": "sense IRPF",
+      "noIrpfHint": "No se li aplica la retenció de la factura.",
+      "quantity": "× {quantity} per defecte"
+    },
+    "toasts": {
+      "saved": "Servei desat",
+      "created": "«{name}» afegit al catàleg",
+      "duplicated": "Còpia de «{name}» creada",
+      "archived": "«{name}» arxivat",
+      "restored": "«{name}» restaurat",
+      "bundleSaved": "Pack desat",
+      "bundleCreated": "Pack «{name}» creat",
+      "bundleArchived": "Pack «{name}» arxivat",
+      "bundleDuplicated": "Còpia del pack «{name}» creada"
+    },
+    "archive": {
+      "title": "Vols arxivar «{name}»?",
+      "body": "Deixarà de proposar-se en pressupostos, contractes i factures, i d'afegir-se amb els seus packs. El que ja s'ha pressupostat no canvia. El podeu restaurar quan vulgueu.",
+      "bundleBody": "Deixarà de proposar-se. Els seus serveis continuen al catàleg i el podeu restaurar quan vulgueu."
+    },
+    "archived": {
+      "title": "Arxivats ({count})",
+      "description": "No es proposen en pressupostar. Restaureu-los per tornar-los a fer servir."
+    },
+    "item": {
+      "createTitle": "Nou servei",
+      "editTitle": "Edita el servei",
+      "description": "En triar-lo, la línia arriba amb aquest text (en l'idioma del client), el preu, la recurrència i l'IVA. Després es pot canviar a cada document.",
+      "name": "Nom",
+      "namePlaceholder": "Web corporativa",
+      "category": "Categoria",
+      "descriptionLabel": "Descripció",
+      "descriptionPlaceholder": "Disseny i desenvolupament d'una web de fins a 5 pàgines, adaptada al mòbil…",
+      "descriptionHint": "Va darrere del nom a la línia («Nom — descripció»), en una sola línia.",
+      "sections": {
+        "price": "Preu",
+        "translations": "Traduccions",
+        "preview": "Així surt en un pressupost"
+      },
+      "kind": "Tipus de preu",
+      "interval": "Cada quant",
+      "kindHints": {
+        "one_off": "Es cobra una vegada, en els pagaments del pla del pressupost.",
+        "recurring": "Una quota fixa cada mes o cada any, des que s'accepta.",
+        "usage": "Es cobra el que es faci servir en cada període, a aquest preu."
+      },
+      "unitPrice": "Preu sense IVA",
+      "unitPriceHints": {
+        "one_off": "Per unitat.",
+        "monthly": "Cada mes.",
+        "yearly": "Cada any.",
+        "usage": "Per cada ús o unitat."
+      },
+      "unitLabel": "Unitat",
+      "unitLabelPlaceholder": "hora, pàgina, campanya…",
+      "unitLabelHint": "Acompanya el preu al catàleg. No surt al pressupost.",
+      "quantity": "Quantitat per defecte",
+      "quantityHint": "La que porta la línia.",
+      "vat": "IVA",
+      "vatPlaceholder": "Tria un tipus d'IVA",
+      "vatReplaced": "Tenia {name}, que està arxivat: es proposa el vigent.",
+      "irpf": "Subjecte a IRPF",
+      "irpfHint": "Si la factura porta retenció (un autònom que factura a una empresa), aquesta línia l'aplica.",
+      "previewHint": "Amb els textos i el format del PDF, en cada idioma. El que no està traduït surt en castellà.",
+      "previewLanguage": "Idioma de la previsualització",
+      "previewEmpty": "Escriu un nom per veure la línia.",
+      "create": "Crea el servei"
+    },
+    "translations": {
+      "label": "Idioma de la traducció",
+      "hint": "El que deixeu buit surt en castellà.",
+      "name": "Nom en {language}",
+      "description": "Descripció en {language}"
+    },
+    "bundle": {
+      "createTitle": "Nou pack",
+      "editTitle": "Edita el pack",
+      "description": "Serveis que es venen junts, amb un descompte. En triar-lo arriben totes les seves línies, cadascuna amb el descompte i del seu tipus: el que és puntual i el que és recurrent no es barregen mai.",
+      "name": "Nom",
+      "namePlaceholder": "Pack Llançament",
+      "discount": "Descompte",
+      "discountHint": "Va a cada línia del pack.",
+      "descriptionLabel": "Descripció",
+      "descriptionPlaceholder": "Tot el necessari per sortir al mercat…",
+      "descriptionHint": "Per reconèixer-lo en triar-lo. Cada línia porta la descripció del seu servei.",
+      "items": "Serveis del pack",
+      "addItem": "Afegeix servei",
+      "searchItems": "Cerca un servei…",
+      "noItems": "No queda cap servei per afegir.",
+      "emptyItems": "Afegeix els serveis que porta el pack.",
+      "missingItem": "Servei que ja no existeix",
+      "archivedItem": "Arxivat: no s'afegirà",
+      "quantity": "Quantitat",
+      "moveUp": "Puja",
+      "moveDown": "Baixa",
+      "remove": "Treu del pack",
+      "savings": "estalvi {amount}",
+      "totalsHint": "Bases sense IVA, amb el descompte i cada tipus per separat.",
+      "previewHint": "Totes les seves línies, amb els textos i el format del PDF, en cada idioma.",
+      "previewEmpty": "Afegeix serveis per veure'n les línies.",
+      "create": "Crea el pack"
+    },
+    "bundles": {
+      "title": "Packs",
+      "description": "Serveis que es venen junts, amb descompte. En triar-ne un arriben totes les seves línies.",
+      "empty": "Encara no hi ha packs. Combineu serveis del catàleg (p. ex. branding, web i hosting) amb un descompte.",
+      "one": "Pack",
+      "noItems": "Sense serveis actius",
+      "skipped": "{count, plural, one {# servei arxivat no s'afegirà} other {# serveis arxivats no s'afegiran}}",
+      "usageCount": "{count, plural, one {# preu per ús} other {# preus per ús}}",
+      "savings": "Estalvi {amount}"
+    },
+    "picker": {
+      "trigger": "Del catàleg",
+      "search": "Cerca un servei o un pack…",
+      "language": "Les línies arriben en {language}",
+      "filters": "Categories",
+      "all": "Tot",
+      "bundles": "Packs",
+      "loading": "Carregant el catàleg…",
+      "error": "No s'ha pogut carregar el catàleg.",
+      "retry": "Torna-ho a provar",
+      "emptyCatalog": "El catàleg està buit. Afegiu serveis a Configuració → Catàleg.",
+      "empty": "Res no coincideix amb la cerca.",
+      "bundleEmpty": "Tots els serveis d'aquest pack estan arxivats.",
+      "skipped": "{count, plural, one {# servei arxivat del pack no s'ha afegit} other {# serveis arxivats del pack no s'han afegit}}",
+      "added": "{count, plural, one {# línia afegida} other {# línies afegides}}",
+      "bundleItems": "{count, plural, one {# servei} other {# serveis}}",
+      "manage": "Gestiona",
+      "hints": {
+        "navigate": "moure's",
+        "add": "afegir",
+        "addMore": "afegir i continuar",
+        "filters": "categories"
+      }
+    },
+    "validation": {
+      "money": "Un import en euros, p. ex. 1.500 o 450,50",
+      "quantity": "Un nombre més gran que 0, amb 3 decimals com a màxim",
+      "vatRate": "Tria un tipus d'IVA",
+      "discount": "Un percentatge de 0 a 100",
+      "bundleEmpty": "Afegeix almenys un servei",
+      "bundleTooMany": "Un pack porta 50 serveis com a màxim",
+      "bundleRepeated": "Un servei va una sola vegada: augmenta'n la quantitat"
+    },
+    "errors": {
+      "vatRateArchived": "Aquest tipus d'IVA està arxivat: tria'n un altre.",
+      "bundleItemsInvalid": "Un pack porta d'1 a 50 serveis.",
+      "bundleItemRepeated": "Un servei va una sola vegada en un pack: augmenta'n la quantitat.",
+      "bundleNotFound": "Aquest pack ja no existeix.",
+      "catalogOrgFixed": "Un element del catàleg no canvia d'organització.",
+      "nameTaken": "Ja n'hi ha un altre d'actiu amb aquest nom.",
+      "reference": "L'IVA o algun servei ja no és vàlid. Recarrega i torna-ho a provar.",
+      "invalid": "Algun text no és vàlid.",
+      "translationsInvalid": "Alguna traducció no és vàlida.",
+      "itemNotFound": "Aquest servei ja no existeix.",
+      "starterNotEmpty": "El catàleg ja té serveis: l'exemple només es crea en un de buit.",
+      "noVatRate": "No hi ha cap tipus d'IVA vigent: crea'l a Configuració → Impostos."
+    },
+    "dnd": {
+      "handle": "Mou «{name}»",
+      "instructions": "Prem Espai per agafar la fila, mou-la amb les fletxes i torna a prémer Espai per deixar-la anar. Escape cancel·la.",
+      "picked": "Has agafat «{name}».",
+      "over": "«{name}» és sobre «{target}».",
+      "dropped": "«{name}» s'ha deixat anar.",
+      "cancelled": "S'ha cancel·lat el moviment de «{name}»."
+    }
+  }
+}

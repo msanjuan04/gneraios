@@ -4,9 +4,11 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { ReadOnlyNotice, SettingsSectionHeader } from "@/components/settings/settings-card";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { readFiscalCalendarSettings } from "@/domain/calendar/fiscal";
 import { formatBps } from "@/domain/money";
 import { createClient } from "@/lib/supabase/server";
 import { getOrgContext, hasRole } from "@/server/session";
+import { FiscalCalendarForm } from "./fiscal-calendar-form";
 import { AddTaxRateButton, TaxRateRowActions } from "./tax-rate-sheet";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -96,6 +98,10 @@ export default async function TaxesSettingsPage({ params }: PageProps<"/[org]/se
           </Table>
         </div>
       )}
+
+      <div className="mt-10">
+        <FiscalCalendarForm slug={org.slug} value={readFiscalCalendarSettings(org.settings)} canEdit={canEdit} />
+      </div>
     </div>
   );
 }

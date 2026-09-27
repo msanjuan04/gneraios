@@ -1,0 +1,10 @@
+{
+  "errorBoundary": {
+    "title": "Algo ha fallado en esta pantalla",
+    "body": "No se ha perdido nada y el resto de la app sigue funcionando. Vuelve a intentarlo; si se repite, pasa este código a quien lo vaya a mirar:",
+    "retry": "Reintentar",
+    "home": "Ir al inicio",
+    "globalTitle": "GNERAI OS no ha podido cargar",
+    "globalBody": "Vuelve a intentarlo en unos segundos."
+  }
+}

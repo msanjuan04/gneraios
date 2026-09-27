@@ -1,6 +1,7 @@
 "use server";
 
 import type { PostgrestError } from "@supabase/supabase-js";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { emptyToNull } from "@/lib/validation/fiscal";
 import { deliverInvitation, type InviteDelivery } from "@/server/invitations";
@@ -148,6 +149,89 @@ export async function setMemberActive(slug: string, input: MemberAccessInput): P
   if (error) return dbFailure(error, "setMemberActive", knownMemberErrors);
   if (data.length === 0) return failure("settings.team.memberNotFound");
 
+  revalidateSettings(ctx.org.slug, "team");
+  return { ok: true };
+}
+
+// ---------------------------------------------------------------------------
+// Seguridad del acceso: verificación en dos pasos (TOTP)
+// ---------------------------------------------------------------------------
+
+/** Miembros activos de la org con su usuario de Auth (con RLS: solo miembros de la org). */
+async function activeMembers(orgId: string) {
+  const supabase = await createClient();
+  const { data, error } = await supabase.from("members").select("id, user_id, full_name, is_active").eq("org_id", orgId);
+  if (error) throw error;
+  return data;
+}
+
+/** ¿Tiene el usuario algún factor TOTP verificado? (API admin de Supabase Auth.) */
+async function hasVerifiedFactor(userId: string): Promise<boolean> {
+  const { data, error } = await createAdminClient().auth.admin.mfa.listFactors({ userId });
+  if (error) throw error;
+  return data.factors.some((f) => f.status === "verified");
+}
+
+/**
+ * Restablece la verificación en dos pasos de un miembro (p. ej. ha perdido el móvil): borra sus
+ * factores y cierra todas sus sesiones. En su próxima entrada la vuelve a configurar.
+ */
+export async function resetMemberMfa(slug: string, memberId: string): Promise<ActionResult> {
+  const ctx = await ownerContext(slug);
+  if (!ctx) return forbidden();
+  const id = idSchema.safeParse(memberId);
+  if (!id.success) return invalidInput();
+
+  const member = (await activeMembers(ctx.org.id)).find((m) => m.id === id.data);
+  if (!member) return failure("settings.team.memberNotFound");
+
+  const admin = createAdminClient();
+  const { data, error } = await admin.auth.admin.mfa.listFactors({ userId: member.user_id });
+  if (error) {
+    console.error("[team] resetMemberMfa.list", error);
+    return failure("common.errorGeneric");
+  }
+  for (const factor of data.factors) {
+    const { error: deleteError } = await admin.auth.admin.mfa.deleteFactor({ id: factor.id, userId: member.user_id });
+    if (deleteError) {
+      console.error("[team] resetMemberMfa.delete", deleteError);
+      return failure("common.errorGeneric");
+    }
+  }
+  // Sus sesiones abiertas (también las de otros dispositivos) dejan de valer.
+  const supabase = await createClient();
+  const { error: revokeError } = await supabase.rpc("revoke_member_sessions", { p_org: ctx.org.id, p_member: member.id });
+  if (revokeError) return dbFailure(revokeError, "resetMemberMfa.revoke");
+
+  revalidateSettings(ctx.org.slug, "team");
+  return { ok: true };
+}
+
+/**
+ * Exige (o deja de exigir) la verificación en dos pasos a todos, también en la base de datos. Solo
+ * se enciende desde una sesión que ya la ha pasado y si todos los miembros activos la tienen: así
+ * nadie se queda fuera.
+ */
+export async function setRequireMfa(slug: string, enabled: boolean): Promise<ActionResult> {
+  const ctx = await ownerContext(slug);
+  if (!ctx) return forbidden();
+  if (typeof enabled !== "boolean") return invalidInput();
+
+  const supabase = await createClient();
+  if (enabled) {
+    const { data } = await supabase.auth.getClaims();
+    if (data?.claims.aal !== "aal2") return failure("settings.team.security.needOwnMfa");
+    const members = (await activeMembers(ctx.org.id)).filter((m) => m.is_active);
+    const missing: string[] = [];
+    for (const m of members) if (!(await hasVerifiedFactor(m.user_id))) missing.push(m.full_name);
+    if (missing.length > 0) return failure("settings.team.security.missingMembers", { names: missing.join(", ") });
+  }
+
+  const { error } = await supabase.from("orgs").update({ require_mfa: enabled }).eq("id", ctx.org.id);
+  if (error) {
+    if (error.hint === "mfa_required_to_enable") return failure("settings.team.security.needOwnMfa");
+    return dbFailure(error, "setRequireMfa");
+  }
   revalidateSettings(ctx.org.slug, "team");
   return { ok: true };
 }

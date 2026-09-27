@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { QuoteEditor } from "@/components/quotes/quote-editor";
+import { QuoteShareCard } from "@/components/quotes/quote-share-card";
 import { nowInZone } from "@/lib/clock";
 import { createClient } from "@/lib/supabase/server";
 import { idSchema } from "@/server/action-utils";
+import { getQuoteShareData } from "@/server/portal/links";
 import { getQuoteEditorData, getQuoteHeading } from "@/server/quotes/queries";
 import { getOrgContext, hasRole } from "@/server/session";
 
@@ -24,8 +26,19 @@ export default async function QuotePage({ params }: Props) {
   const { org: slug, id } = await params;
   if (!idSchema.safeParse(id).success) notFound();
   const { org, member } = await getOrgContext(slug);
-  const data = await getQuoteEditorData(await createClient(), org, id, hasRole(member.role, "partner"));
+  const supabase = await createClient();
+  const canAct = hasRole(member.role, "partner");
+  const data = await getQuoteEditorData(supabase, org, id, canAct);
   if (!data) notFound();
+  const share = data.quoteId ? await getQuoteShareData(supabase, org.id, { id: data.quoteId, status: data.status, state: data.state }) : null;
 
-  return <QuoteEditor slug={org.slug} basePath={`/${org.slug}`} today={nowInZone(org.timezone).date} data={data} />;
+  return (
+    <QuoteEditor
+      slug={org.slug}
+      basePath={`/${org.slug}`}
+      today={nowInZone(org.timezone).date}
+      data={data}
+      share={share && <QuoteShareCard key="share" slug={org.slug} data={share} canAct={canAct} />}
+    />
+  );
 }

@@ -48,3 +48,24 @@ export function renderEmail(template: EmailTemplate, locale: EmailLocale, p: Ema
   };
   return { subject: t(`${template}.subject`, values), body: t(`${template}.body`, values) };
 }
+
+export type ClientReportEmailParams = {
+  /** Primer día del mes del informe ("2026-08-01"). */
+  month: CivilDate;
+  clientName: string;
+  /** Quien lo envía: la org. */
+  senderName: string;
+};
+
+/**
+ * Asunto y cuerpo del email del informe mensual (plantilla 'client_report'); el PDF va adjunto. Cada
+ * idioma nombra el mes a su manera («de agosto», «d’agost», «for August»), así que el catálogo lo
+ * elige con un select.
+ */
+export function renderClientReportEmail(locale: EmailLocale, p: ClientReportEmailParams): { subject: string; body: string } {
+  const t = createTranslator({ locale, messages: CATALOGS[locale], namespace: "emails.client_report" });
+  // Texto, no número: ICU pondría separador de miles al año ("2.026").
+  const when = { month: p.month.slice(5, 7), year: p.month.slice(0, 4) };
+  const values = { period: t("period", when), ofPeriod: t("ofPeriod", when), client: p.clientName, sender: p.senderName };
+  return { subject: t("subject", values), body: t("body", values) };
+}

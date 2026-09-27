@@ -1,0 +1,743 @@
+{
+  "council": {
+    "meta": {
+      "feed": "Consell",
+      "briefing": "Briefing setmanal · Consell",
+      "close": "Tancament mensual · Consell",
+      "runs": "Execucions · Consell"
+    },
+    "title": "Consell",
+    "description": "Nou agents llegeixen el negoci amb eines deterministes i proposen decisions amb evidència. No calculen mentalment ni executen res: decidiu vosaltres.",
+    "nav": {
+      "label": "Seccions del consell",
+      "feed": "Recomanacions",
+      "briefing": "Briefing setmanal",
+      "close": "Tancament mensual",
+      "runs": "Execucions"
+    },
+    "agents": {
+      "cfo": {
+        "name": "CFO · Tresoreria i repartiment",
+        "mission": "Quant reservar, repartir i reinvertir; provisió d'impostos; quan apujar la retribució; alertes de caixa."
+      },
+      "commercial": {
+        "name": "Director comercial",
+        "mission": "Deals aturats, millor acció següent, previsió de tancament i fonts que converteixen."
+      },
+      "pricing": {
+        "name": "Pricing i marge",
+        "mission": "Clients i serveis poc rendibles; quan i quant apujar els preus; què empaquetar."
+      },
+      "retention": {
+        "name": "Retenció i upsell",
+        "mission": "Clients en risc, renovacions i venda creuada segons les vostres regles."
+      },
+      "operations": {
+        "name": "Operacions i capacitat",
+        "mission": "Càrrega per soci, colls d'ampolla i quan contractar o externalitzar."
+      },
+      "growth": {
+        "name": "Creixement i SEO",
+        "mission": "Quin canal porta clients que paguen i on invertir en màrqueting propi."
+      },
+      "fiscal": {
+        "name": "Fiscal i compliment",
+        "mission": "Calendari d'IVA, IS, retencions i Verifactu: quantifica i avisa amb antelació. Sempre per validar amb la gestoria."
+      },
+      "devils_advocate": {
+        "name": "Advocat del diable",
+        "mission": "Revisa el que és d'impacte alt abans de publicar-ho: supòsits febles, riscos i escenari pessimista."
+      },
+      "chief_of_staff": {
+        "name": "Chief of Staff",
+        "mission": "Prioritza per euros i urgència, resol conflictes entre agents i prepara el briefing del dilluns."
+      }
+    },
+    "cadence": {
+      "daily": "Cada dia a les {hour}:00",
+      "weekly": "{weekday, select, 1 {Els dilluns} 2 {Els dimarts} 3 {Els dimecres} 4 {Els dijous} 5 {Els divendres} 6 {Els dissabtes} other {Els diumenges}} a les {hour}:00",
+      "monthly": "El dia {day} de cada mes",
+      "beforePublishing": "Abans de publicar el que és d'impacte alt",
+      "manual": "A demanda"
+    },
+    "intro": {
+      "connect": {
+        "title": "Un consell de direcció que no s'inventa res",
+        "body": "Nou agents especialitzats llegeixen els vostres contractes, factures, pipeline, despeses i caixa amb eines deterministes, i us proposen decisions amb l'evidència al davant. Per començar a treballar necessiten la clau de l'API de Claude.",
+        "stepsTitle": "Com connectar-lo",
+        "steps": {
+          "key": {
+            "title": "Crea una clau de l'API",
+            "body": "A la consola d'Anthropic, amb un límit de despesa a la vostra mida. A més, cada agent té el seu propi pressupost mensual."
+          },
+          "env": {
+            "title": "Desa-la al servidor",
+            "body": "Com a variable d'entorn. No arriba mai al navegador; sense la clau, el consell no posa res a la cua."
+          },
+          "cron": {
+            "title": "Programa el cron",
+            "body": "Una crida cada hora posa en marxa el briefing del dilluns, el tancament del dia 5 i les revisions diàries i setmanals."
+          },
+          "policy": {
+            "title": "Fixeu la vostra política financera",
+            "body": "A Configuració → Consell. Fins aleshores es treballa amb valors d'exemple, i cada recomanació ho indica."
+          }
+        },
+        "ownerOnly": "La connexió la fa un owner."
+      },
+      "empty": {
+        "title": "El consell encara no ha dit res",
+        "body": "Quan un agent trobi alguna cosa que superi el vostre llindar d'impacte, apareixerà aquí amb el seu càlcul. Si no hi ha res rellevant, calla: ho fa a posta."
+      },
+      "principles": {
+        "neverCalculates": {
+          "title": "No calcula mentalment",
+          "body": "Cada xifra surt d'una eina provada. Si un número del text no apareix a l'evidència, es rebutja i es regenera."
+        },
+        "evidence": {
+          "title": "Sempre amb evidència",
+          "body": "Mètrica, valor, període, font i enllaç a la pantalla. Si falten dades, ho diu."
+        },
+        "readOnly": {
+          "title": "Només lectura",
+          "body": "No crea factures, no mou diners, no canvia sous ni envia emails. Acceptar només crea tasques."
+        },
+        "policy": {
+          "title": "La política és vostra",
+          "body": "Quant reservar i quan repartir ho decidiu vosaltres; els agents ho apliquen i en citen la versió."
+        },
+        "professional": {
+          "title": "Validar amb la gestoria",
+          "body": "Tot el que és fiscal, laboral i legal va marcat per a revisió professional. No és mai assessorament."
+        },
+        "silence": {
+          "title": "Silenci útil",
+          "body": "Llindar d'impacte i sense repetir el que continua obert o vau descartar fa poc. Menys i millors."
+        }
+      },
+      "agentsTitle": "Els nou agents",
+      "agentsBody": "Cadascun amb la seva missió, les seves eines i el seu calendari. Els podeu apagar, canviar-ne el model o limitar-ne el pressupost."
+    },
+    "strip": {
+      "label": "Estat dels agents",
+      "disabled": "Apagat",
+      "paused": "En pausa: pressupost del mes esgotat",
+      "working": "Treballant…",
+      "pending": "A la cua",
+      "last": "Va treballar {when}",
+      "lastFailed": "Va fallar {when}",
+      "never": "Encara no ha treballat",
+      "runNow": "Executa ara: {agent}",
+      "runNowShort": "Executa ara",
+      "queued": "{agent} s'ha posat a treballar"
+    },
+    "evidence": {
+      "from": "via {tool}",
+      "missing": "Sense dades",
+      "open": "Obre {label}"
+    },
+    "tools": {
+      "get_revenue": "Ingressos",
+      "get_mrr_history": "Històric d'MRR",
+      "get_churn": "Baixes",
+      "get_nrr": "Retenció neta (NRR)",
+      "get_receivables": "Cobraments pendents",
+      "get_concentration": "Concentració de clients",
+      "get_pipeline": "Pipeline",
+      "get_stalled_deals": "Deals aturats",
+      "get_conversion_by_source": "Conversió per font",
+      "get_renewals": "Renovacions",
+      "get_at_risk_clients": "Clients en risc",
+      "get_upsell_candidates": "Venda creuada",
+      "get_client_profitability": "Rendibilitat per client",
+      "get_capacity": "Capacitat",
+      "get_seo_summary": "SEO",
+      "get_policy": "Política financera",
+      "get_past_recommendations": "Recomanacions anteriors",
+      "simulate": "Simulació",
+      "get_monthly_close": "Tancament mensual",
+      "get_expenses": "Despeses",
+      "get_cash_position": "Caixa",
+      "get_cash_forecast": "Previsió de caixa",
+      "get_runway": "Runway",
+      "get_tax_provisions": "Impostos"
+    },
+    "card": {
+      "confidence": "Confiança {level}",
+      "professional": "Validar amb la gestoria",
+      "professionalHint": "Requereix revisió professional: no és assessorament",
+      "impact": "Impacte estimat",
+      "noImpact": "Sense quantificar",
+      "backToday": "Torna avui",
+      "until": "Fins al {date}",
+      "decided": "{who} · {date}",
+      "someone": "Algú",
+      "tasksProgress": "{done} de {total} tasques fetes",
+      "accept": "Accepta",
+      "postpone": "Posposa",
+      "discard": "Descarta",
+      "markDone": "Marca com a feta",
+      "doneToast": "Marcada com a feta",
+      "bringBack": "Fes-la tornar",
+      "reopen": "Reobre",
+      "reopenedToast": "Torna a ser entre les noves",
+      "seeCalc": "Mostra el càlcul",
+      "hideCalc": "Amaga el càlcul",
+      "acceptTitle": "{count, plural, one {En acceptar, es crea aquesta tasca:} other {En acceptar, es creen aquestes # tasques:}}",
+      "dueIn": "{days, plural, =0 {per a avui} one {d'aquí a # dia} other {d'aquí a # dies}}",
+      "acceptHint": "El consell no executa res: les tasques les feu vosaltres. Als 30, 60 i 90 dies es compara l'impacte real amb l'estimat.",
+      "acceptConfirm": "Accepta i crea les tasques",
+      "acceptedToast": "Acceptada: tasques creades",
+      "postponeUntil": "Que torni",
+      "postpone7": "D'aquí a una setmana",
+      "postpone14": "D'aquí a dues setmanes",
+      "postpone30": "D'aquí a un mes",
+      "postponedToast": "Posposada fins al {date}",
+      "discardPlaceholder": "Per què no, en una línia",
+      "discardReason": "Motiu del descart",
+      "discardConfirm": "Descarta",
+      "discardedToast": "Descartada. El motiu arribarà a l'agent la propera vegada.",
+      "discardHint": "L'agent llegirà el motiu la propera vegada i no ho tornarà a proposar durant un temps.",
+      "cancel": "Cancel·la",
+      "reasoning": "Raonament",
+      "evidence": "Evidència",
+      "missing": "Dades que falten",
+      "risks": "Riscos",
+      "challenge": "Advocat del diable",
+      "verdict": {
+        "publicar": "Es sosté tal com és",
+        "publicar_con_cambios": "Es sosté amb matisos",
+        "descartar": "No es sosté"
+      },
+      "pessimistic": "Escenari pessimista",
+      "notChallenged": "Sense la revisió de l'advocat del diable: {reason}",
+      "policyExample": "Amb la política d'exemple",
+      "policyVersion": "Amb la política v{version}"
+    },
+    "urgency": {
+      "hoy": "Avui",
+      "esta_semana": "Aquesta setmana",
+      "este_mes": "Aquest mes"
+    },
+    "confidence": {
+      "alta": "alta",
+      "media": "mitjana",
+      "baja": "baixa"
+    },
+    "kind": {
+      "decision": "Decisió",
+      "alert": "Alerta",
+      "data_gap": "Falten dades"
+    },
+    "status": {
+      "nueva": "Nova",
+      "aceptada": "Acceptada",
+      "descartada": "Descartada",
+      "pospuesta": "Posposada",
+      "hecha": "Feta"
+    },
+    "tasks": {
+      "title": "Tasques del consell",
+      "empty": "Sense tasques obertes. En acceptar una recomanació, les seves tasques apareixen aquí.",
+      "markDone": "Marca com a feta: {title}",
+      "doneToast": "Tasca feta",
+      "due": "per al {date}",
+      "late": "vencia el {date}"
+    },
+    "tabs": {
+      "label": "Estat de les recomanacions",
+      "new": "Noves",
+      "postponed": "Posposades",
+      "accepted": "Acceptades",
+      "history": "Historial"
+    },
+    "banners": {
+      "noApiKey": "El consell està en pausa: falta la clau de l'API de Claude al servidor. El que ja s'ha publicat continua aquí.",
+      "howToConnect": "Com connectar-lo"
+    },
+    "empty": {
+      "new": {
+        "title": "Res de nou per decidir",
+        "body": "Els agents han mirat i no hi ha res per sobre del vostre llindar d'impacte. Callar també és una resposta."
+      },
+      "postponed": {
+        "title": "Res posposat",
+        "body": "El que posposeu tornarà a Noves el dia que trieu."
+      },
+      "accepted": {
+        "title": "Res acceptat pendent",
+        "body": "En acceptar una recomanació se'n creen les tasques; quan estigui feta, marqueu-la i passarà a l'historial."
+      },
+      "history": {
+        "title": "Historial buit",
+        "body": "Aquí queden les recomanacions fetes i descartades, amb qui ho va decidir i per què."
+      }
+    },
+    "reports": {
+      "label": "Informes del consell",
+      "briefing": "Briefing setmanal",
+      "briefingHint": "Les 3-5 decisions de la setmana, caixa i semàfor",
+      "close": "Tancament mensual",
+      "closeHint": "Repartiment: impostos, coixí, reinversió i socis"
+    },
+    "briefing": {
+      "week": "Setmana del {from} al {to}",
+      "generated": "Preparat el {date}",
+      "policyExample": "política d'exemple",
+      "policyVersion": "política v{version}",
+      "decisions": "{count, plural, =0 {Decisions de la setmana} one {La decisió de la setmana} other {Les # decisions de la setmana}}",
+      "noDecisions": "Aquesta setmana no hi ha res per sobre del llindar que mereixi la vostra atenció. Bon senyal.",
+      "seeCalc": "Mostra el càlcul",
+      "openRecommendation": "Obre la recomanació",
+      "cash": "Caixa i runway",
+      "areas": "Semàfor per àrea",
+      "conflicts": "Tensions entre agents",
+      "area": {
+        "caja": "Caixa",
+        "ingresos": "Ingressos",
+        "comercial": "Comercial",
+        "clientes": "Clients",
+        "fiscal": "Fiscal",
+        "crecimiento": "Creixement",
+        "operaciones": "Operacions"
+      },
+      "light": {
+        "verde": "Bé",
+        "ambar": "Atenció",
+        "rojo": "Cal actuar",
+        "sin_datos": "Sense dades"
+      },
+      "regenerate": "Ha canviat alguna cosa des de dilluns? El Chief of Staff pot refer el briefing amb les dades d'avui.",
+      "empty": {
+        "title": "Encara no hi ha briefing",
+        "body": "Cada dilluns a les 8:00 el Chief of Staff converteix el que han vist els agents en un pla d'acció: les 3 accions crítiques, les alertes de risc, el que cal optimitzar i els conflictes resolts, amb la caixa i un semàfor per àrea.",
+        "noApiKey": "Cal la clau de l'API de Claude per preparar-lo."
+      },
+      "topActions": "Top 3 accions crítiques",
+      "topActionsHint": "El que s'ha de fer abans de dimarts",
+      "noTopActions": "Aquesta setmana no hi ha res crític per sobre del llindar. Bon senyal.",
+      "priority": "Prioritat {n}",
+      "impact": "Impacte: {amount}",
+      "urgency": "Urgència: {urgency}",
+      "ifNotDone": "Si no es fa: {text}",
+      "from": "Surt de: {agents}",
+      "riskAlerts": "Alertes de risc",
+      "noRiskAlerts": "Res que pugui trencar el negoci aquesta setmana.",
+      "optimizations": "Oportunitats d'optimització",
+      "noOptimizations": "Res nou per optimitzar aquesta setmana.",
+      "resolvedConflicts": "Conflictes resolts",
+      "decision": "Decisió: {text}",
+      "risk": {
+        "caja": "Caixa",
+        "legal": "Legal",
+        "fiscal": "Fiscal",
+        "cliente": "Client",
+        "cuello_de_botella": "Coll d'ampolla",
+        "margen": "Marge",
+        "otro": "Altres"
+      },
+      "agentShort": {
+        "cfo": "CFO",
+        "commercial": "Comercial",
+        "pricing": "Pricing",
+        "retention": "Retenció",
+        "operations": "Operacions",
+        "growth": "Creixement",
+        "fiscal": "Fiscal",
+        "devils_advocate": "Advocat del diable"
+      }
+    },
+    "history": {
+      "label": "Informes anteriors",
+      "weekly_briefing": "Briefings anteriors",
+      "monthly_close": "Tancaments anteriors",
+      "accepted": "Acceptat"
+    },
+    "close": {
+      "professional": "Validar amb la gestoria",
+      "acceptedBadge": "Acceptat",
+      "policyExample": "Calculat amb la política d'exemple: fixeu la vostra a Configuració → Consell.",
+      "policyVersion": "Calculat amb la política v{version}.",
+      "figures": "Xifres del mes",
+      "distribution": "Proposta de repartiment",
+      "distributionHint": "Del benefici disponible ({amount}), en l'ordre de la vostra política: impostos, coixí, reinversió i socis. Podeu canviar qualsevol import abans d'acceptar.",
+      "loss": "Mes amb pèrdues: no hi ha res per repartir",
+      "buckets": {
+        "taxes": {
+          "label": "Impostos",
+          "hint": "Provisió de l'Impost sobre Societats, calculada sobre el benefici"
+        },
+        "cushion": {
+          "label": "Coixí",
+          "hint": "El que falta per arribar als mesos de despeses fixes de la política"
+        },
+        "reinvestment": {
+          "label": "Reinversió",
+          "hint": "Per créixer: eines, màrqueting, formació"
+        },
+        "partners": {
+          "label": "Socis",
+          "hint": "Segons les participacions"
+        }
+      },
+      "proposed": "Proposta: {amount}",
+      "partnersSplit": "Entre socis: {split}",
+      "cashLimited": "La caixa limita el repartiment: queden {freeCash} lliures després dels impostos pendents i del coixí objectiu ({target}).",
+      "acceptedBy": "Acceptat per {who} el {date}",
+      "someone": "algú",
+      "wasEdited": "amb canvis respecte a la proposta",
+      "invalidAmount": "Hi ha un import que no s'entén",
+      "balanced": "Quadra: {total}",
+      "unbalanced": "Suma {total}; ha de sumar {available}",
+      "note": "Nota del tancament",
+      "notePlaceholder": "Nota (opcional): per què canvieu alguna cosa",
+      "accept": "Accepta el repartiment",
+      "acceptEdited": "Accepta amb canvis",
+      "acceptHint": "Acceptar deixa el repartiment registrat amb la versió de la política. No mou diners: les transferències les feu vosaltres, després de validar-ho amb la gestoria.",
+      "acceptedToast": "Tancament acceptat i registrat",
+      "noDistribution": "Aquest mes no hi ha proposta de repartiment",
+      "goToFinance": "Completa-ho a Finances",
+      "comment": "Comentari del CFO",
+      "seeCalc": "Mostra el càlcul",
+      "hideCalc": "Amaga el càlcul",
+      "regenerate": "Heu corregit despeses o saldos? El CFO pot refer el tancament del mes passat.",
+      "empty": {
+        "title": "Encara no hi ha tancament mensual",
+        "body": "El dia 5 de cada mes el CFO tanca el mes anterior: xifres, provisió d'impostos i una proposta de repartiment que podeu editar abans d'acceptar-la.",
+        "noApiKey": "Cal la clau de l'API de Claude per preparar-lo."
+      }
+    },
+    "runs": {
+      "ownerOnly": "El registre d'execucions i el seu cost només el veuen els owners.",
+      "budgets": "Pressupost del mes",
+      "monthTotal": "Aquest mes: {total}",
+      "spent": "{spent} de {budget}",
+      "costNote": "Cost estimat amb els preus públics de l'API (entrada, sortida i memòria cau). La factura real és la d'Anthropic. Si un agent esgota el seu pressupost, queda en pausa fins al mes següent.",
+      "empty": "Encara no hi ha execucions.",
+      "when": "Quan",
+      "agent": "Agent",
+      "trigger": "Activador",
+      "status": "Estat",
+      "model": "Model",
+      "tokens": "Tokens (entrada / sortida)",
+      "cost": "Cost",
+      "duration": "Durada",
+      "review": "revisió",
+      "cacheRead": "{tokens} de memòria cau",
+      "toolCalls": "{count, plural, =0 {Sense crides a eines} one {Una crida a eines} other {# crides a eines}}",
+      "result": "Resultat",
+      "resultLine": "{published, plural, =0 {Res publicat} one {Una publicada} other {# publicades}} · {silenced, plural, =0 {res silenciat} one {una silenciada} other {# silenciades}} · {attempts, plural, one {un intent} other {# intents}}",
+      "silenced": "Silenciat",
+      "issues": "El que van rebutjar els guardrails",
+      "error": "Error",
+      "statuses": {
+        "running": "En marxa",
+        "succeeded": "Bé",
+        "failed": "Ha fallat",
+        "skipped": "Omès"
+      },
+      "callStatus": {
+        "ok": "ok",
+        "missing_data": "falten dades",
+        "error": "error",
+        "denied": "denegada"
+      },
+      "triggers": {
+        "manual": "Executa ara",
+        "daily": "Diari",
+        "weekly": "Setmanal",
+        "monthly": "Mensual",
+        "monthly_close": "Tancament mensual",
+        "weekly_briefing": "Briefing",
+        "challenge": "Revisió",
+        "review": "Seguiment"
+      }
+    },
+    "errors": {
+      "noApiKey": "Falta la clau de l'API de Claude al servidor: el consell no pot treballar.",
+      "discardReason": "Escriu el motiu en una línia (com a mínim 3 lletres).",
+      "postponeDate": "Tria fins quan es posposa.",
+      "transition": "Aquesta recomanació ja ha canviat d'estat. Recarrega la pàgina.",
+      "closeSum": "El repartiment ha de sumar exactament el benefici disponible.",
+      "closeInvalid": "Hi ha un import del repartiment que no és vàlid.",
+      "closeAccepted": "Aquest tancament ja està acceptat.",
+      "closeNotAvailable": "Aquest tancament no té proposta de repartiment.",
+      "notRunnable": "Aquest agent no es llança manualment: revisa el que publiquen els altres.",
+      "duplicate": "Ja existeix."
+    },
+    "policy": {
+      "exampleTitle": "Són valors d'exemple, no una recomanació",
+      "exampleBody": "El consell els fa servir fins que deseu els vostres (i ho diu a cada recomanació). Ajusteu-los a la vostra realitat; si ja us serveixen tal com són, adopteu-los com a versió 1.",
+      "invalidTitle": "L'última versió desada no es pot llegir",
+      "invalidBody": "Mentrestant, el consell fa servir els valors d'exemple. Deseu una versió nova per corregir-ho.",
+      "exampleMark": "Exemple",
+      "groups": {
+        "reserves": {
+          "title": "Reserves",
+          "description": "El primer que s'aparta cada mes, abans de repartir res."
+        },
+        "distribution": {
+          "title": "Repartiment del que sobra",
+          "description": "Després d'impostos i coixí, com es reparteix el benefici disponible."
+        },
+        "raise": {
+          "title": "Apujar la retribució dels socis",
+          "description": "El CFO només ho proposa quan es compleix tot això."
+        },
+        "hire": {
+          "title": "Contractar",
+          "description": "Operacions només ho proposa quan es compleix tot això."
+        },
+        "projects": {
+          "title": "Projectes i preu",
+          "description": "La referència de pricing i marge."
+        },
+        "silence": {
+          "title": "Silenci útil",
+          "description": "Per sota del primer llindar el consell calla; a partir del segon, l'advocat del diable revisa abans de publicar."
+        }
+      },
+      "fields": {
+        "cushion_months": {
+          "label": "Coixí objectiu",
+          "hint": "Mesos de despeses fixes que han de quedar a la caixa."
+        },
+        "corporate_tax_provision": {
+          "label": "Provisió de l'Impost sobre Societats",
+          "hint": "Sobre el benefici del mes. Valideu el tipus amb la gestoria."
+        },
+        "reinvestment": {
+          "label": "Reinversió",
+          "hint": "Part del benefici disponible per créixer."
+        },
+        "partners": {
+          "label": "Socis",
+          "hint": "La resta, segons les participacions."
+        },
+        "raise_consecutive_months": {
+          "label": "Mesos seguits",
+          "hint": "Amb l'MRR per sobre del mínim."
+        },
+        "raise_min_mrr": {
+          "label": "MRR mínim",
+          "hint": "Ingrés recurrent mensual, sense IVA."
+        },
+        "raise_min_margin": {
+          "label": "Marge mínim",
+          "hint": "Benefici sobre ingressos en aquests mesos."
+        },
+        "raise_require_cushion": {
+          "label": "Amb el coixí cobert",
+          "hint": "No es proposa cap augment mentre la caixa no cobreixi el coixí objectiu."
+        },
+        "hire_min_capacity": {
+          "label": "Capacitat compromesa",
+          "hint": "Hores venudes sobre les disponibles."
+        },
+        "hire_weeks": {
+          "label": "Durant",
+          "hint": "Setmanes seguides per sobre."
+        },
+        "hire_min_pipeline": {
+          "label": "Pipeline ponderat mínim",
+          "hint": "MRR dels deals oberts, ponderat per la seva probabilitat."
+        },
+        "min_project_margin": {
+          "label": "Marge mínim per projecte",
+          "hint": "Per sota, pricing l'assenyala."
+        },
+        "target_hourly_rate": {
+          "label": "Preu per hora objectiu",
+          "hint": "El que hauria de rendir cada hora facturada."
+        },
+        "impact_threshold": {
+          "label": "Llindar d'impacte",
+          "hint": "Per sota d'aquest impacte no es publica (excepte terminis fiscals)."
+        },
+        "high_impact_threshold": {
+          "label": "Llindar d'impacte alt",
+          "hint": "A partir d'aquí revisa l'advocat del diable."
+        }
+      },
+      "units": {
+        "months": "mesos",
+        "weeks": "setmanes",
+        "percent": "%",
+        "eur": "€",
+        "eurMonth": "€/mes",
+        "eurHour": "€/h"
+      },
+      "distributionSum": "Reinversió + socis = {sum}",
+      "distributionPending": "Reinversió + socis han de sumar 100 %",
+      "changedCount": "{count, plural, one {Un canvi sense desar} other {# canvis sense desar}}",
+      "adoptHint": "Desar sense canvis adopta els valors d'exemple com a la vostra versió 1.",
+      "unchanged": "Sense canvis",
+      "note": "Nota de la versió",
+      "notePlaceholder": "Què canvia i per què (opcional)",
+      "reset": "Desfés els canvis",
+      "adopt": "Adopta com a versió 1",
+      "saveVersion": "Desa com a versió {version}",
+      "savedToast": "Política desada: versió {version}",
+      "history": {
+        "title": "Versions",
+        "description": "Cada cop que deseu es crea una versió nova i immutable. Cada recomanació i cada tancament guarden la versió amb què es van fer.",
+        "empty": "Encara no hi ha cap versió desada.",
+        "current": "Vigent"
+      },
+      "errors": {
+        "fix": "Revisa els camps marcats.",
+        "integer": "Escriu un nombre enter.",
+        "percent": "Escriu un percentatge entre 0 i 100 (fins a dos decimals).",
+        "money": "Escriu un import en euros (sense signe negatiu).",
+        "range": "Fora de l'interval permès.",
+        "distributionSum": "Reinversió i socis han de sumar 100 %.",
+        "highImpactBelow": "No pot ser inferior al llindar d'impacte."
+      }
+    },
+    "settings": {
+      "sectionsLabel": "Seccions de la configuració del consell",
+      "sections": {
+        "policy": "Política financera",
+        "agents": "Agents",
+        "rules": "Venda creuada"
+      },
+      "exampleBadge": "Exemple",
+      "policyTitle": "Política financera",
+      "policyDescription": "La que apliquen els agents: és vigent la versió {version}.",
+      "policyDescriptionExample": "La que apliquen els agents. Ara mateix, la d'exemple.",
+      "agentsTitle": "Agents",
+      "agentsDescription": "Engegueu o apagueu cada agent i trieu-ne el model, el pressupost mensual i els llindars.",
+      "connection": {
+        "readyTitle": "El consell està connectat",
+        "readyBody": "La clau de l'API és al servidor. Els agents treballen segons el seu calendari i quan premeu «Executa ara».",
+        "missingTitle": "El consell no està connectat",
+        "missingBody": "Sense la clau de l'API de Claude no es posa res a la cua ni s'executa res. El que ja s'ha publicat es continua veient.",
+        "runsLink": "Execucions i cost",
+        "apiKey": {
+          "ok": "Clau de l'API",
+          "missing": "Falta la clau de l'API"
+        },
+        "cron": {
+          "ok": "Cron protegit",
+          "missing": "Falta CRON_SECRET"
+        },
+        "steps": {
+          "key": "Desa la clau de l'API com a variable d'entorn del servidor (no arriba mai al navegador):",
+          "cron": "Programa una crida cada hora al cron del consell, amb el secret del cron:",
+          "policy": "Fixeu la vostra política financera aquí mateix. Fins aleshores, els agents fan servir la d'exemple."
+        }
+      },
+      "agents": {
+        "budgetNote": "Pressupostos en dòlars, que és com factura l'API. Si un agent esgota el seu, queda en pausa fins al mes següent.",
+        "accuracy": "encert: {hit} sí · {partial} a mitges · {miss} no",
+        "spent": "{spent} de {budget}",
+        "enabled": "Engegar o apagar: {agent}",
+        "configure": "Configura: {agent}",
+        "model": "Model",
+        "modelHint": "Sonnet per al dia a dia; Opus per al que demana més criteri.",
+        "modelDefault": "Per defecte ({model})",
+        "budget": "Pressupost mensual",
+        "budgetHint": "Buit: s'aplica el per defecte ({amount}).",
+        "usdMonth": "US$/mes",
+        "reset": "Desfés",
+        "savedToast": "{agent}: configuració desada",
+        "errors": {
+          "budget": "El pressupost ha de ser un import en dòlars.",
+          "threshold": "entre {min} i {max}"
+        }
+      },
+      "thresholds": {
+        "stalled_days": {
+          "label": "Deal aturat des de",
+          "hint": "Dies sense canviar d'etapa ni activitat. Per defecte {default} ({min}-{max}).",
+          "unit": "dies"
+        },
+        "inactivity_days": {
+          "label": "Client sense activitat",
+          "hint": "Dies sense activitat per marcar-lo en risc. Per defecte {default} ({min}-{max}).",
+          "unit": "dies"
+        },
+        "overdue_days": {
+          "label": "Factura vençuda des de",
+          "hint": "Dies de retard per marcar el client en risc. Per defecte {default} ({min}-{max}).",
+          "unit": "dies"
+        },
+        "deadline_days": {
+          "label": "Avís de terminis fiscals",
+          "hint": "Dies d'antelació. Per defecte {default} ({min}-{max}).",
+          "unit": "dies"
+        },
+        "max_recommendations": {
+          "label": "Recomanacions per execució",
+          "hint": "Com a màxim; menys i millors. Per defecte {default} ({min}-{max}).",
+          "unit": "màx."
+        },
+        "max_decisions": {
+          "label": "Accions crítiques del briefing",
+          "hint": "Com a màxim; per defecte {default} ({min}-{max}).",
+          "unit": "màx."
+        },
+        "dismissed_cooldown_days": {
+          "label": "Les descartades no tornen en",
+          "hint": "Dies durant els quals una recomanació descartada no es repeteix. Per defecte {default} ({min}-{max}).",
+          "unit": "dies"
+        }
+      },
+      "rules": {
+        "title": "Regles de venda creuada",
+        "description": "Les fa servir l'agent de retenció per proposar upsells: són dades, no codi. Una regla mira què té contractat cada client i què li falta.",
+        "add": "Afegeix regla",
+        "addTitle": "Nova regla de venda creuada",
+        "editTitle": "Edita la regla",
+        "formDescription": "Les paraules es cerquen a les línies de contracte de cada client, sense distingir majúscules ni accents.",
+        "empty": "No hi ha regles: l'agent de retenció no proposarà venda creuada.",
+        "archive": "Arxiva",
+        "restore": "Recupera",
+        "archivedBadge": "Arxivada",
+        "archivedToast": "Regla arxivada",
+        "restoredToast": "Regla recuperada",
+        "savedToast": "Regla desada",
+        "createdToast": "Regla creada",
+        "showArchived": "{count, plural, one {Mostra l'arxivada} other {Mostra les # arxivades}}",
+        "hideArchived": "Amaga les arxivades",
+        "summary": {
+          "requires": "Té: {words}",
+          "excludes": "Li falta: {words}",
+          "maxServices": "{count, plural, one {Amb un servei com a màxim} other {Amb # serveis com a màxim}}",
+          "minMonths": "{count, plural, one {Client des de fa un mes} other {Client des de fa # mesos}}",
+          "reference": "Referència: {amount}/mes",
+          "noReference": "Sense preu de referència"
+        },
+        "fields": {
+          "label": "Nom",
+          "requires": "El client ha contractat alguna cosa amb",
+          "requiresHint": "Paraules separades per comes, p. ex. web, botiga en línia.",
+          "excludes": "…i no té res amb",
+          "excludesHint": "Paraules separades per comes, p. ex. manteniment, seo.",
+          "maxServices": "Serveis recurrents com a màxim",
+          "maxServicesHint": "Buit: tant és quants en tingui.",
+          "minMonths": "Client des de fa com a mínim",
+          "minMonthsHint": "Mesos. Buit: tant és.",
+          "suggestion": "Què proposar",
+          "suggestionHint": "La frase que farà servir l'agent, p. ex. Oferir manteniment mensual del web.",
+          "reference": "Preu de referència",
+          "referenceHint": "El que sol costar el servei suggerit, sense IVA: serveix per calcular l'impacte de la regla.",
+          "referenceUnit": "€/mes"
+        },
+        "errors": {
+          "label": "Posa-li un nom.",
+          "suggestion": "Escriu què cal proposar.",
+          "requiresAny": "Escriu com a mínim una paraula (de 2 a 60 lletres).",
+          "words": "Cada paraula, de 2 a 60 lletres.",
+          "maxServices": "Entre 1 i 20, o buit.",
+          "minMonths": "Entre 0 i 120, o buit.",
+          "reference": "Escriu un import en euros."
+        }
+      },
+      "errors": {
+        "unknownThreshold": "Aquest llindar no és d'aquest agent.",
+        "thresholdRange": "Un llindar és fora del seu interval."
+      }
+    }
+  }
+}

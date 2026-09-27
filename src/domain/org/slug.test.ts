@@ -5,6 +5,7 @@ describe("RESERVED_SLUGS", () => {
   it("lists the top-level routes", () => {
     expect(RESERVED_SLUGS).toEqual([
       "login", "logout", "auth", "onboarding", "api", "preview", "settings", "invite", "admin", "app", "brand", "static", "_next",
+      "p", "icons",
     ]);
   });
 });

@@ -144,7 +144,7 @@ flowchart LR
 | **Crecimiento y SEO** | Qué canal trae clientes que pagan; dónde invertir en marketing propio | Mensual | seo_summary, conversion_by_source, revenue |
 | **Fiscal y cumplimiento** | Calendario de IVA, IS, retenciones y Verifactu; cuantifica y avisa con antelación | Calendario fiscal; cierre trimestral | tax, cash, policy · **siempre revisión profesional** |
 | **Abogado del diablo** | Revisa las de impacto alto: supuestos débiles, riesgos, escenario pesimista | Antes de publicar lo que supera el umbral alto | las mismas tools que el agente revisado |
-| **Chief of Staff** | Orquesta, resuelve conflictos (CFO ahorra vs comercial invierte), prioriza por € y urgencia | Lunes 8:00 (briefing); cierre mensual; bajo demanda | todas (solo lectura) + recomendaciones abiertas |
+| **Chief of Staff** | No analiza los datos en bruto sino lo que ven los otros 8: convierte sus recomendaciones abiertas en el plan de acción del lunes (las 3 acciones críticas antes del martes, alertas de riesgo, oportunidades de optimización y conflictos resueltos), cada punto con su impacto en € (una métrica) y su urgencia/riesgo; media en los conflictos (comercial vs pricing, CFO vs crecimiento) con una solución equilibrada | Lunes 8:00 (briefing); cierre mensual; bajo demanda | recomendaciones abiertas + todas las tools (solo lectura, para comprobar cifras, la caja y el semáforo) |
 
 Upsell con los datos de GNERAI: web sin mantenimiento ni SEO, Ads sin landing, SEO sin informe
 mensual, clientes con un solo servicio desde hace más de 6 meses… Las reglas son datos (tabla

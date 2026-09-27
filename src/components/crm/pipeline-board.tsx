@@ -15,7 +15,7 @@ import {
 import { Plus, SquareKanban } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { useOptimistic, useState, useTransition } from "react";
+import { useEffect, useOptimistic, useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
 import { moveDeal } from "@/app/[org]/pipeline/actions";
 import { useHotkeys } from "@/components/app-shell/use-hotkeys";
@@ -55,6 +55,27 @@ export function PipelineBoard(props: Props) {
   );
   const [activeId, setActiveId] = useState<string | null>(null);
   const [pendingLoss, setPendingLoss] = useState<Move | null>(null);
+  // El deal recién guardado: se salta a su columna y se resalta un momento.
+  const [highlight, setHighlight] = useState<string | null>(null);
+  const boardRef = useRef<HTMLDivElement>(null);
+
+  // Solo en horizontal, dentro del tablero: la página no se mueve.
+  const scrollToStage = (stageId: string) => {
+    const board = boardRef.current;
+    const column = board?.querySelector<HTMLElement>(`[data-stage-id="${stageId}"]`);
+    if (!board || !column) return;
+    const padding = Number.parseFloat(getComputedStyle(board).paddingLeft) || 0;
+    board.scrollTo({ left: column.offsetLeft - board.offsetLeft - padding, behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    if (!highlight) return;
+    const deal = props.deals.find((d) => d.id === highlight);
+    if (!deal) return; // aún no ha llegado del servidor
+    scrollToStage(deal.stageId);
+    const timer = setTimeout(() => setHighlight(null), 2500);
+    return () => clearTimeout(timer);
+  }, [highlight, props.deals]);
   const [sheet, setSheet] = useState<SheetState>(() =>
     props.initial.dealId
       ? { open: true, dealId: props.initial.dealId }
@@ -136,13 +157,44 @@ export function PipelineBoard(props: Props) {
         <EmptyBoard canEdit={canEdit} onCreate={() => openSheet({ open: true, dealId: null })} />
       ) : (
         <DndContext id="pipeline-board" sensors={sensors} onDragStart={onDragStart} onDragEnd={onDragEnd} onDragCancel={() => setActiveId(null)}>
-          <div className="-mx-4 flex min-h-0 flex-1 gap-3 overflow-x-auto px-4 pb-4 md:-mx-8 md:px-8">
+          {/* Todas las etapas de un vistazo: en pantallas estrechas no caben y así se salta a cualquiera. */}
+          <nav aria-label={t("stagesNav")} className="-mx-4 mb-3 flex gap-1.5 overflow-x-auto px-4 pb-1 md:-mx-8 md:px-8">
+            {stages.map((stage) => {
+              const count = deals.filter((d) => d.stageId === stage.id).length;
+              return (
+                <button
+                  key={stage.id}
+                  type="button"
+                  onClick={() => scrollToStage(stage.id)}
+                  className={cn(
+                    "inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium transition-colors hover:text-foreground",
+                    count > 0 ? "text-foreground" : "text-muted-foreground",
+                  )}
+                >
+                  <span
+                    aria-hidden
+                    className={cn(
+                      "size-1.5 rounded-full",
+                      stage.kind === "open" && "bg-primary",
+                      stage.kind === "won" && "bg-success",
+                      stage.kind === "lost" && "bg-destructive",
+                    )}
+                  />
+                  {stage.name}
+                  <span className="tabular opacity-70">{count}</span>
+                </button>
+              );
+            })}
+          </nav>
+          <div ref={boardRef} className="-mx-4 flex min-h-0 flex-1 snap-x gap-3 overflow-x-auto px-4 pb-4 md:-mx-8 md:snap-none md:px-8">
             {stages.map((stage) => (
               <StageColumn
                 key={stage.id}
+                slug={slug}
                 stage={stage}
                 deals={deals.filter((d) => d.stageId === stage.id)}
                 activeId={activeId}
+                highlightId={highlight}
                 canEdit={canEdit}
                 onOpen={(deal) => openSheet({ open: true, dealId: deal.id })}
                 onMove={moveBy}
@@ -177,22 +229,27 @@ export function PipelineBoard(props: Props) {
         members={props.members}
         currentMemberId={props.currentMemberId}
         canEdit={canEdit}
+        onSaved={(dealId) => setHighlight(dealId)}
       />
     </div>
   );
 }
 
 function StageColumn({
+  slug,
   stage,
   deals,
   activeId,
+  highlightId,
   canEdit,
   onOpen,
   onMove,
 }: {
+  slug: string;
   stage: BoardStage;
   deals: BoardDeal[];
   activeId: string | null;
+  highlightId: string | null;
   canEdit: boolean;
   onOpen: (deal: BoardDeal) => void;
   onMove: (deal: BoardDeal, direction: -1 | 1) => void;
@@ -214,8 +271,9 @@ function StageColumn({
     <section
       ref={setNodeRef}
       aria-label={stage.name}
+      data-stage-id={stage.id}
       className={cn(
-        "flex w-72 shrink-0 flex-col rounded-2xl border bg-muted/30 transition-colors",
+        "flex w-72 shrink-0 snap-start flex-col rounded-2xl border bg-muted/30 transition-colors",
         isOver && "border-primary/60 bg-primary/5",
         stage.kind === "lost" && "bg-muted/15",
       )}
@@ -248,6 +306,8 @@ function StageColumn({
           <DraggableCard
             key={deal.id}
             deal={deal}
+            clientHref={`/${slug}/clients/${deal.clientId}`}
+            highlighted={deal.id === highlightId}
             dragging={deal.id === activeId}
             disabled={!canEdit}
             onOpen={() => onOpen(deal)}
@@ -264,12 +324,16 @@ function StageColumn({
 
 function DraggableCard({
   deal,
+  clientHref,
+  highlighted,
   dragging,
   disabled,
   onOpen,
   onMove,
 }: {
   deal: BoardDeal;
+  clientHref: string;
+  highlighted: boolean;
   dragging: boolean;
   disabled: boolean;
   onOpen: () => void;
@@ -280,6 +344,9 @@ function DraggableCard({
     <DealCard
       ref={setNodeRef}
       deal={deal}
+      data-deal-id={deal.id}
+      clientHref={clientHref}
+      highlighted={highlighted}
       dragging={dragging}
       onOpen={onOpen}
       onMove={onMove}

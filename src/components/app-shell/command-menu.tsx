@@ -1,6 +1,20 @@
 "use client";
 
-import { Building2, FileSignature, FileText, Keyboard, Languages, LogOut, Moon, Receipt, SquareKanban, Sun, UserRound } from "lucide-react";
+import {
+  Building2,
+  FileSignature,
+  FileText,
+  FolderKanban,
+  Keyboard,
+  Languages,
+  LogOut,
+  Moon,
+  Receipt,
+  ReceiptEuro,
+  SquareKanban,
+  Sun,
+  UserRound,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
@@ -29,15 +43,26 @@ const CREATE_ACTIONS = [
   { key: "newContract", icon: FileSignature, path: "/contracts?new=1" },
   { key: "newInvoice", icon: Receipt, path: "/invoices/new" },
   { key: "newQuote", icon: FileText, path: "/quotes/new" },
+  { key: "newProject", icon: FolderKanban, path: "/projects?new=1" },
+  { key: "newExpense", icon: ReceiptEuro, path: "/finance/expenses?new=1" },
 ] as const;
 
-const RESULT_ICONS = { client: Building2, contact: UserRound, deal: SquareKanban, contract: FileSignature, invoice: Receipt, quote: FileText } as const;
+const RESULT_ICONS = {
+  client: Building2,
+  contact: UserRound,
+  deal: SquareKanban,
+  contract: FileSignature,
+  invoice: Receipt,
+  quote: FileText,
+  project: FolderKanban,
+} as const;
 
 function resultPath(r: SearchResult): string {
   if (r.kind === "deal") return `/pipeline?deal=${r.id}`;
   if (r.kind === "contract") return `/contracts/${r.id}`;
   if (r.kind === "invoice") return `/invoices/${r.id}`;
   if (r.kind === "quote") return `/quotes/${r.id}`;
+  if (r.kind === "project") return `/projects/${r.id}`;
   return `/clients/${r.clientId}`;
 }
 

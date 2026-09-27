@@ -1,6 +1,7 @@
 "use client";
 
 import { CalendarClock, Clock } from "lucide-react";
+import Link from "next/link";
 import { useFormatter, useTranslations } from "next-intl";
 import type { HTMLAttributes, KeyboardEvent, Ref } from "react";
 import { formatMoney } from "@/domain/money";
@@ -14,10 +15,13 @@ type Props = {
   ref?: Ref<HTMLDivElement>;
   onOpen?: () => void;
   onMove?: (direction: -1 | 1) => void;
+  /** Enlace a la ficha del cliente (o lead): el nombre de la tarjeta lleva a ella. */
+  clientHref?: string;
+  highlighted?: boolean;
 } & HTMLAttributes<HTMLDivElement>;
 
 /** Tarjeta del Kanban: importe (puntual + €/mes, nunca sumados), días en etapa y próxima acción. */
-export function DealCard({ deal, dragging, overlay, ref, onOpen, onMove, className, onKeyDown: dragKeyDown, ...rest }: Props) {
+export function DealCard({ deal, dragging, overlay, ref, onOpen, onMove, clientHref, highlighted, className, onKeyDown: dragKeyDown, ...rest }: Props) {
   const t = useTranslations("pipeline");
   const tCrm = useTranslations("crm");
   const format = useFormatter();
@@ -48,13 +52,27 @@ export function DealCard({ deal, dragging, overlay, ref, onOpen, onMove, classNa
         "hover:border-primary/40 focus-visible:border-primary focus-visible:ring-3 focus-visible:ring-ring/40",
         dragging && "opacity-40",
         overlay && "rotate-1 border-primary/60 shadow-2xl",
+        highlighted && "border-primary ring-3 ring-primary/30",
         className,
       )}
       {...rest}
       onKeyDown={onKeyDown}
     >
       <p className="line-clamp-2 text-sm font-semibold leading-snug">{deal.title}</p>
-      <p className="mt-0.5 truncate text-xs text-muted-foreground">{deal.clientName}</p>
+      {clientHref && !overlay ? (
+        <Link
+          href={clientHref}
+          // El enlace no abre la tarjeta ni empieza a arrastrarla.
+          onClick={(e) => e.stopPropagation()}
+          onPointerDown={(e) => e.stopPropagation()}
+          onKeyDown={(e) => e.stopPropagation()}
+          className="mt-0.5 block truncate text-xs text-muted-foreground hover:text-primary hover:underline"
+        >
+          {deal.clientName}
+        </Link>
+      ) : (
+        <p className="mt-0.5 truncate text-xs text-muted-foreground">{deal.clientName}</p>
+      )}
 
       {(deal.estOneOffCents > 0 || deal.estMrrCents > 0) && (
         <div className="mt-2.5 flex flex-wrap gap-1.5 text-xs font-semibold tabular">

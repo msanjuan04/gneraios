@@ -1,0 +1,65 @@
+{
+  "id": "growth-seo-missing",
+  "title": "Crecimiento: sin Search Console lo dice, no se lo inventa",
+  "description": "No hay datos de Google de la web propia: get_seo_summary devuelve missing_data y el agente propone conectarlo (data_gap) en vez de opinar sobre el tráfico.",
+  "job": {
+    "agent": "growth",
+    "trigger": "monthly"
+  },
+  "replay": {
+    "growth:scan": [
+      {
+        "calls": [
+          {
+            "name": "get_seo_summary"
+          },
+          {
+            "name": "get_conversion_by_source"
+          }
+        ],
+        "output": {
+          "recommendations": [
+            {
+              "kind": "data_gap",
+              "title": "Conectar Google para medir el SEO de la web propia",
+              "summary": "Sin Search Console ni GA4 no se puede saber qué búsquedas traen visitas ni cuántas acaban en contacto.",
+              "reasoning": "get_seo_summary devuelve missing_data: falta conectar Google y dar de alta la web propia.",
+              "evidence": [
+                "@call:0"
+              ],
+              "impact_ref": null,
+              "proposed_actions": [
+                {
+                  "title": "Conectar Google en la sección SEO",
+                  "due_in_days": 7
+                }
+              ],
+              "confidence": "alta",
+              "urgency": "este_mes",
+              "risks": "Ninguno.",
+              "requires_professional_review": false,
+              "subject": "seo",
+              "policy_rule": null,
+              "missing_data": [
+                "Datos de Search Console y GA4 de la web propia"
+              ]
+            }
+          ],
+          "silence_reason": null
+        }
+      }
+    ]
+  },
+  "expect": {
+    "published": {
+      "min": 1,
+      "max": 1
+    },
+    "kinds": [
+      "data_gap"
+    ],
+    "tools": [
+      "get_seo_summary"
+    ]
+  }
+}

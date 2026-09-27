@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { parseMoneyInput } from "@/domain/money";
 import { normalizeTaxId, validateSpanishTaxId } from "@/domain/tax-id";
 import { locales } from "@/i18n/config";
 import type { Enums, Tables } from "@/lib/supabase/database.types";
@@ -197,3 +198,31 @@ export const activityFormSchema = z.object({
 });
 
 export type ActivityFormInput = z.input<typeof activityFormSchema>;
+
+// ---------------------------------------------------------------------------
+// Cobros sin factura
+// ---------------------------------------------------------------------------
+
+export type PaymentMethod = Enums<"payment_method">;
+
+/**
+ * Un cobro sin factura (client_receipts): el día en que entró el dinero, el importe escrito a la
+ * española (en negativo, una devolución), el concepto y, si es de un proyecto, el proyecto.
+ */
+export function clientReceiptSchema(today: string) {
+  return z.object({
+    amount: z.string().superRefine((value, ctx) => {
+      const cents = parseMoneyInput(value);
+      if (cents === null) ctx.addIssue({ code: "custom", message: value.trim() === "" ? "required" : "money" });
+      else if (cents === 0) ctx.addIssue({ code: "custom", message: "amountZero" });
+    }),
+    received_on: z.iso.date("date").refine((v) => v <= today, "receivedInFuture"),
+    method: z.enum(["transfer", "sepa_debit", "card", "cash", "other"] satisfies PaymentMethod[]),
+    concept: requiredText(300),
+    reference: text(200),
+    project_id: z.union([z.guid(), z.literal("")]),
+    notes: text(2000),
+  });
+}
+
+export type ClientReceiptInput = z.input<ReturnType<typeof clientReceiptSchema>>;

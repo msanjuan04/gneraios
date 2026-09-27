@@ -1,0 +1,203 @@
+{
+  "id": "operations-hire-rule",
+  "title": "Operaciones: con el equipo al 94 % seis semanas y pipeline suficiente, propone contratar",
+  "description": "Con las horas de Proyectos, la carga del equipo lleva las 6 semanas de la política por encima del 85 % y el pipeline ponderado supera el mínimo: la regla para contratar cumple. Operaciones lo propone con policy_rule hire, revisión profesional (laboral) y el coste simulado como impacto; como pasa del umbral alto, el abogado del diablo lo revisa antes de publicarlo.",
+  "job": {
+    "agent": "operations",
+    "trigger": "weekly"
+  },
+  "data": {
+    "finance": "default",
+    "clients": [
+      {
+        "id": "c7",
+        "name": "Grup Hotels Maresme",
+        "sourceId": "src-ref",
+        "ownerMemberId": "m1",
+        "createdAt": "2026-08-20T09:00:00Z"
+      }
+    ],
+    "deals": [
+      {
+        "id": "d4",
+        "title": "Marketing de cuatro hoteles",
+        "clientId": "c7",
+        "stageId": "stage-negotiation",
+        "estMrrCents": 400000,
+        "sourceId": "src-ref",
+        "ownerMemberId": "m1",
+        "createdAt": "2026-08-25T09:00:00Z",
+        "stageEnteredAt": "2026-09-18T09:00:00Z"
+      }
+    ],
+    "projects": [
+      {
+        "id": "p1",
+        "name": "SEO local Mar Blau",
+        "clientId": "c2",
+        "contractId": "k2",
+        "ownerMemberId": "m2",
+        "hours": [
+          {
+            "memberId": "m2",
+            "from": "2026-08-03",
+            "to": "2026-09-25",
+            "minutesPerDay": 330
+          }
+        ]
+      },
+      {
+        "id": "p2",
+        "name": "Redes sociales Costa Nord",
+        "clientId": "c3",
+        "contractId": "k3",
+        "ownerMemberId": "m3",
+        "hours": [
+          {
+            "memberId": "m3",
+            "from": "2026-08-03",
+            "to": "2026-09-25",
+            "minutesPerDay": 330
+          }
+        ]
+      },
+      {
+        "id": "p3",
+        "name": "SEO Hotel Llevant",
+        "clientId": "c5",
+        "contractId": "k5",
+        "ownerMemberId": "m1",
+        "hours": [
+          {
+            "memberId": "m1",
+            "from": "2026-08-03",
+            "to": "2026-09-25",
+            "minutesPerDay": 360
+          }
+        ]
+      }
+    ]
+  },
+  "policy": {
+    "hire": {
+      "min_capacity_bps": 8500,
+      "weeks": 6,
+      "min_weighted_pipeline_mrr_cents": 300000
+    }
+  },
+  "replay": {
+    "operations:scan": [
+      {
+        "calls": [
+          {
+            "name": "get_capacity"
+          },
+          {
+            "name": "get_pipeline"
+          },
+          {
+            "name": "get_policy"
+          },
+          {
+            "name": "simulate",
+            "input": {
+              "kind": "hire",
+              "monthly_cost_cents": 280000,
+              "horizon_months": 12
+            }
+          }
+        ],
+        "output": {
+          "recommendations": [
+            {
+              "kind": "decision",
+              "title": "Contratar a una persona para producción antes de que entre el deal de los hoteles",
+              "summary": "La carga del equipo lleva 6 semanas seguidas por encima del 85 % de la política (94,44 % de media) y el pipeline ponderado es de 3.225 € al mes: la regla para contratar se cumple.",
+              "reasoning": "Con la política v1, contratar pide la carga en el mínimo durante 6 semanas y un pipeline ponderado de 3.000 € al mes. Marc Sanjuan registra de media 30 h a la semana, toda su capacidad semanal. Contratar con un coste de 2.800 € al mes son 33.600 € en 12 meses, y la caja pasaría de cubrir 25 meses de costes fijos a 6,6.",
+              "evidence": [
+                "policy.rule.hire.capacity_weeks",
+                "policy.hire.min_capacity",
+                "policy.rule.hire.capacity_avg",
+                "policy.rule.hire.pipeline_mrr",
+                "policy.hire.weeks",
+                "policy.hire.min_pipeline_mrr",
+                "capacity.m1.avg",
+                "capacity.weekly_capacity",
+                "simulate.cost.monthly",
+                "simulate.cost.horizon",
+                "simulate.horizon",
+                "simulate.cover.before",
+                "simulate.cover.after"
+              ],
+              "impact_ref": "simulate.cost.horizon",
+              "proposed_actions": [
+                {
+                  "title": "Definir con la gestoría el perfil, el tipo de contratación y el coste total",
+                  "due_in_days": 14
+                },
+                {
+                  "title": "Esperar a la firma del deal de los hoteles antes de publicar la oferta",
+                  "due_in_days": 21
+                }
+              ],
+              "confidence": "media",
+              "urgency": "este_mes",
+              "risks": "El pipeline ponderado depende casi todo de un solo deal: si no se firma, el coste queda sin ingresos nuevos que lo cubran.",
+              "requires_professional_review": true,
+              "subject": "capacity",
+              "policy_rule": "hire",
+              "missing_data": []
+            }
+          ],
+          "silence_reason": null
+        }
+      }
+    ],
+    "devils_advocate:challenge": [
+      {
+        "calls": [
+          {
+            "name": "get_capacity"
+          }
+        ],
+        "output": {
+          "verdict": "publicar_con_cambios",
+          "weak_assumptions": [
+            "Que la carga de estas 6 semanas se mantenga cuando acabe la temporada alta."
+          ],
+          "risks": "El pipeline ponderado de 3.225 € al mes depende de un solo deal: si no se firma, el coste de 2.800 € al mes queda sin cubrir.",
+          "pessimistic_scenario": "Sin el deal de los hoteles, contratar cuesta 33.600 € en 12 meses y la caja pasa a cubrir 6,6 meses de costes fijos.",
+          "evidence": [
+            "policy.rule.hire.capacity_weeks",
+            "policy.rule.hire.pipeline_mrr",
+            "simulate.cost.monthly",
+            "simulate.cost.horizon",
+            "simulate.horizon",
+            "simulate.cover.after"
+          ],
+          "confidence": "media"
+        }
+      }
+    ]
+  },
+  "expect": {
+    "published": {
+      "min": 1,
+      "max": 1
+    },
+    "kinds": [
+      "decision"
+    ],
+    "tools": [
+      "get_capacity",
+      "get_policy",
+      "simulate"
+    ],
+    "titles": [
+      "Contratar"
+    ],
+    "professional": "all",
+    "challenge": "revisada",
+    "impactCents": 3360000
+  }
+}

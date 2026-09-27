@@ -79,6 +79,58 @@ export function parseGscQueryRows(response: unknown, day?: CivilDate): QueryDail
 /** Métricas que se piden a GA4, en este orden. */
 export const GA4_METRICS = ["sessions", "activeUsers", "engagedSessions", "keyEvents"] as const;
 
+/**
+ * Canales por defecto de GA4 (sessionDefaultChannelGroup) → los de GNERAI OS. Los de pago se
+ * separan de los orgánicos porque es lo que se mira en una campaña; lo raro va a "other".
+ */
+export const GA4_CHANNEL_GROUPS: Readonly<Record<string, Exclude<WebChannel, "all">>> = {
+  "Organic Search": "organic_search",
+  "Paid Search": "paid_search",
+  "Paid Shopping": "paid_search",
+  "Cross-network": "paid_search",
+  "Organic Social": "organic_social",
+  "Paid Social": "paid_social",
+  Direct: "direct",
+  Referral: "referral",
+  Email: "email",
+};
+
+export function ga4Channel(group: string): Exclude<WebChannel, "all"> {
+  return GA4_CHANNEL_GROUPS[group] ?? "other";
+}
+
+/**
+ * Filas de GA4 con `dimensions: [date, sessionDefaultChannelGroup]`, sumadas por día y canal de
+ * GNERAI OS (varios grupos de GA4 caen en el mismo). Los usuarios de un canal agrupado son una
+ * suma aproximada.
+ */
+export function parseGa4ChannelRows(response: unknown): WebDailyFact[] {
+  const byKey = new Map<string, WebDailyFact>();
+  for (const row of rowsOf(response)) {
+    if (!isRecord(row) || !Array.isArray(row.dimensionValues) || !Array.isArray(row.metricValues)) continue;
+    const dimensions: unknown[] = row.dimensionValues;
+    const metrics: unknown[] = row.metricValues;
+    const date = isRecord(dimensions[0]) ? dimensions[0].value : undefined;
+    const group = isRecord(dimensions[1]) ? dimensions[1].value : undefined;
+    const match = typeof date === "string" ? GA4_DATE.exec(date) : null;
+    if (!match || typeof group !== "string") continue;
+    const metric = (index: number) => {
+      const cell = metrics[index];
+      return count(isRecord(cell) ? cell.value : 0);
+    };
+    const metricOn = `${match[1]}-${match[2]}-${match[3]}`;
+    const channel = ga4Channel(group);
+    const key = `${metricOn}|${channel}`;
+    const current = byKey.get(key) ?? { metricOn, channel, sessions: 0, users: 0, engagedSessions: 0, conversions: 0 };
+    current.sessions += metric(0);
+    current.users += metric(1);
+    current.engagedSessions += metric(2);
+    current.conversions += metric(3);
+    byKey.set(key, current);
+  }
+  return [...byKey.values()];
+}
+
 /** Filas de GA4 con `dimensions: [{ name: "date" }]` y las métricas de GA4_METRICS. */
 export function parseGa4Rows(response: unknown, channel: WebChannel): WebDailyFact[] {
   return rowsOf(response).flatMap((row): WebDailyFact[] => {

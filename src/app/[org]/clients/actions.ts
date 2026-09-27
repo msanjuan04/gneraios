@@ -26,6 +26,7 @@ import {
   contactFormSchema,
   normalizeClientTaxId,
 } from "./schema";
+import { isClientManualStatus } from "@/domain/clients/status";
 
 type Supabase = Awaited<ReturnType<typeof createClient>>;
 
@@ -171,6 +172,28 @@ export async function setClientArchived(slug: string, clientId: string, archived
   return { ok: true };
 }
 
+/**
+ * Marca a mano el estado del cliente (contacto pendiente, lead, activo…) o lo vuelve a dejar en
+ * «Automático» (null). No toca contratos ni métricas: es lo que se ve en la lista y en la ficha.
+ */
+export async function setClientManualStatus(slug: string, clientId: string, status: string | null): Promise<ActionResult> {
+  const ctx = await partnerContext(slug);
+  if (!ctx) return forbidden();
+  const id = idSchema.safeParse(clientId);
+  if (!id.success || (status !== null && !isClientManualStatus(status))) return invalidInput();
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("clients")
+    .update({ manual_status: status })
+    .eq("id", id.data)
+    .eq("org_id", ctx.org.id)
+    .select("id");
+  if (error) return dbFailure(error, "setClientManualStatus");
+  if (data.length === 0) return failure("clients.errors.notFound");
+  revalidateClient(ctx.org.slug, id.data, { pipeline: false });
+  return { ok: true };
+}
+
 /** Crea o actualiza un contacto. Marcarlo como principal desmarca al anterior. */
 export async function saveContact(
   slug: string,
@@ -287,8 +310,15 @@ export async function archiveContact(slug: string, clientId: string, contactId: 
   return { ok: true };
 }
 
-/** Registra una llamada, reunión, email o nota. La hora llega como hora de pared de la org. */
-export async function createActivity(slug: string, clientId: string, input: ActivityFormInput): Promise<ActionResult> {
+/**
+ * Registra una llamada, reunión, email o nota. La hora llega como hora de pared de la org.
+ * `client_visible`: sale en «Lo que hemos hecho» del portal del cliente (por defecto, no).
+ */
+export async function createActivity(
+  slug: string,
+  clientId: string,
+  input: ActivityFormInput & { client_visible?: boolean },
+): Promise<ActionResult> {
   const ctx = await partnerContext(slug);
   if (!ctx) return forbidden();
   const parsed = activityFormSchema.safeParse(input);
@@ -341,6 +371,7 @@ export async function createActivity(slug: string, clientId: string, input: Acti
     body: emptyToNull(parsed.data.body),
     occurred_at: occurredAt.toISOString(),
     member_id: ctx.member.id,
+    client_visible: input.client_visible === true,
   });
   if (error) return dbFailure(error, "createActivity");
 

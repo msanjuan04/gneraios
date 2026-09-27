@@ -1,5 +1,6 @@
 {
   "meta": {
+    "title": "GNERAI OS",
     "description": "El sistema operatiu intern de GNERAI: clients, pipeline, contractes i facturació."
   },
   "common": {
@@ -17,10 +18,12 @@
     "optional": "Opcional",
     "yes": "Sí",
     "no": "No",
+    "none": "—",
     "comingSoon": "Arriba a la fita {hito}",
     "errorGeneric": "No s'ha pogut completar. Torna-ho a provar.",
     "errorPermission": "No tens permís per fer això.",
-    "ownerOnly": "Només un owner pot canviar això."
+    "ownerOnly": "Només un owner pot canviar això.",
+    "notifications": "Notificacions"
   },
   "nav": {
     "groupDirection": "Direcció",
@@ -36,7 +39,13 @@
     "search": "Cerca o crea…",
     "switchOrg": "Canvia d'organització",
     "toggleSidebar": "Mostra o amaga la barra lateral",
-    "seo": "SEO"
+    "seo": "SEO",
+    "council": "Consell",
+    "finance": "Finances",
+    "calendar": "Calendari",
+    "projects": "Projectes",
+    "groupWork": "Feina",
+    "sites": "Webs"
   },
   "user": {
     "menu": "El teu compte",
@@ -56,6 +65,11 @@
     "partner": "Soci",
     "viewer": "Només lectura"
   },
+  "roleHints": {
+    "owner": "Tot, fins i tot la configuració fiscal i l'equip",
+    "partner": "Operativa completa: emetre, cobrar, editar",
+    "viewer": "Pot veure, no pot canviar res"
+  },
   "shell": {
     "greetingMorning": "Bon dia, {name}",
     "greetingAfternoon": "Bona tarda, {name}",
@@ -63,6 +77,150 @@
   },
   "notFound": {
     "title": "Aquesta pàgina no existeix",
+    "body": "Potser l'enllaç està malament o no tens accés a aquesta organització.",
     "home": "Torna a l'inici"
+  },
+  "validation": {
+    "required": "Obligatori",
+    "tooLong": "Massa llarg",
+    "email": "Email no vàlid",
+    "slug": "Només minúscules, números i guions; no pot ser una paraula reservada.",
+    "taxId": "NIF, NIE o CIF no vàlid",
+    "iban": "IBAN no vàlid",
+    "initials": "D'1 a 3 lletres",
+    "rate": "Entre 0 i 100",
+    "lastNumber": "Número enter, 0 o més",
+    "format": "Ha d'incloure '{n}' i, si es reinicia cada any, també '{yyyy}'",
+    "onePrimary": "Hi ha d'haver exactament un emissor principal",
+    "days": "Dies sencers, de 0 a 365",
+    "billingDay": "Un dia de l'1 al 31",
+    "daysList": "Dies sencers de 0 a 365 separats per comes (màxim 10)",
+    "rateNotGeneral": "Fora del règim general, el tipus ha de ser 0 %",
+    "invalid": "Valor no vàlid",
+    "percent": "Un número enter de l'1 al 100",
+    "hourlyRate": "Euros sencers, d'1 a 1.000",
+    "seriesCode": "Fins a 12 lletres, números o guions",
+    "seriesFormat": "Ha de portar '{n}' i, si porta any, '{yyyy}' o '{yy}'"
+  },
+  "commandMenu": {
+    "placeholder": "Cerca o escriu una ordre…",
+    "empty": "Res per aquí.",
+    "groupGo": "Anar a",
+    "groupCreate": "Crear",
+    "groupPreferences": "Preferències",
+    "groupAccount": "Compte",
+    "newClient": "Nou client",
+    "newDeal": "Nou deal o lead",
+    "newInvoice": "Nova factura",
+    "newQuote": "Nou pressupost",
+    "themeDark": "Tema fosc",
+    "themeLight": "Tema clar",
+    "language": "Idioma: {language}",
+    "groupResults": "Resultats",
+    "kind": {
+      "client": "Client",
+      "contact": "Contacte",
+      "deal": "Deal",
+      "contract": "Contracte",
+      "invoice": "Factura",
+      "quote": "Pressupost",
+      "project": "Projecte"
+    },
+    "newContract": "Nou contracte",
+    "newProject": "Nou projecte",
+    "newExpense": "Nova despesa"
+  },
+  "shortcuts": {
+    "title": "Dreceres de teclat",
+    "commandMenu": "Cercar o crear",
+    "goDashboard": "Anar al dashboard",
+    "goPipeline": "Anar al pipeline",
+    "goClients": "Anar a clients",
+    "goInvoices": "Anar a factures",
+    "goSettings": "Anar a la configuració",
+    "toggleSidebar": "Mostrar o amagar la barra lateral",
+    "help": "Mostrar aquesta ajuda",
+    "then": "després",
+    "groupGlobal": "Generals",
+    "groupLists": "Llistats",
+    "groupPipeline": "Pipeline",
+    "listMove": "Moure's per la llista",
+    "listOpen": "Obrir l'element marcat",
+    "listCreate": "Crear (client, contacte…)",
+    "pipelineNew": "Nou deal",
+    "pipelinePrev": "Moure la targeta a l'etapa anterior",
+    "pipelineNext": "Moure la targeta a l'etapa següent",
+    "pipelineDrag": "Agafar i deixar anar la targeta amb el teclat",
+    "goSeo": "Anar a SEO",
+    "goContracts": "Anar a contractes",
+    "goQuotes": "Anar a pressupostos",
+    "goCouncil": "Anar al consell",
+    "goFinance": "Anar a finances",
+    "goCalendar": "Anar al calendari",
+    "goProjects": "Anar a projectes",
+    "groupCalendar": "Calendari",
+    "calendarToday": "Anar a avui",
+    "calendarPrevNext": "Període anterior o següent",
+    "calendarMonth": "Vista de mes",
+    "calendarWeek": "Vista de setmana",
+    "calendarAgenda": "Vista d'agenda",
+    "calendarAgendaMove": "Moure's per l'agenda"
+  },
+  "modules": {
+    "pipeline": "Kanban d'oportunitats amb drag & drop, dies a l'etapa, propera acció i embut analític.",
+    "clients": "Llistat i fitxa 360: contractes, factures, deals, activitat, LTV i antiguitat.",
+    "quotes": "Pressupostos amb la mateixa plantilla que les factures i acceptació en un clic.",
+    "contracts": "Contractes amb línies one-off, mensuals, anuals i per ús, pauses, baixes i fites.",
+    "invoices": "Esborranys automàtics, emissió en bloc, PDF amb marca, cobraments i rectificatives."
+  },
+  "preview": {
+    "banner": "Previsualització sense base de dades: dades d'exemple, no es desa res.",
+    "designTitle": "Sistema visual",
+    "designSubtitle": "Tokens i components amb l'estètica de gnerai.com.",
+    "seeOnboarding": "Mostra l'onboarding",
+    "onboardingDone": "Previsualització: a l'app real, aquí es crea l'organització."
+  },
+  "inbox": {
+    "title": "Avisos",
+    "open": "Obre els avisos",
+    "empty": "Tot al dia. Aquí veuràs renovacions, recordatoris per aprovar i avisos del sistema.",
+    "markAll": "Marca-ho tot com a llegit",
+    "unread": "{count, plural, one {# avís sense llegir} other {# avisos sense llegir}}",
+    "kinds": {
+      "renewal": "{client}: «{line}» es renova el {date}, d'aquí a {days, plural, one {# dia} other {# dies}} ({amount} sense IVA).",
+      "reminder_ready": "Recordatori a punt per a {client}: la factura {number} fa {days, plural, one {# dia} other {# dies}} que va vèncer ({amount}). Revisa'l i envia'l.",
+      "job_failed": "La facturació automàtica del {date} ha fallat. Revisa Factures i torna-la a llançar.",
+      "verifactu_deadline": "{issuer} haurà d'emetre amb Verifactu a partir del {date}: {days, plural, one {falta # dia} other {falten # dies}}. Cal triar proveïdor.",
+      "verifactu_required": "{issuer} ja està obligat a Verifactu des del {date}: amb el proveïdor intern no pot emetre.",
+      "quote_accepted": "{client} ha acceptat en línia el pressupost {number} «{title}» (el signa {signer}). El contracte ja està creat.",
+      "quote_rejected": "{client} ha rebutjat el pressupost {number} «{title}».",
+      "quote_rejected_reason": "{client} ha rebutjat el pressupost {number} «{title}»: «{reason}».",
+      "portal_request": "{urgent, select, yes {Urgent · } other {}}{client} ha demanat alguna cosa des del seu espai: «{subject}».",
+      "new_device": "{member} ha entrat des d'un dispositiu nou: {device}. Si no el reconeixeu, traieu-lo a Configuració → Equip.",
+      "site_down": "La web {site} està caiguda: {error, select, timeout {no respon a temps} dns {el domini no resol} refused {el servidor rebutja la connexió} reset {es talla la connexió} tls_expired {el certificat SSL ha caducat} tls_invalid {el certificat SSL no és vàlid} redirects {entra en un bucle de redireccions} http {respon amb l'error {status}} other {no s'hi pot connectar}}.",
+      "site_up": "La web {site} torna a funcionar (ha estat caiguda {duration}).",
+      "ssl_expiring": "El certificat SSL de {site} caduca {days, plural, =0 {avui} =1 {demà} other {d'aquí a # dies}} ({date}). Revisa la renovació automàtica.",
+      "ssl_expired": "El certificat SSL de {site} va caducar el {date}: els navegadors avisen que la web no és segura.",
+      "domain_expiring": "El domini de {site} caduca {days, plural, =0 {avui} =1 {demà} other {d'aquí a # dies}} ({date}). Renova'l abans que la web deixi de funcionar.",
+      "domain_expired": "El domini de {site} va caducar el {date}. Renova'l com més aviat millor.",
+      "subscription_renewal": "«{name}» es renova {days, plural, =0 {avui} =1 {demà} other {d'aquí a # dies}} ({date}): {amount}."
+    }
+  },
+  "push": {
+    "titles": {
+      "renewal": "Renovació propera",
+      "reminder_ready": "Recordatori a punt d'enviar",
+      "job_failed": "Error a la facturació automàtica",
+      "verifactu_deadline": "Verifactu",
+      "quote_accepted": "Pressupost acceptat",
+      "quote_rejected": "Pressupost rebutjat",
+      "portal_request": "Nova petició d'un client",
+      "new_device": "Dispositiu nou",
+      "site_down": "Web caiguda",
+      "site_up": "Web recuperada",
+      "ssl_expiring": "Certificat SSL per renovar",
+      "domain_expiring": "Domini per renovar",
+      "subscription_renewal": "Renovació de subscripció"
+    }
   }
 }

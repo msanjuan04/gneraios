@@ -3,6 +3,7 @@
 import { Plus, Receipt } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import type { ReactNode } from "react";
 import { SettingsCard } from "@/components/settings/settings-card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -20,6 +21,7 @@ export function ClientInvoicesCard({
   clientId,
   data,
   canEdit,
+  extraActions,
 }: {
   /** `/{slug}` de la org. */
   basePath: string;
@@ -27,12 +29,15 @@ export function ClientInvoicesCard({
   data: ClientInvoicesData;
   /** Socio u owner (y cliente no archivado): puede hacer una factura manual. */
   canEdit: boolean;
+  /** Más acciones en la cabecera, antes de «Nueva factura» (registrar un cobro, adjuntar facturas…). */
+  extraActions?: ReactNode;
 }) {
   const t = useTranslations("invoices.clientCard");
   const tList = useTranslations("invoices.list");
   const { money, date } = useInvoiceFormat();
   const newHref = `${basePath}/invoices/new?client=${clientId}`;
   const allHref = `${basePath}/invoices?client=${clientId}`;
+  const historyHref = `${basePath}/invoices/history?client=${clientId}`;
 
   const summary =
     data.totalCount === 0
@@ -50,13 +55,18 @@ export function ClientInvoicesCard({
       title={t("title")}
       description={summary}
       actions={
-        canEdit ? (
-          <Button asChild variant="outline" size="sm">
-            <Link href={newHref}>
-              <Plus data-icon="inline-start" />
-              {t("new")}
-            </Link>
-          </Button>
+        canEdit || extraActions ? (
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            {extraActions}
+            {canEdit && (
+              <Button asChild variant="outline" size="sm">
+                <Link href={newHref}>
+                  <Plus data-icon="inline-start" />
+                  {t("new")}
+                </Link>
+              </Button>
+            )}
+          </div>
         ) : undefined
       }
       bodyClassName={data.invoices.length > 0 ? "p-0" : undefined}
@@ -64,6 +74,9 @@ export function ClientInvoicesCard({
         data.totalCount > 0 ? (
           <>
             <span className="mr-auto text-xs text-muted-foreground tabular">{t("billed", { amount: money(data.billedNetCents) })}</span>
+            <Button asChild variant="ghost" size="sm">
+              <Link href={historyHref}>{t("history")}</Link>
+            </Button>
             <Button asChild variant="ghost" size="sm">
               <Link href={allHref}>{t("viewAll", { count: data.totalCount })}</Link>
             </Button>

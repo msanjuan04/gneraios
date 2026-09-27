@@ -1,0 +1,33 @@
+{
+  "id": "pricing-no-hours",
+  "title": "Pricing: sin horas registradas no hay €/hora (y se calla)",
+  "description": "Nadie ha registrado horas en Proyectos: get_client_profitability devuelve missing_data y solo da lo facturado por cliente como contexto. El agente de pricing no inventa una tarifa ni un margen: se calla y explica por qué.",
+  "job": {
+    "agent": "pricing",
+    "trigger": "monthly"
+  },
+  "replay": {
+    "pricing:scan": [
+      {
+        "calls": [
+          {
+            "name": "get_client_profitability"
+          },
+          {
+            "name": "get_revenue"
+          }
+        ],
+        "output": {
+          "recommendations": [],
+          "silence_reason": "Sin horas registradas por cliente no se puede calcular la tarifa efectiva; operaciones ya pide registrarlas."
+        }
+      }
+    ]
+  },
+  "expect": {
+    "silent": true,
+    "tools": [
+      "get_client_profitability"
+    ]
+  }
+}
