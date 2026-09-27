@@ -22,7 +22,7 @@ import {
 } from "./agents/schemas";
 import { buildToolContext, cachedData } from "./context";
 import type { CouncilData } from "./data/types";
-import { checkBriefing, checkChallenge, checkClose, checkDraft, checkReview, checkScan, type CheckContext, type CheckedRecommendation } from "./guardrails";
+import { checkBriefing, checkChallenge, checkClose, checkDraft, checkReview, checkScan, salvageBriefing, type CheckContext, type CheckedRecommendation } from "./guardrails";
 import { resolvePolicy, type ResolvedPolicy } from "./policy/schema";
 import { RunLedger } from "./runtime/ledger";
 import type { AgentRuntime, RuntimeResult } from "./runtime/types";
@@ -181,6 +181,7 @@ async function execute(
       system: { shared: env.shared, agent: agentPrompt },
       prompt,
       tools: toolSpecs(),
+      allowedTools: [...tools],
       handleTool,
       output: { schema: OUTPUT_SCHEMAS[opts.task], name: opts.task },
       validate: (output) => opts.validate(output, ledger),
@@ -206,6 +207,7 @@ async function execute(
   // El registro se completa al final (con lo publicado); aquí solo lo técnico por si algo falla después.
   await deps.store.finishRun(runId, {
     status: result.status === "ok" ? "succeeded" : "failed",
+    model: result.model,
     toolCalls,
     output: { status: result.status, output: result.output, issues: result.issues },
     error: result.error ?? (result.status === "ok" ? null : result.issues.join(" | ").slice(0, 2000) || result.status),
@@ -431,7 +433,8 @@ export async function runJob(deps: RunnerDeps, job: JobRecord): Promise<JobOutco
     let silenced: { title: string; reason: string }[] = [];
     let reportId: string | null = null;
 
-    if (result.status === "ok" || (result.status === "rejected" && task === "scan")) {
+    // Lo rechazado por unos pocos puntos se salva (las recomendaciones que pasan, el briefing sin lo que no).
+    if (result.status === "ok" || (result.status === "rejected" && (task === "scan" || task === "weekly_briefing"))) {
       if (task === "scan") {
         const output = result.output as ScanOutput;
         const { recs, rejected } = result.status === "ok" ? { recs: checkScan(output, check(ledger)).recs, rejected: [] } : salvage(output.recommendations, check(ledger));
@@ -471,20 +474,27 @@ export async function runJob(deps: RunnerDeps, job: JobRecord): Promise<JobOutco
         published = done.published;
         silenced = done.silenced;
       } else if (task === "weekly_briefing") {
-        const checked = checkBriefing(result.output as BriefingOutput, { ...check(ledger), openRecommendationIds: openIds });
-        const b = checked.briefing!;
-        const week = weekRange(today);
-        reportId = await deps.store.insertReport({
-          orgId: job.orgId,
-          kind: "weekly_briefing",
-          agent: job.agent,
-          runId,
-          periodStart: week.from,
-          periodEnd: week.to,
-          content: briefingContent(b, { week, openImpact, policy: { version: policy.version, is_example: policy.isExample } }),
-          evidence: b.evidence,
-          policyVersion: policy.version,
-        });
+        const briefingCheck = { ...check(ledger), openRecommendationIds: openIds };
+        const checked =
+          result.status === "ok"
+            ? { briefing: checkBriefing(result.output as BriefingOutput, briefingCheck).briefing, omitted: [] as string[] }
+            : salvageBriefing(result.output as BriefingOutput, briefingCheck);
+        const b = checked.briefing;
+        if (b) {
+          const week = weekRange(today);
+          reportId = await deps.store.insertReport({
+            orgId: job.orgId,
+            kind: "weekly_briefing",
+            agent: job.agent,
+            runId,
+            periodStart: week.from,
+            periodEnd: week.to,
+            content: { ...briefingContent(b, { week, openImpact, policy: { version: policy.version, is_example: policy.isExample } }), omitted: checked.omitted.length },
+            evidence: b.evidence,
+            policyVersion: policy.version,
+          });
+          silenced = checked.omitted.map((title) => ({ title, reason: "Quitado del briefing: sus cifras no salían de la evidencia." }));
+        }
       } else if (task === "review" && reviewRec) {
         const output = result.output as ReviewOutput;
         const checked = checkReview(output, check(ledger));
@@ -502,6 +512,7 @@ export async function runJob(deps: RunnerDeps, job: JobRecord): Promise<JobOutco
     // El registro completo de la ejecución: lo publicado, lo silenciado y por qué.
     await deps.store.finishRun(runId, {
       status: result.status === "ok" || published.length > 0 || reportId ? "succeeded" : "failed",
+      model: result.model,
       toolCalls,
       output: { status: result.status, output: result.output, issues: result.issues, published, silenced, report_id: reportId },
       error: result.status === "ok" ? null : (result.error ?? (result.issues.join(" | ").slice(0, 2000) || result.status)),

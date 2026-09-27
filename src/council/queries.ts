@@ -6,7 +6,7 @@ import "server-only";
 import { AGENT_CONFIG, type CouncilModel, isCouncilModel } from "@/council/agents.config";
 import { AGENTS } from "@/council/agents";
 import { resolvePolicy, type ResolvedPolicy } from "@/council/policy/schema";
-import { isClaudeConfigured } from "@/council/runtime/claude";
+import { councilProvider, isCouncilConfigured } from "@/council/runtime/provider";
 import type { AgentName, EvidenceItem, ProposedAction, RecommendationStatus } from "@/council/types";
 import { AGENT_NAMES } from "@/council/types";
 import type { Tables } from "@/lib/supabase/database.types";
@@ -165,9 +165,14 @@ function toRecommendation(r: Tables<"recommendations">, names: Map<string, strin
   };
 }
 
-/** Si el consejo puede trabajar: hace falta la clave de la API (solo se lee en el servidor). */
+/** Si el consejo puede trabajar: hace falta la clave de un proveedor, Claude o Groq (solo se lee en el servidor). */
 export function councilConfigured(): boolean {
-  return isClaudeConfigured();
+  return isCouncilConfigured();
+}
+
+/** Con qué proveedor trabaja el consejo (null sin clave). */
+export function councilProviderName(): "anthropic" | "groq" | null {
+  return councilProvider();
 }
 
 /** Estado de cada agente: ajustes efectivos (los de la org sobre los de por defecto), cola y gasto del mes. */

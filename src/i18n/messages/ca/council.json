@@ -63,12 +63,12 @@
     "intro": {
       "connect": {
         "title": "Un consell de direcció que no s'inventa res",
-        "body": "Nou agents especialitzats llegeixen els vostres contractes, factures, pipeline, despeses i caixa amb eines deterministes, i us proposen decisions amb l'evidència al davant. Per començar a treballar necessiten la clau de l'API de Claude.",
+        "body": "Nou agents especialitzats llegeixen els vostres contractes, factures, pipeline, despeses i caixa amb eines deterministes, i us proposen decisions amb l'evidència al davant. Per començar a treballar necessiten la clau de l'API de Claude o de Groq.",
         "stepsTitle": "Com connectar-lo",
         "steps": {
           "key": {
             "title": "Crea una clau de l'API",
-            "body": "A la consola d'Anthropic, amb un límit de despesa a la vostra mida. A més, cada agent té el seu propi pressupost mensual."
+            "body": "A la consola d'Anthropic (o a la de Groq, amb models oberts), amb un límit de despesa a la vostra mida. Cada agent té a més el seu propi pressupost mensual."
           },
           "env": {
             "title": "Desa-la al servidor",
@@ -252,7 +252,7 @@
       "history": "Historial"
     },
     "banners": {
-      "noApiKey": "El consell està en pausa: falta la clau de l'API de Claude al servidor. El que ja s'ha publicat continua aquí.",
+      "noApiKey": "El consell està en pausa: falta la clau de l'API (Claude o Groq) al servidor. El que ja s'ha publicat continua aquí.",
       "howToConnect": "Com connectar-lo"
     },
     "empty": {
@@ -311,7 +311,7 @@
       "empty": {
         "title": "Encara no hi ha briefing",
         "body": "Cada dilluns a les 8:00 el Chief of Staff converteix el que han vist els agents en un pla d'acció: les 3 accions crítiques, les alertes de risc, el que cal optimitzar i els conflictes resolts, amb la caixa i un semàfor per àrea.",
-        "noApiKey": "Cal la clau de l'API de Claude per preparar-lo."
+        "noApiKey": "Cal la clau de l'API de Claude o de Groq per preparar-lo."
       },
       "topActions": "Top 3 accions crítiques",
       "topActionsHint": "El que s'ha de fer abans de dimarts",
@@ -345,7 +345,8 @@
         "growth": "Creixement",
         "fiscal": "Fiscal",
         "devils_advocate": "Advocat del diable"
-      }
+      },
+      "omitted": "{count, plural, one {S'ha tret # punt perquè les seves xifres no sortien de les dades.} other {S'han tret # punts perquè les seves xifres no sortien de les dades.}}"
     },
     "history": {
       "label": "Informes anteriors",
@@ -404,7 +405,7 @@
       "empty": {
         "title": "Encara no hi ha tancament mensual",
         "body": "El dia 5 de cada mes el CFO tanca el mes anterior: xifres, provisió d'impostos i una proposta de repartiment que podeu editar abans d'acceptar-la.",
-        "noApiKey": "Cal la clau de l'API de Claude per preparar-lo."
+        "noApiKey": "Cal la clau de l'API de Claude o de Groq per preparar-lo."
       }
     },
     "runs": {
@@ -412,7 +413,7 @@
       "budgets": "Pressupost del mes",
       "monthTotal": "Aquest mes: {total}",
       "spent": "{spent} de {budget}",
-      "costNote": "Cost estimat amb els preus públics de l'API (entrada, sortida i memòria cau). La factura real és la d'Anthropic. Si un agent esgota el seu pressupost, queda en pausa fins al mes següent.",
+      "costNote": "Cost estimat amb els preus públics de l'API (entrada, sortida i memòria cau). La factura real és la del proveïdor (Anthropic o Groq). Si un agent esgota el seu pressupost, es pausa fins al mes següent.",
       "empty": "Encara no hi ha execucions.",
       "when": "Quan",
       "agent": "Agent",
@@ -454,7 +455,7 @@
       }
     },
     "errors": {
-      "noApiKey": "Falta la clau de l'API de Claude al servidor: el consell no pot treballar.",
+      "noApiKey": "Falta la clau de l'API (Claude o Groq) al servidor: el consell no pot treballar.",
       "discardReason": "Escriu el motiu en una línia (com a mínim 3 lletres).",
       "postponeDate": "Tria fins quan es posposa.",
       "transition": "Aquesta recomanació ja ha canviat d'estat. Recarrega la pàgina.",
@@ -611,11 +612,12 @@
         "readyTitle": "El consell està connectat",
         "readyBody": "La clau de l'API és al servidor. Els agents treballen segons el seu calendari i quan premeu «Executa ara».",
         "missingTitle": "El consell no està connectat",
-        "missingBody": "Sense la clau de l'API de Claude no es posa res a la cua ni s'executa res. El que ja s'ha publicat es continua veient.",
+        "missingBody": "Sense la clau de l'API de Claude o de Groq no s'encua ni s'executa res. El que ja s'ha publicat es continua veient.",
         "runsLink": "Execucions i cost",
         "apiKey": {
           "ok": "Clau de l'API",
-          "missing": "Falta la clau de l'API"
+          "missing": "Falta la clau de l'API",
+          "okProvider": "Clau de l'API · {provider}"
         },
         "cron": {
           "ok": "Cron protegit",
@@ -624,7 +626,12 @@
         "steps": {
           "key": "Desa la clau de l'API com a variable d'entorn del servidor (no arriba mai al navegador):",
           "cron": "Programa una crida cada hora al cron del consell, amb el secret del cron:",
-          "policy": "Fixeu la vostra política financera aquí mateix. Fins aleshores, els agents fan servir la d'exemple."
+          "policy": "Fixeu la vostra política financera aquí mateix. Fins aleshores, els agents fan servir la d'exemple.",
+          "orGroq": "O, per fer servir un model obert a Groq (més barat; menys fiable amb les regles del consell):"
+        },
+        "provider": {
+          "anthropic": "Claude",
+          "groq": "Groq (model obert)"
         }
       },
       "agents": {

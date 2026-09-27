@@ -1,26 +1,31 @@
 import "server-only";
 
 // Conexión del consejo con la app: el runner con Supabase (service_role), los datos de cada org y
-// Claude si hay clave. Lo usan el cron (/api/cron/council) y "Ejecutar ahora".
+// el proveedor de IA que haya (Claude o Groq, src/council/runtime/provider.ts). Lo usan el cron
+// (/api/cron/council) y "Ejecutar ahora".
 
 import type { Db } from "@/server/billing/context";
 import { SupabaseCouncilData } from "./data/supabase";
 import { runPendingJobs, type JobOutcome, type RunnerDeps } from "./runner";
-import { ClaudeRuntime, isClaudeConfigured } from "./runtime/claude";
+import { ClaudeRuntime } from "./runtime/claude";
+import { GroqRuntime } from "./runtime/groq";
+import { councilProvider, isCouncilConfigured } from "./runtime/provider";
+import type { AgentRuntime } from "./runtime/types";
 import { dueScheduledJobs, localNow } from "./schedule";
 import { SupabaseCouncilStore } from "./store/supabase";
 
-let claude: ClaudeRuntime | null = null;
+const runtimes: Partial<Record<"anthropic" | "groq", AgentRuntime>> = {};
 
-/** Las dependencias del runner en producción. Sin ANTHROPIC_API_KEY no hay runtime (el runner lo explica). */
+/** Las dependencias del runner en producción. Sin clave de ningún proveedor no hay runtime (el runner lo explica). */
 export function councilDeps(admin: Db): RunnerDeps {
   return {
     store: new SupabaseCouncilStore(admin),
     dataFor: (orgId) => new SupabaseCouncilData(admin, orgId),
     runtimeFor: () => {
-      if (!isClaudeConfigured()) return null;
-      claude ??= new ClaudeRuntime();
-      return claude;
+      const provider = councilProvider();
+      if (!provider) return null;
+      runtimes[provider] ??= provider === "groq" ? new GroqRuntime() : new ClaudeRuntime();
+      return runtimes[provider]!;
     },
   };
 }
@@ -34,7 +39,7 @@ export type CouncilCronResult = { configured: boolean; enqueued: number; outcome
  * clave de la API no encola nada (no se acumulan trabajos que no se pueden hacer).
  */
 export async function runCouncilCron(admin: Db, opts: { now?: Date; deadlineMs?: number } = {}): Promise<CouncilCronResult> {
-  if (!isClaudeConfigured()) return { configured: false, enqueued: 0, outcomes: [] };
+  if (!isCouncilConfigured()) return { configured: false, enqueued: 0, outcomes: [] };
   const deps = councilDeps(admin);
   const now = opts.now ?? new Date();
   let enqueued = 0;

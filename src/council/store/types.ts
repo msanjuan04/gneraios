@@ -78,6 +78,8 @@ export type RunStart = {
 
 export type RunFinish = {
   status: "succeeded" | "failed" | "skipped";
+  /** El modelo que respondió de verdad (con Groq, el abierto que corresponde al pedido). */
+  model?: string;
   toolCalls: ToolCallLog[];
   output: unknown;
   error: string | null;
@@ -87,7 +89,7 @@ export type RunFinish = {
   durationMs: number;
 };
 
-export type RunRecord = RunStart & RunFinish & { id: string; startedAt: string };
+export type RunRecord = RunStart & Omit<RunFinish, "model"> & { id: string; startedAt: string };
 
 export type NewRecommendation = {
   agent: AgentName;

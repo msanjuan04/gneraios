@@ -282,6 +282,8 @@ export class SupabaseCouncilStore implements CouncilStore {
       .from("agent_runs")
       .update({
         status: result.status,
+        // La columna solo admite [a-z0-9.:_-]: «openai/gpt-oss-120b» se guarda como «openai:gpt-oss-120b».
+        ...(result.model ? { model: result.model.toLowerCase().replace(/[^a-z0-9.:_-]/g, ":").slice(0, 81) } : {}),
         tool_calls: json(result.toolCalls),
         output: json(result.output),
         error: result.error?.slice(0, 4000) ?? null,

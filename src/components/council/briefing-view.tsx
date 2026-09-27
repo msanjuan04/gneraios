@@ -89,6 +89,11 @@ export function BriefingView({ report, basePath }: { report: ReportView; basePat
         </p>
       </header>
 
+      {v2 && typeof (content as { omitted?: number }).omitted === "number" && (content as { omitted: number }).omitted > 0 && (
+        <p className="-mt-3 rounded-xl border border-dashed px-4 py-2 text-xs text-muted-foreground">
+          {t("omitted", { count: (content as { omitted: number }).omitted })}
+        </p>
+      )}
       {v2 ? <ActionPlan content={content as BriefingContentV2} report={report} basePath={basePath} /> : <DecisionsV1 content={content} report={report} basePath={basePath} />}
 
       <div className="grid gap-6 lg:grid-cols-[20rem_minmax(0,1fr)]">

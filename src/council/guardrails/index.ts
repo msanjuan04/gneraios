@@ -58,6 +58,18 @@ function numberIssues(where: string, text: string, evidence: readonly EvidenceIt
   ];
 }
 
+/**
+ * Quita del texto las referencias internas a la evidencia («(m33)», «(m8, m9)», «(missing en t6)»):
+ * van en `evidence`, no en lo que leen los socios (algunos modelos las escriben igualmente).
+ */
+export function tidyText(text: string): string {
+  return text
+    .replace(/\s*\((?:(?:missing|sin datos)\s+(?:en\s+)?)?[mt]\d+(?:\s*(?:,|y|e)\s*[mt]\d+)*\)/gi, "")
+    .replace(/[ \t]{2,}/g, " ")
+    .replace(/\s+([.,;:])/g, "$1")
+    .trim();
+}
+
 /** Comprueba una recomendación y la convierte en lo que se guarda. */
 export function checkDraft(draft: RecommendationDraft, c: CheckContext, where = "Recomendación"): { issues: string[]; rec: CheckedRecommendation | null } {
   const issues: string[] = [];
@@ -102,16 +114,16 @@ export function checkDraft(draft: RecommendationDraft, c: CheckContext, where = 
     issues,
     rec: {
       kind: draft.kind,
-      title: draft.title.trim(),
-      summary: draft.summary.trim(),
-      reasoning: draft.reasoning.trim(),
+      title: tidyText(draft.title),
+      summary: tidyText(draft.summary),
+      reasoning: tidyText(draft.reasoning),
       evidence,
       proposedActions: draft.proposed_actions.map((a) => ({ title: a.title.trim(), due_in_days: a.due_in_days })),
       missingData: draft.missing_data,
       impactCents,
       confidence: draft.confidence,
       urgency: draft.urgency,
-      risks: draft.risks.trim() || null,
+      risks: tidyText(draft.risks) || null,
       requiresProfessionalReview: draft.requires_professional_review || detected,
       subject: draft.subject,
       dedupeKey: `${c.agent}:${draft.subject}`,
@@ -153,7 +165,7 @@ export function checkClose(output: MonthlyCloseOutput, c: CheckContext): { issue
     const items = resolveAll(c.ledger, h.evidence, `Punto ${i + 1} del cierre`, issues);
     for (const item of items) if (!evidence.some((e) => e.ref === item.ref)) evidence.push(item);
     issues.push(...numberIssues(`Punto ${i + 1} del cierre`, h.text, items.length > 0 ? items : evidence, c.ledger));
-    return { text: h.text.trim(), evidence: items };
+    return { text: tidyText(h.text), evidence: items };
   });
   const general = [output.close.headline, output.close.summary, output.close.distribution_comment].join("\n");
   issues.push(...numberIssues("Resumen del cierre", general, evidence, c.ledger));
@@ -164,7 +176,7 @@ export function checkClose(output: MonthlyCloseOutput, c: CheckContext): { issue
   if (issues.length > 0) return { issues, close: null, recs: [] };
   return {
     issues,
-    close: { headline: output.close.headline.trim(), summary: output.close.summary.trim(), highlights, distributionComment: output.close.distribution_comment.trim(), evidence },
+    close: { headline: tidyText(output.close.headline), summary: tidyText(output.close.summary), highlights, distributionComment: tidyText(output.close.distribution_comment), evidence },
     recs: scan.recs,
   };
 }
@@ -224,13 +236,13 @@ export function checkBriefing(output: BriefingOutput, c: CheckContext & { openRe
       }
     }
     issues.push(...numberIssues(where, `${d.title}\n${d.why}\n${extraText}`, items, c.ledger));
-    return { title: d.title.trim(), why: d.why.trim(), impactCents, recommendationId: d.recommendation_id, fromAgents: [...new Set(d.from_agents)], evidence: items };
+    return { title: tidyText(d.title), why: tidyText(d.why), impactCents, recommendationId: d.recommendation_id, fromAgents: [...new Set(d.from_agents)], evidence: items };
   };
 
   const topActions = b.top_actions.map((d, i) => ({
     ...item(`Acción crítica ${i + 1}`, d, d.if_not_done),
     urgency: d.urgency,
-    ifNotDone: d.if_not_done.trim(),
+    ifNotDone: tidyText(d.if_not_done),
   }));
   const riskAlerts = b.risk_alerts.map((d, i) => ({ ...item(`Alerta de riesgo ${i + 1}`, d), risk: d.risk }));
   const optimizations = b.optimizations.map((d, i) => item(`Optimización ${i + 1}`, d));
@@ -239,7 +251,7 @@ export function checkBriefing(output: BriefingOutput, c: CheckContext & { openRe
     const items = collect(resolveAll(c.ledger, d.evidence, where, issues));
     if (new Set(d.agents).size < 2) issues.push(`${where}: un conflicto es entre al menos dos agentes distintos.`);
     issues.push(...numberIssues(where, `${d.tension}\n${d.decision}`, items, c.ledger));
-    return { agents: [...new Set(d.agents)], tension: d.tension.trim(), decision: d.decision.trim(), evidence: items };
+    return { agents: [...new Set(d.agents)], tension: tidyText(d.tension), decision: tidyText(d.decision), evidence: items };
   });
   const titles = [...b.top_actions, ...b.risk_alerts, ...b.optimizations].map((d) => d.title.trim().toLowerCase());
   if (new Set(titles).size !== titles.length) issues.push("Cada punto va en una sola sección del briefing: no repitas la misma acción como alerta u optimización.");
@@ -250,7 +262,7 @@ export function checkBriefing(output: BriefingOutput, c: CheckContext & { openRe
     const items = collect(resolveAll(c.ledger, a.evidence, `Área ${a.area}`, issues));
     if (a.status !== "sin_datos" && items.length === 0) issues.push(`Área ${a.area}: un semáforo ${a.status} necesita evidencia; sin datos, usa sin_datos.`);
     issues.push(...numberIssues(`Área ${a.area}`, a.note, items, c.ledger));
-    return { area: a.area, status: a.status, note: a.note.trim(), evidence: items };
+    return { area: a.area, status: a.status, note: tidyText(a.note), evidence: items };
   });
   if (new Set(b.areas.map((a) => a.area)).size !== b.areas.length) issues.push("Cada área va una sola vez en el semáforo.");
   issues.push(...numberIssues("Titular del briefing", b.headline, all, c.ledger));
@@ -258,16 +270,72 @@ export function checkBriefing(output: BriefingOutput, c: CheckContext & { openRe
   return {
     issues,
     briefing: {
-      headline: b.headline.trim(),
+      headline: tidyText(b.headline),
       topActions,
       riskAlerts,
       optimizations,
       conflicts,
-      cash: { text: b.cash.text.trim(), evidence: cashItems },
+      cash: { text: tidyText(b.cash.text), evidence: cashItems },
       areas,
       evidence: all,
     },
   };
+}
+
+/**
+ * Un briefing rechazado por unos pocos puntos (una cifra sin su métrica en un conflicto, un
+ * semáforo con un recuento hecho a mano…) no se pierde entero: se quitan los puntos que no pasan
+ * por sí solos, el titular y la caja se sustituyen por textos sin cifras si hace falta, y se
+ * vuelve a comprobar todo. `omitted` dice qué se ha quitado.
+ */
+export function salvageBriefing(
+  output: BriefingOutput,
+  c: CheckContext & { openRecommendationIds: ReadonlySet<string> },
+): { briefing: CheckedBriefing | null; omitted: string[] } {
+  const b = output.briefing;
+  const omitted: string[] = [];
+  const neutral: BriefingOutput["briefing"] = {
+    headline: "El briefing de esta semana",
+    top_actions: [],
+    risk_alerts: [],
+    optimizations: [],
+    conflicts: [],
+    cash: { text: "Esta semana no hay datos de caja fiables.", evidence: [] },
+    areas: [],
+  };
+  const passes = (briefing: BriefingOutput["briefing"]) => checkBriefing({ briefing }, c).issues.length === 0;
+  const keep = <K extends "top_actions" | "risk_alerts" | "optimizations" | "conflicts" | "areas">(key: K, label: (item: BriefingOutput["briefing"][K][number]) => string) =>
+    (b[key] as BriefingOutput["briefing"][K][number][]).filter((item) => {
+      const ok = passes({ ...neutral, [key]: [item] });
+      if (!ok) omitted.push(label(item));
+      return ok;
+    }) as BriefingOutput["briefing"][K];
+
+  const seen = new Set<string>();
+  const unique = <T extends { title: string }>(items: T[]) =>
+    items.filter((item) => {
+      const key = item.title.trim().toLowerCase();
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  const areas = new Set<string>();
+  const candidate: BriefingOutput["briefing"] = {
+    headline: b.headline,
+    top_actions: unique(keep("top_actions", (d) => d.title)),
+    risk_alerts: unique(keep("risk_alerts", (d) => d.title)),
+    optimizations: unique(keep("optimizations", (d) => d.title)),
+    conflicts: keep("conflicts", (d) => d.tension),
+    cash: passes({ ...neutral, cash: b.cash }) ? b.cash : (omitted.push("caja"), neutral.cash),
+    areas: keep("areas", (a) => a.area).filter((a) => (areas.has(a.area) ? false : (areas.add(a.area), true))),
+  };
+  let checked = checkBriefing({ briefing: candidate }, c);
+  if (checked.issues.length > 0) {
+    // Lo que queda es el titular: sin cifras justificadas, el de la primera acción.
+    candidate.headline = candidate.top_actions[0]?.title ?? candidate.risk_alerts[0]?.title ?? neutral.headline;
+    checked = checkBriefing({ briefing: candidate }, c);
+  }
+  return { briefing: checked.briefing, omitted };
 }
 
 export function checkChallenge(output: ChallengeOutput, c: CheckContext): { issues: string[]; evidence: EvidenceItem[] } {

@@ -159,4 +159,28 @@ describe("briefing semanal", () => {
       expect(store.reports).toHaveLength(0);
     }
   });
+
+  it("si solo falla un punto (una cifra inventada en un conflicto), se publica el briefing sin él", async () => {
+    const store = memoryStore();
+    await store.insertRecommendations(ORG_ID, [open({})]);
+    // El guion responde lo mismo en cada reintento (sin volver a llamar a las tools).
+    let cached: unknown = null;
+    const oneBad: FakeScript = async (s) => {
+      if (cached) return cached;
+      const output = (await briefing(s)) as { briefing: { conflicts: unknown[] } };
+      output.briefing.conflicts = [
+        { agents: ["retention", "commercial"], tension: "Cobrar ya o cuidar la relación.", decision: "Reclamar los 865 € con una llamada cordial.", evidence: [] },
+      ];
+      cached = output;
+      return output;
+    };
+    const deps = runnerDeps({ store, scripts: { "chief_of_staff:weekly_briefing": oneBad } });
+    const outcome = await runJob(deps, await claimedJob(store, { agent: "chief_of_staff", trigger: "manual", payload: {} }));
+    expect(outcome.status).toBe("done");
+    const content = store.reports[0]!.content as { conflicts: unknown[]; topActions: unknown[]; omitted: number };
+    expect(content.conflicts).toHaveLength(0);
+    expect(content.topActions).toHaveLength(1);
+    expect(content.omitted).toBe(1);
+  });
 });
+

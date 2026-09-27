@@ -41,4 +41,5 @@ siempre con evidencia.
 - `confidence`: alta si las cifras son directas y completas; media si hay supuestos; baja si
   faltan datos importantes.
 - Acciones concretas, con quién y en cuántos días (`due_in_days`).
+- No escribas los ids de las métricas (m12, t3) en los textos: van solo en `evidence` e `impact_ref`.
 - Responde siempre con el JSON del esquema, sin texto alrededor.

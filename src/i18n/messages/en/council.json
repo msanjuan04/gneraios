@@ -63,12 +63,12 @@
     "intro": {
       "connect": {
         "title": "A board of directors that doesn't make anything up",
-        "body": "Nine specialized agents read your contracts, invoices, pipeline, expenses and cash with deterministic tools, and propose decisions with the evidence in front of you. To get to work, they need the Claude API key.",
+        "body": "Nine specialised agents read your contracts, invoices, pipeline, expenses and cash with deterministic tools, and propose decisions with the evidence in front of you. To start working they need a Claude or Groq API key.",
         "stepsTitle": "How to connect it",
         "steps": {
           "key": {
             "title": "Create an API key",
-            "body": "In the Anthropic console, with a spending limit that suits you. Each agent also has its own monthly budget."
+            "body": "In the Anthropic console (or Groq's, with open models), with a spending limit that suits you. Each agent also has its own monthly budget."
           },
           "env": {
             "title": "Store it on the server",
@@ -252,7 +252,7 @@
       "history": "History"
     },
     "banners": {
-      "noApiKey": "The council is paused: the Claude API key is missing on the server. What's already been published is still here.",
+      "noApiKey": "The council is paused: the API key (Claude or Groq) is missing on the server. What was already published stays here.",
       "howToConnect": "How to connect it"
     },
     "empty": {
@@ -311,7 +311,7 @@
       "empty": {
         "title": "No briefing yet",
         "body": "Every Monday at 8:00 the Chief of Staff turns what the agents have seen into an action plan: the top 3 critical actions, risk alerts, what to optimise and resolved conflicts, with cash and a traffic light per area.",
-        "noApiKey": "The Claude API key is needed to prepare it."
+        "noApiKey": "A Claude or Groq API key is needed to prepare it."
       },
       "topActions": "Top 3 critical actions",
       "topActionsHint": "What must be done before Tuesday",
@@ -345,7 +345,8 @@
         "growth": "Growth",
         "fiscal": "Tax",
         "devils_advocate": "Devil's advocate"
-      }
+      },
+      "omitted": "{count, plural, one {# point was removed because its figures didn't come from the data.} other {# points were removed because their figures didn't come from the data.}}"
     },
     "history": {
       "label": "Previous reports",
@@ -404,7 +405,7 @@
       "empty": {
         "title": "No monthly close yet",
         "body": "On the 5th of every month, the CFO closes the previous month: figures, tax provision and a proposed distribution you can edit before accepting.",
-        "noApiKey": "The Claude API key is needed to prepare it."
+        "noApiKey": "A Claude or Groq API key is needed to prepare it."
       }
     },
     "runs": {
@@ -412,7 +413,7 @@
       "budgets": "Monthly budget",
       "monthTotal": "This month: {total}",
       "spent": "{spent} of {budget}",
-      "costNote": "Cost estimated with the API's public prices (input, output and cache). The real bill is Anthropic's. If an agent uses up its budget, it's paused until the next month.",
+      "costNote": "Cost estimated with the public API prices (input, output and cache). The real bill is the provider's (Anthropic or Groq). If an agent uses up its budget, it pauses until next month.",
       "empty": "No runs yet.",
       "when": "When",
       "agent": "Agent",
@@ -454,7 +455,7 @@
       }
     },
     "errors": {
-      "noApiKey": "The Claude API key is missing on the server: the council can't work.",
+      "noApiKey": "The API key (Claude or Groq) is missing on the server: the council can't work.",
       "discardReason": "Write the reason in one line (at least 3 letters).",
       "postponeDate": "Choose how long to snooze it for.",
       "transition": "That recommendation has already changed status. Reload the page.",
@@ -611,11 +612,12 @@
         "readyTitle": "The council is connected",
         "readyBody": "The API key is on the server. The agents work on their schedule and whenever you press “Run now”.",
         "missingTitle": "The council isn't connected",
-        "missingBody": "Without the Claude API key, nothing is queued or run. What's already been published can still be seen.",
+        "missingBody": "Without a Claude or Groq API key nothing is queued or run. What was already published is still visible.",
         "runsLink": "Runs and cost",
         "apiKey": {
           "ok": "API key",
-          "missing": "API key missing"
+          "missing": "API key missing",
+          "okProvider": "API key · {provider}"
         },
         "cron": {
           "ok": "Cron protected",
@@ -624,7 +626,12 @@
         "steps": {
           "key": "Store the API key as a server environment variable (it never reaches the browser):",
           "cron": "Schedule a call to the council cron every hour, with the cron secret:",
-          "policy": "Set your financial policy right here. Until then, the agents use the sample one."
+          "policy": "Set your financial policy right here. Until then, the agents use the sample one.",
+          "orGroq": "Or, to use an open model on Groq (cheaper; less reliable with the council's rules):"
+        },
+        "provider": {
+          "anthropic": "Claude",
+          "groq": "Groq (open model)"
         }
       },
       "agents": {

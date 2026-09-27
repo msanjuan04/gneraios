@@ -4,10 +4,22 @@ import { getTranslations } from "next-intl/server";
 import { cn } from "@/lib/utils";
 
 /**
- * Si el consejo puede trabajar: la clave de la API y el cron (solo se dice si están, nunca su valor).
- * Sin clave, los pasos para conectarlo.
+ * Si el consejo puede trabajar: la clave de la API (de Claude o de Groq) y el cron (solo se dice si
+ * están, nunca su valor). Sin clave, los pasos para conectarlo.
  */
-export async function ConnectionCard({ configured, cronConfigured, basePath, isOwner }: { configured: boolean; cronConfigured: boolean; basePath: string; isOwner: boolean }) {
+export async function ConnectionCard({
+  configured,
+  provider,
+  cronConfigured,
+  basePath,
+  isOwner,
+}: {
+  configured: boolean;
+  provider: "anthropic" | "groq" | null;
+  cronConfigured: boolean;
+  basePath: string;
+  isOwner: boolean;
+}) {
   const t = await getTranslations("council.settings.connection");
   const items = [
     { key: "apiKey", ok: configured },
@@ -34,7 +46,7 @@ export async function ConnectionCard({ configured, cronConfigured, basePath, isO
         {items.map((item) => (
           <li key={item.key} className={cn("inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold", item.ok ? "text-success" : "text-muted-foreground")}>
             {item.ok ? <CircleCheck aria-hidden className="size-3.5" /> : <CircleDashed aria-hidden className="size-3.5" />}
-            {t(`${item.key}.${item.ok ? "ok" : "missing"}`)}
+            {item.key === "apiKey" && item.ok && provider ? t("apiKey.okProvider", { provider: t(`provider.${provider}`) }) : t(`${item.key}.${item.ok ? "ok" : "missing"}`)}
           </li>
         ))}
       </ul>
@@ -43,6 +55,8 @@ export async function ConnectionCard({ configured, cronConfigured, basePath, isO
           <li>
             <span className="font-semibold text-foreground">1.</span> {t("steps.key")}
             <code className="mt-1 block rounded-lg bg-muted px-3 py-2 font-mono text-xs text-foreground select-all">ANTHROPIC_API_KEY=sk-ant-…</code>
+            <span className="mt-1 block text-xs">{t("steps.orGroq")}</span>
+            <code className="mt-1 block rounded-lg bg-muted px-3 py-2 font-mono text-xs text-foreground select-all">GROQ_API_KEY=gsk_…</code>
           </li>
           <li>
             <span className="font-semibold text-foreground">2.</span> {t("steps.cron")}

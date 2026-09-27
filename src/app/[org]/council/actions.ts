@@ -4,7 +4,7 @@ import type { PostgrestError } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
 import { after } from "next/server";
 import { runPendingJobs } from "@/council/runner";
-import { isClaudeConfigured } from "@/council/runtime/claude";
+import { isCouncilConfigured } from "@/council/runtime/provider";
 import { councilDeps } from "@/council/service";
 import { isAgentName } from "@/council/types";
 import type { ActionResult } from "@/lib/action-result";
@@ -39,7 +39,7 @@ export async function runAgentNow(slug: string, agent: string): Promise<ActionRe
   const ctx = await partnerContext(slug);
   if (!ctx) return forbidden();
   if (!isAgentName(agent) || agent === "devils_advocate") return invalidInput();
-  if (!isClaudeConfigured()) return failure("council.errors.noApiKey");
+  if (!isCouncilConfigured()) return failure("council.errors.noApiKey");
   const supabase = await createClient();
   const { data, error } = await supabase.rpc("council_enqueue_run", { p_org: ctx.org.id, p_agent: agent });
   if (error) return dbFailure(error, "council.runNow", known);

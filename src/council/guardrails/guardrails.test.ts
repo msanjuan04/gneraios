@@ -5,7 +5,7 @@ import { RunLedger } from "../runtime/ledger";
 import type { Scenario } from "../data/scenario";
 import { agencyScenario, toolContext } from "../testing";
 import { executeTool } from "../tools/registry";
-import { checkDraft } from "./index";
+import { checkDraft, tidyText } from "./index";
 import { extractFigures, figureMatches, ungroundedFigures } from "./numbers";
 import { adviceClaims, needsProfessionalReview } from "./professional";
 
@@ -182,5 +182,14 @@ describe("checkDraft", () => {
       { ledger, policy: resolvePolicy(null), agent: "chief_of_staff" },
     );
     expect(checked.issues.join("\n")).toMatch(/EJEMPLO/);
+  });
+});
+
+describe("tidyText", () => {
+  it("quita las referencias internas a la evidencia del texto", () => {
+    expect(tidyText("Hay una factura vencida de 1.007 € (m33) con 26 días de retraso (m35).")).toBe("Hay una factura vencida de 1.007 € con 26 días de retraso.");
+    expect(tidyText("Sin datos de horas de GNERAI (missing en t6) la regla no se cumple.")).toBe("Sin datos de horas de GNERAI la regla no se cumple.");
+    expect(tidyText("Caja de 18.488,20 € (m10, m11) y 11 meses (m18 y m19).")).toBe("Caja de 18.488,20 € y 11 meses.");
+    expect(tidyText("El MRR (mensual) sube.")).toBe("El MRR (mensual) sube.");
   });
 });

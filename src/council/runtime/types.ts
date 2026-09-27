@@ -20,7 +20,13 @@ export type RuntimeRequest = {
   system: { shared: string; agent: string };
   /** El primer mensaje: la tarea de hoy. */
   prompt: string;
+  /** Todas las tools, en orden estable (con Claude son el prefijo cacheado común a todos los agentes). */
   tools: readonly ToolSpec[];
+  /**
+   * Las que puede usar este agente (el runner rechaza las demás). Un runtime sin caché de prompt,
+   * como Groq, envía solo estas: menos tokens por llamada.
+   */
+  allowedTools?: readonly string[];
   handleTool: ToolHandler;
   output: { schema: z.ZodType; name: string };
   /** Guardarraíles sobre una salida ya válida por esquema: la lista de problemas (vacía = bien). */

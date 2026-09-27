@@ -8,7 +8,7 @@ import { PolicyForm } from "@/components/council/settings/policy-form";
 import { UpsellRulesEditor } from "@/components/council/settings/upsell-rules";
 import { SettingsSectionHeader } from "@/components/settings/settings-card";
 import { AGENTS } from "@/council/agents";
-import { councilConfigured, getAgentStatuses, getPolicyWithHistory, listUpsellRules, reviewAccuracy } from "@/council/queries";
+import { councilConfigured, councilProviderName, getAgentStatuses, getPolicyWithHistory, listUpsellRules, reviewAccuracy } from "@/council/queries";
 import { cn } from "@/lib/utils";
 import { getOrgContext, hasRole } from "@/server/session";
 
@@ -48,7 +48,7 @@ export default async function CouncilSettingsPage({ params, searchParams }: Page
 
   return (
     <div className="space-y-6">
-      <ConnectionCard configured={councilConfigured()} cronConfigured={Boolean(process.env.CRON_SECRET)} basePath={basePath} isOwner={isOwner} />
+      <ConnectionCard configured={councilConfigured()} provider={councilProviderName()} cronConfigured={Boolean(process.env.CRON_SECRET)} basePath={basePath} isOwner={isOwner} />
 
       <nav aria-label={t("sectionsLabel")} className="flex w-fit max-w-full gap-1 overflow-x-auto rounded-full border bg-card/60 p-1 [scrollbar-width:none]">
         {SECTIONS.map((s) => (
