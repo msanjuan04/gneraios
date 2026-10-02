@@ -3,7 +3,7 @@
 // hay que avisar. Nada de esto se guarda.
 
 /** Por qué falló una comprobación (site_checks.error). Las etiquetas salen de i18n (sites.errors.*). */
-export const CHECK_ERRORS = ["timeout", "dns", "refused", "reset", "tls_expired", "tls_invalid", "redirects", "http", "network"] as const;
+export const CHECK_ERRORS = ["timeout", "dns", "blocked", "refused", "reset", "tls_expired", "tls_invalid", "redirects", "http", "network"] as const;
 export type CheckError = (typeof CHECK_ERRORS)[number];
 
 /** La clave guardada, o "network" si no es una conocida (nunca se pierde que falló). */

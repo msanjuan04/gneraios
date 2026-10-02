@@ -246,6 +246,7 @@
     "errors": {
       "timeout": "Timed out",
       "dns": "Domain doesn't resolve",
+      "blocked": "Points to a non-public address",
       "refused": "Connection refused",
       "reset": "Connection dropped",
       "tls_expired": "SSL certificate expired",

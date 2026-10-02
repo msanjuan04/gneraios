@@ -294,6 +294,49 @@
       "yearly": "Yearly fee: {amount}/year",
       "usage": "Usage-based services: according to usage, at the prices shown",
       "vatIncluded": "Amounts include VAT."
+    },
+    "templates": {
+      "title": "Quote templates",
+      "description": "Your generic quotes (web, marketing, ads, software…) with their lines and “from” prices, ready to start a new quote in seconds.",
+      "backToQuotes": "Quotes",
+      "empty": "No templates yet. Open a quote and press “Save as template”.",
+      "use": "Use template",
+      "edit": "Edit",
+      "archive": "Archive",
+      "archiveConfirm": "Archive “{name}”? It will no longer be offered; existing quotes don't change.",
+      "archivedToast": "Template archived.",
+      "savedToast": "Template saved.",
+      "updatedToast": "Template updated.",
+      "uses": "{count, plural, =0 {Not used yet} one {Used once} other {Used # times}}",
+      "linesCount": "{count, plural, one {1 line} other {# lines}}",
+      "from": "from",
+      "perMonth": "/month",
+      "perYear": "/year",
+      "fields": {
+        "name": "Name",
+        "category": "Category",
+        "summary": "What's included",
+        "summaryHint": "For you: it doesn't appear in the PDF.",
+        "title": "Quote title",
+        "titleHint": "Empty: the template name.",
+        "notes": "Quote notes"
+      },
+      "saveAs": {
+        "title": "Save as template",
+        "description": "This quote's lines, text and payment plan become a template for the next ones.",
+        "replace": "Replace an existing template",
+        "keepNew": "Create a new one",
+        "submit": "Save template"
+      },
+      "editSheet": {
+        "title": "Edit template",
+        "description": "Lines change by saving another quote as this template."
+      },
+      "errors": {
+        "nameTaken": "There is already a template with that name.",
+        "notFound": "That template no longer exists.",
+        "noLines": "The quote has no lines to save."
+      }
     }
   }
 }

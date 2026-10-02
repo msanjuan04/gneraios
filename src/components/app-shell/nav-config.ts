@@ -5,6 +5,7 @@ import {
   CalendarDays,
   ChartNoAxesCombined,
   Landmark,
+  LayoutTemplate,
   Megaphone,
   FileSignature,
   FileText,
@@ -29,6 +30,7 @@ export type NavKey =
   | "projects"
   | "sites"
   | "quotes"
+  | "quoteTemplates"
   | "contracts"
   | "invoices"
   | "finance"
@@ -61,6 +63,7 @@ export const NAV_GROUPS: { label: "groupDirection" | "groupSales" | "groupWork" 
       { key: "pipeline", path: "/pipeline", icon: SquareKanban, shortcut: "g p" },
       { key: "clients", path: "/clients", icon: Building2, shortcut: "g c" },
       { key: "quotes", path: "/quotes", icon: FileText, shortcut: "g q" },
+      { key: "quoteTemplates", path: "/quotes/templates", icon: LayoutTemplate },
     ],
   },
   {

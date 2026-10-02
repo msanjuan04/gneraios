@@ -246,6 +246,7 @@
     "errors": {
       "timeout": "Temps d'espera esgotat",
       "dns": "El domini no resol",
+      "blocked": "Apunta a una adreça no pública",
       "refused": "Connexió rebutjada",
       "reset": "Connexió tallada",
       "tls_expired": "Certificat SSL caducat",

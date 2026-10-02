@@ -246,6 +246,7 @@
     "errors": {
       "timeout": "Tiempo de espera agotado",
       "dns": "El dominio no resuelve",
+      "blocked": "Apunta a una dirección no pública",
       "refused": "Conexión rechazada",
       "reset": "Conexión cortada",
       "tls_expired": "Certificado SSL caducado",

@@ -294,6 +294,49 @@
       "yearly": "Quota anual: {amount}/any",
       "usage": "Serveis per ús: segons consum, als preus indicats",
       "vatIncluded": "Imports amb IVA inclòs."
+    },
+    "templates": {
+      "title": "Plantilles de pressupost",
+      "description": "Els vostres pressupostos genèrics (web, màrqueting, ads, software…) amb les línies i preus «des de», a punt per arrencar-ne un de nou en segons.",
+      "backToQuotes": "Pressupostos",
+      "empty": "Encara no hi ha plantilles. Obre un pressupost i prem «Desa com a plantilla».",
+      "use": "Fer servir la plantilla",
+      "edit": "Editar",
+      "archive": "Arxivar",
+      "archiveConfirm": "Arxivar «{name}»? Deixarà de proposar-se; el que ja està pressupostat no canvia.",
+      "archivedToast": "Plantilla arxivada.",
+      "savedToast": "Plantilla desada.",
+      "updatedToast": "Plantilla actualitzada.",
+      "uses": "{count, plural, =0 {Sense fer servir} one {Feta servir 1 cop} other {Feta servir # cops}}",
+      "linesCount": "{count, plural, one {1 línia} other {# línies}}",
+      "from": "des de",
+      "perMonth": "/mes",
+      "perYear": "/any",
+      "fields": {
+        "name": "Nom",
+        "category": "Categoria",
+        "summary": "Què inclou",
+        "summaryHint": "Per a vosaltres: no surt al PDF.",
+        "title": "Títol del pressupost",
+        "titleHint": "Buit: el nom de la plantilla.",
+        "notes": "Notes del pressupost"
+      },
+      "saveAs": {
+        "title": "Desa com a plantilla",
+        "description": "Les línies, el text i el pla de pagaments d'aquest pressupost queden com a plantilla per als següents.",
+        "replace": "Substituir una plantilla existent",
+        "keepNew": "Crear-ne una de nova",
+        "submit": "Desa la plantilla"
+      },
+      "editSheet": {
+        "title": "Editar plantilla",
+        "description": "Les línies es canvien desant un altre pressupost com aquesta plantilla."
+      },
+      "errors": {
+        "nameTaken": "Ja hi ha una plantilla amb aquest nom.",
+        "notFound": "Aquesta plantilla ja no existeix.",
+        "noLines": "El pressupost no té línies per desar."
+      }
     }
   }
 }

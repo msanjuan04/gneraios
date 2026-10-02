@@ -1,6 +1,6 @@
 "use client";
 
-import { FileText, Plus, Search, X } from "lucide-react";
+import { FileText, LayoutTemplate, Plus, Search, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -181,15 +181,25 @@ export function QuotesList({ basePath, quotes, canEdit }: Props) {
     else router.push(quoteHref(id));
   };
 
-  const newButton = canEdit ? (
-    <Button asChild>
-      <Link href={newHref}>
-        <Plus data-icon="inline-start" />
-        {t("new")}
-        <Kbd className="ml-1 hidden bg-white/15 text-white sm:inline-flex">C</Kbd>
-      </Link>
-    </Button>
-  ) : undefined;
+  const newButton = (
+    <>
+      <Button asChild variant="outline">
+        <Link href={`${basePath}/quotes/templates`}>
+          <LayoutTemplate data-icon="inline-start" />
+          {t("templates.title")}
+        </Link>
+      </Button>
+      {canEdit && (
+        <Button asChild>
+          <Link href={newHref}>
+            <Plus data-icon="inline-start" />
+            {t("new")}
+            <Kbd className="ml-1 hidden bg-white/15 text-white sm:inline-flex">C</Kbd>
+          </Link>
+        </Button>
+      )}
+    </>
+  );
 
   return (
     <div className="mx-auto max-w-6xl">

@@ -47,7 +47,8 @@
     "calendar": "Calendar",
     "projects": "Projects",
     "groupWork": "Work",
-    "sites": "Websites"
+    "sites": "Websites",
+    "quoteTemplates": "Templates"
   },
   "user": {
     "menu": "Your account",
@@ -200,7 +201,7 @@
       "quote_rejected_reason": "{client} declined quote {number} “{title}”: “{reason}”.",
       "portal_request": "{urgent, select, yes {Urgent · } other {}}{client} asked for something from their space: “{subject}”.",
       "new_device": "{member} signed in from a new device: {device}. If you don't recognise it, remove it in Settings → Team.",
-      "site_down": "{site} is down: {error, select, timeout {it doesn't respond in time} dns {the domain doesn't resolve} refused {the server refuses the connection} reset {the connection drops} tls_expired {the SSL certificate has expired} tls_invalid {the SSL certificate isn't valid} redirects {it's stuck in a redirect loop} http {it responds with error {status}} other {it can't be reached}}.",
+      "site_down": "{site} is down: {error, select, timeout {it doesn't respond in time} dns {the domain doesn't resolve} blocked {it points to a non-public address} refused {the server refuses the connection} reset {the connection drops} tls_expired {the SSL certificate has expired} tls_invalid {the SSL certificate isn't valid} redirects {it's stuck in a redirect loop} http {it responds with error {status}} other {it can't be reached}}.",
       "site_up": "{site} is back up (it was down for {duration}).",
       "ssl_expiring": "The SSL certificate for {site} expires {days, plural, =0 {today} =1 {tomorrow} other {in # days}} ({date}). Check the automatic renewal.",
       "ssl_expired": "The SSL certificate for {site} expired on {date}: browsers warn that the site isn't secure.",

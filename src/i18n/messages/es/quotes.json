@@ -294,6 +294,49 @@
       "yearly": "Cuota anual: {amount}/año",
       "usage": "Servicios por uso: según consumo, a los precios indicados",
       "vatIncluded": "Importes con IVA incluido."
+    },
+    "templates": {
+      "title": "Plantillas de presupuesto",
+      "description": "Vuestros presupuestos genéricos (web, marketing, ads, software…) con sus líneas y precios «desde», listos para arrancar uno nuevo en segundos.",
+      "backToQuotes": "Presupuestos",
+      "empty": "Aún no hay plantillas. Abre un presupuesto y pulsa «Guardar como plantilla».",
+      "use": "Usar plantilla",
+      "edit": "Editar",
+      "archive": "Archivar",
+      "archiveConfirm": "¿Archivar «{name}»? Dejará de proponerse; lo ya presupuestado no cambia.",
+      "archivedToast": "Plantilla archivada.",
+      "savedToast": "Plantilla guardada.",
+      "updatedToast": "Plantilla actualizada.",
+      "uses": "{count, plural, =0 {Sin usar} one {Usada 1 vez} other {Usada # veces}}",
+      "linesCount": "{count, plural, one {1 línea} other {# líneas}}",
+      "from": "desde",
+      "perMonth": "/mes",
+      "perYear": "/año",
+      "fields": {
+        "name": "Nombre",
+        "category": "Categoría",
+        "summary": "Qué incluye",
+        "summaryHint": "Para vosotros: no sale en el PDF.",
+        "title": "Título del presupuesto",
+        "titleHint": "Vacío: el nombre de la plantilla.",
+        "notes": "Notas del presupuesto"
+      },
+      "saveAs": {
+        "title": "Guardar como plantilla",
+        "description": "Las líneas, el texto y el plan de pagos de este presupuesto quedan como plantilla para los siguientes.",
+        "replace": "Sustituir una plantilla existente",
+        "keepNew": "Crear una nueva",
+        "submit": "Guardar plantilla"
+      },
+      "editSheet": {
+        "title": "Editar plantilla",
+        "description": "Las líneas se cambian guardando otro presupuesto como esta plantilla."
+      },
+      "errors": {
+        "nameTaken": "Ya hay una plantilla con ese nombre.",
+        "notFound": "Esa plantilla ya no existe.",
+        "noLines": "El presupuesto no tiene líneas que guardar."
+      }
     }
   }
 }

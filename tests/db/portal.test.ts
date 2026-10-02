@@ -591,3 +591,18 @@ function invoiceLine(billableItemId: string | null, contractLineId: string | nul
     billable_item_id: billableItemId,
   };
 }
+
+describe("verificación en dos pasos obligatoria (auditoría A13)", () => {
+  it("un enlace público válido sigue aceptando el presupuesto aunque la org exija MFA", async () => {
+    const quote = await sentQuote();
+    const { token } = await createLink("quote", quote);
+    // Se activa como lo haría la app: desde una sesión del owner que ya ha pasado la verificación.
+    await as(db, owner, () => db.query("update public.orgs set require_mfa = true where id = $1", [orgId]), { aal: "aal2" });
+    const contract = await portalAccept(token, quote);
+    expect(contract).toMatch(/^[0-9a-f-]{36}$/);
+    expect((await counts()).contracts).toBe(1);
+    // La marca de portal no sobrevive a la RPC: fuera del portal, sin aal2, el socio sigue sin rol.
+    expect((await one<{ v: string }>("select coalesce(current_setting('request.gnerai.portal', true), '') as v")).v).toBe("");
+    await expect(as(db, owner, () => one("select public.create_public_link('quote', $1, $2) as r", [quote, sha256Hex("otro")]), { aal: "aal1" })).rejects.toThrow();
+  });
+});

@@ -1,4 +1,6 @@
 import type { AppLocale, QuoteFormInput, QuoteState, QuoteStatus } from "@/app/[org]/quotes/schema";
+import type { PlanItem } from "@/app/[org]/quotes/summary";
+import type { CatalogCategory, TemplateAmounts, TemplateLine } from "@/app/[org]/quotes/template-schema";
 import type { Enums } from "@/lib/supabase/database.types";
 
 /**
@@ -93,6 +95,22 @@ export type QuoteEditorData = {
   emails: QuoteEmailItem[];
   manualVersions: QuoteManualVersion[];
   options: QuoteFormOptions;
+};
+
+/** Una plantilla de presupuesto (quote_templates), con sus líneas ya validadas y los totales por tipo. */
+export type QuoteTemplateItem = {
+  id: string;
+  name: string;
+  category: CatalogCategory;
+  summary: string | null;
+  title: string | null;
+  language: AppLocale;
+  notes: string | null;
+  lines: TemplateLine[];
+  plan: PlanItem[];
+  usesCount: number;
+  updatedAt: string;
+  amounts: TemplateAmounts;
 };
 
 /** Propuesta de email (en el idioma del presupuesto), editable antes de enviar. */

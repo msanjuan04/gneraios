@@ -131,6 +131,14 @@ export async function signInWithCode(input: string, userAgent: string | null): P
   const admin = createAdminClient();
   const ipHash = sha256Hex(`ip:${await requestIp()}`);
   const known = await deviceToken(false);
+  // El intento se apunta ANTES de comprobar nada (auditoría A12): así N peticiones a la vez cuentan
+  // N y no una, y si no se puede apuntar o contar, no se entra (cerrado por defecto). Si el código
+  // acierta, el apunte pasa a ok más abajo.
+  const { data: attempt, error: attemptError } = await admin.from("access_code_attempts").insert({ ip_hash: ipHash, ok: false }).select("id").single();
+  if (attemptError || !attempt) {
+    console.error("[auth] attempt reserve", attemptError?.code);
+    return { status: "error" };
+  }
   const [ipFails, globalFails, trusted] = await Promise.all([
     admin.from("access_code_attempts").select("id", { count: "exact", head: true }).eq("ip_hash", ipHash).eq("ok", false).gte("at", since(IP_WINDOW_MIN)),
     admin.from("access_code_attempts").select("id", { count: "exact", head: true }).eq("ok", false).gte("at", since(GLOBAL_WINDOW_MIN)),
@@ -138,10 +146,15 @@ export async function signInWithCode(input: string, userAgent: string | null): P
       ? admin.from("trusted_devices").select("id", { count: "exact", head: true }).eq("device_hash", sha256Hex(known)).not("confirmed_at", "is", null).is("revoked_at", null)
       : null,
   ]);
+  if (ipFails.error || globalFails.error || trusted?.error) {
+    console.error("[auth] attempt count", ipFails.error?.code ?? globalFails.error?.code ?? trusted?.error?.code);
+    return { status: "error" };
+  }
   // El límite global frena a quien prueba desde muchas IPs; un dispositivo de confianza no lo
-  // cuenta, para que nadie pueda dejar fuera a los socios a base de intentos fallidos.
+  // cuenta, para que nadie pueda dejar fuera a los socios a base de intentos fallidos. El recuento
+  // incluye el intento recién apuntado.
   const fromTrustedDevice = (trusted?.count ?? 0) > 0;
-  if ((ipFails.count ?? 0) >= IP_MAX_FAILS || (!fromTrustedDevice && (globalFails.count ?? 0) >= GLOBAL_MAX_FAILS)) {
+  if ((ipFails.count ?? 0) > IP_MAX_FAILS || (!fromTrustedDevice && (globalFails.count ?? 0) > GLOBAL_MAX_FAILS)) {
     return { status: "rate_limited" };
   }
 
@@ -154,8 +167,8 @@ export async function signInWithCode(input: string, userAgent: string | null): P
   // Se comprueban todos siempre: tarda lo mismo acierte o no (nada que medir desde fuera).
   const matches = await Promise.all((rows ?? []).map(async (row) => ((code && (await verifyAccessCode(code, row.code_hash))) ? row.user_id : null)));
   const userId = matches.find((m): m is string => m !== null) ?? null;
-  await admin.from("access_code_attempts").insert({ ip_hash: ipHash, user_id: userId, ok: userId !== null });
   if (!userId) return { status: "invalid" };
+  await admin.from("access_code_attempts").update({ ok: true, user_id: userId }).eq("id", attempt.id);
 
   const { data: userData } = await admin.auth.admin.getUserById(userId);
   const email = userData.user?.email;

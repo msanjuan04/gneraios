@@ -51,6 +51,8 @@ export function classifyCheckError(error: unknown): CheckError {
     const code = typeof link.code === "string" ? link.code : "";
     const message = typeof link.message === "string" ? link.message.toLowerCase() : "";
     if (name === "TimeoutError" || name === "AbortError" || TIMEOUT.has(code)) return "timeout";
+    // El dominio (o una redirección) apunta a una dirección que no es pública: no se conecta.
+    if (name === "BlockedAddressError") return "blocked";
     if (DNS.has(code)) return "dns";
     if (REFUSED.has(code)) return "refused";
     if (TLS_EXPIRED.has(code)) return "tls_expired";

@@ -134,6 +134,7 @@
       "lineHasBilling": "Aquesta línia ja té facturació: en lloc d'esborrar-la, dona-la de baixa amb una data de fi.",
       "emailNotConfigured": "L'enviament d'emails no està configurat (falta RESEND_API_KEY o BREVO_API_KEY).",
       "emailNoRecipients": "Afegeix com a mínim un destinatari.",
+      "emailInProgress": "Aquest email ja s'està enviant; espera un moment.",
       "emailFailed": "No s'ha pogut enviar l'email.",
       "pdfFailed": "No s'ha pogut generar el PDF. La factura continua en emissió: torna-ho a provar.",
       "billingRunBusy": "Ja hi ha una facturació en marxa per a aquesta organització.",

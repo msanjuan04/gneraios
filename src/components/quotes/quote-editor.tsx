@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeft, CircleCheck, CircleX, Copy, FileSignature, Hash, Lock, Mail, Save, Trash2 } from "lucide-react";
+import { ArrowLeft, BookmarkPlus, CircleCheck, CircleX, Copy, FileSignature, Hash, Lock, Mail, Save, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -50,6 +50,7 @@ import { QuoteLines } from "./quote-lines";
 import { QuotePdfPreview } from "./quote-pdf-preview";
 import { QuoteStateBadge } from "./quote-state-badge";
 import { QuoteSummaryCard } from "./quote-summary-card";
+import { SaveTemplateSheet } from "./save-template-sheet";
 import { SendQuoteSheet } from "./send-quote-sheet";
 import type { AppLocale, FinalizedQuote, QuoteEditorData, QuoteEmailDraft } from "./types";
 
@@ -90,6 +91,7 @@ export function QuoteEditor({ slug, basePath, today, data, share }: Props) {
   const t = useTranslations("quotes.editor");
   const tCommon = useTranslations("common");
   const tErrors = useTranslations("quotes.errors");
+  const tTemplates = useTranslations("quotes.templates");
   const { date, money } = useQuoteFormat();
   const message = useQuoteValidationMessage();
   const router = useRouter();
@@ -119,6 +121,7 @@ export function QuoteEditor({ slug, basePath, today, data, share }: Props) {
   const [confirm, setConfirm] = useState<Confirm>(null);
   const [activity, setActivity] = useState<Activity>(null);
   const [emailDraft, setEmailDraft] = useState<QuoteEmailDraft | null>(null);
+  const [templateOpen, setTemplateOpen] = useState(false);
   const [, startTransition] = useTransition();
   const busy = activity !== null;
 
@@ -456,6 +459,16 @@ export function QuoteEditor({ slug, basePath, today, data, share }: Props) {
                   <TooltipContent>{t("duplicate")}</TooltipContent>
                 </Tooltip>
               )}
+              {!creating && (
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button type="button" variant="ghost" size="icon" aria-label={tTemplates("saveAs.title")} disabled={busy} onClick={() => setTemplateOpen(true)}>
+                      <BookmarkPlus />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>{tTemplates("saveAs.title")}</TooltipContent>
+                </Tooltip>
+              )}
               {creating && (
                 <Button asChild variant="ghost">
                   <Link href={`${basePath}/quotes`}>{tCommon("cancel")}</Link>
@@ -748,6 +761,9 @@ export function QuoteEditor({ slug, basePath, today, data, share }: Props) {
 
       <QuotePdfPreview className="mt-6" quoteId={quoteId} title={t("pdfTitle")} version={version} stale={dirty && editable} />
 
+      {quoteId && (
+        <SaveTemplateSheet slug={slug} basePath={basePath} quoteId={quoteId} defaultName={title || data.defaults.title} open={templateOpen} onClose={() => setTemplateOpen(false)} />
+      )}
       {quoteId && (
         <SendQuoteSheet
           slug={slug}

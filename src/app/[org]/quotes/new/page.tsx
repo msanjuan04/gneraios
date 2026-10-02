@@ -8,6 +8,7 @@ import { nowInZone } from "@/lib/clock";
 import { createClient } from "@/lib/supabase/server";
 import { idSchema } from "@/server/action-utils";
 import { getNewQuoteDefaults, getQuoteFormOptions } from "@/server/quotes/queries";
+import { getQuoteTemplate, templateDefaults } from "@/server/quotes/templates";
 import { getOrgContext, hasRole } from "@/server/session";
 
 // Tipado a mano: la ruta es nueva y los tipos de rutas de Next se regeneran con `next dev`/`next build`.
@@ -28,7 +29,8 @@ const readId = (value: string | string[] | undefined) => {
 
 /**
  * Presupuesto nuevo. ?deal= parte del deal (su cliente, su título y sus importes estimados como
- * primeras líneas); ?client= parte de ese cliente. Se crea al guardar por primera vez.
+ * primeras líneas); ?client= parte de ese cliente; ?template= copia una plantilla. Se crea al guardar
+ * por primera vez.
  */
 export default async function NewQuotePage({ params, searchParams }: Props) {
   const { org: slug } = await params;
@@ -38,13 +40,19 @@ export default async function NewQuotePage({ params, searchParams }: Props) {
 
   const today = nowInZone(org.timezone).date;
   const options = await getQuoteFormOptions(org);
-  const defaults = await getNewQuoteDefaults(
-    await createClient(),
-    org.id,
-    options,
-    { clientId: readId(query.client), dealId: readId(query.deal) },
-    randomUUID,
-  );
+  const supabase = await createClient();
+  const defaults = await getNewQuoteDefaults(supabase, org.id, options, { clientId: readId(query.client), dealId: readId(query.deal) }, randomUUID);
+  // ?template= arranca de una plantilla: su título, idioma, notas, líneas y plan (el cliente y el deal, de la URL).
+  const templateId = readId(query.template);
+  const template = templateId ? await getQuoteTemplate(supabase, org.id, templateId) : null;
+  if (template) {
+    Object.assign(defaults, templateDefaults(template, options, randomUUID));
+    if (defaults.client_id) {
+      const client = options.clients.find((c) => c.id === defaults.client_id);
+      if (client) defaults.language = client.language;
+    }
+    await supabase.rpc("quote_template_used", { p_template_id: template.id });
+  }
 
   const data: QuoteEditorData = {
     mode: "create",

@@ -46,7 +46,8 @@
     "calendar": "Calendari",
     "projects": "Projectes",
     "groupWork": "Feina",
-    "sites": "Webs"
+    "sites": "Webs",
+    "quoteTemplates": "Plantilles"
   },
   "user": {
     "menu": "El teu compte",
@@ -199,7 +200,7 @@
       "quote_rejected_reason": "{client} ha rebutjat el pressupost {number} «{title}»: «{reason}».",
       "portal_request": "{urgent, select, yes {Urgent · } other {}}{client} ha demanat alguna cosa des del seu espai: «{subject}».",
       "new_device": "{member} ha entrat des d'un dispositiu nou: {device}. Si no el reconeixeu, traieu-lo a Configuració → Equip.",
-      "site_down": "La web {site} està caiguda: {error, select, timeout {no respon a temps} dns {el domini no resol} refused {el servidor rebutja la connexió} reset {es talla la connexió} tls_expired {el certificat SSL ha caducat} tls_invalid {el certificat SSL no és vàlid} redirects {entra en un bucle de redireccions} http {respon amb l'error {status}} other {no s'hi pot connectar}}.",
+      "site_down": "La web {site} està caiguda: {error, select, timeout {no respon a temps} dns {el domini no resol} blocked {apunta a una adreça que no és pública} refused {el servidor rebutja la connexió} reset {es talla la connexió} tls_expired {el certificat SSL ha caducat} tls_invalid {el certificat SSL no és vàlid} redirects {entra en un bucle de redireccions} http {respon amb l'error {status}} other {no s'hi pot connectar}}.",
       "site_up": "La web {site} torna a funcionar (ha estat caiguda {duration}).",
       "ssl_expiring": "El certificat SSL de {site} caduca {days, plural, =0 {avui} =1 {demà} other {d'aquí a # dies}} ({date}). Revisa la renovació automàtica.",
       "ssl_expired": "El certificat SSL de {site} va caducar el {date}: els navegadors avisen que la web no és segura.",

@@ -25,6 +25,7 @@ import {
   rejectFormSchema,
   toSaveQuotePayload,
 } from "./schema";
+import { type SaveAsTemplateInput, saveAsTemplateSchema, type TemplateFormInput, templateFormSchema } from "./template-schema";
 
 type Supabase = Awaited<ReturnType<typeof createClient>>;
 type OrgCtx = NonNullable<Awaited<ReturnType<typeof partnerContext>>>;
@@ -321,4 +322,144 @@ export async function rejectQuote(slug: string, quoteId: string, input: RejectFo
   if (error) return quoteFailure(error, "rejectQuote");
   revalidateQuote(ctx.org.slug, { quoteId: loaded.quote.id, clientId: loaded.quote.client_id });
   return { ok: true };
+}
+
+// ---------------------------------------------------------------------------
+// Plantillas de presupuesto
+// ---------------------------------------------------------------------------
+
+function revalidateTemplates(slug: string) {
+  revalidatePath(`/${slug}/quotes/templates`);
+  revalidatePath(`/${slug}/quotes/new`);
+}
+
+async function templateFailure(error: { code?: string; message?: string; hint?: string | null; details?: string | null }, where: string): Promise<Failure> {
+  if (error.code === "23505") return failure("quotes.templates.errors.nameTaken");
+  return quoteFailure(error as Parameters<typeof quoteFailure>[0], where);
+}
+
+/**
+ * Guarda las líneas, el texto y el plan de un presupuesto como plantilla (nueva o sustituyendo
+ * una existente). La plantilla es una copia: el presupuesto sigue igual.
+ */
+export async function saveQuoteAsTemplate(slug: string, quoteId: string, input: SaveAsTemplateInput): Promise<ActionResult<{ id: string }>> {
+  const ctx = await partnerContext(slug);
+  if (!ctx) return forbidden();
+  const parsed = saveAsTemplateSchema.safeParse(input);
+  if (!parsed.success) return invalidInput();
+  const supabase = await createClient();
+  const ref = await quoteOfOrg(supabase, ctx.org.id, quoteId);
+  if ("failure" in ref) return ref.failure;
+
+  const [quote, lines] = await Promise.all([
+    supabase.from("quotes").select("title, language, notes, payment_plan").eq("org_id", ctx.org.id).eq("id", ref.quote.id).single(),
+    supabase
+      .from("quote_lines")
+      .select("description, billing_type, quantity, unit_price_cents, discount_bps, tax_rate_id, irpf_applies, billing_day")
+      .eq("org_id", ctx.org.id)
+      .eq("quote_id", ref.quote.id)
+      .order("position")
+      .order("created_at"),
+  ]);
+  if (quote.error) return quoteFailure(quote.error, "templates.quote");
+  if (lines.error) return quoteFailure(lines.error, "templates.lines");
+  if (!lines.data?.length) return failure("quotes.templates.errors.noLines");
+
+  const row = {
+    org_id: ctx.org.id,
+    name: parsed.data.name,
+    category: parsed.data.category,
+    summary: parsed.data.summary || null,
+    title: quote.data.title,
+    language: quote.data.language,
+    notes: quote.data.notes,
+    lines: lines.data.map((line) => ({
+      description: line.description,
+      billing_type: line.billing_type,
+      quantity: line.quantity,
+      unit_price_cents: line.unit_price_cents,
+      discount_bps: line.discount_bps,
+      tax_rate_id: line.tax_rate_id,
+      irpf_applies: line.irpf_applies,
+      billing_day: line.billing_day,
+    })),
+    payment_plan: quote.data.payment_plan,
+    source_quote_id: ref.quote.id,
+  };
+  if (parsed.data.replace_id) {
+    const { data, error } = await supabase
+      .from("quote_templates")
+      .update({ ...row, archived_at: null })
+      .eq("org_id", ctx.org.id)
+      .eq("id", parsed.data.replace_id)
+      .select("id")
+      .maybeSingle();
+    if (error) return templateFailure(error, "templates.replace");
+    if (!data) return failure("quotes.templates.errors.notFound");
+    revalidateTemplates(ctx.org.slug);
+    return { ok: true, id: data.id };
+  }
+  const { data, error } = await supabase.from("quote_templates").insert(row).select("id").single();
+  if (error) return templateFailure(error, "templates.insert");
+  revalidateTemplates(ctx.org.slug);
+  return { ok: true, id: data.id };
+}
+
+/** La ficha de una plantilla (nombre, categoría, textos). Las líneas se cambian guardando otro presupuesto como ella. */
+export async function updateQuoteTemplate(slug: string, templateId: string, input: TemplateFormInput): Promise<ActionResult> {
+  const ctx = await partnerContext(slug);
+  if (!ctx) return forbidden();
+  const id = idSchema.safeParse(templateId);
+  const parsed = templateFormSchema.safeParse(input);
+  if (!id.success || !parsed.success) return invalidInput();
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("quote_templates")
+    .update({
+      name: parsed.data.name,
+      category: parsed.data.category,
+      summary: parsed.data.summary || null,
+      title: parsed.data.title || null,
+      notes: parsed.data.notes || null,
+    })
+    .eq("org_id", ctx.org.id)
+    .eq("id", id.data)
+    .is("archived_at", null)
+    .select("id")
+    .maybeSingle();
+  if (error) return templateFailure(error, "templates.update");
+  if (!data) return failure("quotes.templates.errors.notFound");
+  revalidateTemplates(ctx.org.slug);
+  return { ok: true };
+}
+
+/** Archivar una plantilla: deja de proponerse; lo ya presupuestado no cambia. */
+export async function archiveQuoteTemplate(slug: string, templateId: string): Promise<ActionResult> {
+  const ctx = await partnerContext(slug);
+  if (!ctx) return forbidden();
+  const id = idSchema.safeParse(templateId);
+  if (!id.success) return invalidInput();
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("quote_templates")
+    .update({ archived_at: new Date().toISOString() })
+    .eq("org_id", ctx.org.id)
+    .eq("id", id.data)
+    .is("archived_at", null)
+    .select("id")
+    .maybeSingle();
+  if (error) return templateFailure(error, "templates.archive");
+  if (!data) return failure("quotes.templates.errors.notFound");
+  revalidateTemplates(ctx.org.slug);
+  return { ok: true };
+}
+
+/** Las plantillas vivas (id y nombre), para elegir cuál sustituir al guardar un presupuesto como plantilla. */
+export async function listQuoteTemplateOptions(slug: string): Promise<ActionResult<{ templates: { id: string; name: string }[] }>> {
+  const ctx = await partnerContext(slug);
+  if (!ctx) return forbidden();
+  const supabase = await createClient();
+  const { data, error } = await supabase.from("quote_templates").select("id, name").eq("org_id", ctx.org.id).is("archived_at", null).order("name");
+  if (error) return quoteFailure(error, "templates.options");
+  return { ok: true, templates: data ?? [] };
 }

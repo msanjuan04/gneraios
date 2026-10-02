@@ -77,12 +77,15 @@ chmod 600 "$DATA" "$AUTH"
 ok "Datos: $(du -h "$DATA" | cut -f1) · Auth: $(du -h "$AUTH" | cut -f1)"
 
 say "Carga en el destino (una transacción)"
-# El usuario provisional (prod:socios) sobraría y chocaría por email: fuera antes de cargar las personas reales.
+# El usuario provisional (prod:socios) sobraría y chocaría por email: fuera antes de cargar las personas
+# reales. Se borra ANTES de entrar en modo réplica: así las FK en cascada (identidades, códigos,
+# dispositivos) sí se ejecutan y no queda nada huérfano.
 {
-  echo "set session_replication_role = replica;"
+  echo "delete from auth.users;"
   echo "delete from public.access_codes;"
   echo "delete from public.trusted_devices;"
-  echo "delete from auth.users;"
+  echo "delete from auth.identities i where not exists (select 1 from auth.users u where u.id = i.user_id);"
+  echo "set session_replication_role = replica;"
   cat "$AUTH"
   cat "$DATA"
   echo "analyze;"

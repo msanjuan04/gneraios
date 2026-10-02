@@ -1,3 +1,4 @@
+export * from "./address";
 export * from "./alerts";
 export * from "./errors";
 export * from "./expiry";

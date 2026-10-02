@@ -134,6 +134,7 @@
       "lineHasBilling": "This line has already been invoiced: instead of deleting it, end it with an end date.",
       "emailNotConfigured": "Email sending isn't set up (RESEND_API_KEY or BREVO_API_KEY is missing).",
       "emailNoRecipients": "Add at least one recipient.",
+      "emailInProgress": "This email is already being sent; wait a moment.",
       "emailFailed": "The email couldn't be sent.",
       "pdfFailed": "The PDF couldn't be generated. The invoice is still being issued: try again.",
       "billingRunBusy": "A billing run is already in progress for this organization.",

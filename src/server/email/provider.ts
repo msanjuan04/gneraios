@@ -9,6 +9,8 @@ export type EmailMessage = {
   html?: string;
   replyTo?: string | null;
   attachments?: { filename: string; content: Uint8Array; contentType: string }[];
+  /** Clave estable del envío: el proveedor (Resend) no repite un email con la misma clave en 24 h. */
+  idempotencyKey?: string;
 };
 
 export interface EmailProvider {
@@ -25,7 +27,11 @@ function resend(apiKey: string): EmailProvider {
     async send(m) {
       const res = await fetch("https://api.resend.com/emails", {
         method: "POST",
-        headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
+          ...(m.idempotencyKey ? { "Idempotency-Key": m.idempotencyKey } : {}),
+        },
         body: JSON.stringify({
           from: m.from,
           to: m.to,

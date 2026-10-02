@@ -78,6 +78,19 @@ export async function sendOutboundEmail(
   const subject = edits.subject ?? row.subject;
   const body = edits.body ?? row.body;
   const approved = { to_emails: to, subject, body, approved_by: approverId, approved_at: new Date().toISOString() };
+
+  // Reclamar el envío (auditoría A10): solo una petición a la vez. Si otra lo reclamó hace menos de
+  // diez minutos y aún no ha terminado, esta no envía nada.
+  const claim = await db
+    .from("outbound_emails")
+    .update({ claimed_at: new Date().toISOString() })
+    .eq("id", emailId)
+    .eq("status", row.status)
+    .or(`claimed_at.is.null,claimed_at.lt.${new Date(Date.now() - 10 * 60_000).toISOString()}`)
+    .select("id");
+  if (claim.error) throw new DbError(claim.error, "sendOutboundEmail.claim");
+  if (!claim.data?.length) return { ok: false, errorKey: "billing.errors.emailInProgress" };
+
   try {
     // El informe mensual no se guarda: su PDF se genera ahora, con la sesión de quien lo envía. Si no
     // se puede generar, lanza y el email queda fallido (se reintenta desde la bandeja): nunca sale sin él.
@@ -98,6 +111,8 @@ export async function sendOutboundEmail(
       subject,
       text: body,
       attachments: attachment ? [{ ...attachment, contentType: "application/pdf" }] : undefined,
+      // Si el proveedor lo admite, un reintento del mismo email no sale dos veces.
+      idempotencyKey: `outbound-${emailId}`,
     });
     const { error } = await db
       .from("outbound_emails")

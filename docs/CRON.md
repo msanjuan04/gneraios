@@ -214,8 +214,8 @@ a la app en `127.0.0.1:3300` con `Authorization: Bearer $CRON_SECRET` mediante
 | `seo` | 07:30 | Sincroniza Search Console y GA4 |
 | `council` | cada hora (:15) | Consejo de agentes (necesita `ANTHROPIC_API_KEY`) |
 | `weekly` | lunes 07:00 | Resumen semanal |
-| `backup` | 03:45 | Copia de todas las tablas en `/var/backups/gneraios` (NDJSON comprimido; 14 días, nunca menos de 3 copias) |
+| `backup` | 03:45 | Copia de todas las tablas (NDJSON comprimido) y de los ficheros de Storage en `/var/backups/gneraios` (14 días, nunca menos de 3 copias; se genera en `<fecha>.partial` y solo se da por buena, y se podan las viejas, si no ha fallado nada) |
 
 Registro de cada llamada: `/var/log/gneraios/cron.log` (rotado cada semana junto con los logs de pm2 de
-gneraios). La copia nocturna no incluye las cuentas de Auth ni los ficheros de Storage: para eso,
-las copias diarias de Supabase (plan Pro).
+gneraios). La copia nocturna no incluye las cuentas de Auth ni los contadores del esquema privado: para eso,
+las copias diarias de Supabase (plan Pro) y el `pg_dump` de `docs/BACKUPS.md`.

@@ -47,7 +47,8 @@
     "calendar": "Calendario",
     "projects": "Proyectos",
     "groupWork": "Trabajo",
-    "sites": "Webs"
+    "sites": "Webs",
+    "quoteTemplates": "Plantillas"
   },
   "user": {
     "menu": "Tu cuenta",
@@ -200,7 +201,7 @@
       "quote_rejected_reason": "{client} ha rechazado el presupuesto {number} «{title}»: «{reason}».",
       "portal_request": "{urgent, select, yes {Urgente · } other {}}{client} ha pedido algo desde su espacio: «{subject}».",
       "new_device": "{member} ha entrado desde un dispositivo nuevo: {device}. Si no lo reconocéis, quitadlo en Ajustes → Equipo.",
-      "site_down": "La web {site} está caída: {error, select, timeout {no responde a tiempo} dns {el dominio no resuelve} refused {el servidor rechaza la conexión} reset {se corta la conexión} tls_expired {el certificado SSL ha caducado} tls_invalid {el certificado SSL no es válido} redirects {entra en un bucle de redirecciones} http {responde con el error {status}} other {no se puede conectar}}.",
+      "site_down": "La web {site} está caída: {error, select, timeout {no responde a tiempo} dns {el dominio no resuelve} blocked {apunta a una dirección que no es pública} refused {el servidor rechaza la conexión} reset {se corta la conexión} tls_expired {el certificado SSL ha caducado} tls_invalid {el certificado SSL no es válido} redirects {entra en un bucle de redirecciones} http {responde con el error {status}} other {no se puede conectar}}.",
       "site_up": "La web {site} vuelve a funcionar (ha estado caída {duration}).",
       "ssl_expiring": "El certificado SSL de {site} caduca {days, plural, =0 {hoy} =1 {mañana} other {en # días}} ({date}). Revisa la renovación automática.",
       "ssl_expired": "El certificado SSL de {site} caducó el {date}: los navegadores avisan de que la web no es segura.",
