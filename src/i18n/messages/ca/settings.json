@@ -319,6 +319,7 @@
     "accessCode": {
       "title": "Codis d'accés",
       "description": "Cada soci entra amb el seu codi personal de 8 xifres. Aquí veus en quins dispositius l'ha fet servir cadascú.",
+      "selfOnlyDescription": "Cada soci gestiona el seu propi codi. Aquí pots revisar els dispositius de confiança de l'organització.",
       "selfTitle": "El teu codi d'accés",
       "none": "Sense codi",
       "created": "Creat el {date}",

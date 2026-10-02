@@ -174,7 +174,7 @@ export async function loadCashMovements(db: Db, orgId: string, after: CivilDate,
       (a, b) =>
         db
           .from("payments")
-          .select("id, amount_cents, paid_on, invoices!inner(issuer_id)")
+          .select("id, amount_cents, paid_on, cash_account_id, invoices!inner(issuer_id)")
           .eq("org_id", orgId)
           .gt("paid_on", after)
           .lte("paid_on", today)
@@ -186,7 +186,7 @@ export async function loadCashMovements(db: Db, orgId: string, after: CivilDate,
       (a, b) =>
         db
           .from("expenses")
-          .select("id, issuer_id, paid_on, total_cents")
+        .select("id, issuer_id, paid_on, total_cents, cash_account_id")
           .eq("org_id", orgId)
           .gt("paid_on", after)
           .lte("paid_on", today)
@@ -195,9 +195,20 @@ export async function loadCashMovements(db: Db, orgId: string, after: CivilDate,
       "finance.movements.expenses",
     ),
   ]);
+  const receipts = await fetchAll(
+    (a, b) => db.from("client_receipts").select("id, issuer_id, received_on, amount_cents, cash_account_id").eq("org_id", orgId).gt("received_on", after).lte("received_on", today).order("id").range(a, b),
+    "finance.movements.clientReceipts",
+  );
   return [
-    ...payments.map((p) => ({ issuerId: p.invoices.issuer_id, on: p.paid_on, cents: p.amount_cents })),
-    ...expenses.flatMap((e) => (e.paid_on ? [{ issuerId: e.issuer_id, on: e.paid_on, cents: -e.total_cents }] : [])),
+    ...payments.flatMap((p) => {
+      const issuerId = p.invoices.issuer_id;
+      return [{ accountId: p.cash_account_id ?? null, issuerId, on: p.paid_on, cents: p.amount_cents }];
+    }),
+    ...expenses.flatMap((e) => {
+      if (!e.paid_on) return [];
+      return [{ accountId: e.cash_account_id ?? null, issuerId: e.issuer_id, on: e.paid_on, cents: -e.total_cents }];
+    }),
+    ...receipts.flatMap((r) => r.issuer_id ? [{ accountId: r.cash_account_id ?? null, issuerId: r.issuer_id, on: r.received_on, cents: r.amount_cents }] : []),
   ];
 }
 

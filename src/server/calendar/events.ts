@@ -26,6 +26,7 @@ import {
   sortEvents,
   taskEvents,
 } from "@/domain/calendar";
+import { appointmentCalendarEvents } from "@/domain/calendar/appointment";
 import { addDays, type CivilDate } from "@/domain/dates/civil-date";
 import { dateInZone, fromDateTimeLocal } from "@/domain/dates/zoned-time";
 import { nowInZone } from "@/lib/clock";
@@ -48,6 +49,8 @@ export type CalendarQuery = {
   types?: readonly CalendarEventType[];
   /** "Solo lo mío": lo de este socio y lo que es de todos. */
   memberId?: string | null;
+  /** Citas privadas del socio: nunca se cargan en feeds ICS públicos o de otro miembro. */
+  personalMemberId?: string;
   /** Además del rango, lo atrasado de antes que aún pide algo (cobros, acciones, hitos…). */
   includeOverdue?: boolean;
   /** La org ya cargada; si no, se lee. */
@@ -516,7 +519,7 @@ export async function getCalendarEvents(db: Db, orgId: string, query: CalendarQu
   const needsClients = wants("collection", "issued", "reminder", "billing", "renewal", "contract", "milestone", "quote", "meeting");
   const clients = needsClients ? await loadClients(db, orgId) : new Map<string, ClientRef>();
 
-  const [collections, issued, reminders, contracts, deals, quotes, activities, issuers, projectItems] = await Promise.all([
+  const [collections, issued, reminders, contracts, deals, quotes, activities, issuers, projectItems, appointments] = await Promise.all([
     wants("collection") ? loadCollections(db, orgId, query, clients) : [],
     wants("issued") ? loadIssued(db, orgId, query, clients) : [],
     wants("reminder") ? loadReminders(db, orgId, query, timeZone, clients) : [],
@@ -527,6 +530,9 @@ export async function getCalendarEvents(db: Db, orgId: string, query: CalendarQu
     wants("fiscal") ? loadFiscalIssuers(db, orgId, today, org.settings) : [],
     // Tareas con fecha y entregas de proyectos: las lee el módulo de proyectos (filtra por org_id).
     wants("task") ? getProjectCalendarItems(db, orgId, query.includeOverdue ? OVERDUE_TASKS_FROM : query.from, query.to, { today }) : [],
+    wants("appointment") && query.personalMemberId
+      ? loadAppointments(db, orgId, query.personalMemberId, query.from, query.to, timeZone, now)
+      : [],
   ]);
 
   const events: CalendarEvent[] = [
@@ -540,8 +546,23 @@ export async function getCalendarEvents(db: Db, orgId: string, query: CalendarQu
     ...taskEvents(projectItems, range),
     ...quoteEvents(quotes, range),
     ...activityEvents(activities, { ...range, timeZone, now: now.toISOString() }),
+    ...appointments,
     ...fiscalEvents(issuers, readFiscalCalendarSettings(org.settings), range),
   ];
 
   return sortEvents(filterEvents(events, { types: [...types], memberId: query.memberId ?? null }));
+}
+
+async function loadAppointments(db: Db, orgId: string, memberId: string, from: CivilDate, to: CivilDate, timeZone: string, now: Date): Promise<CalendarEvent[]> {
+  const start = startOfDay(from, timeZone);
+  const end = startOfDay(addDays(to, 1), timeZone);
+  const rows = await fetchAll(
+    (a, b) => db.from("calendar_entries")
+      .select("id, member_id, title, description, starts_at, ends_at, all_day")
+      .eq("org_id", orgId).eq("member_id", memberId)
+      .lt("starts_at", end).gt("ends_at", start).is("deleted_at", null)
+      .order("starts_at").order("id").range(a, b),
+    "calendar.appointments",
+  );
+  return rows.flatMap((row) => appointmentCalendarEvents(row, from, to, timeZone, now));
 }

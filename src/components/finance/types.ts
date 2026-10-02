@@ -219,4 +219,5 @@ export type PartnersData = {
   months: string[];
   /** Retribución de socios (grupo partner_compensation) por socio y mes; memberId null = sin asignar. */
   compensation: { memberId: string | null; month: string; costCents: number }[];
+  movements: { id: string; memberId: string; kind: Enums<"partner_movement_kind">; status: Enums<"partner_movement_status">; amountCents: number; effectiveOn: string; reference: string | null; notes: string | null }[];
 };

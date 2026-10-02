@@ -18,5 +18,5 @@ export default async function PartnersPage({ params }: { params: Promise<{ org: 
   const supabase = await createClient();
   const today = nowInZone(org.timezone).date;
   const data = await loadPartners(supabase, org.id, today);
-  return <PartnersView slug={org.slug} data={data} canEdit={hasRole(member.role, "owner")} today={today} />;
+  return <PartnersView slug={org.slug} data={data} canEdit={hasRole(member.role, "owner")} canRecord={hasRole(member.role, "partner")} today={today} />;
 }

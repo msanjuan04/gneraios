@@ -16,8 +16,8 @@ const TYPES = {
 } as const;
 
 /**
- * Libro registro de facturas expedidas de un emisor en un trimestre o un año, para la gestoría:
- * `?issuer=<id>&period=2026-T3&format=csv|xlsx|zip`. El ZIP lleva además los PDF emitidos.
+ * Exportación por emisor y periodo. CSV/XLSX: libro expedido; ZIP: libro, gastos, cobros y adjuntos
+ * disponibles, con manifiesto de faltantes y registros sin asignación.
  * Las facturas se leen con la sesión (RLS: cualquier miembro ve las de su org); solo después, y
  * solo para esas, se usa la clave de servidor para leer sus PDF de Storage.
  */

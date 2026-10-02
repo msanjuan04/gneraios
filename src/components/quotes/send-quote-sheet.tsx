@@ -64,6 +64,9 @@ function SendForm({
   const tCommon = useTranslations("common");
   const message = useQuoteValidationMessage();
   const [marking, setMarking] = useState(false);
+  const [manualMethod, setManualMethod] = useState("");
+  const [manualRecipient, setManualRecipient] = useState("");
+  const [manualNote, setManualNote] = useState("");
   const form = useForm<QuoteEmailFormInput>({
     resolver: zodResolver(quoteEmailFormSchema),
     defaultValues: { to: draft.to, subject: draft.subject, body: draft.body },
@@ -87,7 +90,8 @@ function SendForm({
 
   const markSent = async () => {
     setMarking(true);
-    const result = await markQuoteSent(slug, quoteId);
+    if (!manualMethod) return;
+    const result = await markQuoteSent(slug, quoteId, { method: manualMethod as "email" | "whatsapp" | "linkedin" | "other", recipient: manualRecipient, note: manualNote });
     setMarking(false);
     if (!result.ok) {
       toast.error(result.error);
@@ -106,12 +110,10 @@ function SendForm({
           <Button type="button" variant="ghost" onClick={onDone} disabled={busy} className="mr-auto">
             {tCommon("cancel")}
           </Button>
-          {isDraft && (
-            <Button type="button" variant="outline" onClick={markSent} disabled={busy} title={t("markSentHint")}>
+          <Button type="button" variant="outline" onClick={markSent} disabled={busy || !manualMethod} title={t("markSentHint")}>
               <CheckCheck data-icon="inline-start" />
               {marking ? t("marking") : t("markSent")}
-            </Button>
-          )}
+          </Button>
           <Button type="submit" disabled={busy}>
             <Mail data-icon="inline-start" />
             {isSubmitting ? t("sending") : t("send")}
@@ -145,6 +147,23 @@ function SendForm({
           {draft.attachment ? t("attachment", { file: draft.attachment }) : t("attachmentDraft")}
         </p>
         {isDraft && <p className="text-xs text-muted-foreground">{t("numberHint")}</p>}
+        <div className="space-y-3 rounded-lg border p-3">
+          <p className="text-sm font-medium">{t("manualTitle")}</p>
+          <p className="text-xs text-muted-foreground">{t("manualHint")}</p>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <FormField id="quote-manual-method" label={t("manualMethod")}>
+              <select id="quote-manual-method" required className="h-9 w-full rounded-md border bg-background px-3 text-sm" value={manualMethod} onChange={(event) => setManualMethod(event.target.value)}>
+                <option value="">{t("chooseMethod")}</option><option value="email">{t("methods.email")}</option><option value="whatsapp">{t("methods.whatsapp")}</option><option value="linkedin">{t("methods.linkedin")}</option><option value="other">{t("methods.other")}</option>
+              </select>
+            </FormField>
+            <FormField id="quote-manual-recipient" label={t("manualRecipient")}>
+              <Input id="quote-manual-recipient" maxLength={254} value={manualRecipient} onChange={(event) => setManualRecipient(event.target.value)} />
+            </FormField>
+          </div>
+          <FormField id="quote-manual-note" label={t("manualNote")}>
+            <Textarea id="quote-manual-note" rows={2} maxLength={2000} value={manualNote} onChange={(event) => setManualNote(event.target.value)} />
+          </FormField>
+        </div>
       </div>
     </SheetForm>
   );

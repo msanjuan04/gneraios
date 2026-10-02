@@ -214,19 +214,20 @@ export async function getQuoteEditorData(
   if (error) throw error;
   if (!quote) return null;
 
-  const [overview, lines, contract, emails, options] = await Promise.all([
+  const [overview, lines, contract, emails, manualVersionsRes, options] = await Promise.all([
     supabase.from("quotes_overview").select("state").eq("id", quote.id).single(),
     supabase.from("quote_lines").select("*").eq("quote_id", quote.id).order("position").order("created_at"),
     quote.contract_id ? supabase.from("contracts").select("id, title").eq("id", quote.contract_id).maybeSingle() : null,
     supabase
       .from("outbound_emails")
-      .select("id, status, to_emails, subject, sent_at, created_at")
+      .select("id, status, to_emails, subject, sent_at, created_at, quote_pdf_sha256")
       .eq("quote_id", quote.id)
       .order("created_at", { ascending: false })
       .limit(20),
+    supabase.from("quote_sent_versions").select("id, method, recipient, note, sent_at, pdf_sha256").eq("org_id", org.id).eq("quote_id", quote.id).order("sent_at", { ascending: false }).limit(20),
     getQuoteFormOptions(org),
   ]);
-  for (const r of [overview, lines, contract, emails]) if (r?.error) throw r.error;
+  for (const r of [overview, lines, contract, emails, manualVersionsRes]) if (r?.error) throw r.error;
 
   // Lo que ya usa el presupuesto aparece aunque hoy esté archivado.
   const extra = await Promise.all([
@@ -263,7 +264,9 @@ export async function getQuoteEditorData(
     subject: e.subject,
     sentAt: e.sent_at,
     createdAt: e.created_at,
+    hasSnapshot: Boolean(e.quote_pdf_sha256),
   }));
+  const manualVersions = (manualVersionsRes.data ?? []).map((v) => ({ id: v.id, method: v.method, recipient: v.recipient, note: v.note, sentAt: v.sent_at, sha256: v.pdf_sha256 }));
 
   return {
     mode: "edit",
@@ -308,6 +311,7 @@ export async function getQuoteEditorData(
     rejectionReason: quote.rejection_reason,
     contract: contract?.data ? { id: contract.data.id, title: contract.data.title } : null,
     emails: emailItems,
+    manualVersions,
     options: withExtras,
   };
 }

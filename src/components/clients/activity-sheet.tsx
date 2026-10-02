@@ -6,7 +6,7 @@ import { type KeyboardEvent, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import { createActivity } from "@/app/[org]/clients/actions";
-import { ACTIVITY_KINDS, type ActivityFormInput, activityFormSchema } from "@/app/[org]/clients/schema";
+import { ACTIVITY_KINDS, MESSAGE_CHANNELS, MESSAGE_DIRECTIONS, type ActivityFormInput, activityFormSchema } from "@/app/[org]/clients/schema";
 import { FormField, ToggleField } from "@/components/settings/form-field";
 import { SettingsSheet, SheetForm } from "@/components/settings/settings-sheet";
 import { Button } from "@/components/ui/button";
@@ -60,10 +60,10 @@ function ActivityForm({
   const [clientVisible, setClientVisible] = useState(false);
   const form = useForm<ActivityFormInput>({
     resolver: zodResolver(activityFormSchema),
-    defaultValues: { kind: "note", title: "", body: "", occurred_at: defaultOccurredAt, deal_id: "", contact_id: "" },
+    defaultValues: { kind: "note", title: "", body: "", direction: "", channel: "", counterpart: "", external_reference: "", occurred_at: defaultOccurredAt, deal_id: "", contact_id: "" },
     mode: "onTouched",
   });
-  const { control, register, getValues, formState } = form;
+  const { control, register, getValues, setValue, formState } = form;
   const { errors, isSubmitting } = formState;
   const kind = useWatch({ control, name: "kind" });
 
@@ -118,7 +118,15 @@ function ActivityForm({
                     type="button"
                     role="radio"
                     aria-checked={checked}
-                    onClick={() => field.onChange(k)}
+                    onClick={() => {
+                      field.onChange(k);
+                      if (k !== "email") {
+                        setValue("direction", "");
+                        setValue("channel", "");
+                        setValue("counterpart", "");
+                        setValue("external_reference", "");
+                      }
+                    }}
                     className={cn(
                       "flex items-center justify-center gap-1.5 rounded-lg px-2 py-1.5 text-xs font-semibold text-muted-foreground transition-colors outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50",
                       checked && "bg-background text-foreground shadow-sm",
@@ -153,6 +161,34 @@ function ActivityForm({
         >
           <Textarea id="activity-body" rows={6} aria-invalid={Boolean(errors.body)} {...register("body")} />
         </FormField>
+
+        {kind === "email" && (
+          <>
+            <p className="text-xs text-muted-foreground sm:col-span-2">{t("manualMessageHint")}</p>
+            <Controller control={control} name="direction" render={({ field }) => (
+              <FormField id="activity-direction" label={t("direction")} error={message(errors.direction?.message)}>
+                <Select value={field.value || NONE} onValueChange={(value) => field.onChange(value === NONE ? "" : value)}>
+                  <SelectTrigger id="activity-direction" className="w-full" aria-invalid={Boolean(errors.direction)}><SelectValue placeholder={t("chooseDirection")} /></SelectTrigger>
+                  <SelectContent>{MESSAGE_DIRECTIONS.map((value) => <SelectItem key={value} value={value}>{t(`directions.${value}`)}</SelectItem>)}</SelectContent>
+                </Select>
+              </FormField>
+            )} />
+            <Controller control={control} name="channel" render={({ field }) => (
+              <FormField id="activity-channel" label={t("channel")} error={message(errors.channel?.message)}>
+                <Select value={field.value || NONE} onValueChange={(value) => field.onChange(value === NONE ? "" : value)}>
+                  <SelectTrigger id="activity-channel" className="w-full" aria-invalid={Boolean(errors.channel)}><SelectValue placeholder={t("chooseChannel")} /></SelectTrigger>
+                  <SelectContent>{MESSAGE_CHANNELS.map((value) => <SelectItem key={value} value={value}>{t(`channels.${value}`)}</SelectItem>)}</SelectContent>
+                </Select>
+              </FormField>
+            )} />
+            <FormField id="activity-counterpart" label={t("counterpart")} optional>
+              <Input id="activity-counterpart" maxLength={254} {...register("counterpart")} />
+            </FormField>
+            <FormField id="activity-reference" label={t("externalReference")} optional>
+              <Input id="activity-reference" maxLength={200} {...register("external_reference")} />
+            </FormField>
+          </>
+        )}
 
         <FormField id="activity-at" label={t("occurredAt")} error={message(errors.occurred_at?.message)}>
           <Input

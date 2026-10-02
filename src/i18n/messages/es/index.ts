@@ -8,6 +8,7 @@ import settings from "./settings.json";
 import crm from "./crm.json";
 import clients from "./clients.json";
 import pipeline from "./pipeline.json";
+import leads from "./leads.json";
 import funnel from "./funnel.json";
 import settings_pipeline from "./settings-pipeline.json";
 import billing from "./billing.json";
@@ -42,6 +43,7 @@ const messages: Messages = deepMerge(
   crm,
   clients,
   pipeline,
+  leads,
   funnel,
   settings_pipeline,
   billing,

@@ -18,6 +18,9 @@
       "columns": {
         "name": "Cliente",
         "status": "Estado",
+        "billed": "Total facturado",
+        "collected": "Cobrado",
+        "outstanding": "Pendiente",
         "owner": "Responsable",
         "place": "Ciudad · Sector",
         "deals": "Deals",
@@ -26,6 +29,7 @@
       },
       "archived": "Archivado",
       "noActivity": "Sin actividad",
+      "mobileBalance": "Cobrado: {collected} · pendiente: {outstanding}",
       "noResultsTitle": "Ningún cliente coincide",
       "noResultsBody": "Prueba con otra búsqueda o quita algún filtro.",
       "noResultsArchived": "{count, plural, one {Hay # cliente archivado que no se muestra.} other {Hay # clientes archivados que no se muestran.}}",
@@ -236,6 +240,26 @@
       "fieldBody": "Detalle",
       "bodyHint": "Acuerdos, dudas y próximos pasos.",
       "occurredAt": "Cuándo",
+      "manualMessageHint": "Registro manual: guarda lo recibido o enviado y su canal. No sincroniza correo ni mensajería.",
+      "direction": "Sentido",
+      "chooseDirection": "Elige si entró o salió",
+      "directions": {
+        "incoming": "Recibido",
+        "outgoing": "Enviado",
+        "internal": "Nota interna"
+      },
+      "channel": "Canal",
+      "chooseChannel": "Elige canal",
+      "channels": {
+        "email": "Email",
+        "whatsapp": "WhatsApp",
+        "phone": "Teléfono",
+        "linkedin": "LinkedIn",
+        "instagram": "Instagram",
+        "other": "Otro"
+      },
+      "counterpart": "Persona o cuenta",
+      "externalReference": "Referencia externa",
       "deal": "Deal",
       "noDeal": "Sin deal",
       "contact": "Con quién",
@@ -311,6 +335,47 @@
     },
     "expenses": {
       "button": "Registrar gasto"
+    },
+    "requests": {
+      "title": "Cuestionarios y materiales",
+      "count": "{count, plural, one {# solicitud} other {# solicitudes}}",
+      "add": "Pedir algo",
+      "empty": "Sin cuestionarios, materiales o accesos pendientes.",
+      "created": "Solicitud registrada",
+      "receivedToast": "Recepción registrada",
+      "cancelledToast": "Solicitud cancelada",
+      "kind": "Tipo",
+      "kinds": {
+        "questionnaire": "Cuestionario",
+        "material": "Material",
+        "access": "Acceso",
+        "other": "Otro"
+      },
+      "titlePlaceholder": "Qué necesitamos",
+      "dueOn": "Fecha límite",
+      "project": "Proyecto",
+      "noProject": "Sin proyecto",
+      "instructions": "Instrucciones o contexto",
+      "manualOnly": "Registro interno: no envía emails ni recordatorios al cliente.",
+      "cancel": "Cancelar",
+      "save": "Registrar solicitud",
+      "statuses": {
+        "requested": "Pendiente",
+        "received": "Recibido",
+        "cancelled": "Cancelado"
+      },
+      "requestedAt": "Solicitado el {date}",
+      "dueOnValue": "Límite {date}",
+      "markReceived": "Registrar recepción: {title}",
+      "response": "Resumen de la respuesta recibida",
+      "file": "Archivo del cliente",
+      "noFile": "Sin archivo vinculado",
+      "confirmReceived": "Confirmar recepción",
+      "responseLabel": "Respuesta",
+      "fileLabel": "Archivo",
+      "received": "Recibido",
+      "cancelRequest": "Cancelar solicitud",
+      "requestNotFound": "La solicitud ya no está pendiente; actualiza la ficha."
     }
   }
 }

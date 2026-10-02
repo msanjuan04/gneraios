@@ -128,6 +128,37 @@ describe("deals", () => {
   });
 });
 
+describe("mensajes del expediente", () => {
+  it("registra dirección y canal, y conserva el mensaje como hecho inmutable", async () => {
+    const client = await newClient("Prospecto");
+    const { id } = await as(db, owner, () => one<{ id: string }>(
+      `insert into public.activities
+         (org_id, client_id, kind, title, body, direction, channel, counterpart)
+       values ($1, $2, 'email', 'Propuesta recibida', 'Necesitamos una propuesta para la web', 'incoming', 'whatsapp', 'Contacto')
+       returning id`,
+      [orgId, client],
+    ));
+    await expect(as(db, owner, () => db.query("update public.activities set body = 'texto cambiado' where id = $1", [id])))
+      .rejects.toThrow(/no se editan/);
+    await expect(as(db, owner, () => db.query("delete from public.activities where id = $1", [id])))
+      .rejects.toThrow(/no se borran/);
+    expect(await one("select direction, channel, body from public.activities where id = $1", [id])).toEqual({
+      direction: "incoming",
+      channel: "whatsapp",
+      body: "Necesitamos una propuesta para la web",
+    });
+  });
+
+  it("rechaza clasificar llamadas o notas con campos de mensaje", async () => {
+    const client = await newClient("Prospecto sin mensaje");
+    await expect(as(db, owner, () => db.query(
+      `insert into public.activities (org_id, client_id, kind, title, direction)
+       values ($1, $2, 'call', 'Llamada', 'incoming')`,
+      [orgId, client],
+    ))).rejects.toThrow(/activities_message_context_check/);
+  });
+});
+
 describe("RLS del CRM", () => {
   it("un viewer lee pero no escribe; otra org no ve nada", async () => {
     const viewer = await createUser(db, "viewer@example.com");

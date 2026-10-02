@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, CircleCheck, CircleX, FileSignature, Mail } from "lucide-react";
+import { ArrowDownToLine, ArrowRight, CircleCheck, CircleX, FileSignature, Mail } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { SettingsCard } from "@/components/settings/settings-card";
@@ -67,15 +67,23 @@ export function QuoteActivityCard({ basePath, data }: { basePath: string; data: 
                     <p className="truncate font-medium">{email.to.join(", ")}</p>
                     <Badge className={cn(EMAIL_STYLES[email.status])}>{tEmail(email.status)}</Badge>
                   </div>
-                  <p className="truncate text-xs text-muted-foreground">
-                    {email.subject} · <span className="tabular">{instant(email.sentAt ?? email.createdAt)}</span>
-                  </p>
+                  <div className="flex flex-wrap items-center gap-x-2 text-xs text-muted-foreground">
+                    <p className="truncate">{email.subject} · <span className="tabular">{instant(email.sentAt ?? email.createdAt)}</span></p>
+                    {email.hasSnapshot && <a className="inline-flex items-center gap-1 font-medium text-primary hover:underline" href={`/api/quotes/${data.quoteId}/pdf?version=${email.id}&download=1`}><ArrowDownToLine className="size-3.5" />{t("downloadSentCopy")}</a>}
+                  </div>
                 </div>
               </li>
             ))}
           </ul>
         )}
       </div>
+      {data.manualVersions.length > 0 && <div>
+        <p className="mb-2 text-[11px] font-semibold tracking-wider text-muted-foreground uppercase">{t("manualSends")}</p>
+        <ul className="space-y-2">{data.manualVersions.map((version) => <li key={version.id} className="flex flex-wrap items-center justify-between gap-2 rounded-md border px-3 py-2 text-sm">
+          <div className="min-w-0"><p className="font-medium">{t(`methods.${version.method}`)}{version.recipient ? ` · ${version.recipient}` : ""}</p><p className="text-xs text-muted-foreground">{instant(version.sentAt)}{version.note ? ` · ${version.note}` : ""}</p></div>
+          <a className="inline-flex shrink-0 items-center gap-1 font-medium text-primary hover:underline" href={`/api/quotes/${data.quoteId}/pdf?version=${version.id}&download=1`}><ArrowDownToLine className="size-3.5" />{t("downloadSentCopy")}</a>
+        </li>)}</ul>
+      </div>}
     </SettingsCard>
   );
 }

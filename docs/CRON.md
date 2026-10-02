@@ -32,7 +32,7 @@ Nada se emite ni se envía solo: el cron deja borradores y emails **por aprobar*
 2. SQL Editor, una vez por entorno (cambia la URL y el secreto):
 
 ```sql
-select vault.create_secret('https://os.gnerai.com/api/cron/daily', 'gnerai_cron_url');
+select vault.create_secret('https://gneraios.gnerai.com/api/cron/daily', 'gnerai_cron_url');
 select vault.create_secret('<el mismo CRON_SECRET que la app>', 'gnerai_cron_secret');
 
 select cron.schedule(

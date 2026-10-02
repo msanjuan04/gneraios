@@ -1,20 +1,17 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { UpcomingWeekCard } from "@/components/calendar/upcoming-week-card";
-import { ActionQueueCard } from "@/components/dashboard/action-queue-card";
-import { Dashboard } from "@/components/dashboard/dashboard";
-import { GoalsCard } from "@/components/dashboard/goals-card";
-import { MyTasksCard } from "@/components/projects/my-tasks-card";
+import { OperationalHome } from "@/components/dashboard/operational-home";
 import { DashboardHome } from "@/components/dashboard/dashboard-home";
-import { mrrGoalProgress, readGoals, revenueGoalProgress } from "@/domain/metrics/goals";
 import { nowInZone } from "@/lib/clock";
 import { createClient } from "@/lib/supabase/server";
 import { getBillingForecast } from "@/server/billing/forecast";
 import { loadUpcomingWeek } from "@/server/calendar/upcoming";
 import { loadActionQueue } from "@/server/metrics/action-queue";
 import { getMyTasksCard } from "@/server/projects/cards";
-import { loadDashboard, orgHasBusinessData } from "@/server/metrics/dashboard";
-import { getOrgContext, hasRole, type OrgContext } from "@/server/session";
+import { getUpcomingDeliverables } from "@/server/projects/queries";
+import { loadDashboard, loadMonthlyCash, orgHasBusinessData } from "@/server/metrics/dashboard";
+import { readGoals } from "@/domain/metrics/goals";
+import { getOrgContext, type OrgContext } from "@/server/session";
 
 export async function generateMetadata(): Promise<Metadata> {
   return { title: (await getTranslations("dashboard"))("title") };
@@ -78,34 +75,35 @@ export default async function DashboardPage({ params }: PageProps<"/[org]">) {
   if (!(await orgHasBusinessData(ctx.org.id))) return <Onboarding ctx={ctx} />;
   const supabase = await createClient();
   const today = nowInZone(ctx.org.timezone).date;
-  const [view, forecast, upcoming, queue, myTasks] = await Promise.all([
+  const [view, monthlyCash, forecast, upcoming, queue, myTasks, deliverables] = await Promise.all([
     loadDashboard(ctx),
+    loadMonthlyCash(ctx, today),
     getBillingForecast(supabase, ctx.org.id, today, 13),
     loadUpcomingWeek(supabase, ctx),
     loadActionQueue(supabase, ctx.org),
     getMyTasksCard(ctx.org.id, ctx.member.id, today),
+    getUpcomingDeliverables(ctx.org.id, today),
   ]);
   // El mes en curso solo cuenta si aún le queda algo por facturar (se factura por adelantado, el día 1).
   const current = forecast[0];
   const months = current && current.recurringCents + current.oneOffCents === 0 ? forecast.slice(1) : forecast.slice(0, 12);
-  const goals = readGoals(ctx.org.settings);
-  // Lo operativo, justo debajo de las cifras: los objetivos, la semana y lo que espera a alguien.
-  const week = (
-    <>
-      <GoalsCard
-        mrr={goals.mrr ? mrrGoalProgress(goals.mrr, view.mrr.cents, view.mrr.sparkline, view.today) : null}
-        revenue={goals.revenueYear ? revenueGoalProgress(goals.revenueYear, view.history, forecast, view.today) : null}
-        money={view.money}
-        settingsHref={`/${ctx.org.slug}/settings#goals`}
-        canEdit={hasRole(ctx.member.role, "owner")}
-      />
-      {/* grid-cols-1 (minmax(0, 1fr)): sin él, la tarjeta más ancha estira la columna en el móvil. */}
-      <section className="grid grid-cols-1 gap-4 xl:grid-cols-3">
-        <UpcomingWeekCard data={upcoming} className="xl:col-span-2 xl:row-span-2" />
-        <ActionQueueCard items={queue} money={view.money} />
-        <MyTasksCard slug={ctx.org.slug} basePath={`/${ctx.org.slug}`} data={myTasks} canEdit={hasRole(ctx.member.role, "partner")} />
-      </section>
-    </>
+  return (
+    <OperationalHome
+      name={view.firstName}
+      today={today}
+      basePath={`/${ctx.org.slug}`}
+      locale={ctx.org.locale}
+      currency={ctx.org.currency}
+      receivedCents={monthlyCash.receivedCents}
+      dueCents={monthlyCash.dueCents}
+      upcoming={upcoming}
+      queue={queue}
+      tasks={myTasks}
+      deliverables={deliverables.items}
+      urgentDeliverableCount={deliverables.urgentCount}
+      canEdit={ctx.member.role === "owner" || ctx.member.role === "partner"}
+      dashboard={view}
+      forecast={months}
+    />
   );
-  return <Dashboard view={view} forecast={months} week={week} />;
 }

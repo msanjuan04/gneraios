@@ -1,4 +1,5 @@
 import "server-only";
+import { createHash } from "node:crypto";
 import type { FinalizedQuote, QuoteEmailDraft } from "@/components/quotes/types";
 import { renderQuotePdf } from "@/pdf";
 import { type Db, DbError, must } from "@/server/billing/context";
@@ -76,6 +77,29 @@ export async function sendQuoteEmail(
   const loaded = await loadQuoteDocument(db, input.quoteId);
   if (!loaded) throw new Error("sendQuoteEmail: presupuesto no encontrado tras numerarlo");
   const pdf = await renderQuotePdf(loaded.document);
+  const approvedAt = new Date().toISOString();
+  // Persist exact PDF + document before external side effect. If provider outcome becomes
+  // uncertain, the attempted message still has recoverable evidence and immutable attachment.
+  const snapshot = must(
+    await db.from("outbound_emails").insert({
+      org_id: input.orgId,
+      quote_id: input.quoteId,
+      client_id: loaded.quote.client_id,
+      template: "quote",
+      language: loaded.quote.language,
+      to_emails: input.to,
+      subject: input.subject,
+      body: input.body,
+      attach_pdf: true,
+      status: "pending_approval",
+      approved_by: input.approverId,
+      approved_at: approvedAt,
+      quote_document_snapshot: JSON.parse(JSON.stringify(loaded.document)),
+      quote_pdf_snapshot: `\\x${Buffer.from(pdf).toString("hex")}`,
+      quote_pdf_sha256: createHash("sha256").update(pdf).digest("hex"),
+    }).select("id").single(),
+    "sendQuoteEmail.snapshot",
+  );
 
   let providerId: string;
   try {
@@ -90,32 +114,12 @@ export async function sendQuoteEmail(
     providerId = sent.id;
   } catch (sendError) {
     console.error("[quotes] email", sendError);
+    const { error: updateError } = await db.from("outbound_emails").update({ status: "failed", error: "provider_send_failed" }).eq("id", snapshot.id).eq("org_id", input.orgId);
+    if (updateError) console.error("[quotes] email snapshot failure", updateError);
     return { ok: false, errorKey: "billing.errors.emailFailed", number };
   }
 
   const now = new Date().toISOString();
-  must(
-    await db
-      .from("outbound_emails")
-      .insert({
-        org_id: input.orgId,
-        quote_id: input.quoteId,
-        client_id: loaded.quote.client_id,
-        template: "quote",
-        language: loaded.quote.language,
-        to_emails: input.to,
-        subject: input.subject,
-        body: input.body,
-        attach_pdf: true,
-        status: "sent",
-        approved_by: input.approverId,
-        approved_at: now,
-        sent_at: now,
-        provider_message_id: providerId,
-      })
-      .select("id")
-      .single(),
-    "sendQuoteEmail.log",
-  );
+  must(await db.from("outbound_emails").update({ status: "sent", sent_at: now, provider_message_id: providerId, error: null }).eq("id", snapshot.id).eq("org_id", input.orgId), "sendQuoteEmail.log");
   return { ok: true, ...finalized };
 }

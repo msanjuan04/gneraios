@@ -110,6 +110,10 @@
       "web_data": {
         "title": "Your website data",
         "description": "Measured figures from Search Console and Analytics. Off by default."
+      },
+      "ads": {
+        "title": "Ads",
+        "description": "Only campaigns assigned to this client and marked visible. Off by default."
       }
     },
     "files": {

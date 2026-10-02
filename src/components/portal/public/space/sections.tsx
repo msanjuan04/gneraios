@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import type { SpaceData } from "@/components/portal/types";
 import type { PortalSectionKey } from "@/domain/portal";
 import { DocumentsSection } from "./documents-section";
+import { AdsSection } from "./ads-section";
 import { FilesSection } from "./files-section";
 import { ProgressSection } from "./progress-section";
 import { RequestsSection } from "./requests-section";
@@ -24,6 +25,7 @@ const SECTIONS: Record<PortalSectionKey, (props: SectionProps) => ReactNode> = {
   documents: DocumentsSection,
   requests: RequestsSection,
   web_data: WebDataSection,
+  ads: AdsSection,
 };
 
 export function SpaceSections({ data, token }: SectionProps) {

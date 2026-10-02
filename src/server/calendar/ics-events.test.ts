@@ -14,6 +14,7 @@ import {
   factValue,
   fiscalEvents,
   activityEvents,
+  appointmentCalendarEvents,
   quoteEvents,
   reminderEvents,
   taskEvents,
@@ -39,6 +40,7 @@ const nbsp = (value: string) => value.replace(/ /g, " ");
 function sampleEvents(): CalendarEvent[] {
   const client = { clientId: "c1", clientName: "Clínica Dental", ownerMemberId: "m1" };
   return [
+    ...appointmentCalendarEvents({ id: "personal-1", member_id: "m1", title: "Reunión propia", description: "", starts_at: "2026-10-15T08:00:00Z", ends_at: "2026-10-15T09:00:00Z", all_day: false }, RANGE.from, RANGE.to, "Europe/Madrid", new Date("2026-10-10T08:00:00Z")),
     ...collectionEvents(
       [{ id: "inv-1", number: "2026-0012", kind: "ordinary", ...client, issuedOn: "2026-09-10", dueOn: "2026-10-05", totalCents: 121_000, paidCents: 21_000, outstandingCents: 100_000 }],
       RANGE,

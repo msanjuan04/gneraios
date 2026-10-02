@@ -208,6 +208,25 @@ describe("numeración sin huecos", () => {
 });
 
 describe("validaciones al emitir", () => {
+  it("la base rechaza importes manipulados aunque el total de cabecera coincida", async () => {
+    const draft = await exampleDraft();
+    const target = (await one<{ id: string }>("select id from public.invoice_lines where invoice_id = $1 order by position limit 1", [draft])).id;
+    const original = await one<{ base_cents: number; vat_cents: number; irpf_cents: number }>("select base_cents, vat_cents, irpf_cents from public.invoice_lines where id = $1", [target]);
+    await db.query("update public.invoice_lines set base_cents = base_cents + 1 where id = $1", [target]);
+    await db.query("update public.invoices set subtotal_cents = subtotal_cents + 1, total_cents = total_cents + 1 where id = $1", [draft]);
+    await expectHint(as(db, owner, () => one("select public.issue_invoice_begin($1)", [draft])), "totals_mismatch");
+    await db.query("update public.invoice_lines set base_cents = $2, vat_cents = $3, irpf_cents = $4 where id = $1", [target, original.base_cents, original.vat_cents, original.irpf_cents]);
+  });
+
+  it("la RPC de completar solo admite el PDF canónico de la factura", async () => {
+    const draft = await exampleDraft();
+    await as(db, owner, () => db.query("select public.issue_invoice_begin($1, $2::date)", [draft, daysFromToday(0)]));
+    await expect(
+      as(db, owner, () => db.query("select public.issue_invoice_complete($1, $2::jsonb)", [draft, JSON.stringify({ pdf_path: `otro-org/${draft}.pdf` })])),
+    ).rejects.toMatchObject({ hint: "invoice_pdf_path_invalid" });
+    await as(db, owner, () => db.query("select public.issue_invoice_complete($1, $2::jsonb)", [draft, JSON.stringify({ pdf_path: `${orgId}/${draft}.pdf` })]));
+  });
+
   it("congela emisor y cliente, fija el vencimiento y cuadra los totales del ejemplo", async () => {
     const draft = await exampleDraft();
     const header = await one<{ subtotal_cents: number; vat_cents: number; irpf_cents: number; total_cents: number }>(

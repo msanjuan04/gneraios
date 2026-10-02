@@ -20,7 +20,7 @@ export async function GET(request: NextRequest, ctx: RouteContext<"/api/invoices
   const { id } = await ctx.params;
   if (!(await getSessionUser())) return new Response("Unauthorized", { status: 401 });
   const supabase = await createClient();
-  const { data: invoice } = await supabase.from("invoices").select("id, lifecycle, number, pdf_path, source").eq("id", id).maybeSingle();
+  const { data: invoice } = await supabase.from("invoices").select("id, org_id, lifecycle, number, pdf_path, source").eq("id", id).maybeSingle();
   if (!invoice) return new Response("Not found", { status: 404 });
 
   const download = request.nextUrl.searchParams.get("download") === "1";
@@ -37,8 +37,9 @@ export async function GET(request: NextRequest, ctx: RouteContext<"/api/invoices
     if (original) return new Response(original.bytes, { headers });
   }
 
-  if (invoice.lifecycle === "issued" && invoice.pdf_path) {
-    const { data, error } = await createAdminClient().storage.from("invoices").download(invoice.pdf_path);
+  const expectedPath = `${invoice.org_id}/${invoice.id}.pdf`;
+  if (invoice.lifecycle === "issued" && invoice.pdf_path === expectedPath) {
+    const { data, error } = await createAdminClient().storage.from("invoices").download(expectedPath);
     if (error || !data) return new Response("PDF not available", { status: 502 });
     return new Response(await data.arrayBuffer(), { headers });
   }

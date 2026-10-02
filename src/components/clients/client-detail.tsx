@@ -31,6 +31,7 @@ import { ClientInvoicesCard } from "@/components/invoices/client-invoices-card";
 import { CreateQuoteButton } from "@/components/quotes/create-quote-button";
 import { ClientPortalCard } from "@/components/portal/client-portal-card";
 import { ClientProjectsCard } from "@/components/projects/client-projects-card";
+import { ClientRequestsPanel } from "./client-requests-panel";
 import { HealthPanel } from "./health-badge";
 import { ClientSeoCard } from "@/components/seo/client-seo-card";
 import { ClientSitesCard } from "@/components/sites/client-sites-card";
@@ -287,6 +288,7 @@ export function ClientDetail({ data }: { data: ClientDetailData }) {
           />
           <ClientRebillCard slug={slug} clientId={client.id} clientName={client.display_name} data={data.rebills} canEdit={canEdit} />
           <ClientProjectsCard slug={slug} basePath={basePath} clientId={client.id} data={data.projects} canEdit={canEdit} />
+          <ClientRequestsPanel slug={slug} clientId={client.id} requests={data.requests} files={data.requestFiles} projects={data.projects.projects.filter((p) => !p.archived).map((p) => ({ id: p.id, name: p.name }))} canEdit={canEdit} />
           <DealsCard basePath={basePath} clientId={client.id} deals={data.deals} canEdit={canEdit} />
           <ActivityCard
             slug={slug}
@@ -419,4 +421,3 @@ function SummaryCard({ data }: { data: ClientDetailData }) {
     </SettingsCard>
   );
 }
-

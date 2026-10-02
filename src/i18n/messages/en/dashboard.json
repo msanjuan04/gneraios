@@ -26,6 +26,21 @@
     "cronPillNever": "The daily run hasn't completed successfully yet",
     "listsLabel": "Clients, renewals and payments",
     "operationsLabel": "Pipeline and system health",
+    "operational": {
+      "greeting": "Hello, {name}", "subtitle": "What needs attention in {month}.", "projects": "Projects",
+      "cashLabel": "This month's collections", "received": "Received this month", "receivedHint": "Recorded payments, including receipts without invoices.",
+      "due": "Due to collect this month", "dueHint": "Open invoices due by month end.",
+      "urgentToday": "Urgent today", "urgentHint": "{overdue, plural, =0 {No overdue tasks} one {# overdue} other {# overdue}} · {today, plural, =0 {nothing due today} one {# due today} other {# due today}}",
+      "urgentDeliverables": "{count, plural, =0 {no overdue or due-today deliveries} one {# overdue or due-today delivery} other {# overdue or due-today deliveries}}",
+      "deliverablesTitle": "Committed deliveries", "deliverablesHint": "Overdue first, then the next 30 days.", "noDeliverables": "No open deliveries due in the next 30 days.", "overdue": "Overdue",
+      "pipelineForecast": "Potential revenue from opportunities", "pipelineForecastHint": "Probability-weighted estimate · {count, plural, one {# open opportunity} other {# open opportunities}}",
+      "weightedOneOff": "Likely one-off revenue", "weightedMonthly": "Likely recurring revenue", "month": "month",
+      "pipelineDisclaimer": "Commercial estimate, not invoiced or guaranteed. MRR stays separate and is not added to one-off revenue.", "actionsLabel": "Priority work",
+      "crmTitle": "Opportunities and clients", "crmDescription": "Follow up conversations, proposals, and next commercial steps.",
+      "openPipeline": "View opportunities", "openClients": "View clients", "openQuotes": "View proposals",
+      "analyticsTitle": "Business overview", "analyticsHint": "Metrics and financial control, secondary to daily work.", "analyticsDetail": "Open full analytics",
+      "analytics": { "analytics": "Analytics", "finance": "Finance", "clients": "Clients" }
+    },
     "kpi": {
       "label": "Key figures",
       "base": "Before VAT",

@@ -235,7 +235,8 @@
       "contract": "Contracte: {title}",
       "rejected": "Rebutjat el {date}",
       "emails": "Enviaments",
-      "noEmails": "Encara no s'ha enviat per email."
+      "noEmails": "Encara no s'ha enviat per email.",
+      "downloadSentCopy": "Baixa la còpia enviada"
     },
     "notFound": {
       "title": "Aquest pressupost no existeix",

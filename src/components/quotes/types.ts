@@ -66,7 +66,9 @@ export type QuoteEmailItem = {
   subject: string;
   sentAt: string | null;
   createdAt: string;
+  hasSnapshot: boolean;
 };
+export type QuoteManualVersion = { id: string; method: Enums<"quote_send_method">; recipient: string | null; note: string | null; sentAt: string; sha256: string };
 
 export type QuoteEditorData = {
   mode: "create" | "edit";
@@ -89,6 +91,7 @@ export type QuoteEditorData = {
   rejectionReason: string | null;
   contract: { id: string; title: string } | null;
   emails: QuoteEmailItem[];
+  manualVersions: QuoteManualVersion[];
   options: QuoteFormOptions;
 };
 

@@ -77,7 +77,10 @@ function PreviewBanner() {
     <div className="flex items-center gap-2 border-b bg-primary/10 px-4 py-2 text-xs font-medium text-primary md:px-8">
       <Eye className="size-3.5" />
       {t("banner")}
-      <Link href="/preview/onboarding" className="ml-auto font-semibold underline-offset-4 hover:underline">
+      <Link href="/login" className="ml-auto shrink-0 font-semibold underline-offset-4 hover:underline">
+        {t("openRealApp")}
+      </Link>
+      <Link href="/preview/onboarding" className="hidden shrink-0 font-semibold underline-offset-4 hover:underline sm:inline">
         {t("seeOnboarding")}
       </Link>
     </div>

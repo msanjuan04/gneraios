@@ -21,6 +21,7 @@ import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, Table
 import { cn } from "@/lib/utils";
 import { useFinanceFormat, useFinanceValidationMessage } from "./format";
 import type { PartnersData, ShareholdingSet } from "./types";
+import { PartnerMovementsPanel } from "./partner-movements-panel";
 
 /** Tonos de las porciones del reparto: la rampa ordinal del azul de marca (cada una con su nombre y su cifra). */
 const SHARE_TONES = [
@@ -34,7 +35,7 @@ const SHARE_TONES = [
 type Sheet = { mode: "closed" } | { mode: "edit"; set: ShareholdingSet | null };
 
 /** Participaciones de los socios (repartos con fecha, 100 %) y su retribución de los últimos meses. */
-export function PartnersView({ slug, data, canEdit, today }: { slug: string; data: PartnersData; canEdit: boolean; today: string }) {
+export function PartnersView({ slug, data, canEdit, canRecord, today }: { slug: string; data: PartnersData; canEdit: boolean; canRecord: boolean; today: string }) {
   const t = useTranslations("finance.partners");
   const { money, date, month, percent } = useFinanceFormat();
   const [sheet, setSheet] = useState<Sheet>({ mode: "closed" });
@@ -62,6 +63,9 @@ export function PartnersView({ slug, data, canEdit, today }: { slug: string; dat
   return (
     <div className="space-y-6">
       {!canEdit && <ReadOnlyNotice>{t("readOnly")}</ReadOnlyNotice>}
+      <p className="rounded-xl border border-warning/30 bg-warning/10 px-4 py-3 text-sm text-foreground">
+        {t("legalScopeNotice")}
+      </p>
 
       <SettingsCard
         title={t("sharesTitle")}
@@ -193,6 +197,8 @@ export function PartnersView({ slug, data, canEdit, today }: { slug: string; dat
         <p className="border-t px-5 py-3 text-xs text-muted-foreground">{t("compensationNote")}</p>
       </SettingsCard>
 
+      <PartnerMovementsPanel slug={slug} data={data} canRecord={canRecord} canApprove={canEdit} today={today} />
+
       <SettingsSheet
         open={sheet.mode === "edit"}
         onOpenChange={(open) => !open && setSheet({ mode: "closed" })}
@@ -241,7 +247,7 @@ function SharesForm({
       valid_from: set?.validFrom ?? today,
       rows: base
         ? base.rows.map((r) => ({ member_id: r.memberId, percent: bpsToInput(r.percentBps) }))
-        : members.map((m) => ({ member_id: m.id, percent: members.length > 0 ? bpsToInput(Math.floor(10_000 / members.length)) : "" })),
+        : [{ member_id: "", percent: "" }],
     },
     mode: "onTouched",
   });

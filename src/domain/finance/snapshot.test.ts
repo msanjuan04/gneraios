@@ -54,8 +54,8 @@ function input(): FinanceSnapshotInput {
     ],
     accounts: [{ accountId: "a1", issuerId: "sl", isActive: true, balanceOn: "2026-08-31", balanceCents: 2_000_000, name: "Principal" }],
     movements: [
-      { issuerId: "sl", on: "2026-09-10", cents: 300_000 },
-      { issuerId: "sl", on: "2026-09-12", cents: -50_000 },
+      { accountId: "a1", issuerId: "sl", on: "2026-09-10", cents: 300_000 },
+      { accountId: "a1", issuerId: "sl", on: "2026-09-12", cents: -50_000 },
     ],
     subscriptions: [
       {

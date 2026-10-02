@@ -173,41 +173,6 @@ async function hasVerifiedFactor(userId: string): Promise<boolean> {
 }
 
 /**
- * Restablece la verificación en dos pasos de un miembro (p. ej. ha perdido el móvil): borra sus
- * factores y cierra todas sus sesiones. En su próxima entrada la vuelve a configurar.
- */
-export async function resetMemberMfa(slug: string, memberId: string): Promise<ActionResult> {
-  const ctx = await ownerContext(slug);
-  if (!ctx) return forbidden();
-  const id = idSchema.safeParse(memberId);
-  if (!id.success) return invalidInput();
-
-  const member = (await activeMembers(ctx.org.id)).find((m) => m.id === id.data);
-  if (!member) return failure("settings.team.memberNotFound");
-
-  const admin = createAdminClient();
-  const { data, error } = await admin.auth.admin.mfa.listFactors({ userId: member.user_id });
-  if (error) {
-    console.error("[team] resetMemberMfa.list", error);
-    return failure("common.errorGeneric");
-  }
-  for (const factor of data.factors) {
-    const { error: deleteError } = await admin.auth.admin.mfa.deleteFactor({ id: factor.id, userId: member.user_id });
-    if (deleteError) {
-      console.error("[team] resetMemberMfa.delete", deleteError);
-      return failure("common.errorGeneric");
-    }
-  }
-  // Sus sesiones abiertas (también las de otros dispositivos) dejan de valer.
-  const supabase = await createClient();
-  const { error: revokeError } = await supabase.rpc("revoke_member_sessions", { p_org: ctx.org.id, p_member: member.id });
-  if (revokeError) return dbFailure(revokeError, "resetMemberMfa.revoke");
-
-  revalidateSettings(ctx.org.slug, "team");
-  return { ok: true };
-}
-
-/**
  * Exige (o deja de exigir) la verificación en dos pasos a todos, también en la base de datos. Solo
  * se enciende desde una sesión que ya la ha pasado y si todos los miembros activos la tienen: así
  * nadie se queda fuera.

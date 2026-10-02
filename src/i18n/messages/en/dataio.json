@@ -22,7 +22,7 @@
       "jobsTitle": "Imports",
       "jobsDescription": "The last 20. A confirmed one stays as a record of what was imported.",
       "exportTitle": "Export for your accountant",
-      "exportDescription": "Each issuer's register of issued invoices, by quarter or by year: one row per VAT rate on each invoice, as the AEAT requires, with the totals at the end."
+      "exportDescription": "Prepare a package by issuer and period with issued invoices, expenses, receipts, and available attachments. The manifest flags missing documents and receipts without an issuer; review the close with your accountant."
     },
     "kinds": {
       "clients": "Clients",
@@ -391,12 +391,17 @@
       "csv": "CSV for Excel",
       "xlsx": "Excel (XLSX)",
       "zip": "ZIP with the PDFs",
-      "hint": "Issued invoices only. The ZIP includes the register and the PDFs of the period's invoices.",
+      "hint": "CSV/XLSX download the sales ledger. ZIP bundles sales, expenses, payments, receipts without invoices, and available attachments, separated by issuer.",
       "pdfFolder": "invoices",
+      "expenseFolder": "expense-receipts",
+      "historicalFolder": "imported-original-invoices",
       "readmeName": "README.txt",
       "readmeImported": "Invoices imported from history, which have no PDF in GNERAI OS (they were issued in another tool): {numbers}.",
       "readmeMissing": "The PDF couldn't be read for: {numbers}.",
-      "readmeIssuing": "{count, plural, one {There's # invoice partly issued} other {There are # invoices partly issued}} in the period: they're not included in the register until they're completed."
+      "readmeIssuing": "{count, plural, one {There's # invoice partly issued} other {There are # invoices partly issued}} in the period: they're not included in the register until they're completed.",
+      "readmeNoExpenseFile": "Expenses without a receipt attached in GNERAI OS: {items}.",
+      "readmeUnassigned": "There are {count} receipts without an invoice and without an assigned issuer in this period. They are not attributed to this issuer.",
+      "readmeScope": "Operational export for accountant review. It excludes bank statements and does not certify reconciliation or tax treatment. Check historical imports, attachments, and original documents for completeness."
     },
     "ledger": {
       "sheet": "Issued invoices register",

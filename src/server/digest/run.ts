@@ -33,7 +33,7 @@ async function renderFor(db: Db, org: DigestOrg, member: DigestMember, data: Awa
     locale: asLocale(member.locale),
     orgName: org.name,
     firstName: member.full_name.split(" ")[0] || member.full_name,
-    appUrl: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3100",
+    appUrl: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
     slug: org.slug,
     data,
     week,

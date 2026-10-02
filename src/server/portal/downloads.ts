@@ -88,7 +88,7 @@ export async function spaceInvoicePdf(token: string, invoiceId: string): Promise
   if (!link?.clientId || !(await documentsOn(admin, link))) return notFoundResponse();
   const { data: invoice, error } = await admin
     .from("invoices")
-    .select("id, number, lifecycle, pdf_path")
+    .select("id, org_id, number, lifecycle, pdf_path")
     .eq("org_id", link.orgId)
     .eq("client_id", link.clientId)
     .eq("id", invoiceId)
@@ -97,8 +97,9 @@ export async function spaceInvoicePdf(token: string, invoiceId: string): Promise
   if (error) throw error;
   if (!invoice?.number) return notFoundResponse();
   const filename = `${invoice.number}.pdf`;
-  if (invoice.pdf_path) {
-    const { data } = await admin.storage.from("invoices").download(invoice.pdf_path);
+  const expectedPath = `${invoice.org_id}/${invoice.id}.pdf`;
+  if (invoice.pdf_path === expectedPath) {
+    const { data } = await admin.storage.from("invoices").download(expectedPath);
     if (data) return pdfResponse(await data.arrayBuffer(), filename);
   }
   // Sin copia guardada (p. ej. un histórico importado): el documento con sus datos congelados.

@@ -1,16 +1,20 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { createHash } from "node:crypto";
 import type { FinalizedQuote, QuoteEmailDraft } from "@/components/quotes/types";
+import { renderQuotePdf } from "@/pdf";
 import type { ActionResult } from "@/lib/action-result";
 import { nowInZone } from "@/lib/clock";
 import { createClient } from "@/lib/supabase/server";
 import { type Failure, failure, forbidden, idSchema, invalidInput, partnerContext } from "@/server/action-utils";
 import { BillingRuleError, DbError } from "@/server/billing/context";
+import { loadQuoteDocument } from "@/server/quotes/document";
 import { acceptQuoteFlow } from "@/server/quotes/accept";
 import { composeQuoteEmail, readFinalized, sendQuoteEmail } from "@/server/quotes/email";
 import { quoteFailure } from "@/server/quotes/errors";
 import { duplicateQuote as duplicateQuoteRow, saveQuoteRpc } from "@/server/quotes/save";
+import { z } from "zod";
 import {
   parseEmailList,
   type QuoteEmailFormInput,
@@ -238,15 +242,38 @@ export async function sendQuote(slug: string, quoteId: string, input: QuoteEmail
   }
 }
 
-/** «Marcar como enviado» sin email (se entregó por otra vía): le da su número. */
-export async function markQuoteSent(slug: string, quoteId: string): Promise<ActionResult<FinalizedQuote>> {
+/** «Marcar como enviado» por otra vía: guarda canal, destinatario y copia exacta del PDF. */
+const manualSendSchema = z.object({ method: z.enum(["email", "whatsapp", "linkedin", "other"]), recipient: z.string().trim().max(254), note: z.string().trim().max(2000) });
+
+export async function markQuoteSent(slug: string, quoteId: string, input: z.input<typeof manualSendSchema>): Promise<ActionResult<FinalizedQuote>> {
   const ctx = await partnerContext(slug);
   if (!ctx) return forbidden();
+  const parsed = manualSendSchema.safeParse(input);
+  if (!parsed.success) return invalidInput();
   const supabase = await createClient();
   const loaded = await quoteOfOrg(supabase, ctx.org.id, quoteId);
   if ("failure" in loaded) return loaded.failure;
   const { data, error } = await supabase.rpc("finalize_quote", { p_quote_id: loaded.quote.id });
   if (error) return quoteFailure(error, "markQuoteSent");
+  try {
+    const finalizedQuote = await loadQuoteDocument(supabase, loaded.quote.id);
+    if (!finalizedQuote) return failure("quotes.errors.notFound");
+    const pdf = await renderQuotePdf(finalizedQuote.document);
+    const { error: snapshotError } = await supabase.from("quote_sent_versions").insert({
+      org_id: ctx.org.id,
+      quote_id: loaded.quote.id,
+      method: parsed.data.method,
+      recipient: parsed.data.recipient || null,
+      note: parsed.data.note || null,
+      document_snapshot: JSON.parse(JSON.stringify(finalizedQuote.document)),
+      pdf_snapshot: `\\x${Buffer.from(pdf).toString("hex")}`,
+      pdf_sha256: createHash("sha256").update(pdf).digest("hex"),
+      created_by: ctx.user.id,
+    });
+    if (snapshotError) return await quoteFailure(snapshotError, "markQuoteSent.snapshot");
+  } catch (cause) {
+    return describeError(cause, "markQuoteSent.snapshot");
+  }
   revalidateQuote(ctx.org.slug, { quoteId: loaded.quote.id, clientId: loaded.quote.client_id });
   return { ok: true, ...readFinalized(data) };
 }

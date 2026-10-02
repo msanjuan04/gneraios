@@ -262,6 +262,17 @@
           "measured": "Measured data as is, with no estimates or forecasts.",
           "demo": "Demo data.",
           "empty": "There’s no measured data for your website yet."
+        },
+        "ads": {
+          "title": "Your ad campaigns",
+          "subtitle": "Results from campaigns shared with you.",
+          "range": "From {from} to {to}",
+          "impressions": "Impressions",
+          "clicks": "Clicks",
+          "ctr": "CTR",
+          "spend": "Ad spend",
+          "measured": "Measured by ChatGPT Ads. Ad spend is separate from GNERAI invoices.",
+          "empty": "No campaigns have been shared in your space yet."
         }
       }
     }

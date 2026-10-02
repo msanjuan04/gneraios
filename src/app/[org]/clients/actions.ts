@@ -27,8 +27,19 @@ import {
   normalizeClientTaxId,
 } from "./schema";
 import { isClientManualStatus } from "@/domain/clients/status";
+import { z } from "zod";
 
 type Supabase = Awaited<ReturnType<typeof createClient>>;
+
+const clientRequestSchema = z.object({
+  kind: z.enum(["questionnaire", "material", "access", "other"]),
+  title: z.string().trim().min(1).max(200),
+  instructions: z.string().max(5000),
+  requestedAt: z.string().date(),
+  dueOn: z.string().date().nullable(),
+  projectId: z.string().uuid().nullable(),
+});
+const clientRequestCloseSchema = z.object({ response: z.string().max(10000), clientFileId: z.string().uuid().nullable() });
 
 // El índice único parcial de `clients` (org, NIF) entre los no archivados: un cliente, una ficha.
 const isDuplicateTaxId = (error: PostgrestError) => error.code === "23505" && error.message.includes("clients_tax_id_idx");
@@ -369,6 +380,10 @@ export async function createActivity(
     kind: parsed.data.kind,
     title: parsed.data.title,
     body: emptyToNull(parsed.data.body),
+    direction: parsed.data.kind === "email" ? parsed.data.direction || null : null,
+    channel: parsed.data.kind === "email" ? parsed.data.channel || null : null,
+    counterpart: parsed.data.kind === "email" ? emptyToNull(parsed.data.counterpart) : null,
+    external_reference: parsed.data.kind === "email" ? emptyToNull(parsed.data.external_reference) : null,
     occurred_at: occurredAt.toISOString(),
     member_id: ctx.member.id,
     client_visible: input.client_visible === true,
@@ -402,6 +417,60 @@ export async function deleteActivity(slug: string, clientId: string, activityId:
   if (error) return dbFailure(error, "deleteActivity");
   if (data.length === 0) return failure("clients.errors.activityNotFound");
 
+  revalidateClient(ctx.org.slug, client.data);
+  return { ok: true };
+}
+
+export async function createClientRequest(slug: string, clientId: string, input: z.input<typeof clientRequestSchema>): Promise<ActionResult> {
+  const ctx = await partnerContext(slug);
+  if (!ctx) return forbidden();
+  const client = idSchema.safeParse(clientId);
+  const parsed = clientRequestSchema.safeParse(input);
+  if (!client.success || !parsed.success) return invalidInput();
+  const db = await createClient();
+  const blocked = await writableClient(db, ctx.org.id, client.data);
+  if (blocked) return blocked;
+  const { error } = await db.from("client_requests").insert({
+    org_id: ctx.org.id, client_id: client.data, kind: parsed.data.kind, title: parsed.data.title,
+    instructions: emptyToNull(parsed.data.instructions), requested_at: parsed.data.requestedAt,
+    due_on: parsed.data.dueOn, project_id: parsed.data.projectId, created_by: ctx.user.id,
+  });
+  if (error) return dbFailure(error, "createClientRequest");
+  revalidateClient(ctx.org.slug, client.data);
+  return { ok: true };
+}
+
+export async function closeClientRequest(slug: string, clientId: string, requestId: string, input: z.input<typeof clientRequestCloseSchema>): Promise<ActionResult> {
+  const ctx = await partnerContext(slug);
+  if (!ctx) return forbidden();
+  const client = idSchema.safeParse(clientId);
+  const request = idSchema.safeParse(requestId);
+  const parsed = clientRequestCloseSchema.safeParse(input);
+  if (!client.success || !request.success || !parsed.success) return invalidInput();
+  const db = await createClient();
+  const blocked = await writableClient(db, ctx.org.id, client.data);
+  if (blocked) return blocked;
+  const { data, error } = await db.from("client_requests").update({
+    status: "received", response: emptyToNull(parsed.data.response), client_file_id: parsed.data.clientFileId,
+  }).eq("id", request.data).eq("org_id", ctx.org.id).eq("client_id", client.data).eq("status", "requested").select("id");
+  if (error) return dbFailure(error, "closeClientRequest");
+  if (!data.length) return failure("clients.errors.requestNotFound");
+  revalidateClient(ctx.org.slug, client.data);
+  return { ok: true };
+}
+
+export async function cancelClientRequest(slug: string, clientId: string, requestId: string): Promise<ActionResult> {
+  const ctx = await partnerContext(slug);
+  if (!ctx) return forbidden();
+  const client = idSchema.safeParse(clientId);
+  const request = idSchema.safeParse(requestId);
+  if (!client.success || !request.success) return invalidInput();
+  const db = await createClient();
+  const blocked = await writableClient(db, ctx.org.id, client.data);
+  if (blocked) return blocked;
+  const { data, error } = await db.from("client_requests").update({ status: "cancelled" }).eq("id", request.data).eq("org_id", ctx.org.id).eq("client_id", client.data).eq("status", "requested").select("id");
+  if (error) return dbFailure(error, "cancelClientRequest");
+  if (!data.length) return failure("clients.errors.requestNotFound");
   revalidateClient(ctx.org.slug, client.data);
   return { ok: true };
 }

@@ -18,6 +18,9 @@
       "columns": {
         "name": "Client",
         "status": "Estat",
+        "billed": "Total facturat",
+        "collected": "Cobrat",
+        "outstanding": "Pendent",
         "owner": "Responsable",
         "place": "Ciutat · Sector",
         "deals": "Deals",
@@ -26,6 +29,7 @@
       },
       "archived": "Arxivat",
       "noActivity": "Sense activitat",
+      "mobileBalance": "Cobrat: {collected} · pendent: {outstanding}",
       "noResultsTitle": "Cap client coincideix",
       "noResultsBody": "Prova una altra cerca o treu algun filtre.",
       "noResultsArchived": "{count, plural, one {Hi ha # client arxivat que no es mostra.} other {Hi ha # clients arxivats que no es mostren.}}",
@@ -236,6 +240,26 @@
       "fieldBody": "Detall",
       "bodyHint": "Acords, dubtes i propers passos.",
       "occurredAt": "Quan",
+      "manualMessageHint": "Registre manual: desa el que s'ha rebut o enviat i el canal. No sincronitza correu ni missatgeria.",
+      "direction": "Sentit",
+      "chooseDirection": "Tria si s'ha rebut o enviat",
+      "directions": {
+        "incoming": "Rebut",
+        "outgoing": "Enviat",
+        "internal": "Nota interna"
+      },
+      "channel": "Canal",
+      "chooseChannel": "Tria el canal",
+      "channels": {
+        "email": "Email",
+        "whatsapp": "WhatsApp",
+        "phone": "Telèfon",
+        "linkedin": "LinkedIn",
+        "instagram": "Instagram",
+        "other": "Altres"
+      },
+      "counterpart": "Persona o compte",
+      "externalReference": "Referència externa",
       "deal": "Deal",
       "noDeal": "Sense deal",
       "contact": "Amb qui",
@@ -311,6 +335,47 @@
     },
     "expenses": {
       "button": "Registra una despesa"
+    },
+    "requests": {
+      "title": "Qüestionaris i materials",
+      "count": "{count, plural, one {# sol·licitud} other {# sol·licituds}}",
+      "add": "Demanar informació",
+      "empty": "No hi ha qüestionaris, materials ni accessos pendents.",
+      "created": "Sol·licitud registrada",
+      "receivedToast": "Recepció registrada",
+      "cancelledToast": "Sol·licitud cancel·lada",
+      "kind": "Tipus",
+      "kinds": {
+        "questionnaire": "Qüestionari",
+        "material": "Material",
+        "access": "Accés",
+        "other": "Altre"
+      },
+      "titlePlaceholder": "Què necessitem",
+      "dueOn": "Data límit",
+      "project": "Projecte",
+      "noProject": "Sense projecte",
+      "instructions": "Instruccions o context",
+      "manualOnly": "Seguiment intern: no envia correus ni recordatoris al client.",
+      "cancel": "Cancel·lar",
+      "save": "Registrar sol·licitud",
+      "statuses": {
+        "requested": "Pendent",
+        "received": "Rebut",
+        "cancelled": "Cancel·lat"
+      },
+      "requestedAt": "Demanat el {date}",
+      "dueOnValue": "Límit {date}",
+      "markReceived": "Registrar recepció: {title}",
+      "response": "Resum de la resposta rebuda",
+      "file": "Fitxer del client",
+      "noFile": "Sense fitxer vinculat",
+      "confirmReceived": "Confirmar recepció",
+      "responseLabel": "Resposta",
+      "fileLabel": "Fitxer",
+      "received": "Rebut",
+      "cancelRequest": "Cancel·lar sol·licitud",
+      "requestNotFound": "La sol·licitud ja no és pendent; actualitza la fitxa."
     }
   }
 }

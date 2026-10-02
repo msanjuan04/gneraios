@@ -86,12 +86,13 @@ export function authorizationUrl(opts: {
   state: string;
   challenge: string;
   loginHint?: string | null;
+  scopes?: readonly string[];
 }): string {
   const params = new URLSearchParams({
     client_id: opts.config.clientId,
     redirect_uri: opts.config.redirectUri,
     response_type: "code",
-    scope: GOOGLE_OAUTH_SCOPES.join(" "),
+    scope: (opts.scopes ?? GOOGLE_OAUTH_SCOPES).join(" "),
     access_type: "offline",
     // Siempre el selector de cuenta: la de Google que ve las propiedades (p. ej. info@) no tiene
     // por qué ser la del socio que conecta. «consent» asegura el refresh token.

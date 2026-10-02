@@ -22,7 +22,6 @@ import { cn } from "@/lib/utils";
 import { ClientSheet } from "./client-sheet";
 import { HealthBadge } from "./health-badge";
 import { ClientStatusBadge } from "./client-status-badge";
-import { MemberAvatar } from "./member-avatar";
 import type { ClientListItem, MemberOption } from "./types";
 
 type Filters = { q: string; status: ClientManualStatus | ""; owner: string; archived: boolean; attention: boolean };
@@ -77,11 +76,10 @@ type Props = {
   canEdit: boolean;
   currentMemberId: string;
   defaultPaymentTerms: number;
-  /** Instante de la petición (ms): los tiempos relativos salen iguales en servidor y cliente. */
-  now: number;
+  currency: string;
 };
 
-export function ClientsList({ basePath, slug, clients, members, canEdit, currentMemberId, defaultPaymentTerms, now }: Props) {
+export function ClientsList({ basePath, slug, clients, members, canEdit, currentMemberId, defaultPaymentTerms, currency }: Props) {
   const t = useTranslations("clients");
   const tStatus = useTranslations("crm.clientStatus");
   const tCrm = useTranslations("crm");
@@ -343,26 +341,21 @@ export function ClientsList({ basePath, slug, clients, members, canEdit, current
                   <TableRow className="hover:bg-transparent">
                     <TableHead className="pl-5 text-xs text-muted-foreground">{t("list.columns.name")}</TableHead>
                     <TableHead className="text-xs text-muted-foreground">{t("list.columns.status")}</TableHead>
-                    <TableHead className="hidden text-xs text-muted-foreground sm:table-cell">
-                      <span className="sr-only">{t("list.columns.owner")}</span>
-                    </TableHead>
-                    <TableHead className="hidden text-xs text-muted-foreground lg:table-cell">{t("list.columns.place")}</TableHead>
                     <TableHead className="hidden text-right text-xs text-muted-foreground md:table-cell">
-                      {t("list.columns.deals")}
+                      {t("list.columns.billed")}
                     </TableHead>
-                    <TableHead className="hidden text-xs text-muted-foreground md:table-cell">
-                      {t("list.columns.lastActivity")}
+                    <TableHead className="hidden text-right text-xs text-muted-foreground lg:table-cell">
+                      {t("list.columns.collected")}
                     </TableHead>
-                    <TableHead className="hidden pr-5 text-xs text-muted-foreground xl:table-cell">
-                      {t("list.columns.source")}
+                    <TableHead className="hidden pr-5 text-right text-xs text-muted-foreground md:table-cell">
+                      {t("list.columns.outstanding")}
                     </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {visible.map((client) => {
                     const active = client.id === activeId;
-                    const place = [client.city, client.sector].filter(Boolean).join(" · ");
-                    const lastActivity = client.lastActivityAt ? new Date(client.lastActivityAt) : null;
+                    const formatMoney = (cents: number) => format.number(cents / 100, { style: "currency", currency });
                     return (
                       <TableRow
                         key={client.id}
@@ -399,42 +392,21 @@ export function ClientsList({ basePath, slug, clients, members, canEdit, current
                           {client.legalName && client.legalName !== client.displayName && (
                             <p className="truncate text-xs text-muted-foreground">{client.legalName}</p>
                           )}
+                          <p className="mt-1 truncate text-[11px] text-muted-foreground md:hidden">
+                            {t("list.mobileBalance", { collected: formatMoney(client.collectedCents), outstanding: formatMoney(client.outstandingCents) })}
+                          </p>
                         </TableCell>
                         <TableCell>
                           <ClientStatusBadge status={client.status} manual={client.manualStatus} />
                         </TableCell>
-                        <TableCell className="hidden sm:table-cell">
-                          {client.owner ? (
-                            <MemberAvatar member={client.owner} />
-                          ) : (
-                            <span className="text-xs text-muted-foreground">—</span>
-                          )}
+                        <TableCell className="hidden text-right tabular-nums md:table-cell">
+                          {formatMoney(client.billedCents)}
                         </TableCell>
-                        <TableCell className="hidden w-[20%] max-w-0 text-muted-foreground lg:table-cell">
-                          <span className="block truncate">{place || "—"}</span>
+                        <TableCell className="hidden text-right tabular-nums lg:table-cell">
+                          {formatMoney(client.collectedCents)}
                         </TableCell>
-                        <TableCell
-                          className={cn(
-                            "hidden text-right tabular md:table-cell",
-                            client.dealsCount === 0 && "text-muted-foreground",
-                          )}
-                        >
-                          {client.dealsCount}
-                        </TableCell>
-                        <TableCell className="hidden text-muted-foreground md:table-cell">
-                          {lastActivity ? (
-                            <time
-                              dateTime={client.lastActivityAt ?? undefined}
-                              title={format.dateTime(lastActivity, { dateStyle: "medium", timeStyle: "short" })}
-                            >
-                              {format.relativeTime(lastActivity, now)}
-                            </time>
-                          ) : (
-                            <span className="text-muted-foreground/70">{t("list.noActivity")}</span>
-                          )}
-                        </TableCell>
-                        <TableCell className="hidden pr-5 text-muted-foreground xl:table-cell">
-                          {client.sourceName ?? <span className="text-muted-foreground/70">{tCrm("unknownSource")}</span>}
+                        <TableCell className="hidden pr-5 text-right tabular-nums md:table-cell">
+                          <span className={client.outstandingCents > 0 ? "font-semibold text-warning" : "text-muted-foreground"}>{formatMoney(client.outstandingCents)}</span>
                         </TableCell>
                       </TableRow>
                     );

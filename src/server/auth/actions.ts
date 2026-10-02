@@ -25,7 +25,7 @@ export async function generateMyAccessCode(slug: string): Promise<ActionResult<{
   return { ok: true, code };
 }
 
-/** Un código nuevo para un socio (lo genera un owner y se lo da en persona). */
+/** Compatibilidad: la identidad solo puede rotar su propio código, nunca la de otro socio. */
 export async function generateMemberAccessCode(slug: string, memberId: string): Promise<ActionResult<{ code: string }>> {
   const ctx = await ownerContext(slug);
   if (!ctx) return forbidden();
@@ -33,7 +33,8 @@ export async function generateMemberAccessCode(slug: string, memberId: string): 
   if (!id.success) return invalidInput();
   const member = await memberUserId(ctx.org.id, id.data);
   if (!member) return failure("settings.team.memberNotFound");
-  const code = await issueAccessCode(member.userId, ctx.user.id);
+  if (member.userId !== ctx.user.id) return failure("settings.accessCode.selfOnly");
+  const code = await issueAccessCode(ctx.user.id, ctx.user.id);
   revalidatePath(`/${ctx.org.slug}/settings/team`);
   return { ok: true, code };
 }

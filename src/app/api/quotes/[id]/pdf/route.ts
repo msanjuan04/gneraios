@@ -26,6 +26,21 @@ export async function GET(request: NextRequest, ctx: Context) {
   const loaded = await loadQuoteDocument(await createClient(), id);
   if (!loaded) return new Response("Not found", { status: 404 });
 
+  const versionId = request.nextUrl.searchParams.get("version");
+  if (versionId && UUID.test(versionId)) {
+    const supabase = await createClient();
+    const emailSnapshot = await supabase.from("outbound_emails").select("quote_pdf_snapshot, quote_pdf_sha256").eq("org_id", loaded.quote.org_id).eq("quote_id", id).eq("id", versionId).not("quote_pdf_snapshot", "is", null).maybeSingle();
+    const manualSnapshot = emailSnapshot.data ? null : await supabase.from("quote_sent_versions").select("pdf_snapshot, pdf_sha256").eq("org_id", loaded.quote.org_id).eq("quote_id", id).eq("id", versionId).maybeSingle();
+    const snapshot = emailSnapshot.data ?? (manualSnapshot?.data ? { quote_pdf_snapshot: manualSnapshot.data.pdf_snapshot, quote_pdf_sha256: manualSnapshot.data.pdf_sha256 } : null);
+    if (!snapshot?.quote_pdf_snapshot || !snapshot.quote_pdf_sha256) return new Response("Not found", { status: 404 });
+    const encoded = snapshot.quote_pdf_snapshot;
+    const bytes = Buffer.from(encoded.startsWith("\\x") ? encoded.slice(2) : encoded, "hex");
+    const { createHash } = await import("node:crypto");
+    if (createHash("sha256").update(bytes).digest("hex") !== snapshot.quote_pdf_sha256) return new Response("Stored proposal failed integrity check", { status: 500 });
+    const download = request.nextUrl.searchParams.get("download") === "1";
+    return new Response(new Uint8Array(bytes), { headers: { "Content-Type": "application/pdf", "Content-Disposition": `${download ? "attachment" : "inline"}; filename="${quotePdfFilename(loaded.quote)}"`, "Cache-Control": "private, no-store" } });
+  }
+
   const pdf = await renderQuotePdf(loaded.document);
   const download = request.nextUrl.searchParams.get("download") === "1";
   return new Response(new Uint8Array(pdf), {

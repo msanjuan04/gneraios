@@ -132,6 +132,10 @@ export type Database = {
           created_at: string
           created_by: string | null
           deal_id: string | null
+          direction: string | null
+          channel: string | null
+          counterpart: string | null
+          external_reference: string | null
           id: string
           kind: Database["public"]["Enums"]["activity_kind"]
           member_id: string | null
@@ -148,6 +152,10 @@ export type Database = {
           created_at?: string
           created_by?: string | null
           deal_id?: string | null
+          direction?: string | null
+          channel?: string | null
+          counterpart?: string | null
+          external_reference?: string | null
           id?: string
           kind: Database["public"]["Enums"]["activity_kind"]
           member_id?: string | null
@@ -164,6 +172,10 @@ export type Database = {
           created_at?: string
           created_by?: string | null
           deal_id?: string | null
+          direction?: string | null
+          channel?: string | null
+          counterpart?: string | null
+          external_reference?: string | null
           id?: string
           kind?: Database["public"]["Enums"]["activity_kind"]
           member_id?: string | null
@@ -1442,6 +1454,16 @@ export type Database = {
           },
         ]
       }
+      client_requests: {
+        Row: { client_file_id: string | null; client_id: string; created_at: string; created_by: string | null; due_on: string | null; id: string; instructions: string | null; kind: Database["public"]["Enums"]["client_request_kind"]; org_id: string; project_id: string | null; received_at: string | null; requested_at: string; response: string | null; status: Database["public"]["Enums"]["client_request_status"]; title: string; updated_at: string }
+        Insert: { client_file_id?: string | null; client_id: string; created_at?: string; created_by?: string | null; due_on?: string | null; id?: string; instructions?: string | null; kind: Database["public"]["Enums"]["client_request_kind"]; org_id: string; project_id?: string | null; received_at?: string | null; requested_at?: string; response?: string | null; status?: Database["public"]["Enums"]["client_request_status"]; title: string; updated_at?: string }
+        Update: { client_file_id?: string | null; client_id?: string; created_at?: string; created_by?: string | null; due_on?: string | null; id?: string; instructions?: string | null; kind?: Database["public"]["Enums"]["client_request_kind"]; org_id?: string; project_id?: string | null; received_at?: string | null; requested_at?: string; response?: string | null; status?: Database["public"]["Enums"]["client_request_status"]; title?: string; updated_at?: string }
+        Relationships: [
+          { foreignKeyName: "client_requests_org_id_client_id_fkey"; columns: ["org_id", "client_id"]; isOneToOne: false; referencedRelation: "clients"; referencedColumns: ["org_id", "id"] },
+          { foreignKeyName: "client_requests_org_id_project_id_client_id_fkey"; columns: ["org_id", "project_id", "client_id"]; isOneToOne: false; referencedRelation: "projects"; referencedColumns: ["org_id", "id", "client_id"] },
+          { foreignKeyName: "client_requests_org_id_client_id_client_file_id_fkey"; columns: ["org_id", "client_id", "client_file_id"]; isOneToOne: false; referencedRelation: "client_files"; referencedColumns: ["org_id", "client_id", "id"] },
+        ]
+      }
       client_mandates: {
         Row: {
           bic: string | null
@@ -1583,11 +1605,13 @@ export type Database = {
       client_receipts: {
         Row: {
           amount_cents: number
+          cash_account_id: string | null
           client_id: string
           concept: string
           created_at: string
           created_by: string | null
           id: string
+          issuer_id: string | null
           method: Database["public"]["Enums"]["payment_method"]
           notes: string | null
           org_id: string
@@ -1598,11 +1622,13 @@ export type Database = {
         }
         Insert: {
           amount_cents: number
+          cash_account_id?: string | null
           client_id: string
           concept: string
           created_at?: string
           created_by?: string | null
           id?: string
+          issuer_id?: string | null
           method?: Database["public"]["Enums"]["payment_method"]
           notes?: string | null
           org_id: string
@@ -1613,11 +1639,13 @@ export type Database = {
         }
         Update: {
           amount_cents?: number
+          cash_account_id?: string | null
           client_id?: string
           concept?: string
           created_at?: string
           created_by?: string | null
           id?: string
+          issuer_id?: string | null
           method?: Database["public"]["Enums"]["payment_method"]
           notes?: string | null
           org_id?: string
@@ -2765,6 +2793,7 @@ export type Database = {
           allocation: Database["public"]["Enums"]["cost_allocation"]
           attachment_path: string | null
           base_cents: number
+          cash_account_id: string | null
           category_id: string
           client_id: string | null
           created_at: string
@@ -2800,6 +2829,7 @@ export type Database = {
           allocation?: Database["public"]["Enums"]["cost_allocation"]
           attachment_path?: string | null
           base_cents: number
+          cash_account_id?: string | null
           category_id: string
           client_id?: string | null
           created_at?: string
@@ -2835,6 +2865,7 @@ export type Database = {
           allocation?: Database["public"]["Enums"]["cost_allocation"]
           attachment_path?: string | null
           base_cents?: number
+          cash_account_id?: string | null
           category_id?: string
           client_id?: string | null
           created_at?: string
@@ -4238,6 +4269,9 @@ export type Database = {
           language: Database["public"]["Enums"]["app_locale"]
           org_id: string
           provider_message_id: string | null
+          quote_document_snapshot: Json | null
+          quote_pdf_snapshot: string | null
+          quote_pdf_sha256: string | null
           quote_id: string | null
           report_hours: boolean
           report_month: string | null
@@ -4263,6 +4297,9 @@ export type Database = {
           language?: Database["public"]["Enums"]["app_locale"]
           org_id: string
           provider_message_id?: string | null
+          quote_document_snapshot?: Json | null
+          quote_pdf_snapshot?: string | null
+          quote_pdf_sha256?: string | null
           quote_id?: string | null
           report_hours?: boolean
           report_month?: string | null
@@ -4288,6 +4325,9 @@ export type Database = {
           language?: Database["public"]["Enums"]["app_locale"]
           org_id?: string
           provider_message_id?: string | null
+          quote_document_snapshot?: Json | null
+          quote_pdf_snapshot?: string | null
+          quote_pdf_sha256?: string | null
           quote_id?: string | null
           report_hours?: boolean
           report_month?: string | null
@@ -4353,6 +4393,7 @@ export type Database = {
       payments: {
         Row: {
           amount_cents: number
+          cash_account_id: string | null
           created_at: string
           created_by: string | null
           id: string
@@ -4367,6 +4408,7 @@ export type Database = {
         }
         Insert: {
           amount_cents: number
+          cash_account_id?: string | null
           created_at?: string
           created_by?: string | null
           id?: string
@@ -4381,6 +4423,7 @@ export type Database = {
         }
         Update: {
           amount_cents?: number
+          cash_account_id?: string | null
           created_at?: string
           created_by?: string | null
           id?: string
@@ -4549,6 +4592,60 @@ export type Database = {
             referencedColumns: ["org_id", "id"]
           },
         ]
+      }
+      project_deliverables: {
+        Row: {
+          accepted_at: string | null
+          assignee_member_id: string | null
+          client_file_id: string | null
+          client_id: string
+          created_at: string
+          created_by: string | null
+          description: string | null
+          due_on: string | null
+          id: string
+          org_id: string
+          project_id: string
+          sent_at: string | null
+          status: Database["public"]["Enums"]["deliverable_status"]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          accepted_at?: string | null
+          assignee_member_id?: string | null
+          client_file_id?: string | null
+          client_id: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          due_on?: string | null
+          id?: string
+          org_id: string
+          project_id: string
+          sent_at?: string | null
+          status?: Database["public"]["Enums"]["deliverable_status"]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          accepted_at?: string | null
+          assignee_member_id?: string | null
+          client_file_id?: string | null
+          client_id?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          due_on?: string | null
+          id?: string
+          org_id?: string
+          project_id?: string
+          sent_at?: string | null
+          status?: Database["public"]["Enums"]["deliverable_status"]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       project_templates: {
         Row: {
@@ -4928,6 +5025,15 @@ export type Database = {
             referencedRelation: "quotes_overview"
             referencedColumns: ["org_id", "id"]
           },
+        ]
+      }
+      quote_sent_versions: {
+        Row: { created_by: string | null; document_snapshot: Json; id: string; method: Database["public"]["Enums"]["quote_send_method"]; note: string | null; org_id: string; pdf_sha256: string; pdf_snapshot: string; quote_id: string; recipient: string | null; sent_at: string }
+        Insert: { created_by?: string | null; document_snapshot: Json; id?: string; method: Database["public"]["Enums"]["quote_send_method"]; note?: string | null; org_id: string; pdf_sha256: string; pdf_snapshot: string; quote_id: string; recipient?: string | null; sent_at?: string }
+        Update: { created_by?: string | null; document_snapshot?: Json; id?: string; method?: Database["public"]["Enums"]["quote_send_method"]; note?: string | null; org_id?: string; pdf_sha256?: string; pdf_snapshot?: string; quote_id?: string; recipient?: string | null; sent_at?: string }
+        Relationships: [
+          { foreignKeyName: "quote_sent_versions_org_id_fkey"; columns: ["org_id"]; isOneToOne: false; referencedRelation: "orgs"; referencedColumns: ["id"] },
+          { foreignKeyName: "quote_sent_versions_org_id_quote_id_fkey"; columns: ["org_id", "quote_id"]; isOneToOne: false; referencedRelation: "quotes"; referencedColumns: ["org_id", "id"] },
         ]
       }
       quote_lines: {
@@ -5812,6 +5918,66 @@ export type Database = {
             columns: ["org_id", "issuer_id"]
             isOneToOne: false
             referencedRelation: "issuers"
+            referencedColumns: ["org_id", "id"]
+          },
+        ]
+      }
+      partner_movements: {
+        Row: {
+          amount_cents: number
+          created_at: string
+          created_by: string | null
+          effective_on: string
+          id: string
+          kind: Database["public"]["Enums"]["partner_movement_kind"]
+          member_id: string
+          notes: string | null
+          org_id: string
+          reference: string | null
+          status: Database["public"]["Enums"]["partner_movement_status"]
+          updated_at: string
+        }
+        Insert: {
+          amount_cents: number
+          created_at?: string
+          created_by?: string | null
+          effective_on: string
+          id?: string
+          kind: Database["public"]["Enums"]["partner_movement_kind"]
+          member_id: string
+          notes?: string | null
+          org_id: string
+          reference?: string | null
+          status?: Database["public"]["Enums"]["partner_movement_status"]
+          updated_at?: string
+        }
+        Update: {
+          amount_cents?: number
+          created_at?: string
+          created_by?: string | null
+          effective_on?: string
+          id?: string
+          kind?: Database["public"]["Enums"]["partner_movement_kind"]
+          member_id?: string
+          notes?: string | null
+          org_id?: string
+          reference?: string | null
+          status?: Database["public"]["Enums"]["partner_movement_status"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_movements_org_id_fkey"
+            columns: ["org_id"]
+            isOneToOne: false
+            referencedRelation: "orgs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_movements_org_id_member_id_fkey"
+            columns: ["org_id", "member_id"]
+            isOneToOne: false
+            referencedRelation: "members"
             referencedColumns: ["org_id", "id"]
           },
         ]
@@ -8285,6 +8451,8 @@ export type Database = {
         | "consulting"
         | "other"
       client_file_kind: "file" | "link"
+      client_request_kind: "questionnaire" | "material" | "access" | "other"
+      client_request_status: "requested" | "received" | "cancelled"
       client_manual_status:
         | "pending_contact"
         | "lead"
@@ -8356,6 +8524,8 @@ export type Database = {
         | "domain_expiring"
         | "subscription_renewal"
       payment_method: "transfer" | "sepa_debit" | "card" | "cash" | "other"
+      partner_movement_kind: "capital_contribution" | "shareholder_funds_contribution" | "partner_loan" | "loan_repayment" | "expense_reimbursement" | "dividend"
+      partner_movement_status: "proposed" | "approved" | "paid" | "void"
       project_kind:
         | "web"
         | "seo"
@@ -8366,11 +8536,13 @@ export type Database = {
         | "internal"
         | "other"
       project_status: "planned" | "active" | "paused" | "done" | "cancelled"
+      deliverable_status: "planned" | "in_progress" | "review" | "sent" | "accepted" | "cancelled"
       project_task_priority: "low" | "normal" | "high" | "urgent"
       project_task_status: "todo" | "doing" | "review" | "done"
       public_link_kind: "quote" | "client"
       quote_state: "draft" | "sent" | "expired" | "accepted" | "rejected"
       quote_status: "draft" | "sent" | "accepted" | "rejected"
+      quote_send_method: "email" | "whatsapp" | "linkedin" | "other"
       recommendation_confidence: "alta" | "media" | "baja"
       recommendation_kind: "decision" | "alert" | "data_gap"
       recommendation_status:
@@ -8579,6 +8751,8 @@ export const Constants = {
         "other",
       ],
       client_file_kind: ["file", "link"],
+      client_request_kind: ["questionnaire", "material", "access", "other"],
+      client_request_status: ["requested", "received", "cancelled"],
       client_manual_status: [
         "pending_contact",
         "lead",
@@ -8666,11 +8840,13 @@ export const Constants = {
         "other",
       ],
       project_status: ["planned", "active", "paused", "done", "cancelled"],
+      deliverable_status: ["planned", "in_progress", "review", "sent", "accepted", "cancelled"],
       project_task_priority: ["low", "normal", "high", "urgent"],
       project_task_status: ["todo", "doing", "review", "done"],
       public_link_kind: ["quote", "client"],
       quote_state: ["draft", "sent", "expired", "accepted", "rejected"],
       quote_status: ["draft", "sent", "accepted", "rejected"],
+      quote_send_method: ["email", "whatsapp", "linkedin", "other"],
       recommendation_confidence: ["alta", "media", "baja"],
       recommendation_kind: ["decision", "alert", "data_gap"],
       recommendation_status: [
@@ -8709,4 +8885,3 @@ export const Constants = {
     },
   },
 } as const
-

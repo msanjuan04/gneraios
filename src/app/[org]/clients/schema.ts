@@ -17,6 +17,8 @@ export type ClientStatus = Enums<"client_status">;
 
 export const TAX_ID_KINDS = ["es", "eu_vat", "foreign"] as const satisfies readonly TaxIdKind[];
 export const ACTIVITY_KINDS = ["call", "meeting", "email", "note"] as const satisfies readonly ActivityKind[];
+export const MESSAGE_DIRECTIONS = ["incoming", "outgoing", "internal"] as const;
+export const MESSAGE_CHANNELS = ["email", "whatsapp", "phone", "linkedin", "instagram", "other"] as const;
 export const CLIENT_STATUSES = ["lead", "active", "paused", "former"] as const satisfies readonly ClientStatus[];
 
 const EU_VAT = /^[A-Z]{2}[A-Z0-9]{2,12}$/;
@@ -191,10 +193,21 @@ export const activityFormSchema = z.object({
   kind: z.enum(ACTIVITY_KINDS),
   title: requiredText(200),
   body: text(10_000),
+  // Solo para mensajes (kind = email); el resto de actividades los deja vacíos.
+  direction: z.union([z.enum(MESSAGE_DIRECTIONS), z.literal("")]).default(""),
+  channel: z.union([z.enum(MESSAGE_CHANNELS), z.literal("")]).default(""),
+  counterpart: text(254).default(""),
+  external_reference: text(200).default(""),
   /** Hora de pared en la zona de la org, como la da <input type="datetime-local">. */
   occurred_at: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?$/, "dateTime"),
   deal_id: optionalId,
   contact_id: optionalId,
+}).superRefine((values, ctx) => {
+  if (values.kind === "email" && !values.direction) ctx.addIssue({ code: "custom", path: ["direction"], message: "required" });
+  if (values.kind === "email" && !values.channel) ctx.addIssue({ code: "custom", path: ["channel"], message: "required" });
+  if (values.kind !== "email" && (values.direction || values.channel || values.counterpart || values.external_reference)) {
+    ctx.addIssue({ code: "custom", path: ["kind"], message: "messageContextOnly" });
+  }
 });
 
 export type ActivityFormInput = z.input<typeof activityFormSchema>;

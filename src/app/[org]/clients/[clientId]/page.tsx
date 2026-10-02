@@ -104,6 +104,8 @@ export default async function ClientPage({ params }: PageProps<"/[org]/clients/[
     collections,
     rebills,
     vendors,
+    clientRequestsRes,
+    requestFilesRes,
   ] = await Promise.all([
     getCrmConfig(org.id),
     supabase
@@ -146,7 +148,7 @@ export default async function ClientPage({ params }: PageProps<"/[org]/clients/[
     // La vista del timeline no trae el contacto de cada actividad.
     supabase
       .from("activities")
-      .select("id, contact_id")
+      .select("id, contact_id, direction, channel, counterpart, external_reference")
       .eq("org_id", org.id)
       .eq("client_id", client.id)
       .not("contact_id", "is", null),
@@ -161,8 +163,10 @@ export default async function ClientPage({ params }: PageProps<"/[org]/clients/[
     getClientCollections(org, client.id),
     getClientRebills(org.id, client.id),
     getClientVendorCosts(org, client.id),
+    supabase.from("client_requests").select("id, kind, status, title, instructions, requested_at, due_on, received_at, response, client_file_id").eq("org_id", org.id).eq("client_id", client.id).order("requested_at", { ascending: false }),
+    supabase.from("client_files").select("id, title").eq("org_id", org.id).eq("client_id", client.id).order("created_at", { ascending: false }),
   ]);
-  for (const res of [overviewRes, contactsRes, dealsRes, timelineRes, wonRes, activityContactsRes]) {
+  for (const res of [overviewRes, contactsRes, dealsRes, timelineRes, wonRes, activityContactsRes, clientRequestsRes, requestFilesRes]) {
     if (res.error) throw res.error;
   }
 
@@ -207,6 +211,13 @@ export default async function ClientPage({ params }: PageProps<"/[org]/clients/[
   const dealsById = new Map(deals.map((d) => [d.id, d]));
 
   const allContacts = contactsRes.data ?? [];
+  const requestFiles = (requestFilesRes.data ?? []).map((f) => ({ id: f.id, title: f.title }));
+  const filesById = new Map(requestFiles.map((f) => [f.id, f.title]));
+  const requests = (clientRequestsRes.data ?? []).map((r) => ({
+    id: r.id, kind: r.kind, status: r.status, title: r.title, instructions: r.instructions,
+    requestedAt: r.requested_at, dueOn: r.due_on, receivedAt: r.received_at,
+    response: r.response, fileId: r.client_file_id, fileTitle: r.client_file_id ? filesById.get(r.client_file_id) ?? null : null,
+  }));
   const contacts = allContacts
     .filter((c) => c.archived_at === null)
     .map((c) => ({
@@ -221,6 +232,7 @@ export default async function ClientPage({ params }: PageProps<"/[org]/clients/[
     }));
   const contactNames = new Map(allContacts.map((c) => [c.id, c.full_name]));
   const activityContact = new Map((activityContactsRes.data ?? []).map((a) => [a.id, a.contact_id]));
+  const activityMessages = new Map((activityContactsRes.data ?? []).map((a) => [a.id, a]));
 
   const timeline: TimelineEntry[] = timelineRows.slice(0, TIMELINE_LIMIT).flatMap((row): TimelineEntry[] => {
     const author = names.member(row.member_id);
@@ -228,6 +240,7 @@ export default async function ClientPage({ params }: PageProps<"/[org]/clients/[
     if (activityKind) {
       const deal = row.deal_id ? dealsById.get(row.deal_id) : undefined;
       const contactId = activityContact.get(row.event_id);
+      const message = activityMessages.get(row.event_id);
       return [
         {
           type: "activity",
@@ -235,6 +248,10 @@ export default async function ClientPage({ params }: PageProps<"/[org]/clients/[
           kind: activityKind,
           title: row.title ?? "",
           body: row.body,
+          direction: activityKind === "email" ? (message?.direction as "incoming" | "outgoing" | "internal" | null) ?? null : null,
+          channel: activityKind === "email" ? (message?.channel as "email" | "whatsapp" | "phone" | "linkedin" | "instagram" | "other" | null) ?? null : null,
+          counterpart: activityKind === "email" ? message?.counterpart ?? null : null,
+          externalReference: activityKind === "email" ? message?.external_reference ?? null : null,
           at: row.at,
           author,
           deal: deal ? { id: deal.id, title: deal.title } : null,
@@ -312,6 +329,8 @@ export default async function ClientPage({ params }: PageProps<"/[org]/clients/[
     firstInvoiceOn: overview?.first_invoice_on ?? null,
     lastActivityAt: overview?.last_activity_at ?? null,
     contacts,
+    requests,
+    requestFiles,
     deals,
     timeline,
     timelineTruncated: timelineRows.length > TIMELINE_LIMIT,

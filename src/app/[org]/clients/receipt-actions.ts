@@ -40,6 +40,7 @@ export async function saveClientReceipt(
     received_on: parsed.data.received_on,
     amount_cents: parseMoneyInput(parsed.data.amount)!,
     method: parsed.data.method,
+    issuer_id: null,
     concept: parsed.data.concept,
     reference: parsed.data.reference || null,
     project_id: parsed.data.project_id || null,

@@ -58,6 +58,7 @@ export function eventSummary(event: CalendarEvent, t: Translate): string {
         ? t("summary.verifactu")
         : t("summary.fiscal", { model: event.kind ?? event.title, name: t(`fiscal.models.m${event.kind ?? event.title}.short`) });
     case "meeting":
+    case "appointment":
       return event.title;
   }
 }
@@ -86,5 +87,7 @@ export function eventDetail(event: CalendarEvent, t: Translate): string | null {
     case "quote":
     case "meeting":
       return event.subtitle;
+    case "appointment":
+      return event.description ?? null;
   }
 }

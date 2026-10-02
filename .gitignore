@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/.pnpm-store
 /.pnp
 .pnp.*
 .yarn/*
@@ -50,5 +51,6 @@ src/lib/supabase/database.generated.ts.tmp
 
 # Despliegue: el bundle y los códigos de los socios nunca se suben
 deploy/out/
+deploy/backups/
 deploy/codigos-*.txt
 deploy/*.log

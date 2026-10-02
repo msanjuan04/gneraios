@@ -319,6 +319,7 @@
     "accessCode": {
       "title": "Access codes",
       "description": "Each partner signs in with their personal 8-digit code. Here you can see which devices each of them has used it on.",
+      "selfOnlyDescription": "Each partner manages their own code. Here you can review the organization's trusted devices.",
       "selfTitle": "Your access code",
       "none": "No code",
       "created": "Created on {date}",

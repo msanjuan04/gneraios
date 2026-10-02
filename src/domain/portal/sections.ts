@@ -3,7 +3,7 @@
  * esta lista (y su componente): la base de datos solo guarda lo que un socio ha cambiado a mano
  * (client_portal_settings.sections) y el resto toma su valor por defecto.
  */
-export const PORTAL_SECTIONS = ["progress", "work_log", "files", "services", "documents", "requests", "web_data"] as const;
+export const PORTAL_SECTIONS = ["progress", "work_log", "files", "services", "documents", "requests", "web_data", "ads"] as const;
 
 export type PortalSectionKey = (typeof PORTAL_SECTIONS)[number];
 
@@ -16,6 +16,7 @@ export const PORTAL_SECTION_DEFAULTS: Readonly<Record<PortalSectionKey, boolean>
   documents: true,
   requests: true,
   web_data: false,
+  ads: false,
 };
 
 export type PortalSectionFlags = Record<PortalSectionKey, boolean>;

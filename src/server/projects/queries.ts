@@ -3,6 +3,8 @@ import { readOrgSettings } from "@/app/[org]/settings/schema";
 import type {
   MemberHours,
   MyTask,
+  ProjectDeliverable,
+  ProjectDeliveryFile,
   ProjectDetailData,
   ProjectFormOptions,
   ProjectListItem,
@@ -51,6 +53,59 @@ import {
  */
 
 type OrgRef = Pick<Tables<"orgs">, "id" | "settings">;
+
+export type UpcomingDeliverable = {
+  id: string;
+  title: string;
+  dueOn: string;
+  projectId: string;
+  projectName: string;
+  clientName: string;
+};
+
+/** Entregas formales aún abiertas, incluidas las vencidas; no mezcla tareas internas. */
+export async function getUpcomingDeliverables(orgId: string, today: CivilDate): Promise<{ items: UpcomingDeliverable[]; urgentCount: number }> {
+  const db = await createClient();
+  const [listed, urgent] = await Promise.all([
+    db.from("project_deliverables")
+      .select("id, title, due_on, project_id, client_id")
+      .eq("org_id", orgId)
+      .in("status", ["planned", "in_progress", "review"])
+      .not("due_on", "is", null)
+      .lte("due_on", addDays(today, 30))
+      .order("due_on")
+      .order("id")
+      .limit(8),
+    db.from("project_deliverables")
+      .select("id", { count: "exact", head: true })
+      .eq("org_id", orgId)
+      .in("status", ["planned", "in_progress", "review"])
+      .lte("due_on", today),
+  ]);
+  const { data: rows, error } = listed;
+  if (error) throw error;
+  if (urgent.error) throw urgent.error;
+  const urgentCount = urgent.count ?? 0;
+  if (!rows?.length) return { items: [], urgentCount };
+  const projectIds = [...new Set(rows.map((row) => row.project_id))];
+  const clientIds = [...new Set(rows.map((row) => row.client_id))];
+  const [projects, clients] = await Promise.all([
+    db.from("projects").select("id, name").eq("org_id", orgId).in("id", projectIds),
+    db.from("clients").select("id, display_name").eq("org_id", orgId).in("id", clientIds),
+  ]);
+  if (projects.error) throw projects.error;
+  if (clients.error) throw clients.error;
+  const projectNames = new Map((projects.data ?? []).map((row) => [row.id, row.name]));
+  const clientNames = new Map((clients.data ?? []).map((row) => [row.id, row.display_name]));
+  return { urgentCount, items: rows.flatMap((row) => row.due_on ? [{
+    id: row.id,
+    title: row.title,
+    dueOn: row.due_on,
+    projectId: row.project_id,
+    projectName: projectNames.get(row.project_id) ?? "",
+    clientName: clientNames.get(row.client_id) ?? "",
+  }] : []) };
+}
 
 /** Objetivo de €/hora de la org (orgs.settings.target_hourly_rate_cents; 60 €/h por defecto). */
 export function targetHourlyRateCents(org: Pick<Tables<"orgs">, "settings">): number {
@@ -173,7 +228,7 @@ export async function getProjectDetail(org: OrgRef, projectId: string, memberId:
   if (error) throw error;
   if (!row) return null;
 
-  const [taskRows, entryRows, members, revenueRows, siblings, mine] = await Promise.all([
+  const [taskRows, entryRows, members, revenueRows, siblings, mine, deliverableRows, deliveryFileRows] = await Promise.all([
     fetchAll<TaskRow>(
       (from, to) => supabase.from("project_tasks").select(TASK_COLUMNS).eq("project_id", projectId).order("position").order("id").range(from, to),
       "projects.tasks",
@@ -206,6 +261,18 @@ export async function getProjectDetail(org: OrgRef, projectId: string, memberId:
       ? supabase.from("projects").select("id, name").eq("contract_id", row.contract_id).neq("id", projectId).order("name")
       : Promise.resolve({ data: [] as { id: string; name: string }[], error: null }),
     supabase.from("project_tasks").select("id").eq("project_id", projectId).eq("assignee_member_id", memberId).limit(1),
+    row.client_id
+      ? fetchAll(
+          (from, to) => supabase.from("project_deliverables").select("id, title, description, due_on, assignee_member_id, status, client_file_id, sent_at, accepted_at").eq("org_id", org.id).eq("project_id", projectId).order("due_on", { ascending: true, nullsFirst: false }).order("created_at").range(from, to),
+          "projects.deliverables",
+        )
+      : Promise.resolve([]),
+    row.client_id
+      ? fetchAll(
+          (from, to) => supabase.from("client_files").select("id, title, kind, uploaded_at").eq("org_id", org.id).eq("client_id", row.client_id!).order("created_at", { ascending: false }).range(from, to),
+          "projects.deliveryFiles",
+        )
+      : Promise.resolve([]),
   ]);
   if (siblings.error) throw siblings.error;
   if (mine.error) throw mine.error;
@@ -222,6 +289,23 @@ export async function getProjectDetail(org: OrgRef, projectId: string, memberId:
     (e) => e.minutes,
   );
   const tasks = taskRows.map((t) => toTask(t, byTask.get(t.id) ?? 0));
+  const deliverables: ProjectDeliverable[] = deliverableRows.map((d) => ({
+    id: d.id,
+    title: d.title,
+    description: d.description,
+    dueOn: d.due_on,
+    assigneeId: d.assignee_member_id,
+    status: d.status as ProjectDeliverable["status"],
+    clientFileId: d.client_file_id,
+    sentAt: d.sent_at,
+    acceptedAt: d.accepted_at,
+  }));
+  const deliveryFiles: ProjectDeliveryFile[] = deliveryFileRows.map((f) => ({
+    id: f.id,
+    title: f.title,
+    kind: f.kind,
+    uploadedAt: f.uploaded_at,
+  }));
 
   // Series del resumen: desde que empezó (o desde la primera hora o factura) hasta hoy, acotadas.
   const timeRows = logged.map((e) => ({ workedOn: e.workedOn, minutes: e.minutes }));
@@ -255,6 +339,8 @@ export async function getProjectDetail(org: OrgRef, projectId: string, memberId:
       billableMinutes: row.billable_minutes ?? 0,
     },
     tasks,
+    deliverables,
+    deliveryFiles,
     entries,
     members,
     siblings: (siblings.data ?? []).map((s) => ({ id: s.id, name: s.name })),

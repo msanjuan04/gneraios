@@ -48,9 +48,11 @@ export async function composeInvoiceEmail(db: Db, invoiceId: string, template: E
 
 async function invoicePdf(invoiceId: string): Promise<{ filename: string; content: Uint8Array } | null> {
   const admin = createAdminClient();
-  const { data: inv } = await admin.from("invoices").select("pdf_path, number, lifecycle").eq("id", invoiceId).maybeSingle();
+  const { data: inv } = await admin.from("invoices").select("id, org_id, pdf_path, number, lifecycle").eq("id", invoiceId).maybeSingle();
   if (!inv?.pdf_path || inv.lifecycle !== "issued") return null;
-  const { data, error } = await admin.storage.from("invoices").download(inv.pdf_path);
+  const expectedPath = `${inv.org_id}/${inv.id}.pdf`;
+  if (inv.pdf_path !== expectedPath) return null;
+  const { data, error } = await admin.storage.from("invoices").download(expectedPath);
   if (error || !data) return null;
   return { filename: `${(inv.number ?? "factura").replace(/[^\w.-]+/g, "_")}.pdf`, content: new Uint8Array(await data.arrayBuffer()) };
 }
@@ -86,6 +88,9 @@ export async function sendOutboundEmail(
         : row.invoice_id
           ? await invoicePdf(row.invoice_id)
           : null;
+    // Se pidió el PDF y no está (sin copia en Storage, ruta no canónica…): el email queda fallido
+    // en la bandeja para reintentarlo; nunca sale «la factura» sin su documento.
+    if (row.attach_pdf && !attachment) throw new Error("PDF no disponible para adjuntar");
     const { data: org } = await db.from("orgs").select("name").eq("id", row.org_id).single();
     const sent = await provider.send({
       from: emailFrom(org?.name ?? "GNERAI"),

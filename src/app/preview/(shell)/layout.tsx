@@ -1,7 +1,7 @@
 import { brand } from "@/brand";
 import { AppShell } from "@/components/app-shell/app-shell";
 
-/** La interfaz real con datos de ejemplo, para verla sin base de datos. */
+/** Estructura de la interfaz sin base de datos ni cifras inventadas. */
 export default function PreviewShellLayout({ children }: { children: React.ReactNode }) {
   return (
     <AppShell

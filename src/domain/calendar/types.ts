@@ -16,6 +16,7 @@ export const CALENDAR_EVENT_TYPES = [
   "deal",
   "task",
   "meeting",
+  "appointment",
   "milestone",
   "billing",
   "renewal",
@@ -54,7 +55,8 @@ export type CalendarSourceTable =
   | "activities"
   | "issuers"
   | "project_tasks"
-  | "projects";
+  | "projects"
+  | "calendar_entries";
 
 export type CalendarSource = { table: CalendarSourceTable; id: string };
 
@@ -130,6 +132,11 @@ export type CalendarEvent = {
   time: string | null;
   /** Instante exacto (ISO 8601) de los eventos con hora. */
   startsAt: string | null;
+  /** Solo citas editables: fin exacto y descripción. */
+  endsAt?: string | null;
+  description?: string | null;
+  /** Inicio original de una cita que se muestra en varios días. */
+  appointmentStart?: { date: CivilDate; time: string | null };
   /** El texto de la propia fuente: número de factura, próxima acción, título, etiqueta del hito… */
   title: string;
   subtitle: string | null;

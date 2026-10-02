@@ -110,6 +110,10 @@
       "web_data": {
         "title": "Datos de tu web",
         "description": "Cifras medidas de Search Console y Analytics. Apagado por defecto."
+      },
+      "ads": {
+        "title": "Ads",
+        "description": "Solo campañas asignadas a este cliente y marcadas como visibles. Apagado por defecto."
       }
     },
     "files": {

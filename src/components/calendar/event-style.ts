@@ -1,5 +1,6 @@
 import {
   Banknote,
+  CalendarPlus,
   BellRing,
   FileSignature,
   FileText,
@@ -29,6 +30,7 @@ export const TYPE_COLORS: Record<CalendarEventType, string> = {
   deal: "var(--chart-1)",
   task: "color-mix(in oklab, var(--chart-2) 55%, var(--destructive))",
   meeting: "color-mix(in oklab, var(--chart-1) 45%, var(--success))",
+  appointment: "var(--chart-3)",
   milestone: "var(--chart-2)",
   billing: "color-mix(in oklab, var(--chart-2) 55%, var(--chart-1))",
   renewal: "var(--chart-3)",
@@ -44,6 +46,7 @@ export const TYPE_ICONS: Record<CalendarEventType, LucideIcon> = {
   deal: Target,
   task: ListChecks,
   meeting: Users,
+  appointment: CalendarPlus,
   milestone: Flag,
   billing: Repeat,
   renewal: RefreshCw,

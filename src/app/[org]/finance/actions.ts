@@ -241,6 +241,50 @@ export async function setVendorArchived(slug: string, vendorId: string, archived
   return { ok: true };
 }
 
+const partnerMovementSchema = z.object({
+  member_id: z.guid(),
+  kind: z.enum(["capital_contribution", "shareholder_funds_contribution", "partner_loan", "loan_repayment", "expense_reimbursement", "dividend"]),
+  amount_cents: z.number().int().positive(),
+  effective_on: z.iso.date(),
+  reference: z.string().trim().max(200),
+  notes: z.string().trim().max(2000),
+});
+
+/** Registro interno propuesto; no contabiliza ni liquida impuestos. */
+export async function createPartnerMovement(slug: string, input: z.input<typeof partnerMovementSchema>): Promise<ActionResult> {
+  const ctx = await partnerContext(slug);
+  if (!ctx) return forbidden();
+  const parsed = partnerMovementSchema.safeParse(input);
+  if (!parsed.success) return invalidInput();
+  const supabase = await createClient();
+  const { error } = await supabase.from("partner_movements").insert({
+    org_id: ctx.org.id,
+    member_id: parsed.data.member_id,
+    kind: parsed.data.kind,
+    amount_cents: parsed.data.amount_cents,
+    effective_on: parsed.data.effective_on,
+    reference: parsed.data.reference || null,
+    notes: parsed.data.notes || null,
+    status: "proposed",
+  });
+  if (error) return financeFailure(error, "createPartnerMovement");
+  revalidateFinance(ctx.org.slug);
+  return { ok: true };
+}
+
+export async function updatePartnerMovementStatus(slug: string, movementId: string, status: "approved" | "paid" | "void"): Promise<ActionResult> {
+  const ctx = await ownerContext(slug);
+  if (!ctx) return forbidden();
+  const id = idSchema.safeParse(movementId);
+  if (!id.success || !["approved", "paid", "void"].includes(status)) return invalidInput();
+  const supabase = await createClient();
+  const { data, error } = await supabase.from("partner_movements").update({ status }).eq("org_id", ctx.org.id).eq("id", id.data).select("id");
+  if (error) return financeFailure(error, "updatePartnerMovementStatus");
+  if (data.length === 0) return failure("finance.errors.notFound");
+  revalidateFinance(ctx.org.slug);
+  return { ok: true };
+}
+
 // ---------------------------------------------------------------------------
 // Suscripciones
 // ---------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, Rss, UserRound } from "lucide-react";
+import { ChevronLeft, ChevronRight, Plus, Rss, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Kbd } from "@/components/ui/kbd";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
@@ -30,6 +30,8 @@ type Props = {
   onToggleMine: () => void;
   onResetFilters: (() => void) | null;
   onSubscribe: () => void;
+  onCreate: () => void;
+  canCreate: boolean;
 };
 
 /** Cabecera del calendario: periodo, hoy, anterior/siguiente, vista, filtros por tipo y "solo lo mío". */
@@ -104,7 +106,8 @@ export function CalendarToolbar(props: Props) {
           ))}
         </div>
 
-        <Button variant="outline" size="sm" className="ml-auto" onClick={props.onSubscribe}>
+        {props.canCreate && <Button size="sm" className="ml-auto" onClick={props.onCreate}><Plus data-icon="inline-start" />{text.t("toolbar.newEvent")}</Button>}
+        <Button variant="outline" size="sm" className={props.canCreate ? "" : "ml-auto"} onClick={props.onSubscribe}>
           <Rss data-icon="inline-start" />
           {text.t("toolbar.subscribe")}
         </Button>

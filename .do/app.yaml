@@ -28,7 +28,7 @@ services:
       - key: NEXT_PUBLIC_APP_URL
         scope: RUN_AND_BUILD_TIME
         type: GENERAL
-        value: https://os.gnerai.com
+        value: https://gneraios.gnerai.com
       - key: SUPABASE_SECRET_KEY
         scope: RUN_TIME
         type: SECRET

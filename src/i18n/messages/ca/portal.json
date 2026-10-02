@@ -110,6 +110,10 @@
       "web_data": {
         "title": "Dades del teu web",
         "description": "Xifres mesurades de Search Console i Analytics. Desactivat per defecte."
+      },
+      "ads": {
+        "title": "Ads",
+        "description": "Només campanyes assignades a aquest client i marcades com a visibles. Desactivat per defecte."
       }
     },
     "files": {

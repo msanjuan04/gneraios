@@ -22,7 +22,7 @@
       "jobsTitle": "Importacions",
       "jobsDescription": "Les últimes 20. Una de confirmada es queda com a historial del que es va importar.",
       "exportTitle": "Exportar per a la gestoria",
-      "exportDescription": "El llibre registre de factures expedides de cada emissor, per trimestre o per any: una fila per tipus d'IVA de cada factura, com demana l'AEAT, amb els totals al final."
+      "exportDescription": "Prepara un paquet per emissor i període amb factures emeses, despeses, cobraments i justificants disponibles. El manifest indica documents absents i cobraments sense emissor; revisa el tancament amb l'assessoria."
     },
     "kinds": {
       "clients": "Clients",
@@ -391,12 +391,17 @@
       "csv": "CSV per a Excel",
       "xlsx": "Excel (XLSX)",
       "zip": "ZIP amb els PDF",
-      "hint": "Només factures emeses. El ZIP inclou el llibre i els PDF de les factures del període.",
+      "hint": "CSV/XLSX descarreguen el llibre de vendes. El ZIP agrupa vendes, despeses, pagaments, cobraments sense factura i justificants disponibles, separats per emissor.",
       "pdfFolder": "factures",
+      "expenseFolder": "justificants-despeses",
+      "historicalFolder": "factures-originals-importades",
       "readmeName": "LLEGEIX-ME.txt",
       "readmeImported": "Factures importades de l'històric, que no tenen PDF a GNERAI OS (es van emetre amb una altra eina): {numbers}.",
       "readmeMissing": "No s'ha pogut llegir el PDF de: {numbers}.",
-      "readmeIssuing": "{count, plural, one {Hi ha # factura a mig emetre} other {Hi ha # factures a mig emetre}} en el període: no entren al llibre fins que es completin."
+      "readmeIssuing": "{count, plural, one {Hi ha # factura a mig emetre} other {Hi ha # factures a mig emetre}} en el període: no entren al llibre fins que es completin.",
+      "readmeNoExpenseFile": "Despeses sense justificant adjunt a GNERAI OS: {items}.",
+      "readmeUnassigned": "Hi ha {count} cobraments sense factura i sense emissor assignat en el període. No s'atribueixen a aquest emissor.",
+      "readmeScope": "Exportació operativa per a revisió de l'assessoria. No inclou extractes bancaris ni certifica conciliació o tractament fiscal. Comprova la integritat dels imports històrics, adjunts i originals."
     },
     "ledger": {
       "sheet": "Llibre registre",

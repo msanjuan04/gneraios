@@ -86,6 +86,20 @@ export type ProjectTask = {
   loggedMinutes: number;
 };
 
+export type ProjectDeliverable = {
+  id: string;
+  title: string;
+  description: string | null;
+  dueOn: CivilDate | null;
+  assigneeId: string | null;
+  status: "planned" | "in_progress" | "review" | "sent" | "accepted" | "cancelled";
+  clientFileId: string | null;
+  sentAt: string | null;
+  acceptedAt: string | null;
+};
+
+export type ProjectDeliveryFile = { id: string; title: string; kind: "file" | "link"; uploadedAt: string | null };
+
 export type TimeEntry = {
   id: string;
   memberId: string;
@@ -107,6 +121,8 @@ export type ProjectDetailData = {
     billableMinutes: number;
   };
   tasks: ProjectTask[];
+  deliverables: ProjectDeliverable[];
+  deliveryFiles: ProjectDeliveryFile[];
   entries: TimeEntry[];
   members: MemberRef[];
   /** Otros proyectos con el mismo contrato (con los que se reparte lo facturado). */

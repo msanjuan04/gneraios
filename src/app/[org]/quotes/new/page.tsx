@@ -63,6 +63,7 @@ export default async function NewQuotePage({ params, searchParams }: Props) {
     rejectionReason: null,
     contract: null,
     emails: [],
+    manualVersions: [],
     options,
   };
   return <QuoteEditor slug={org.slug} basePath={`/${org.slug}`} today={today} data={data} />;

@@ -1,7 +1,8 @@
 "use client";
 
 import { DndContext, type DragEndEvent, DragOverlay, type DragStartEvent, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
-import { CalendarDays, Clock3, Rss } from "lucide-react";
+import { CalendarDays, Clock3, RefreshCw, Rss } from "lucide-react";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useOptimistic, useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
@@ -30,6 +31,7 @@ import { rescheduleDealAction, rescheduleMilestoneAction, rescheduleTaskAction }
 import type { MemberFeed } from "@/server/calendar/feeds";
 import { AgendaList, type AgendaMember } from "./agenda-list";
 import { CalendarToolbar } from "./calendar-toolbar";
+import { CalendarEntryEditor } from "./entry-editor";
 import { EventChip } from "./event-chip";
 import { CalendarSheet, type SheetState } from "./event-sheet";
 import { MonthGrid } from "./month-grid";
@@ -55,6 +57,10 @@ export type CalendarViewProps = {
   money: MoneyFormat;
   feed: MemberFeed | null;
   localAppUrl: boolean;
+  timeZone: string;
+  googleConfigured: boolean;
+  googleConnection: { account_email: string; calendar_id: string | null; last_synced_at: string | null; last_error: string | null } | null;
+  googleError?: string | null;
 };
 
 type Move = { event: CalendarEvent; date: CivilDate };
@@ -87,9 +93,15 @@ function CalendarScreen(props: CalendarViewProps) {
   );
   const [sheet, setSheet] = useState<SheetState>(null);
   const [subscribeOpen, setSubscribeOpen] = useState(false);
+  const [editor, setEditor] = useState<{ date: CivilDate; event: CalendarEvent | null } | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
 
   const members = useMemo(() => new Map(props.members.map((m) => [m.id, m])), [props.members]);
+  useEffect(() => {
+    if (!props.googleConnection) return;
+    const timer = window.setInterval(() => { if (document.visibilityState === "visible") router.refresh(); }, 120_000);
+    return () => window.clearInterval(timer);
+  }, [props.googleConnection, router]);
   const memberFilter = filters.mine ? props.currentMemberId : null;
   const ofMember = useMemo(() => filterEvents(events, { types: CALENDAR_EVENT_TYPES, memberId: memberFilter }), [events, memberFilter]);
   const visible = useMemo(() => filterEvents(ofMember, { types: filters.types, memberId: null }), [ofMember, filters.types]);
@@ -192,6 +204,15 @@ function CalendarScreen(props: CalendarViewProps) {
 
   return (
     <div className="mx-auto max-w-[96rem] space-y-4">
+      <div className="flex flex-wrap items-center gap-2 rounded-2xl border bg-card/60 px-3 py-2.5 text-sm">
+        <span className="font-semibold">{props.googleConnection?.calendar_id ? "GNERAI OS · Google Calendar" : "Google Calendar"}</span>
+        <span className="min-w-0 flex-1 truncate text-muted-foreground">
+          {props.googleConnection ? props.googleConnection.account_email || text.t("google.connected") : text.t(props.googleConfigured ? "google.disconnected" : "google.setupNeeded")}
+        </span>
+        {props.googleConnection && <Button variant="outline" size="sm" onClick={() => router.refresh()}><RefreshCw data-icon="inline-start" />{text.t("toolbar.googleSync")}</Button>}
+        {!props.googleConnection && props.googleConfigured && canMove && <Button variant="outline" size="sm" asChild><Link href={`/api/integrations/calendar/start?org=${encodeURIComponent(slug)}`}>{text.t("toolbar.googleConnect")}</Link></Button>}
+        {(props.googleConnection?.last_error || props.googleError) && <p className="basis-full text-xs text-destructive">{text.t("google.syncProblem")}</p>}
+      </div>
       <CalendarToolbar
         view={state.view}
         anchor={state.date}
@@ -208,6 +229,8 @@ function CalendarScreen(props: CalendarViewProps) {
         onToggleMine={() => updateFilters({ ...filters, mine: !filters.mine })}
         onResetFilters={filtersAreDefault ? null : () => updateFilters({ types: [...DEFAULT_EVENT_TYPES], mine: false })}
         onSubscribe={() => setSubscribeOpen(true)}
+        onCreate={() => setEditor({ date: state.date, event: null })}
+        canCreate={canMove}
       />
 
       {state.view !== "agenda" && overdue.length > 0 && (
@@ -262,7 +285,10 @@ function CalendarScreen(props: CalendarViewProps) {
         basePath={props.basePath}
         canMove={canMove}
         onMove={commitMove}
+        onEditAppointment={(event) => setEditor({ date: event.date, event })}
+        onAddAppointment={(date) => setEditor({ date, event: null })}
       />
+      {editor && <CalendarEntryEditor key={`${editor.event?.id ?? "new"}:${editor.date}`} open onOpenChange={(open) => { if (!open) setEditor(null); }} slug={slug} date={editor.date} event={editor.event} timeZone={props.timeZone} />}
       <SubscribeDialog open={subscribeOpen} onOpenChange={setSubscribeOpen} slug={slug} feed={props.feed} localAppUrl={props.localAppUrl} />
     </div>
   );

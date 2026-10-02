@@ -22,7 +22,7 @@
       "jobsTitle": "Importaciones",
       "jobsDescription": "Las últimas 20. Una confirmada se queda como historial de lo que se importó.",
       "exportTitle": "Exportar para la gestoría",
-      "exportDescription": "El libro registro de facturas expedidas de cada emisor, por trimestre o por año: una fila por tipo de IVA de cada factura, como pide la AEAT, con los totales al final."
+      "exportDescription": "Prepara un paquete por emisor y periodo con facturas emitidas, gastos, cobros y justificantes disponibles. El manifiesto señala documentos ausentes y cobros sin emisor; revisa el cierre con tu asesoría."
     },
     "kinds": {
       "clients": "Clientes",
@@ -391,12 +391,17 @@
       "csv": "CSV para Excel",
       "xlsx": "Excel (XLSX)",
       "zip": "ZIP con los PDF",
-      "hint": "Solo facturas emitidas. El ZIP incluye el libro y los PDF de las facturas del periodo.",
+      "hint": "CSV/XLSX descargan el libro de ventas. El ZIP reúne ventas, gastos, pagos, cobros sin factura y justificantes disponibles, separados por emisor.",
       "pdfFolder": "facturas",
+      "expenseFolder": "justificantes-gastos",
+      "historicalFolder": "facturas-originales-importadas",
       "readmeName": "LEEME.txt",
       "readmeImported": "Facturas importadas del histórico, que no tienen PDF en GNERAI OS (se emitieron en otra herramienta): {numbers}.",
       "readmeMissing": "No se ha podido leer el PDF de: {numbers}.",
-      "readmeIssuing": "{count, plural, one {Hay # factura a medio emitir} other {Hay # facturas a medio emitir}} en el periodo: no entran en el libro hasta que se completen."
+      "readmeIssuing": "{count, plural, one {Hay # factura a medio emitir} other {Hay # facturas a medio emitir}} en el periodo: no entran en el libro hasta que se completen.",
+      "readmeNoExpenseFile": "Gastos sin justificante adjunto en GNERAI OS: {items}.",
+      "readmeUnassigned": "Hay {count} cobros sin factura y sin emisor asignado en el periodo. No se atribuyen a este emisor.",
+      "readmeScope": "Exportación operativa para revisión de asesoría. No incluye extractos bancarios ni certifica conciliación o tratamiento fiscal. Comprueba que adjuntos, importaciones históricas y documentos originales estén completos."
     },
     "ledger": {
       "sheet": "Libro registro",

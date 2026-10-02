@@ -437,7 +437,7 @@ export class FixtureCouncilData implements CouncilData {
       inputVat: f.expenses.filter((e) => e.inputVatCents).map((e) => ({ issuerId: e.issuerId ?? DEFAULT_ISSUER.id, on: e.month, cents: e.inputVatCents! })),
       withholdings: f.expenses.filter((e) => e.withheldCents).map((e) => ({ issuerId: e.issuerId ?? DEFAULT_ISSUER.id, on: e.month, cents: e.withheldCents! })),
       accounts: f.accounts.map((a) => ({ accountId: a.id, issuerId: a.issuerId ?? DEFAULT_ISSUER.id, isActive: a.isActive ?? true, balanceOn: a.balanceOn, balanceCents: a.balanceCents, name: a.name })),
-      movements: this.paymentsAll.map((p) => ({ issuerId: issuerOf.get(p.invoiceId) ?? DEFAULT_ISSUER.id, on: p.paidOn, cents: p.amountCents })),
+      movements: this.paymentsAll.map((p) => ({ accountId: null, issuerId: issuerOf.get(p.invoiceId) ?? DEFAULT_ISSUER.id, on: p.paidOn, cents: p.amountCents })),
       subscriptions: [],
       generatedStarts: new Map(),
       fixedCategoryIds: new Set(),

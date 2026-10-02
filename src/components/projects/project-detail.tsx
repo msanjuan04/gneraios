@@ -46,6 +46,7 @@ import { DETAIL_TABS, type DetailTab } from "./constants";
 import { SummaryTab } from "./summary-tab";
 import { TaskBoard } from "./task-board";
 import { TimeTab } from "./time-tab";
+import { DeliverablesPanel } from "./deliverables-panel";
 import type { ProjectDetailData, ProjectFormOptions, ProjectViewer } from "./types";
 
 type Props = {
@@ -307,6 +308,10 @@ export function ProjectDetail({ data, viewer, options, initial }: Props) {
             {t("tabs.tasks")}
             <span className="text-xs text-muted-foreground tabular">{data.tasks.length}</span>
           </TabsTrigger>
+          <TabsTrigger value="deliveries" className="px-3">
+            {t("tabs.deliveries")}
+            <span className="text-xs text-muted-foreground tabular">{data.deliverables.length}</span>
+          </TabsTrigger>
           <TabsTrigger value="time" className="px-3">
             {t("tabs.time")}
             <span className="text-xs text-muted-foreground tabular">{fmt.hours(project.loggedMinutes)}</span>
@@ -331,6 +336,17 @@ export function ProjectDetail({ data, viewer, options, initial }: Props) {
         </TabsContent>
         <TabsContent value="time">
           <TimeTab data={data} viewer={viewer} canEdit={canEdit} />
+        </TabsContent>
+        <TabsContent value="deliveries">
+          <DeliverablesPanel
+            projectId={project.id}
+            clientId={project.clientId}
+            deliverables={data.deliverables}
+            files={data.deliveryFiles}
+            members={data.members}
+            viewer={viewer}
+            canEdit={canEdit}
+          />
         </TabsContent>
         <TabsContent value="summary">
           <SummaryTab data={data} />

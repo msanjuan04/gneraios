@@ -262,6 +262,17 @@
           "measured": "Dades mesurades tal qual, sense estimacions ni previsions.",
           "demo": "Dades de demostració.",
           "empty": "Encara no hi ha dades mesurades del teu web."
+        },
+        "ads": {
+          "title": "Les teves campanyes d'Ads",
+          "subtitle": "Resultats de campanyes compartides amb tu.",
+          "range": "Del {from} al {to}",
+          "impressions": "Impressions",
+          "clicks": "Clics",
+          "ctr": "CTR",
+          "spend": "Inversió",
+          "measured": "Dades mesurades per ChatGPT Ads. La inversió publicitària és independent de les factures de GNERAI.",
+          "empty": "Encara no hi ha campanyes publicades al teu espai."
         }
       }
     }

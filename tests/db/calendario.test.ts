@@ -96,6 +96,42 @@ beforeEach(async () => {
   );
 });
 
+describe("citas privadas y conexión Google", () => {
+  it("cada socio ve y modifica solo sus citas; un owner no ve las de otro", async () => {
+    const entry = await as(db, partner, () => one<{ id: string }>(
+      `insert into public.calendar_entries (org_id, member_id, title, starts_at, ends_at)
+       values ($1, $2, 'Reunión privada', '2026-10-01T10:00:00Z', '2026-10-01T11:00:00Z') returning id`,
+      [orgId, members.partner],
+    ));
+    const visible = (user: string) => as(db, user, () => all<{ id: string }>(
+      "select id from public.calendar_entries where org_id = $1", [orgId],
+    ));
+    expect(await visible(partner)).toEqual([{ id: entry.id }]);
+    expect(await visible(owner)).toEqual([]);
+    expect(await visible(viewer)).toEqual([]);
+    expect(await visible(intruder)).toEqual([]);
+    expect((await as(db, owner, () => db.query("update public.calendar_entries set title = 'Invadida' where id = $1 returning id", [entry.id]))).rows).toHaveLength(0);
+    await expect(as(db, partner, () => db.query(
+      `insert into public.calendar_entries (org_id, member_id, title, starts_at, ends_at)
+       values ($1, $2, 'Ajena', '2026-10-01T10:00:00Z', '2026-10-01T11:00:00Z')`,
+      [orgId, members.owner],
+    ))).rejects.toThrow();
+  });
+
+  it("la conexión expone estado propio pero nunca el token cifrado", async () => {
+    await asService(() => db.query(
+      "insert into public.google_calendar_connections (org_id, member_id, account_email, refresh_token_ciphertext) values ($1, $2, 'personal@example.com', 'sealed-secret')",
+      [orgId, members.partner],
+    ));
+    const rows = await as(db, partner, () => all<{ account_email: string }>(
+      "select account_email from public.google_calendar_connections where org_id = $1", [orgId],
+    ));
+    expect(rows).toEqual([{ account_email: "personal@example.com" }]);
+    expect(await as(db, owner, () => all("select account_email from public.google_calendar_connections where org_id = $1", [orgId]))).toEqual([]);
+    await expect(as(db, partner, () => db.query("select refresh_token_ciphertext from public.google_calendar_connections"))).rejects.toThrow(/permission denied/);
+  });
+});
+
 describe("enlaces ICS", () => {
   it("cualquier miembro activo crea el suyo, y crear otro revoca el anterior", async () => {
     const first = await createFeed(viewer);

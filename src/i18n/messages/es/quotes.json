@@ -235,7 +235,8 @@
       "contract": "Contrato: {title}",
       "rejected": "Rechazado el {date}",
       "emails": "Envíos",
-      "noEmails": "Aún no se ha enviado por email."
+      "noEmails": "Aún no se ha enviado por email.",
+      "downloadSentCopy": "Descargar copia enviada"
     },
     "notFound": {
       "title": "Este presupuesto no existe",

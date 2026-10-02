@@ -8,6 +8,7 @@ import { nowInZone } from "@/lib/clock";
 import { createClient } from "@/lib/supabase/server";
 import { getCalendarEvents } from "@/server/calendar/events";
 import { getMyActiveFeed, isLocalAppUrl } from "@/server/calendar/feeds";
+import { calendarGoogleConfig, syncGoogleCalendar } from "@/server/calendar/google";
 import { getCrmConfig } from "@/server/crm/config";
 import { getOrgContext, hasRole } from "@/server/session";
 
@@ -34,12 +35,14 @@ export default async function CalendarPage(props: Props) {
   const state = parseCalendarState(searchParams, today, defaultView);
   const range = viewRange(state.view, state.date);
   const supabase = await createClient();
+  await syncGoogleCalendar(org.id, member.id, org.timezone, range.from, range.to);
 
-  const [events, config, feed] = await Promise.all([
+  const [events, config, feed, googleConnection] = await Promise.all([
     // Todos los tipos (filtrar es instantáneo en el navegador) y, si se ve hoy, lo atrasado de antes.
-    getCalendarEvents(supabase, org.id, { from: range.from, to: range.to, includeOverdue: inRange(today, range), org }),
+    getCalendarEvents(supabase, org.id, { from: range.from, to: range.to, includeOverdue: inRange(today, range), org, personalMemberId: member.id }),
     getCrmConfig(org.id),
     getMyActiveFeed(supabase, org.id, member.id),
+    supabase.from("google_calendar_connections").select("account_email, calendar_id, last_synced_at, last_error").eq("org_id", org.id).eq("member_id", member.id).maybeSingle(),
   ]);
 
   return (
@@ -59,6 +62,10 @@ export default async function CalendarPage(props: Props) {
       money={{ locale: org.locale, currency: org.currency }}
       feed={feed}
       localAppUrl={isLocalAppUrl()}
+      timeZone={org.timezone}
+      googleConfigured={calendarGoogleConfig() !== null}
+      googleConnection={googleConnection.data}
+      googleError={typeof searchParams.google_error === "string" ? searchParams.google_error : null}
     />
   );
 }

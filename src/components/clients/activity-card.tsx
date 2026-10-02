@@ -188,6 +188,14 @@ export function ActivityCard({ slug, basePath, clientId, timeline, truncated, ti
                         <span className="font-semibold">{entry.title}</span>
                         <span className="text-xs text-muted-foreground">{tKind(entry.kind)}</span>
                       </p>
+                      {entry.kind === "email" && (entry.direction || entry.channel) && (
+                        <p className="mt-1 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
+                          {entry.direction && <span className="rounded-full border px-2 py-0.5">{t(`directions.${entry.direction}`)}</span>}
+                          {entry.channel && <span className="rounded-full border px-2 py-0.5">{t(`channels.${entry.channel}`)}</span>}
+                          {entry.counterpart && <span>{entry.counterpart}</span>}
+                          {entry.externalReference && <span className="font-mono">{entry.externalReference}</span>}
+                        </p>
+                      )}
                       {entry.body && <p className="mt-1 whitespace-pre-line break-words text-muted-foreground">{entry.body}</p>}
                     </>
                   ) : entry.type === "billing" ? (
@@ -235,7 +243,7 @@ export function ActivityCard({ slug, basePath, clientId, timeline, truncated, ti
                   </div>
                 </div>
 
-                {canEdit && entry.type === "activity" && (
+                {canEdit && entry.type === "activity" && entry.kind !== "email" && (
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Button

@@ -1,4 +1,4 @@
-import { randomUUID } from "node:crypto";
+import { createHash, randomUUID } from "node:crypto";
 import { beforeEach, describe, expect, it } from "vitest";
 import { addDays } from "@/domain/dates/civil-date";
 import { lineBaseCents } from "@/domain/metrics/mrr";
@@ -495,8 +495,10 @@ describe("rechazar, caducar y borrar", () => {
     const quote = await exampleQuote();
     await finalize(quote);
     await asOwner(
-      `insert into public.outbound_emails (org_id, quote_id, client_id, template, language, to_emails, subject, body, status, sent_at)
-       values ($1, $2, $3, 'quote', 'es', '{cliente@example.com}', 'Presupuesto', 'Hola', 'sent', now()) returning id`,
+      `insert into public.outbound_emails (org_id, quote_id, client_id, template, language, to_emails, subject, body, status, sent_at,
+        quote_document_snapshot, quote_pdf_snapshot, quote_pdf_sha256)
+       values ($1, $2, $3, 'quote', 'es', '{cliente@example.com}', 'Presupuesto', 'Hola', 'sent', now(),
+        '{"title":"Propuesta"}'::jsonb, decode('504446', 'hex'), repeat('a', 64)) returning id`,
       [orgId, quote, clientId],
     );
     const invoice = (
@@ -562,5 +564,52 @@ describe("RLS de presupuestos", () => {
     ).rejects.toThrow(/permission denied/);
     await expect(asOwner("update public.quotes set title = 'Directo' where id = $1 returning id", [draft])).rejects.toThrow(/permission denied/);
     await expect(asOwner("delete from public.quote_lines where quote_id = $1 returning id", [draft])).rejects.toThrow(/permission denied/);
+  });
+});
+
+describe("copia exacta del presupuesto enviado", () => {
+  it("exige snapshot antes de marcar enviado y no permite reescribirlo", async () => {
+    const quote = await exampleQuote();
+    await finalize(quote);
+    const bytes = Buffer.from("%PDF exact proposal version");
+    const hash = createHash("sha256").update(bytes).digest("hex");
+    await expect(asOwner(
+      `insert into public.outbound_emails (org_id, quote_id, client_id, template, language, to_emails, subject, body, status, sent_at)
+       values ($1, $2, $3, 'quote', 'es', array['cliente@example.com'], 'Propuesta', 'Texto', 'sent', now())`,
+      [orgId, quote, clientId],
+    )).rejects.toMatchObject({ hint: "quote_snapshot_required" });
+
+    const sent = await asOwner<{ id: string }>(
+      `insert into public.outbound_emails (org_id, quote_id, client_id, template, language, to_emails, subject, body, status,
+        quote_document_snapshot, quote_pdf_snapshot, quote_pdf_sha256)
+       values ($1, $2, $3, 'quote', 'es', array['cliente@example.com'], 'Propuesta', 'Texto', 'pending_approval',
+        '{"title":"Propuesta congelada"}'::jsonb, decode($4, 'hex'), $5) returning id`,
+      [orgId, quote, clientId, bytes.toString("hex"), hash],
+    );
+    await asOwner("update public.outbound_emails set status = 'sent', sent_at = now() where id = $1", [sent.id]);
+    await expect(asOwner("update public.outbound_emails set quote_pdf_sha256 = repeat('0', 64) where id = $1", [sent.id]))
+      .rejects.toMatchObject({ hint: "quote_snapshot_immutable" });
+    const stored = await one<{ hash: string; bytes: string }>("select quote_pdf_sha256 as hash, encode(quote_pdf_snapshot, 'hex') as bytes from public.outbound_emails where id = $1", [sent.id]);
+    expect(stored).toEqual({ hash, bytes: bytes.toString("hex") });
+  });
+
+  it("guarda envíos manuales aparte del email y no permite alterar la evidencia", async () => {
+    const quote = await exampleQuote();
+    await finalize(quote);
+    const bytes = Buffer.from("%PDF manual proposal");
+    const hash = createHash("sha256").update(bytes).digest("hex");
+    const version = await asOwner<{ id: string }>(
+      `insert into public.quote_sent_versions (org_id, quote_id, method, recipient, note, document_snapshot, pdf_snapshot, pdf_sha256)
+       values ($1, $2, 'whatsapp', '+34600000000', 'Se envió por WhatsApp', '{"title":"Propuesta enviada"}', decode($3, 'hex'), $4) returning id`,
+      [orgId, quote, bytes.toString("hex"), hash],
+    );
+    await expect((async () => db.query("update public.quote_sent_versions set note = 'alterado' where id = $1", [version.id])))
+      .rejects.toMatchObject({ hint: "quote_snapshot_immutable" });
+    const outsider = await createUser(db, "version-outsider@example.com");
+    await as(db, outsider, async () => expect((await db.query("select * from public.quote_sent_versions")).rows).toHaveLength(0));
+    const stored = await one<{ method: string; recipient: string; hash: string; pdf: string }>(
+      "select method, recipient, pdf_sha256 as hash, encode(pdf_snapshot, 'hex') as pdf from public.quote_sent_versions where id = $1", [version.id],
+    );
+    expect(stored).toEqual({ method: "whatsapp", recipient: "+34600000000", hash, pdf: bytes.toString("hex") });
   });
 });

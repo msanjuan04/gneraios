@@ -7,7 +7,7 @@ import { CodeStatusLine, GenerateCodeButton, TrustedDeviceList } from "@/compone
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { generateMemberAccessCode, revokeMemberDevice } from "@/server/auth/actions";
+import { generateMyAccessCode, revokeMemberDevice } from "@/server/auth/actions";
 import type { AccessStatus } from "@/server/auth/access-code";
 
 /** Un socio en la lista de códigos: su estado, generar o cambiar su código y sus dispositivos. */
@@ -60,12 +60,14 @@ export function MemberAccessCodeRow({
           {t("devicesCount", { count })}
           {count > 0 && <ChevronDown data-icon="inline-end" className={cn("transition-transform", open && "rotate-180")} />}
         </Button>
-        <GenerateCodeButton
-          hasCode={status.hasCode}
-          self={isSelf}
-          name={name}
-          generate={() => generateMemberAccessCode(slug, memberId)}
-        />
+        {isSelf && (
+          <GenerateCodeButton
+            hasCode={status.hasCode}
+            self
+            name={name}
+            generate={() => generateMyAccessCode(slug)}
+          />
+        )}
       </div>
       {open && count > 0 && (
         <div className="mt-3 sm:pl-11">

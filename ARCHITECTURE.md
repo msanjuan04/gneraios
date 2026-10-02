@@ -3,6 +3,7 @@
 > **Estado:** v0.6 · 26/09/2026 · hitos 1.0 y 1.1 hechos; **hitos 1.2 (contratos y facturación), 1.3 (presupuestos) y 1.4 (dashboard) implementados, más el módulo de SEO adelantado de la fase 2: pendientes de vuestra validación**. El diseño del Consejo de agentes está en `CONSEJO.md`.
 > **Cambios frente a la v0.1:** la app adopta la estética de gnerai.com (§9) y no se usará Holded de momento (§7.6).
 > Cubre el modelo de datos, las decisiones y el plan por fases. Lo que necesito de vosotros está en el §16.
+> **Actualización de producto (01/10/2026):** el plan vigente de pantallas y fases está en [`docs/PLAN_GNERAI_OS.md`](docs/PLAN_GNERAI_OS.md). Se prevé entregar la contabilidad a la asesoría mediante exportación completa y, más adelante, integración con Holded u otro proveedor; aún no se ha conectado ninguno.
 
 ---
 
@@ -704,7 +705,7 @@ Cada hito termina con una demo, un resumen de lo hecho y lo pendiente, y cómo p
    - ¿Dónde están hoy las facturas emitidas por cada autónomo: PDFs de la app `facturas`, Excel, gnerai-finance?
    - ¿Llegó gnerai-finance a tener datos reales?
    - ¿Cuál es el último número de cada serie? La app `facturas` lo guarda en el navegador.
-3. **Infra (antes del deploy del 1.0):** cuentas de Supabase (plan Pro) y DigitalOcean, dominio (¿`os.gnerai.com`?), repo en GitHub y acceso DNS para el remitente de email.
+3. **Infra (antes del deploy del 1.0):** cuenta de Supabase, servidor y dominio `gneraios.gnerai.com`, repo en GitHub y acceso DNS para el remitente de email.
 4. **Docker u OrbStack** en vuestros Macs, o un proyecto Supabase de desarrollo en la nube.
 
 **Con fecha:**

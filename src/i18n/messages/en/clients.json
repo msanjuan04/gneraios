@@ -18,6 +18,9 @@
       "columns": {
         "name": "Client",
         "status": "Status",
+        "billed": "Billed total",
+        "collected": "Collected",
+        "outstanding": "Outstanding",
         "owner": "Owner",
         "place": "City · Sector",
         "deals": "Deals",
@@ -26,6 +29,7 @@
       },
       "archived": "Archived",
       "noActivity": "No activity",
+      "mobileBalance": "Collected: {collected} · outstanding: {outstanding}",
       "noResultsTitle": "No clients match",
       "noResultsBody": "Try another search or remove a filter.",
       "noResultsArchived": "{count, plural, one {There's # archived client not shown.} other {There are # archived clients not shown.}}",
@@ -236,6 +240,26 @@
       "fieldBody": "Details",
       "bodyHint": "Agreements, questions and next steps.",
       "occurredAt": "When",
+      "manualMessageHint": "Manual log: save what was received or sent and its channel. Email and messaging are not synced.",
+      "direction": "Direction",
+      "chooseDirection": "Choose received or sent",
+      "directions": {
+        "incoming": "Received",
+        "outgoing": "Sent",
+        "internal": "Internal note"
+      },
+      "channel": "Channel",
+      "chooseChannel": "Choose channel",
+      "channels": {
+        "email": "Email",
+        "whatsapp": "WhatsApp",
+        "phone": "Phone",
+        "linkedin": "LinkedIn",
+        "instagram": "Instagram",
+        "other": "Other"
+      },
+      "counterpart": "Person or account",
+      "externalReference": "External reference",
       "deal": "Deal",
       "noDeal": "No deal",
       "contact": "With whom",
@@ -311,6 +335,47 @@
     },
     "expenses": {
       "button": "Record expense"
+    },
+    "requests": {
+      "title": "Questionnaires and materials",
+      "count": "{count, plural, one {# request} other {# requests}}",
+      "add": "Request item",
+      "empty": "No pending questionnaires, materials, or access requests.",
+      "created": "Request recorded",
+      "receivedToast": "Receipt recorded",
+      "cancelledToast": "Request cancelled",
+      "kind": "Type",
+      "kinds": {
+        "questionnaire": "Questionnaire",
+        "material": "Material",
+        "access": "Access",
+        "other": "Other"
+      },
+      "titlePlaceholder": "What we need",
+      "dueOn": "Due date",
+      "project": "Project",
+      "noProject": "No project",
+      "instructions": "Instructions or context",
+      "manualOnly": "Internal tracking: does not email or remind the client.",
+      "cancel": "Cancel",
+      "save": "Record request",
+      "statuses": {
+        "requested": "Pending",
+        "received": "Received",
+        "cancelled": "Cancelled"
+      },
+      "requestedAt": "Requested {date}",
+      "dueOnValue": "Due {date}",
+      "markReceived": "Record receipt: {title}",
+      "response": "Summary of response received",
+      "file": "Client file",
+      "noFile": "No linked file",
+      "confirmReceived": "Confirm receipt",
+      "responseLabel": "Response",
+      "fileLabel": "File",
+      "received": "Received",
+      "cancelRequest": "Cancel request",
+      "requestNotFound": "Request is no longer pending; refresh the client page."
     }
   }
 }

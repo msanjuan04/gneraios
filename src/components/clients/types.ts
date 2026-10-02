@@ -12,6 +12,7 @@ import type { ClientManualStatus } from "@/domain/clients/status";
 import type { ClientRebillData } from "@/components/finance/types";
 import type { ClientVendorsData } from "@/components/vendors/types";
 import type { ClientCollectionsData } from "@/server/clients/collections";
+import type { ClientRequestFile, ClientRequestRow } from "./client-requests-panel";
 
 /**
  * Lo que las páginas de clientes (servidor) pasan a sus componentes interactivos.
@@ -39,6 +40,9 @@ export type ClientListItem = {
   city: string | null;
   sector: string | null;
   dealsCount: number;
+  billedCents: number;
+  collectedCents: number;
+  outstandingCents: number;
   lastActivityAt: string | null;
   sourceName: string | null;
   archived: boolean;
@@ -67,6 +71,10 @@ export type TimelineEntry =
       kind: ActivityKind;
       title: string;
       body: string | null;
+      direction: "incoming" | "outgoing" | "internal" | null;
+      channel: "email" | "whatsapp" | "phone" | "linkedin" | "instagram" | "other" | null;
+      counterpart: string | null;
+      externalReference: string | null;
       at: string;
       author: MemberRef | null;
       deal: { id: string; title: string } | null;
@@ -126,6 +134,8 @@ export type ClientDetailData = {
   firstInvoiceOn: string | null;
   lastActivityAt: string | null;
   contacts: ContactRow[];
+  requests: ClientRequestRow[];
+  requestFiles: ClientRequestFile[];
   deals: ClientDeal[];
   timeline: TimelineEntry[];
   timelineTruncated: boolean;

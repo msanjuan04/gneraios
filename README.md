@@ -4,6 +4,7 @@ El software interno de GNERAI: clientes, pipeline, contratos, facturación y mé
 
 - Diseño y decisiones: [`ARCHITECTURE.md`](ARCHITECTURE.md)
 - Requisitos originales y cambios de rumbo: [`docs/SPEC.md`](docs/SPEC.md)
+- Plan actual de producto, pantallas y ejecución: [`docs/PLAN_GNERAI_OS.md`](docs/PLAN_GNERAI_OS.md)
 
 ## Arrancar en local
 
@@ -11,12 +12,12 @@ Requisitos: Node 22, pnpm 11 y, para la base de datos, Docker (Docker Desktop u 
 
 ```bash
 pnpm install
-pnpm dev          # http://localhost:3100
+pnpm dev          # http://localhost:3000
 ```
 
 Sin base de datos la app ya arranca:
 - `/login` explica cómo conectarla.
-- `/preview` enseña la interfaz con datos de ejemplo.
+- `/preview` enseña la estructura de la interfaz sin inventar clientes ni importes.
 
 ### Con base de datos (Supabase local)
 
@@ -30,6 +31,8 @@ pnpm dev
 
 - Los emails de acceso llegan a Mailpit: <http://127.0.0.1:54324>.
 - La primera persona que entra pasa por el onboarding: crea la org, los emisores, las series, los impuestos y las invitaciones.
+
+Para entrar en la aplicación real, edita `.env.local` y pega `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` y `SUPABASE_SECRET_KEY` del mismo proyecto Supabase. Reinicia `pnpm dev`. El usuario debe existir en Supabase Auth mediante invitación; las claves de entorno conectan la app, pero no crean una cuenta. `AUTH_DEVICE_CONFIRMATION=email` exige además un proveedor de correo configurado (o Mailpit en local). `.env.local` está ignorado por Git y no debe compartirse.
 
 Otros comandos:
 

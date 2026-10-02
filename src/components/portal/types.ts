@@ -124,6 +124,13 @@ export type PortalWebData = {
   change: { clicks: number | null; impressions: number | null; position: number | null; sessions: number | null };
 };
 
+export type PortalAdsData = {
+  from: CivilDate;
+  to: CivilDate;
+  currency: string;
+  campaigns: { id: string; name: string; impressions: number; clicks: number; spend: number; ctr: number | null }[];
+};
+
 export type SpaceData = {
   locale: PortalLocale;
   clientName: string;
@@ -138,6 +145,7 @@ export type SpaceData = {
   services: SpaceService[] | null;
   documents: SpaceDocuments | null;
   webData: PortalWebData | null;
+  adsData: PortalAdsData | null;
   footer: { issuers: string[]; email: string | null };
 };
 

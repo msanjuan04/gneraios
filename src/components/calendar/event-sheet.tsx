@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, CalendarX2, ExternalLink, Info, Landmark, Move } from "lucide-react";
+import { ArrowLeft, ArrowRight, CalendarX2, ExternalLink, Info, Landmark, Move, Pencil, Plus } from "lucide-react";
 import Link from "next/link";
 import { type FormEvent, useState } from "react";
 import { SettingsSheet } from "@/components/settings/settings-sheet";
@@ -29,10 +29,12 @@ type Props = {
   basePath: string;
   canMove: boolean;
   onMove: (event: CalendarEvent, date: CivilDate) => void;
+  onEditAppointment: (event: CalendarEvent) => void;
+  onAddAppointment: (date: CivilDate) => void;
 };
 
 /** Panel lateral del calendario: el detalle de un evento o todo lo de un día. Nunca un modal encima de otro. */
-export function CalendarSheet({ state, onStateChange, events, dayEvents, members, basePath, canMove, onMove }: Props) {
+export function CalendarSheet({ state, onStateChange, events, dayEvents, members, basePath, canMove, onMove, onEditAppointment, onAddAppointment }: Props) {
   const text = useCalendarText();
   const event = state?.kind === "event" ? events.find((e) => e.id === state.eventId) ?? null : null;
   const open = state !== null && (state.kind === "day" || event !== null);
@@ -52,6 +54,7 @@ export function CalendarSheet({ state, onStateChange, events, dayEvents, members
           date={state.date}
           events={dayEvents(state.date)}
           onOpenEvent={(e) => onStateChange({ kind: "event", eventId: e.id, fromDay: state.date })}
+          onAdd={canMove ? () => { onStateChange(null); onAddAppointment(state.date); } : null}
         />
       )}
       {state?.kind === "event" && event && (
@@ -64,6 +67,7 @@ export function CalendarSheet({ state, onStateChange, events, dayEvents, members
           onMove={onMove}
           onBack={state.fromDay ? () => onStateChange({ kind: "day", date: state.fromDay! }) : null}
           onNavigate={close}
+          onEditAppointment={() => { close(); onEditAppointment(event); }}
         />
       )}
     </SettingsSheet>
@@ -89,11 +93,12 @@ function EventTitle({ event }: { event: CalendarEvent }) {
   );
 }
 
-function DayContent({ date, events, onOpenEvent }: { date: CivilDate; events: CalendarEvent[]; onOpenEvent: (event: CalendarEvent) => void }) {
+function DayContent({ date, events, onOpenEvent, onAdd }: { date: CivilDate; events: CalendarEvent[]; onOpenEvent: (event: CalendarEvent) => void; onAdd: (() => void) | null }) {
   const text = useCalendarText();
   return (
     <div className="min-h-0 flex-1 space-y-4 overflow-y-auto px-5 py-5">
       <DayHintsList hints={dayHints(events)} />
+      {onAdd && <Button size="sm" onClick={onAdd}><Plus data-icon="inline-start" />{text.t("toolbar.newEvent")}</Button>}
       {events.length === 0 ? (
         <div className="flex flex-col items-center gap-2 py-10 text-center text-sm text-muted-foreground">
           <CalendarX2 aria-hidden className="size-5" />
@@ -131,6 +136,7 @@ function EventContent({
   onMove,
   onBack,
   onNavigate,
+  onEditAppointment,
 }: {
   event: CalendarEvent;
   members: ReadonlyMap<string, AgendaMember>;
@@ -139,6 +145,7 @@ function EventContent({
   onMove: (event: CalendarEvent, date: CivilDate) => void;
   onBack: (() => void) | null;
   onNavigate: () => void;
+  onEditAppointment: () => void;
 }) {
   const text = useCalendarText();
   const [date, setDate] = useState(event.date);
@@ -210,7 +217,9 @@ function EventContent({
           </div>
         )}
 
-        {event.movable && canMove ? (
+        {event.type === "appointment" && canMove ? (
+          <Button variant="secondary" onClick={onEditAppointment}><Pencil data-icon="inline-start" />{text.t("editor.editTitle")}</Button>
+        ) : event.movable && canMove ? (
           <form onSubmit={submitMove} className="space-y-2 rounded-xl border px-4 py-3">
             <label htmlFor={`move-${event.id}`} className="flex items-center gap-2 text-sm font-semibold">
               <Move aria-hidden className="size-4 text-muted-foreground" />

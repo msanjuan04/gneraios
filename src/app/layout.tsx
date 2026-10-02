@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope } from "next/font/google";
+import localFont from "next/font/local";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
 import { brand, brandCss } from "@/brand";
@@ -7,7 +7,17 @@ import { Providers } from "@/components/providers";
 import "./globals.css";
 
 // La tipografía de gnerai.com.
-const manrope = Manrope({ variable: "--font-manrope", subsets: ["latin"], display: "swap" });
+const manrope = localFont({
+  variable: "--font-manrope",
+  display: "swap",
+  src: [
+    { path: "../../public/fonts/manrope/manrope-latin-400-normal.woff", weight: "400", style: "normal" },
+    { path: "../../public/fonts/manrope/manrope-latin-500-normal.woff", weight: "500", style: "normal" },
+    { path: "../../public/fonts/manrope/manrope-latin-600-normal.woff", weight: "600", style: "normal" },
+    { path: "../../public/fonts/manrope/manrope-latin-700-normal.woff", weight: "700", style: "normal" },
+    { path: "../../public/fonts/manrope/manrope-latin-800-normal.woff", weight: "800", style: "normal" },
+  ],
+});
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("meta");

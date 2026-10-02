@@ -9,6 +9,7 @@ import type {
   VerifactuRow,
 } from "@/components/dashboard/types";
 import { addDays, daysBetween } from "@/domain/dates/civil-date";
+import { daysInMonth } from "@/domain/dates/civil-date";
 import { verifactuCountdown } from "@/domain/fiscal/verifactu";
 import {
   arrCents,
@@ -45,13 +46,31 @@ const LIST_LIMIT = 6;
 /** ¿Hay algo que medir? Sin contratos ni facturas emitidas, el dashboard es el de primeros pasos. */
 export async function orgHasBusinessData(orgId: string): Promise<boolean> {
   const supabase = await createClient();
-  const [contracts, invoices] = await Promise.all([
+  const [contracts, invoices, clients, projects] = await Promise.all([
     supabase.from("contracts").select("id", { count: "exact", head: true }).eq("org_id", orgId),
     supabase.from("invoices").select("id", { count: "exact", head: true }).eq("org_id", orgId).eq("lifecycle", "issued"),
+    supabase.from("clients").select("id", { count: "exact", head: true }).eq("org_id", orgId).is("archived_at", null),
+    supabase.from("projects").select("id", { count: "exact", head: true }).eq("org_id", orgId).is("archived_at", null),
   ]);
-  if (contracts.error) throw contracts.error;
-  if (invoices.error) throw invoices.error;
-  return (contracts.count ?? 0) + (invoices.count ?? 0) > 0;
+  for (const result of [contracts, invoices, clients, projects]) if (result.error) throw result.error;
+  return (contracts.count ?? 0) + (invoices.count ?? 0) + (clients.count ?? 0) + (projects.count ?? 0) > 0;
+}
+
+/** Cobros confirmados y facturas pendientes cuyo vencimiento cae en el mes actual. */
+export async function loadMonthlyCash(ctx: OrgContext, today: string): Promise<{ receivedCents: number; dueCents: number }> {
+  const supabase = await createClient();
+  const [year, month] = today.split("-").map(Number) as [number, number, number];
+  const from = `${String(year).padStart(4, "0")}-${String(month).padStart(2, "0")}-01`;
+  const monthEnd = `${String(year).padStart(4, "0")}-${String(month).padStart(2, "0")}-${String(daysInMonth(year, month)).padStart(2, "0")}`;
+  const [payments, receipts, invoices] = await Promise.all([
+    fetchAll((a, b) => supabase.from("payments").select("amount_cents").eq("org_id", ctx.org.id).gte("paid_on", from).lte("paid_on", today).order("id").range(a, b), "dashboard.month.payments"),
+    fetchAll((a, b) => supabase.from("client_receipts").select("amount_cents").eq("org_id", ctx.org.id).gte("received_on", from).lte("received_on", today).order("id").range(a, b), "dashboard.month.receipts"),
+    fetchAll((a, b) => supabase.from("invoices_overview").select("outstanding_cents").eq("org_id", ctx.org.id).eq("lifecycle", "issued").in("status", ["issued", "overdue"]).gte("due_on", from).lte("due_on", monthEnd).order("id").range(a, b), "dashboard.month.invoices"),
+  ]);
+  return {
+    receivedCents: payments.reduce((sum, row) => sum + row.amount_cents, 0) + receipts.reduce((sum, row) => sum + row.amount_cents, 0),
+    dueCents: invoices.reduce((sum, row) => sum + (row.outstanding_cents ?? 0), 0),
+  };
 }
 
 function concentrationView(rows: readonly ClientBilling[], names: Map<string, string>, thresholdBps: number): ConcentrationView {

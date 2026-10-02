@@ -31,6 +31,7 @@
     "groupBilling": "Facturació",
     "dashboard": "Dashboard",
     "pipeline": "Pipeline",
+    "leads": "Leads",
     "clients": "Clients",
     "quotes": "Pressupostos",
     "contracts": "Contractes",
@@ -174,7 +175,8 @@
     "invoices": "Esborranys automàtics, emissió en bloc, PDF amb marca, cobraments i rectificatives."
   },
   "preview": {
-    "banner": "Previsualització sense base de dades: dades d'exemple, no es desa res.",
+    "banner": "Vista de disseny: sense clients ni imports. Entra a l'app real per veure les dades de Supabase.",
+    "openRealApp": "Obrir dades reals",
     "designTitle": "Sistema visual",
     "designSubtitle": "Tokens i components amb l'estètica de gnerai.com.",
     "seeOnboarding": "Mostra l'onboarding",

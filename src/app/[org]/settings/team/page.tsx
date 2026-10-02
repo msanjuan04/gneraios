@@ -13,7 +13,7 @@ import { getOrgContext, hasRole } from "@/server/session";
 import { MemberAccessCodeRow } from "./access-code-controls";
 import { InvitationActions, InviteButton } from "./invitation-controls";
 import { MemberAccessButton, MemberRoleSelect } from "./member-controls";
-import { MfaBadge, MfaResetButton, RequireMfaCard } from "./security-controls";
+import { MfaBadge, RequireMfaCard } from "./security-controls";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("settings");
@@ -147,7 +147,6 @@ export default async function TeamSettingsPage({ params }: PageProps<"/[org]/set
                     {canEdit && (
                       <TableCell className="text-right">
                         <span className="inline-flex items-center gap-1">
-                          {m.is_active && mfaBy.get(m.id) && <MfaResetButton slug={org.slug} memberId={m.id} name={m.full_name} />}
                           {!isSelf && (
                             <MemberAccessButton slug={org.slug} memberId={m.id} name={m.full_name} active={m.is_active} />
                           )}

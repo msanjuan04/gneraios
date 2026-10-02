@@ -3,10 +3,8 @@
 //
 // - Saldo registrado: la suma del último saldo de cada cuenta activa (la vista `cash_position`).
 //   Un saldo es el del cierre de su día: lo que se mueve ese día ya está dentro.
-// - Caja estimada hoy = saldo registrado + cobros − pagos posteriores al saldo, emisor por emisor
-//   (los cobros de sus facturas y los gastos que paga). Con varias cuentas de un emisor manda la
-//   fecha del saldo más reciente. Los movimientos de emisores sin cuenta no se suman: de ellos no
-//   se sabe la caja.
+// - Caja estimada hoy = saldo de cada cuenta + movimientos posteriores asignados a esa cuenta.
+//   Los movimientos sin cuenta bancaria no se suman: no se puede deducir a qué saldo pertenecen.
 
 import { compareCivil, maxCivil, minCivil, type CivilDate } from "../dates/civil-date";
 import { assertCents, type Cents } from "../money";
@@ -20,13 +18,13 @@ export type CashAccountBalance = {
   balanceCents: Cents | null;
 };
 
-/** Un cobro (positivo) o un pago (negativo) con su fecha y el emisor al que pertenece. */
-export type CashMovement = { issuerId: string; on: CivilDate; cents: Cents };
+/** Un cobro (positivo) o un pago (negativo) con su fecha y la cuenta, si se conoce. */
+export type CashMovement = { accountId: string | null; issuerId: string; on: CivilDate; cents: Cents };
 
 export type CashIssuerToday = {
   issuerId: string;
   recordedCents: Cents;
-  /** Fecha del saldo del que se parte (el más reciente de sus cuentas activas). */
+  /** Fecha más reciente entre los saldos de las cuentas de este emisor. */
   asOf: CivilDate | null;
   movementsCents: Cents;
   estimatedCents: Cents;
@@ -51,11 +49,17 @@ export function estimateCashToday(
   today: CivilDate,
 ): CashToday {
   const active = accounts.filter((a) => a.isActive);
-  const byIssuer = new Map<string, { recorded: Cents; asOf: CivilDate | null }>();
+  const byIssuer = new Map<string, { recorded: Cents; asOf: CivilDate | null; movements: Cents }>();
   let oldestOn: CivilDate | null = null;
   let latestOn: CivilDate | null = null;
   for (const account of active) {
-    const entry = byIssuer.get(account.issuerId) ?? { recorded: 0, asOf: null };
+    const entry = byIssuer.get(account.issuerId) ?? { recorded: 0, asOf: null, movements: 0 };
+    if (account.balanceOn !== null && account.balanceCents !== null) {
+      const accountMovements = movements
+        .filter((m) => m.accountId === account.accountId && compareCivil(m.on, account.balanceOn!) > 0 && compareCivil(m.on, today) <= 0)
+        .reduce((sum, m) => assertCents(sum + assertCents(m.cents)), 0);
+      entry.movements = assertCents(entry.movements + accountMovements);
+    }
     if (account.balanceOn !== null && account.balanceCents !== null) {
       entry.recorded = assertCents(entry.recorded + assertCents(account.balanceCents));
       entry.asOf = entry.asOf === null ? account.balanceOn : maxCivil(entry.asOf, account.balanceOn);
@@ -68,12 +72,7 @@ export function estimateCashToday(
   const issuers = [...byIssuer.entries()]
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([issuerId, entry]): CashIssuerToday => {
-      const movementsCents =
-        entry.asOf === null
-          ? 0
-          : movements
-              .filter((m) => m.issuerId === issuerId && compareCivil(m.on, entry.asOf!) > 0 && compareCivil(m.on, today) <= 0)
-              .reduce((sum, m) => assertCents(sum + assertCents(m.cents)), 0);
+      const movementsCents = entry.movements;
       return {
         issuerId,
         recordedCents: entry.recorded,

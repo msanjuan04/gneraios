@@ -5,6 +5,7 @@ import {
   CalendarDays,
   ChartNoAxesCombined,
   Landmark,
+  Megaphone,
   FileSignature,
   FileText,
   FolderKanban,
@@ -13,6 +14,7 @@ import {
   Receipt,
   Settings,
   SquareKanban,
+  UserRoundSearch,
 } from "lucide-react";
 
 export type NavKey =
@@ -20,7 +22,9 @@ export type NavKey =
   | "calendar"
   | "council"
   | "seo"
+  | "ads"
   | "pipeline"
+  | "leads"
   | "clients"
   | "projects"
   | "sites"
@@ -53,6 +57,7 @@ export const NAV_GROUPS: { label: "groupDirection" | "groupSales" | "groupWork" 
   {
     label: "groupSales",
     items: [
+      { key: "leads", path: "/leads", icon: UserRoundSearch },
       { key: "pipeline", path: "/pipeline", icon: SquareKanban, shortcut: "g p" },
       { key: "clients", path: "/clients", icon: Building2, shortcut: "g c" },
       { key: "quotes", path: "/quotes", icon: FileText, shortcut: "g q" },
@@ -65,6 +70,7 @@ export const NAV_GROUPS: { label: "groupDirection" | "groupSales" | "groupWork" 
     items: [
       { key: "projects", path: "/projects", icon: FolderKanban, shortcut: "g r" },
       { key: "seo", path: "/seo", icon: ChartNoAxesCombined, shortcut: "g e" },
+      { key: "ads", path: "/ads", icon: Megaphone },
       { key: "sites", path: "/sites", icon: Activity },
     ],
   },

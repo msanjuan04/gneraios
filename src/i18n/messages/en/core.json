@@ -31,6 +31,7 @@
     "groupBilling": "Billing",
     "dashboard": "Dashboard",
     "pipeline": "Pipeline",
+    "leads": "Leads",
     "clients": "Clients",
     "quotes": "Quotes",
     "contracts": "Contracts",
@@ -40,6 +41,7 @@
     "switchOrg": "Switch organization",
     "toggleSidebar": "Toggle sidebar",
     "seo": "SEO",
+    "ads": "Ads",
     "council": "Council",
     "finance": "Finance",
     "calendar": "Calendar",
@@ -174,7 +176,8 @@
     "invoices": "Automatic drafts, bulk issuing, branded PDFs, payments and corrective invoices."
   },
   "preview": {
-    "banner": "Preview without a database: sample data, nothing is saved.",
+    "banner": "Design preview: no client or financial records. Sign in to see live Supabase data.",
+    "openRealApp": "Open live app",
     "designTitle": "Visual system",
     "designSubtitle": "Tokens and components with the gnerai.com look.",
     "seeOnboarding": "See the onboarding",

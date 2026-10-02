@@ -13,13 +13,13 @@ describe("caja de hoy", () => {
         { accountId: "new", issuerId: "laia", isActive: true, balanceOn: null, balanceCents: null },
       ],
       [
-        { issuerId: "sl", on: "2026-09-05", cents: 400_000 }, // antes del saldo más reciente de la SL: ya está dentro
-        { issuerId: "sl", on: "2026-09-15", cents: 121_000 },
-        { issuerId: "sl", on: "2026-09-18", cents: -7_260 },
-        { issuerId: "laia", on: "2026-09-20", cents: 50_000 }, // el mismo día del saldo: ya está dentro
-        { issuerId: "laia", on: "2026-09-22", cents: -10_000 },
-        { issuerId: "laia", on: "2026-09-27", cents: 80_000 }, // futuro
-        { issuerId: "otro", on: "2026-09-22", cents: 1_000_000 }, // sin cuenta: no se sabe su caja
+        { accountId: "sl-main", issuerId: "sl", on: "2026-09-05", cents: 400_000 }, // después del cierre de esta cuenta
+        { accountId: "sl-savings", issuerId: "sl", on: "2026-09-15", cents: 121_000 },
+        { accountId: "sl-savings", issuerId: "sl", on: "2026-09-18", cents: -7_260 },
+        { accountId: "laia", issuerId: "laia", on: "2026-09-20", cents: 50_000 }, // mismo día del cierre: ya está dentro
+        { accountId: "laia", issuerId: "laia", on: "2026-09-22", cents: -10_000 },
+        { accountId: "laia", issuerId: "laia", on: "2026-09-27", cents: 80_000 }, // futuro
+        { accountId: null, issuerId: "otro", on: "2026-09-22", cents: 1_000_000 }, // cuenta sin asignar
       ],
       "2026-09-26",
     );
@@ -27,11 +27,11 @@ describe("caja de hoy", () => {
       recordedCents: 2_800_000,
       oldestOn: "2026-08-31",
       latestOn: "2026-09-20",
-      movementsCents: 103_740,
-      estimatedCents: 2_903_740,
+      movementsCents: 503_740,
+      estimatedCents: 3_303_740,
       issuers: [
         { issuerId: "laia", recordedCents: 300_000, asOf: "2026-09-20", movementsCents: -10_000, estimatedCents: 290_000 },
-        { issuerId: "sl", recordedCents: 2_500_000, asOf: "2026-09-10", movementsCents: 113_740, estimatedCents: 2_613_740 },
+        { issuerId: "sl", recordedCents: 2_500_000, asOf: "2026-09-10", movementsCents: 513_740, estimatedCents: 3_013_740 },
       ],
       activeAccounts: 4,
       accountsWithoutBalance: 1,
@@ -39,7 +39,7 @@ describe("caja de hoy", () => {
   });
 
   it("sin cuentas, la caja es 0 y no se sabe de cuándo", () => {
-    expect(estimateCashToday([], [{ issuerId: "sl", on: "2026-09-01", cents: 100 }], "2026-09-26")).toMatchObject({
+    expect(estimateCashToday([], [{ accountId: "a", issuerId: "sl", on: "2026-09-01", cents: 100 }], "2026-09-26")).toMatchObject({
       recordedCents: 0,
       estimatedCents: 0,
       oldestOn: null,

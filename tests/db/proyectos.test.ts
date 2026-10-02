@@ -675,6 +675,57 @@ describe("resumen del proyecto (projects_overview)", () => {
   });
 });
 
+describe("entregables", () => {
+  it("no cuenta tarea como entrega y exige documento antes de enviar; conserva cambios de estado", async () => {
+    const projectId = await createProject();
+    const deliverable = await as(db, partner, () => one<{ id: string }>(
+      `insert into public.project_deliverables (org_id, project_id, client_id, title, due_on)
+       values ($1, $2, $3, 'Diseño aprobado', $4) returning id`,
+      [orgId, projectId, clientId, day(2)],
+    ));
+    await expectHint(as(db, partner, () => db.query(
+      "update public.project_deliverables set status = 'sent' where id = $1",
+      [deliverable.id],
+    )), "deliverable_file_required");
+
+    const file = await as(db, partner, () => one<{ id: string }>(
+      `insert into public.client_files (org_id, client_id, kind, title, url)
+       values ($1, $2, 'link', 'Figma final', 'https://figma.com/file/example') returning id`,
+      [orgId, clientId],
+    ));
+    const alreadySent = await as(db, partner, () => one<{ sent_at: Date }>(
+      `insert into public.project_deliverables (org_id, project_id, client_id, title, status, client_file_id)
+       values ($1,$2,$3,'Entregado antes del registro','sent',$4) returning sent_at`,
+      [orgId, projectId, clientId, file.id],
+    ));
+    expect(alreadySent.sent_at).toBeTruthy();
+    await as(db, partner, async () => {
+      await db.query("update public.project_deliverables set client_file_id = $2, status = 'sent' where id = $1", [deliverable.id, file.id]);
+      await db.query("update public.project_deliverables set status = 'accepted' where id = $1", [deliverable.id]);
+    });
+    const saved = await one<{ status: string; sent_at: Date; accepted_at: Date }>(
+      "select status, sent_at, accepted_at from public.project_deliverables where id = $1",
+      [deliverable.id],
+    );
+    expect(saved.status).toBe("accepted");
+    expect(saved.accepted_at.getTime()).toBeGreaterThanOrEqual(saved.sent_at.getTime());
+    expect(await one<{ count: number }>("select count(*)::int as count from public.project_deliverable_events where deliverable_id = $1", [deliverable.id])).toEqual({ count: 3 });
+    await expectHint(as(db, partner, () => db.query("update public.project_deliverables set title = 'Reescrito' where id = $1", [deliverable.id])), "deliverable_sent_immutable");
+  });
+
+  it("viewer puede consultar entregas, pero no crearlas ni cambiarlas", async () => {
+    const projectId = await createProject();
+    const deliverable = await as(db, partner, () => one<{ id: string }>(
+      `insert into public.project_deliverables (org_id, project_id, client_id, title)
+       values ($1, $2, $3, 'Landing') returning id`,
+      [orgId, projectId, clientId],
+    ));
+    expect(await as(db, viewer, () => one<{ title: string }>("select title from public.project_deliverables where id = $1", [deliverable.id]))).toEqual({ title: "Landing" });
+    expect((await as(db, viewer, () => db.query("update public.project_deliverables set title = 'Cambio' where id = $1 returning id", [deliverable.id]))).rows).toHaveLength(0);
+    await expectHint(as(db, partner, () => db.query("update public.project_deliverables set created_by = $2 where id = $1", [deliverable.id, owner])), "deliverable_identity_immutable");
+  });
+});
+
 describe("⌘K", () => {
   it("busca proyectos por nombre y por cliente (sin tildes), también los internos", async () => {
     await createProject({ name: "Rediseño web" });

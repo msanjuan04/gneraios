@@ -3,14 +3,13 @@
 #
 #   bash deploy/subir.sh
 #
-# 1. Base de datos. La primera vez crea el proyecto «gneraios» en Supabase (Frankfurt), en la
-#    cuenta de GNERAI: pide un token de esa cuenta y deja que elijas la organización. Después, y en
-#    cada subida, aplica las migraciones que falten.
+# 1. Base de datos. Usa exclusivamente el proyecto Supabase autorizado y aplica las migraciones
+#    pendientes tras verificar credenciales y hacer respaldo.
 # 2. App. La compila para el servidor con Docker (linux/amd64: el servidor no tiene memoria para
 #    compilar) y la sube a root@46.101.185.148. Allí queda en /opt/gneraios, con pm2 («gneraios»,
 #    puerto 3300), su sitio en nginx y el certificado HTTPS de Let's Encrypt. No toca los demás sitios.
-# 3. Socios. La primera vez crea la org GNERAI y las cuentas y códigos de los tres socios, y guarda
-#    los códigos en deploy/codigos-produccion.txt (solo en este Mac; bórralo cuando los tengáis).
+# 3. Equipo. La provisión de usuarios se hace aparte tras auditar la organización existente:
+#    desplegar código no debe inventar correos ni sobrescribir accesos.
 #
 # Se puede lanzar las veces que haga falta: las siguientes solo suben la versión nueva.
 # Los secretos viven en deploy/.env.production (no se sube a git) y nunca se imprimen.
@@ -21,13 +20,11 @@ cd "$(dirname "$0")/.."
 ENV_FILE=deploy/.env.production
 DOMAIN=gneraios.gnerai.com
 PORT=3300
-REGION=eu-central-1
-CODES_FILE=deploy/codigos-produccion.txt
-# Los tres socios (el primero crea la org). Sin email configurado, el email solo identifica la cuenta.
-SOCIOS=("Marc Sanjuan <marcsanjuansard@gmail.com>" "Hugo Lago <hugo.lago@gnerai.test>" "Marc Cortada <marc.cortada@gnerai.test>")
+EXPECTED_SUPABASE_REF=cnjroerndjuqocbitzye
 
 export PATH="$HOME/.docker/bin:$PATH"
-SUPABASE=(pnpm exec supabase)
+# La CLI de Supabase fijada en el repo (la de Homebrew puede no entender supabase/config.toml).
+if [ -x node_modules/.bin/supabase ]; then SUPABASE=(node_modules/.bin/supabase); else SUPABASE=(pnpm exec supabase); fi
 
 say() { printf '\n\033[1;34m▸ %s\033[0m\n' "$*"; }
 ok() { printf '  \033[32m✓\033[0m %s\n' "$*"; }
@@ -36,199 +33,124 @@ fail() {
   exit 1
 }
 get() { grep -E "^$1=" "$ENV_FILE" | head -1 | cut -d= -f2- || true; }
-# put CLAVE VALOR: guarda en deploy/.env.production sin enseñarlo.
-put() {
-  python3 - "$ENV_FILE" "$1" "$2" <<'PY'
-import re, sys
-path, key, value = sys.argv[1:4]
-text = open(path).read()
-line = f"{key}={value}"
-if re.search(rf"^{re.escape(key)}=", text, flags=re.M):
-    text = re.sub(rf"^{re.escape(key)}=.*$", lambda _: line, text, flags=re.M)
-else:
-    text = text.rstrip("\n") + "\n" + line + "\n"
-open(path, "w").write(text)
-PY
-}
-json() { node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{const j=JSON.parse(s);$1})"; }
-
 [ -f "$ENV_FILE" ] || fail "Falta $ENV_FILE."
+REF=$(get SUPABASE_PROJECT_REF)
+[ "$REF" = "$EXPECTED_SUPABASE_REF" ] || fail "SUPABASE_PROJECT_REF debe ser $EXPECTED_SUPABASE_REF; no se creará ni usará otro proyecto."
+[ "$(get NEXT_PUBLIC_SUPABASE_URL)" = "https://$REF.supabase.co" ] || fail "NEXT_PUBLIC_SUPABASE_URL no coincide con $REF."
 SSH_TARGET=$(get DEPLOY_SSH)
 [ -n "$SSH_TARGET" ] && [[ "$SSH_TARGET" != *PON_AQUI* ]] || fail "Falta DEPLOY_SSH en $ENV_FILE (p. ej. root@46.101.185.148)."
 
 say "Comprobaciones"
-docker info >/dev/null 2>&1 || fail "Docker no está en marcha: abre Docker Desktop y vuelve a lanzar el script."
-ok "Docker en marcha"
+# Con Docker se compila en linux/amd64; sin él, en este Mac (el bundle no lleva binarios nativos:
+# se comprueba antes de subirlo).
+if docker info >/dev/null 2>&1; then
+  BUILD=docker
+  ok "Docker en marcha"
+else
+  BUILD=local
+  ok "Sin Docker: se compila en local (standalone, sin dependencias nativas)"
+fi
 ssh -o BatchMode=yes -o ConnectTimeout=10 "$SSH_TARGET" true || fail "No puedo entrar por SSH a $SSH_TARGET."
 ok "Acceso al servidor ($SSH_TARGET)"
 
-# --- 1. Base de datos --------------------------------------------------------------------------
-REF=$(get SUPABASE_PROJECT_REF)
-if [ -z "$REF" ]; then
-  say "Base de datos: proyecto nuevo «gneraios» en Supabase"
-  echo "  Necesito un token de la cuenta de Supabase de GNERAI (no la de ningún cliente)."
-  echo "  Si GNERAI no tiene cuenta, créala antes en https://supabase.com (el plan gratis vale para probar)."
-  echo "  Token: https://supabase.com/dashboard/account/tokens → Generate new token"
-  echo "  (O deja vacío y pulsa Intro para usar la sesión de «pnpm exec supabase login», hecha antes con la cuenta de GNERAI.)"
-  if [ -z "${SUPABASE_ACCESS_TOKEN:-}" ]; then
-    printf "  Pega el token (no se ve al escribir) y pulsa Intro: "
-    read -rs SUPABASE_ACCESS_TOKEN
-    echo
-  fi
-  # Sin espacios ni restos del pegado; un token de Supabase empieza por sbp_.
-  SUPABASE_ACCESS_TOKEN=$(printf '%s' "$SUPABASE_ACCESS_TOKEN" | tr -d '[:space:]' | sed $'s/\x1b\\[20[01]~//g')
-  if [ -n "$SUPABASE_ACCESS_TOKEN" ]; then
-    [[ "$SUPABASE_ACCESS_TOKEN" == sbp_* ]] || fail "Eso no parece un token de Supabase (empieza por sbp_). Vuelve a lanzar el script y pégalo cuando lo pida."
-    export SUPABASE_ACCESS_TOKEN
-  else
-    unset SUPABASE_ACCESS_TOKEN
-    echo "  Uso la sesión de la CLI de Supabase: comprueba abajo que las organizaciones son las de GNERAI."
-  fi
-
-  ORGS=$("${SUPABASE[@]}" orgs list -o json 2>deploy/supabase.log) || {
-    grep -viE "new version|recommend updating" deploy/supabase.log | sed 's/^/  /' || true
-    fail "Supabase no acepta ese token (arriba el motivo)."
-  }
-  COUNT=$(echo "$ORGS" | json 'const l=Array.isArray(j)?j:(j.organizations||[]); console.log(l.length)')
-  ORG_ID=""
-  ORG_NAME=""
-  if [ "$COUNT" -gt 0 ]; then
-    echo "  Organizaciones de esa cuenta:"
-    echo "$ORGS" | json 'const l=Array.isArray(j)?j:(j.organizations||[]); l.forEach((o,i)=>console.log(`    ${i+1}. ${o.name}`))'
-    CHOICE=1
-    if [ "$COUNT" -gt 1 ]; then
-      printf "  ¿En cuál creo el proyecto? (número): "
-      read -r CHOICE
-    fi
-    export CHOICE
-    ORG_ID=$(echo "$ORGS" | json 'const l=Array.isArray(j)?j:(j.organizations||[]); const o=l[Number(process.env.CHOICE)-1]; if(!o) process.exit(1); console.log(o.slug||o.id)') ||
-      fail "Número de organización no válido."
-    ORG_NAME=$(echo "$ORGS" | json 'const l=Array.isArray(j)?j:(j.organizations||[]); console.log(l[Number(process.env.CHOICE)-1].name)')
-  elif [ -n "$(get SUPABASE_ORG_ID)" ]; then
-    # La organización que se creó en una pasada anterior (el token no siempre la lista).
-    ORG_ID=$(get SUPABASE_ORG_ID)
-    echo "  Uso la organización de la vez anterior ($ORG_ID)."
-  else
-    # El token no enseña ninguna (cuenta nueva, otra cuenta o un token con permisos limitados).
-    echo "  Con ese token Supabase no me enseña ninguna organización."
-    echo "  Si ya tenéis una: ábrela en supabase.com y copia su ID de la dirección (supabase.com/dashboard/org/ESTE-ID)."
-    printf "  Pega el ID de la organización, o deja vacío y pulsa Intro para crear una nueva «GNERAI» (gratis): "
-    read -r ORG_ID
-    ORG_ID=$(printf '%s' "$ORG_ID" | tr -d '[:space:]' | sed -E 's#.*/org/##; s#/.*##')
-    if [ -z "$ORG_ID" ]; then
-      "${SUPABASE[@]}" orgs create GNERAI -o json >deploy/supabase-org.json 2>deploy/supabase.log || {
-        grep -viE "new version|recommend updating" deploy/supabase.log | sed 's/^/  /' || true
-        fail "No he podido crear la organización (arriba el motivo)."
-      }
-      # La CLI contesta «Created organization: <id>» (o JSON, según la versión).
-      ORG_ID=$(sed -nE 's/.*[Cc]reated organization:[[:space:]]*([a-z0-9]+).*/\1/p' deploy/supabase-org.json | head -1)
-      [ -n "$ORG_ID" ] || ORG_ID=$(json 'console.log(j.slug||j.id)' <deploy/supabase-org.json 2>/dev/null || true)
-      rm -f deploy/supabase-org.json
-      [ -n "$ORG_ID" ] || fail "He creado la organización pero no sé su ID: vuelve a lanzar el script (ya saldrá en la lista)."
-      ok "Organización GNERAI creada"
-    fi
-    ORG_NAME=$ORG_ID
-  fi
-  [ -n "$ORG_NAME" ] || ORG_NAME=$ORG_ID
-  put SUPABASE_ORG_ID "$ORG_ID"
-  printf "  Voy a crear «gneraios» (Frankfurt) en «%s». ¿Sigo? (s/N): " "$ORG_NAME"
-  read -r YES
-  [[ "$YES" =~ ^[sS] ]] || fail "Cancelado: no he creado nada."
-
-  DB_PASSWORD=$(node -e 'console.log(require("crypto").randomBytes(24).toString("base64").replace(/[^A-Za-z0-9]/g,"").slice(0,28))')
-  if ! CREATED=$("${SUPABASE[@]}" projects create gneraios --org-id "$ORG_ID" --db-password "$DB_PASSWORD" --region "$REGION" -o json 2>deploy/supabase.log); then
-    grep -viE "new version|recommend updating" deploy/supabase.log | sed 's/^/  /' || true
-    grep -q "Forbidden" deploy/supabase.log && echo "  Ese token no tiene permiso para crear proyectos: haz «pnpm exec supabase login» con la cuenta de GNERAI y vuelve a lanzar el script dejando el token vacío."
-    fail "Supabase no ha dejado crear el proyecto (arriba el motivo; p. ej. el límite de 2 proyectos gratis por cuenta)."
-  fi
-  REF=$(echo "$CREATED" | json 'console.log(j.ref||j.id)')
-  export REF
-  put SUPABASE_PROJECT_REF "$REF"
-  put SUPABASE_DB_PASSWORD "$DB_PASSWORD"
-  ok "Proyecto creado: $REF (https://supabase.com/dashboard/project/$REF)"
-
-  printf "  Esperando a que esté listo"
-  for _ in $(seq 1 60); do
-    STATUS=$("${SUPABASE[@]}" projects list -o json 2>/dev/null | json 'const l=j.projects||j; const p=l.find(p=>p.ref===process.env.REF||p.id===process.env.REF); console.log(p?p.status:"")' || true)
-    [ "$STATUS" = "ACTIVE_HEALTHY" ] && break
-    printf "."
-    sleep 5
-  done
-  echo
-  [ "$STATUS" = "ACTIVE_HEALTHY" ] || fail "El proyecto no ha arrancado a tiempo; vuelve a lanzar el script en un par de minutos."
-
-  KEYS=$("${SUPABASE[@]}" projects api-keys --project-ref "$REF" -o json 2>/dev/null) || fail "No he podido leer las claves del proyecto."
-  PUBLISHABLE=$(echo "$KEYS" | json 'const k=j.find(k=>k.type==="publishable")||j.find(k=>k.name==="anon"); console.log(k.api_key)')
-  SECRET=$(echo "$KEYS" | json 'const k=j.find(k=>k.type==="secret")||j.find(k=>k.name==="service_role"); console.log(k.api_key)')
-  put NEXT_PUBLIC_SUPABASE_URL "https://$REF.supabase.co"
-  put NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY "$PUBLISHABLE"
-  put SUPABASE_SECRET_KEY "$SECRET"
-  unset PUBLISHABLE SECRET KEYS
-
-  # Conexión por el pooler (IPv4) para las migraciones.
-  POOLER=$(curl -fsS -H "Authorization: Bearer ${SUPABASE_ACCESS_TOKEN:-none}" "https://api.supabase.com/v1/projects/$REF/config/database/pooler" 2>/dev/null |
-    json 'const l=Array.isArray(j)?j:[j]; const p=l.find(p=>p.database_type==="PRIMARY")||l[0]; console.log(`${p.db_user}@${p.db_host}:${p.db_port===6543?5432:p.db_port}/${p.db_name}`)' || true)
-  [ -n "$POOLER" ] || POOLER="postgres.$REF@aws-0-$REGION.pooler.supabase.com:5432/postgres"
-  put SUPABASE_DB_URL "postgresql://${POOLER%%@*}:$DB_PASSWORD@${POOLER#*@}"
-  unset DB_PASSWORD
-
-  # Acceso: nadie de fuera puede darse de alta; los enlaces de Supabase apuntan al dominio.
-  if [ -n "${SUPABASE_ACCESS_TOKEN:-}" ] && curl -fsS -X PATCH "https://api.supabase.com/v1/projects/$REF/config/auth" \
-    -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" -H "Content-Type: application/json" \
-    -d "{\"disable_signup\": true, \"site_url\": \"https://$DOMAIN\", \"uri_allow_list\": \"https://$DOMAIN/auth/confirm\"}" >/dev/null 2>&1; then
-    ok "Altas cerradas y URL del sitio configurada"
-  else
-    echo "  ⚠️  No he podido cerrar las altas: en Supabase → Authentication → Sign In / Providers, desactiva «Allow new users to sign up»."
-  fi
-  unset SUPABASE_ACCESS_TOKEN || true
-fi
+# --- 1. Base de datos: solo proyecto existente autorizado. ------------------------------
 
 for key in NEXT_PUBLIC_SUPABASE_URL NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY SUPABASE_SECRET_KEY; do
   value=$(get "$key")
   [ -n "$value" ] && [[ "$value" != *PON_AQUI* ]] || fail "Falta $key en $ENV_FILE."
 done
 
-say "Base de datos: migraciones"
 DB_URL=$(get SUPABASE_DB_URL)
-LINKED=""
-if [ -n "$DB_URL" ] && [[ "$DB_URL" != *PON_AQUI* ]]; then
-  PUSH=("${SUPABASE[@]}" db push --db-url "$DB_URL" --yes)
-else
-  # Sin la contraseña de la base de datos: la CLI entra con la sesión de «supabase login».
-  echo "  Si te pide la contraseña de la base de datos y no la sabes, deja vacío y pulsa Intro."
-  "${SUPABASE[@]}" link --project-ref "$REF" || fail "No he podido enlazar el proyecto $REF (¿hiciste «pnpm exec supabase login» con la cuenta de GNERAI?)."
-  LINKED=1
-  PUSH=("${SUPABASE[@]}" db push --linked --yes)
-fi
-if "${PUSH[@]}" 2>&1 | grep --line-buffered -viE "new version|recommend updating" | tee deploy/db-push.log | sed 's/^/  /'; then
+[ -n "$DB_URL" ] && [[ "$DB_URL" != *PON_AQUI* ]] && [[ "$DB_URL" != *'[YOUR-PASSWORD]'* ]] || fail "Falta SUPABASE_DB_URL de $REF en $ENV_FILE."
+python3 - "$DB_URL" "$REF" <<'PY' || fail "SUPABASE_DB_URL no corresponde al proyecto autorizado."
+import sys
+from urllib.parse import urlparse
+
+url, ref = sys.argv[1:]
+parsed = urlparse(url)
+direct = parsed.hostname == f"db.{ref}.supabase.co" and parsed.username == "postgres"
+pooler = (parsed.hostname or "").endswith(".pooler.supabase.com") and parsed.username == f"postgres.{ref}"
+if parsed.scheme not in ("postgres", "postgresql") or not (direct or pooler) or not parsed.password:
+    raise SystemExit(1)
+PY
+command -v pg_dump >/dev/null 2>&1 || fail "Falta pg_dump para el respaldo obligatorio previo a migrar."
+mkdir -p deploy/backups
+chmod 700 deploy/backups
+BACKUP=deploy/backups/${REF}-$(date +%Y%m%d%H%M%S).dump
+say "Base de datos: respaldo previo"
+pg_dump "$DB_URL" --format=custom --no-owner --no-privileges --file "$BACKUP" || fail "No se pudo completar el respaldo; no se aplicaron migraciones."
+chmod 600 "$BACKUP"
+ok "Respaldo guardado en $BACKUP"
+
+say "Base de datos: migraciones"
+if "${SUPABASE[@]}" db push --db-url "$DB_URL" --yes 2>&1 | grep --line-buffered -viE "new version|recommend updating" | tee deploy/db-push.log | sed 's/^/  /'; then
   :
 else
-  [ -z "$LINKED" ] || "${SUPABASE[@]}" unlink --yes >/dev/null 2>&1 || true
   fail "Las migraciones han fallado (arriba el error; completo en deploy/db-push.log)."
 fi
-[ -z "$LINKED" ] || "${SUPABASE[@]}" unlink --yes >/dev/null 2>&1 || true
 unset DB_URL
 ok "Base de datos al día"
 
 # --- 2. App ------------------------------------------------------------------------------------
 say "App: compilando para el servidor (unos minutos)"
 rm -rf deploy/out
-docker build --platform linux/amd64 --target bundle --output type=local,dest=deploy/out \
-  --build-arg NEXT_PUBLIC_SUPABASE_URL="$(get NEXT_PUBLIC_SUPABASE_URL)" \
-  --build-arg NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY="$(get NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY)" \
-  --build-arg NEXT_PUBLIC_APP_URL="$(get NEXT_PUBLIC_APP_URL)" \
-  --build-arg NEXT_PUBLIC_VAPID_PUBLIC_KEY="$(get NEXT_PUBLIC_VAPID_PUBLIC_KEY)" \
-  . >deploy/build.log 2>&1 || fail "La compilación ha fallado: mira deploy/build.log."
+if [ "$BUILD" = docker ]; then
+  docker build --platform linux/amd64 --target bundle --output type=local,dest=deploy/out \
+    --build-arg NEXT_PUBLIC_SUPABASE_URL="$(get NEXT_PUBLIC_SUPABASE_URL)" \
+    --build-arg NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY="$(get NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY)" \
+    --build-arg NEXT_PUBLIC_APP_URL="$(get NEXT_PUBLIC_APP_URL)" \
+    --build-arg NEXT_PUBLIC_VAPID_PUBLIC_KEY="$(get NEXT_PUBLIC_VAPID_PUBLIC_KEY)" \
+    . >deploy/build.log 2>&1 || fail "La compilación ha fallado: mira deploy/build.log."
+else
+  # Mismo resultado que la etapa «bundle» del Dockerfile: standalone + .next/static + public.
+  # Las NEXT_PUBLIC_* se incrustan al compilar: van del fichero de producción, no de .env.local.
+  rm -rf .next
+  env NEXT_TELEMETRY_DISABLED=1 NODE_OPTIONS=--max-old-space-size=4096 \
+    NEXT_PUBLIC_SUPABASE_URL="$(get NEXT_PUBLIC_SUPABASE_URL)" \
+    NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY="$(get NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY)" \
+    NEXT_PUBLIC_APP_URL="$(get NEXT_PUBLIC_APP_URL)" \
+    NEXT_PUBLIC_VAPID_PUBLIC_KEY="$(get NEXT_PUBLIC_VAPID_PUBLIC_KEY)" \
+    node_modules/.bin/next build --webpack >deploy/build.log 2>&1 || fail "La compilación ha fallado: mira deploy/build.log."
+  mkdir -p deploy/out/.next/static deploy/out/public
+  cp -R .next/standalone/. deploy/out/
+  cp -R .next/static/. deploy/out/.next/static/
+  cp -R public/. deploy/out/public/
+  for f in $(find src/council/agents -name '*.md'); do
+    [ -f "deploy/out/$f" ] || fail "Falta $f en el standalone: revisa outputFileTracingIncludes."
+  done
+  if find deploy/out -name '*.node' | grep -q .; then
+    fail "El bundle lleva binarios nativos de macOS; compila con Docker (linux/amd64)."
+  fi
+fi
 [ -f deploy/out/server.js ] || fail "La compilación no ha dejado server.js (mira deploy/build.log)."
 ok "Compilada ($(du -sh deploy/out | cut -f1))"
+
+# Arranque de prueba en este Mac antes de subirlo: el bundle responde a /api/health con las
+# variables de producción (sin tocar la base: health no escribe).
+say "App: arranque de prueba del bundle"
+SMOKE_PORT=3399
+( set -a; . "$ENV_FILE"; set +a; cd deploy/out && NODE_ENV=production PORT=$SMOKE_PORT HOSTNAME=127.0.0.1 exec node server.js ) >deploy/smoke.log 2>&1 &
+SMOKE_PID=$!
+SMOKE_OK=0
+for _ in $(seq 1 30); do
+  curl -fsS "http://127.0.0.1:$SMOKE_PORT/api/health" >/dev/null 2>&1 && { SMOKE_OK=1; break; }
+  sleep 1
+done
+kill "$SMOKE_PID" >/dev/null 2>&1 || true
+wait "$SMOKE_PID" 2>/dev/null || true
+[ "$SMOKE_OK" = 1 ] || { tail -20 deploy/smoke.log >&2; fail "El bundle no responde en local: no se sube (deploy/smoke.log)."; }
+ok "El bundle arranca y responde"
 
 say "App: subiendo a $SSH_TARGET"
 RELEASE=/opt/gneraios/releases/$(date +%Y%m%d%H%M%S)
 ssh "$SSH_TARGET" "mkdir -p $RELEASE"
 COPYFILE_DISABLE=1 tar --no-xattrs --no-mac-metadata -C deploy/out -czf - . | ssh "$SSH_TARGET" "tar -C $RELEASE -xzf - 2>/dev/null"
-# Variables de ejecución (sin las que solo sirven para desplegar), con permisos 600.
+# Variables de ejecución (sin las que solo sirven para desplegar), con permisos 600. Las que solo
+# viven en el servidor (proveedor de email, política de acceso) se conservan si aquí no se dan.
 grep -vE '^(#|$|DEPLOY_SSH=|SUPABASE_DB_URL=|SUPABASE_DB_PASSWORD=|SUPABASE_PROJECT_REF=|SUPABASE_ORG_ID=)' "$ENV_FILE" |
-  ssh "$SSH_TARGET" "umask 077 && cat > /etc/gneraios.env"
+  ssh "$SSH_TARGET" 'umask 077 && cat > /etc/gneraios.env.new && for key in BREVO_API_KEY RESEND_API_KEY AUTH_MFA_REQUIRED AUTH_DEVICE_CONFIRMATION; do
+    grep -q "^$key=" /etc/gneraios.env.new || grep "^$key=" /etc/gneraios.env 2>/dev/null >> /etc/gneraios.env.new || true
+  done && mv /etc/gneraios.env.new /etc/gneraios.env'
 ok "Subida a $RELEASE"
 
 ssh "$SSH_TARGET" bash -s -- "$RELEASE" "$PORT" "$DOMAIN" <<'REMOTE'
@@ -381,16 +303,6 @@ echo
 curl -fsS "https://$DOMAIN/api/health" >/dev/null || fail "https://$DOMAIN no responde todavía (mira: ssh $SSH_TARGET pm2 logs gneraios)."
 ok "https://$DOMAIN responde"
 
-# --- 3. Socios ---------------------------------------------------------------------------------
-if [ ! -f "$CODES_FILE" ]; then
-  say "Socios: org GNERAI y códigos de acceso"
-  ARGS=()
-  for socio in "${SOCIOS[@]}"; do ARGS+=(--socio "$socio"); done
-  pnpm exec tsx --env-file="$ENV_FILE" scripts/prod-socios.mts --org gnerai --create-org "GNERAI" "${ARGS[@]}" --yes --out "$CODES_FILE" ||
-    fail "No he podido crear los socios (la app ya está subida: vuelve a lanzar el script)."
-  open -e "$CODES_FILE" 2>/dev/null || true
-fi
-
 say "Listo: https://$DOMAIN"
 echo "  Revisa en Supabase (proyecto $REF) → Authentication → Sign In / Providers que «Allow new users to sign up» está desactivado."
-echo "  Cada socio entra escribiendo su código (están en $CODES_FILE; bórralo cuando los tengáis)."
+echo "  Verifica la organización y los tres accesos operativos existentes; este script no crea usuarios."

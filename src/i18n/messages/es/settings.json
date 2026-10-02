@@ -319,6 +319,7 @@
     "accessCode": {
       "title": "Códigos de acceso",
       "description": "Cada socio entra con su código personal de 8 cifras. Aquí ves en qué dispositivos lo ha usado cada uno.",
+      "selfOnlyDescription": "Cada socio gestiona su propio código. Aquí puedes revisar los dispositivos de confianza de la organización.",
       "selfTitle": "Tu código de acceso",
       "none": "Sin código",
       "created": "Creado el {date}",

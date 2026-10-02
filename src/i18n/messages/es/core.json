@@ -31,6 +31,7 @@
     "groupBilling": "Facturación",
     "dashboard": "Dashboard",
     "pipeline": "Pipeline",
+    "leads": "Leads",
     "clients": "Clientes",
     "quotes": "Presupuestos",
     "contracts": "Contratos",
@@ -40,6 +41,7 @@
     "switchOrg": "Cambiar de organización",
     "toggleSidebar": "Mostrar u ocultar la barra lateral",
     "seo": "SEO",
+    "ads": "Ads",
     "council": "Consejo",
     "finance": "Finanzas",
     "calendar": "Calendario",
@@ -174,7 +176,8 @@
     "invoices": "Borradores automáticos, emisión en bloque, PDF con marca, cobros y rectificativas."
   },
   "preview": {
-    "banner": "Vista previa sin base de datos: datos de ejemplo, nada se guarda.",
+    "banner": "Vista de diseño: no carga clientes ni importes. Entra en la app real para ver los datos de Supabase.",
+    "openRealApp": "Abrir datos reales",
     "designTitle": "Sistema visual",
     "designSubtitle": "Tokens y componentes con la estética de gnerai.com.",
     "seeOnboarding": "Ver el onboarding",

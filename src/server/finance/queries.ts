@@ -322,7 +322,7 @@ export async function listCashAccounts(supabase: Supabase, orgId: string): Promi
 /** Participaciones (todos los repartos) y retribución de los socios en los últimos `months` meses. */
 export async function loadPartners(supabase: Supabase, orgId: string, today: CivilDate, months = 12): Promise<PartnersData> {
   const window = monthsEndingAt(monthOf(today), months);
-  const [shares, compensation, members] = await Promise.all([
+  const [shares, compensation, movements, members] = await Promise.all([
     supabase.from("shareholdings").select("member_id, percent_bps, valid_from").eq("org_id", orgId).order("valid_from", { ascending: false }),
     fetchAll(
       (a, b) =>
@@ -335,6 +335,10 @@ export async function loadPartners(supabase: Supabase, orgId: string, today: Civ
           .order("id")
           .range(a, b),
       "finance.partners.compensation",
+    ),
+    fetchAll(
+      (a, b) => supabase.from("partner_movements").select("id, member_id, kind, status, amount_cents, effective_on, reference, notes").eq("org_id", orgId).order("effective_on", { ascending: false }).order("created_at", { ascending: false }).range(a, b),
+      "finance.partners.movements",
     ),
     supabase.from("members").select("id, full_name, initials, is_active").eq("org_id", orgId).order("full_name"),
   ]);
@@ -357,6 +361,8 @@ export async function loadPartners(supabase: Supabase, orgId: string, today: Civ
   }
   const memberRows = must(members, "finance.partners.members");
   const involved = new Set([...sorted.flatMap((s) => s.rows.map((r) => r.memberId)), ...[...byKey.values()].flatMap((c) => (c.memberId ? [c.memberId] : []))]);
+  const movementRows = movements;
+  for (const movement of movementRows) involved.add(movement.member_id);
   return {
     members: memberRows
       .filter((m) => m.is_active || involved.has(m.id))
@@ -365,5 +371,6 @@ export async function loadPartners(supabase: Supabase, orgId: string, today: Civ
     currentValidFrom: sorted.find((s) => s.validFrom <= today)?.validFrom ?? null,
     months: window,
     compensation: [...byKey.values()],
+    movements: movementRows.map((movement) => ({ id: movement.id, memberId: movement.member_id, kind: movement.kind, status: movement.status, amountCents: movement.amount_cents, effectiveOn: movement.effective_on, reference: movement.reference, notes: movement.notes })),
   };
 }

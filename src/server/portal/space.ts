@@ -27,6 +27,7 @@ import { getPortalProjects, type PortalProject } from "@/server/projects/portal"
 import type { PortalLink } from "./access";
 import { completedTaskItems, type DatedWorkItem, DONE_TASK_DAYS, mergeWorkLog, toSpaceWorkProject } from "./space-projects";
 import { loadPortalWebData } from "./web-data";
+import { loadPortalAdsData } from "./ads";
 
 /**
  * «Tu espacio»: todo lo que ve el cliente en su portal, leído con la clave de servidor y siempre
@@ -377,7 +378,7 @@ export async function loadClientSpace(admin: Db, link: PortalLink): Promise<Spac
   const contracts = needsContracts ? await loadContracts(admin, orgId, clientId) : [];
   const needsProjects = on.has("progress") || on.has("work_log");
 
-  const [phases, activities, projects, files, services, docs, webData] = await Promise.all([
+  const [phases, activities, projects, files, services, docs, webData, adsData] = await Promise.all([
     on.has("progress") ? loadPhases(admin, orgId, contracts) : null,
     on.has("work_log") ? loadActivities(admin, orgId, clientId, timeZone) : null,
     needsProjects ? loadProjects(admin, orgId, clientId, { today, timeZone, withDone: on.has("work_log") }) : null,
@@ -385,6 +386,7 @@ export async function loadClientSpace(admin: Db, link: PortalLink): Promise<Spac
     on.has("services") ? loadServices(admin, orgId, contracts) : null,
     on.has("documents") ? loadDocuments(admin, orgId, clientId, contracts, today, timeZone) : null,
     on.has("web_data") ? loadPortalWebData(admin, orgId, clientId, today) : null,
+    on.has("ads") ? loadPortalAdsData(admin, orgId, clientId) : null,
   ]);
   const progress = phases ? { projects: phases, workProjects: projects?.projects ?? [], nextSteps } : null;
   const workLog = activities ? mergeWorkLog([...activities, ...(projects?.done ?? [])], WORK_LOG_LIMIT) : null;
@@ -404,6 +406,7 @@ export async function loadClientSpace(admin: Db, link: PortalLink): Promise<Spac
     services,
     documents: docs?.documents ?? null,
     webData,
+    adsData,
     footer,
   };
 }

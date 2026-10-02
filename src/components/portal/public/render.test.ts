@@ -105,6 +105,7 @@ function space(locale: PortalLocale): SpaceData {
       sessions: 980,
       change: { clicks: 0.12, impressions: null, position: 1.5, sessions: -0.05 },
     },
+    adsData: null,
     footer: { issuers: ["GNERAI SL"], email: "hola@gnerai.com" },
   };
 }
