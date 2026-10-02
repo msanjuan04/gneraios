@@ -93,6 +93,10 @@ ok "Base de datos al día"
 
 # --- 2. App ------------------------------------------------------------------------------------
 say "App: compilando para el servidor (unos minutos)"
+# REUSE_BUILD=1 vuelve a subir el deploy/out que ya hay (p. ej. tras un fallo al subir).
+if [ "${REUSE_BUILD:-}" = 1 ] && [ -f deploy/out/server.js ]; then
+  ok "Reutilizo deploy/out (REUSE_BUILD=1)"
+else
 rm -rf deploy/out
 if [ "$BUILD" = docker ]; then
   docker build --platform linux/amd64 --target bundle --output type=local,dest=deploy/out \
@@ -118,11 +122,35 @@ else
   for f in $(find src/council/agents -name '*.md'); do
     [ -f "deploy/out/$f" ] || fail "Falta $f en el standalone: revisa outputFileTracingIncludes."
   done
-  if find deploy/out -name '*.node' | grep -q .; then
-    fail "El bundle lleva binarios nativos de macOS; compila con Docker (linux/amd64)."
-  fi
+fi
 fi
 [ -f deploy/out/server.js ] || fail "La compilación no ha dejado server.js (mira deploy/build.log)."
+
+# sharp (next/image) es el único paquete con binarios por plataforma: si el bundle lleva los de
+# macOS, se cambian por los de linux-x64 del registro npm, en la misma estructura pnpm del standalone.
+SHARP_PKG=$(ls -d deploy/out/node_modules/.pnpm/sharp@*/ 2>/dev/null | head -1 || true)
+if [ -n "$SHARP_PKG" ] && ls -d deploy/out/node_modules/.pnpm/@img+sharp-darwin-* >/dev/null 2>&1; then
+  SHARP_VERSION=$(node -p "require('./${SHARP_PKG}node_modules/sharp/package.json').version")
+  SHARP_TMP=$(mktemp -d)
+  (cd "$SHARP_TMP" && npm init -y >/dev/null 2>&1 &&
+    npm install --no-save --no-audit --no-fund --ignore-scripts --os=linux --cpu=x64 --libc=glibc "sharp@$SHARP_VERSION" >/dev/null 2>&1) ||
+    fail "No se pudieron descargar los binarios linux-x64 de sharp@$SHARP_VERSION."
+  for p in sharp-linux-x64 sharp-libvips-linux-x64; do
+    ver=$(node -p "require('$SHARP_TMP/node_modules/@img/$p/package.json').version")
+    mkdir -p "deploy/out/node_modules/.pnpm/@img+$p@$ver/node_modules/@img"
+    cp -R "$SHARP_TMP/node_modules/@img/$p" "deploy/out/node_modules/.pnpm/@img+$p@$ver/node_modules/@img/"
+    ln -sfn "../../../@img+$p@$ver/node_modules/@img/$p" "${SHARP_PKG}node_modules/@img/$p"
+  done
+  LIBVIPS_VERSION=$(node -p "require('$SHARP_TMP/node_modules/@img/sharp-libvips-linux-x64/package.json').version")
+  ln -sfn "../../../@img+sharp-libvips-linux-x64@$LIBVIPS_VERSION/node_modules/@img/sharp-libvips-linux-x64" \
+    "deploy/out/node_modules/.pnpm/@img+sharp-linux-x64@$SHARP_VERSION/node_modules/@img/sharp-libvips-linux-x64"
+  rm -rf "$SHARP_TMP" deploy/out/node_modules/.pnpm/@img+sharp-darwin-* deploy/out/node_modules/.pnpm/@img+sharp-libvips-darwin-*
+  find "${SHARP_PKG}node_modules/@img" -maxdepth 1 -name '*darwin*' -exec rm -f {} +
+  ok "sharp: binarios linux-x64 $SHARP_VERSION (libvips $LIBVIPS_VERSION)"
+fi
+if find deploy/out -name '*.node' | grep -vE 'linux-x64' | grep -q .; then
+  fail "El bundle lleva binarios nativos que no son linux-x64; compila con Docker (linux/amd64)."
+fi
 ok "Compilada ($(du -sh deploy/out | cut -f1))"
 
 # Arranque de prueba en este Mac antes de subirlo: el bundle responde a /api/health con las
