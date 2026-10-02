@@ -8,7 +8,8 @@
       "expenses": "Despeses",
       "subscriptions": "Subscripcions",
       "cash": "Caixa",
-      "partners": "Socis"
+      "partners": "Socis",
+      "company": "Societat"
     },
     "status": {
       "pending": "Pendent",
@@ -494,9 +495,30 @@
         "approve": "Aprova",
         "markPaid": "Marca com a pagat",
         "void": "Anul·la",
-        "columns": { "date": "Data", "member": "Soci", "kind": "Tipus", "direction": "Flux", "amount": "Import", "status": "Estat", "reference": "Referència", "actions": "Accions" },
-        "kinds": { "capital_contribution": "Aportació al capital social", "shareholder_funds_contribution": "Aportació de fons del soci", "partner_loan": "Préstec del soci a la societat", "loan_repayment": "Devolució del préstec al soci", "expense_reimbursement": "Reemborsament de despesa avançada", "dividend": "Distribució/dividend" },
-        "statuses": { "proposed": "Proposat", "approved": "Aprovat", "paid": "Pagat", "void": "Anul·lat" }
+        "columns": {
+          "date": "Data",
+          "member": "Soci",
+          "kind": "Tipus",
+          "direction": "Flux",
+          "amount": "Import",
+          "status": "Estat",
+          "reference": "Referència",
+          "actions": "Accions"
+        },
+        "kinds": {
+          "capital_contribution": "Aportació al capital social",
+          "shareholder_funds_contribution": "Aportació de fons del soci",
+          "partner_loan": "Préstec del soci a la societat",
+          "loan_repayment": "Devolució del préstec al soci",
+          "expense_reimbursement": "Reemborsament de despesa avançada",
+          "dividend": "Distribució/dividend"
+        },
+        "statuses": {
+          "proposed": "Proposat",
+          "approved": "Aprovat",
+          "paid": "Pagat",
+          "void": "Anul·lat"
+        }
       }
     },
     "settings": {
@@ -695,6 +717,76 @@
       "errors": {
         "nothingPending": "No queda res per repercutir a aquest client: ja és tot a la seva factura.",
         "clientUnavailable": "Aquest client està arxivat: recupera'l per facturar-li."
+      }
+    },
+    "company": {
+      "readOnly": "L'expedient de la societat el veuen els socis.",
+      "profileTitle": "La societat",
+      "profileDescription": "Les dades de l'emissor de tipus empresa (Configuració → Emissors). Mentre no tingui NIF i data d'alta, està pendent de constituir.",
+      "profileEmpty": "Encara no hi ha cap societat donada d'alta com a emissor.",
+      "profile": {
+        "legalName": "Raó social",
+        "taxId": "NIF",
+        "pending": "Pendent",
+        "address": "Domicili",
+        "activeFrom": "Constituïda des de",
+        "notYet": "Pendent de constitució i inscripció",
+        "registry": "Registre i notes",
+        "verifactu": "Verifactu obligatori des de"
+      },
+      "documentsTitle": "Expedient legal",
+      "documentsDescription": "Cada document amb el seu estat real. Un fitxer mai es canvia: una versió nova és un altre document i l'anterior passa a «substituït».",
+      "documentsOpen": "{count, plural, one {1 document pendent de signatura, presentació o inscripció} other {# documents pendents de signatura, presentació o inscripció}}",
+      "documentsEmpty": "Encara no hi ha documents. Puja el certificat de denominació, el DUE, els estatuts, els acords entre socis…",
+      "upload": "Pujar document",
+      "uploadTitle": "Pujar document",
+      "uploadDescription": "PDF, Word, Excel, imatge o text, fins a 20 MB. Es desa tal qual, amb la seva empremta SHA-256.",
+      "editTitle": "Editar document",
+      "editDescription": "Títol, categoria, estat, data i soci. El fitxer no es canvia.",
+      "edit": "Editar",
+      "archive": "Arxivar",
+      "download": "Descarregar",
+      "archiveConfirm": "Arxivar «{title}»? Desapareix de l'expedient; el fitxer es conserva.",
+      "uploadedToast": "Document pujat.",
+      "updatedToast": "Document actualitzat.",
+      "archivedToast": "Document arxivat.",
+      "fields": {
+        "file": "Fitxer",
+        "fileHint": "PDF, DOCX, XLSX, JPG, PNG, MD o TXT.",
+        "title": "Títol",
+        "category": "Categoria",
+        "status": "Estat",
+        "effectiveOn": "Data",
+        "effectiveOnHint": "Signatura, presentació o emissió.",
+        "member": "Soci",
+        "memberHint": "Si el document és d'una persona (mandat, annex…).",
+        "memberNone": "La societat",
+        "description": "Notes"
+      },
+      "categories": {
+        "constitution": "Constitució",
+        "statutes": "Estatuts i pactes",
+        "registry": "Registre Mercantil",
+        "tax": "Hisenda",
+        "social_security": "Seguretat Social",
+        "partner_agreement": "Acords entre socis",
+        "bank": "Banc",
+        "other": "Altres"
+      },
+      "statuses": {
+        "draft": "Esborrany",
+        "pending_signature": "Pendent de signatura",
+        "signed": "Signat",
+        "filed": "Presentat",
+        "registered": "Inscrit",
+        "superseded": "Substituït"
+      },
+      "errors": {
+        "missingFile": "Tria un fitxer.",
+        "tooLarge": "El fitxer supera els 20 MB.",
+        "type": "Format no admès: PDF, DOCX, XLSX, JPG, PNG, MD o TXT.",
+        "uploadFailed": "No s'ha pogut pujar el document.",
+        "notFound": "Aquest document ja no és a l'expedient."
       }
     }
   },

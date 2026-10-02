@@ -8,7 +8,8 @@
       "expenses": "Gastos",
       "subscriptions": "Suscripciones",
       "cash": "Caja",
-      "partners": "Socios"
+      "partners": "Socios",
+      "company": "Sociedad"
     },
     "status": {
       "pending": "Pendiente",
@@ -494,9 +495,30 @@
         "approve": "Aprobar",
         "markPaid": "Marcar pagado",
         "void": "Anular",
-        "columns": { "date": "Fecha", "member": "Socio", "kind": "Tipo", "direction": "Flujo", "amount": "Importe", "status": "Estado", "reference": "Referencia", "actions": "Acciones" },
-        "kinds": { "capital_contribution": "Aportación a capital social", "shareholder_funds_contribution": "Aportación de fondos del socio", "partner_loan": "Préstamo del socio a la sociedad", "loan_repayment": "Devolución de préstamo al socio", "expense_reimbursement": "Reembolso de gasto adelantado", "dividend": "Distribución/dividendo" },
-        "statuses": { "proposed": "Propuesto", "approved": "Aprobado", "paid": "Pagado", "void": "Anulado" }
+        "columns": {
+          "date": "Fecha",
+          "member": "Socio",
+          "kind": "Tipo",
+          "direction": "Flujo",
+          "amount": "Importe",
+          "status": "Estado",
+          "reference": "Referencia",
+          "actions": "Acciones"
+        },
+        "kinds": {
+          "capital_contribution": "Aportación a capital social",
+          "shareholder_funds_contribution": "Aportación de fondos del socio",
+          "partner_loan": "Préstamo del socio a la sociedad",
+          "loan_repayment": "Devolución de préstamo al socio",
+          "expense_reimbursement": "Reembolso de gasto adelantado",
+          "dividend": "Distribución/dividendo"
+        },
+        "statuses": {
+          "proposed": "Propuesto",
+          "approved": "Aprobado",
+          "paid": "Pagado",
+          "void": "Anulado"
+        }
       }
     },
     "settings": {
@@ -695,6 +717,76 @@
       "errors": {
         "nothingPending": "No queda nada por repercutir a este cliente: ya está todo en su factura.",
         "clientUnavailable": "Ese cliente está archivado: recupéralo para facturarle."
+      }
+    },
+    "company": {
+      "readOnly": "El expediente de la sociedad lo ven los socios.",
+      "profileTitle": "La sociedad",
+      "profileDescription": "Los datos del emisor de tipo empresa (Ajustes → Emisores). Mientras no tenga NIF y fecha de alta, está pendiente de constituir.",
+      "profileEmpty": "Aún no hay ninguna sociedad dada de alta como emisor.",
+      "profile": {
+        "legalName": "Razón social",
+        "taxId": "NIF",
+        "pending": "Pendiente",
+        "address": "Domicilio",
+        "activeFrom": "Constituida desde",
+        "notYet": "Pendiente de constitución e inscripción",
+        "registry": "Registro y notas",
+        "verifactu": "Verifactu obligatorio desde"
+      },
+      "documentsTitle": "Expediente legal",
+      "documentsDescription": "Cada documento con su estado real. Un fichero nunca se cambia: una versión nueva es otro documento y el anterior pasa a «sustituido».",
+      "documentsOpen": "{count, plural, one {1 documento pendiente de firma, presentación o inscripción} other {# documentos pendientes de firma, presentación o inscripción}}",
+      "documentsEmpty": "Aún no hay documentos. Sube el certificado de denominación, el DUE, los estatutos, los acuerdos entre socios…",
+      "upload": "Subir documento",
+      "uploadTitle": "Subir documento",
+      "uploadDescription": "PDF, Word, Excel, imagen o texto, hasta 20 MB. Se guarda tal cual, con su huella SHA-256.",
+      "editTitle": "Editar documento",
+      "editDescription": "Título, categoría, estado, fecha y socio. El fichero no se cambia.",
+      "edit": "Editar",
+      "archive": "Archivar",
+      "download": "Descargar",
+      "archiveConfirm": "¿Archivar «{title}»? Desaparece del expediente; el fichero se conserva.",
+      "uploadedToast": "Documento subido.",
+      "updatedToast": "Documento actualizado.",
+      "archivedToast": "Documento archivado.",
+      "fields": {
+        "file": "Fichero",
+        "fileHint": "PDF, DOCX, XLSX, JPG, PNG, MD o TXT.",
+        "title": "Título",
+        "category": "Categoría",
+        "status": "Estado",
+        "effectiveOn": "Fecha",
+        "effectiveOnHint": "Firma, presentación o emisión.",
+        "member": "Socio",
+        "memberHint": "Si el documento es de una persona (mandato, anexo…).",
+        "memberNone": "La sociedad",
+        "description": "Notas"
+      },
+      "categories": {
+        "constitution": "Constitución",
+        "statutes": "Estatutos y pactos",
+        "registry": "Registro Mercantil",
+        "tax": "Hacienda",
+        "social_security": "Seguridad Social",
+        "partner_agreement": "Acuerdos entre socios",
+        "bank": "Banco",
+        "other": "Otros"
+      },
+      "statuses": {
+        "draft": "Borrador",
+        "pending_signature": "Pendiente de firma",
+        "signed": "Firmado",
+        "filed": "Presentado",
+        "registered": "Inscrito",
+        "superseded": "Sustituido"
+      },
+      "errors": {
+        "missingFile": "Elige un fichero.",
+        "tooLarge": "El fichero supera los 20 MB.",
+        "type": "Formato no admitido: PDF, DOCX, XLSX, JPG, PNG, MD o TXT.",
+        "uploadFailed": "No se pudo subir el documento.",
+        "notFound": "Ese documento ya no está en el expediente."
       }
     }
   },

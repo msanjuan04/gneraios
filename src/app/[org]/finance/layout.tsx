@@ -26,6 +26,7 @@ export default async function FinanceLayout({ children, params }: { children: Re
           { href: `${base}/cash`, label: t("tabs.cash") },
           { href: `${base}/bank`, label: (await getTranslations("banking"))("tab") },
           { href: `${base}/partners`, label: t("tabs.partners") },
+          { href: `${base}/company`, label: t("tabs.company") },
         ]}
       />
       {children}

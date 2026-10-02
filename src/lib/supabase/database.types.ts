@@ -45,6 +45,16 @@ type OutboundEmails = Omit<GeneratedOutboundEmails, "Row" | "Insert" | "Update">
   Update: GeneratedOutboundEmails["Update"] & { claimed_at?: string | null };
 };
 
+// org_documents (20261002180000_expediente_sociedad.sql), hasta regenerar los tipos.
+type OrgDocumentCategory = "constitution" | "statutes" | "registry" | "tax" | "social_security" | "partner_agreement" | "bank" | "other";
+type OrgDocumentStatus = "draft" | "pending_signature" | "signed" | "filed" | "registered" | "superseded";
+type OrgDocuments = {
+  Row: { id: string; org_id: string; category: OrgDocumentCategory; status: OrgDocumentStatus; title: string; description: string | null; effective_on: string | null; member_id: string | null; storage_path: string; file_name: string; content_type: string; size_bytes: number; sha256: string; created_at: string; updated_at: string; created_by: string | null; archived_at: string | null };
+  Insert: { id?: string; org_id: string; category?: OrgDocumentCategory; status?: OrgDocumentStatus; title: string; description?: string | null; effective_on?: string | null; member_id?: string | null; storage_path: string; file_name: string; content_type: string; size_bytes: number; sha256: string; created_at?: string; updated_at?: string; created_by?: string | null; archived_at?: string | null };
+  Update: { id?: string; org_id?: string; category?: OrgDocumentCategory; status?: OrgDocumentStatus; title?: string; description?: string | null; effective_on?: string | null; member_id?: string | null; storage_path?: string; file_name?: string; content_type?: string; size_bytes?: number; sha256?: string; created_at?: string; updated_at?: string; created_by?: string | null; archived_at?: string | null };
+  Relationships: [];
+};
+
 // quote_templates (20261002160000_plantillas_presupuesto.sql), hasta regenerar los tipos.
 type QuoteTemplates = {
   Row: { id: string; org_id: string; name: string; category: GeneratedPublic["Enums"]["catalog_category"]; summary: string | null; title: string | null; language: GeneratedPublic["Enums"]["app_locale"]; notes: string | null; lines: Json; payment_plan: Json; source_quote_id: string | null; uses_count: number; created_at: string; updated_at: string; created_by: string | null; archived_at: string | null };
@@ -62,6 +72,7 @@ export type Database = Omit<Generated, "public"> & {
       google_calendar_connections: GoogleCalendarConnections;
       ads_client_campaigns: AdsClientCampaigns;
       quote_templates: QuoteTemplates;
+      org_documents: OrgDocuments;
     };
     Functions: GeneratedPublic["Functions"] & {
       quote_template_used: { Args: { p_template_id: string }; Returns: undefined };

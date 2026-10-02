@@ -8,7 +8,8 @@
       "expenses": "Expenses",
       "subscriptions": "Subscriptions",
       "cash": "Cash",
-      "partners": "Partners"
+      "partners": "Partners",
+      "company": "Company"
     },
     "status": {
       "pending": "Pending",
@@ -494,9 +495,30 @@
         "approve": "Approve",
         "markPaid": "Mark paid",
         "void": "Void",
-        "columns": { "date": "Date", "member": "Partner", "kind": "Type", "direction": "Flow", "amount": "Amount", "status": "Status", "reference": "Reference", "actions": "Actions" },
-        "kinds": { "capital_contribution": "Share capital contribution", "shareholder_funds_contribution": "Partner funds contribution", "partner_loan": "Loan from partner to company", "loan_repayment": "Loan repayment to partner", "expense_reimbursement": "Expense reimbursement", "dividend": "Distribution/dividend" },
-        "statuses": { "proposed": "Proposed", "approved": "Approved", "paid": "Paid", "void": "Voided" }
+        "columns": {
+          "date": "Date",
+          "member": "Partner",
+          "kind": "Type",
+          "direction": "Flow",
+          "amount": "Amount",
+          "status": "Status",
+          "reference": "Reference",
+          "actions": "Actions"
+        },
+        "kinds": {
+          "capital_contribution": "Share capital contribution",
+          "shareholder_funds_contribution": "Partner funds contribution",
+          "partner_loan": "Loan from partner to company",
+          "loan_repayment": "Loan repayment to partner",
+          "expense_reimbursement": "Expense reimbursement",
+          "dividend": "Distribution/dividend"
+        },
+        "statuses": {
+          "proposed": "Proposed",
+          "approved": "Approved",
+          "paid": "Paid",
+          "void": "Voided"
+        }
       }
     },
     "settings": {
@@ -695,6 +717,76 @@
       "errors": {
         "nothingPending": "Nothing left to rebill to this client: it's all on their invoice.",
         "clientUnavailable": "That client is archived: restore it to invoice them."
+      }
+    },
+    "company": {
+      "readOnly": "The company file is visible to partners.",
+      "profileTitle": "The company",
+      "profileDescription": "Data of the company-type issuer (Settings → Issuers). Until it has a tax ID and start date, it is pending incorporation.",
+      "profileEmpty": "No company has been set up as an issuer yet.",
+      "profile": {
+        "legalName": "Legal name",
+        "taxId": "Tax ID",
+        "pending": "Pending",
+        "address": "Registered address",
+        "activeFrom": "Incorporated since",
+        "notYet": "Pending incorporation and registration",
+        "registry": "Registry and notes",
+        "verifactu": "Verifactu mandatory from"
+      },
+      "documentsTitle": "Legal file",
+      "documentsDescription": "Each document with its real status. A file never changes: a new version is another document and the previous one becomes “superseded”.",
+      "documentsOpen": "{count, plural, one {1 document pending signature, filing or registration} other {# documents pending signature, filing or registration}}",
+      "documentsEmpty": "No documents yet. Upload the name certificate, the DUE, the bylaws, the partner agreements…",
+      "upload": "Upload document",
+      "uploadTitle": "Upload document",
+      "uploadDescription": "PDF, Word, Excel, image or text, up to 20 MB. Stored as is, with its SHA-256 fingerprint.",
+      "editTitle": "Edit document",
+      "editDescription": "Title, category, status, date and partner. The file does not change.",
+      "edit": "Edit",
+      "archive": "Archive",
+      "download": "Download",
+      "archiveConfirm": "Archive “{title}”? It leaves the file; the document itself is kept.",
+      "uploadedToast": "Document uploaded.",
+      "updatedToast": "Document updated.",
+      "archivedToast": "Document archived.",
+      "fields": {
+        "file": "File",
+        "fileHint": "PDF, DOCX, XLSX, JPG, PNG, MD or TXT.",
+        "title": "Title",
+        "category": "Category",
+        "status": "Status",
+        "effectiveOn": "Date",
+        "effectiveOnHint": "Signature, filing or issue.",
+        "member": "Partner",
+        "memberHint": "If the document belongs to a person (mandate, annex…).",
+        "memberNone": "The company",
+        "description": "Notes"
+      },
+      "categories": {
+        "constitution": "Incorporation",
+        "statutes": "Bylaws and agreements",
+        "registry": "Companies Registry",
+        "tax": "Tax Agency",
+        "social_security": "Social Security",
+        "partner_agreement": "Partner agreements",
+        "bank": "Bank",
+        "other": "Other"
+      },
+      "statuses": {
+        "draft": "Draft",
+        "pending_signature": "Pending signature",
+        "signed": "Signed",
+        "filed": "Filed",
+        "registered": "Registered",
+        "superseded": "Superseded"
+      },
+      "errors": {
+        "missingFile": "Choose a file.",
+        "tooLarge": "The file exceeds 20 MB.",
+        "type": "Unsupported format: PDF, DOCX, XLSX, JPG, PNG, MD or TXT.",
+        "uploadFailed": "The document could not be uploaded.",
+        "notFound": "That document is no longer in the file."
       }
     }
   },
