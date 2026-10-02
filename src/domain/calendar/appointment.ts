@@ -10,9 +10,12 @@ export type AppointmentRow = {
   starts_at: string;
   ends_at: string;
   all_day: boolean;
+  /** Quién la puso (el calendario es compartido): nombre y color. */
+  member_name?: string | null;
+  member_color?: string | null;
 };
 
-/** La cita conserva un único origen editable, pero aparece cada día que ocupa. */
+/** La cita conserva un único origen editable, pero aparece cada día que ocupa. Lleva el nombre y el color de quien la puso. */
 export function appointmentCalendarEvents(row: AppointmentRow, from: CivilDate, to: CivilDate, timeZone: string, now: Date): CalendarEvent[] {
   const start = new Date(row.starts_at);
   const lastInstant = new Date(new Date(row.ends_at).getTime() - 1);
@@ -33,12 +36,13 @@ export function appointmentCalendarEvents(row: AppointmentRow, from: CivilDate, 
       appointmentStart: { date: firstDay, time },
       description: row.description,
       title: row.title,
-      subtitle: null,
+      subtitle: row.member_name ?? null,
       amountCents: null,
       amountPeriod: null,
       amountBasis: null,
       status: new Date(row.ends_at).getTime() < now.getTime() ? "past" : "scheduled",
       ownerMemberId: row.member_id,
+      accent: row.member_color ?? null,
       href: null,
       source: { table: "calendar_entries", id: row.id },
       movable: false,

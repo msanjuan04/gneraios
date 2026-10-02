@@ -6,7 +6,7 @@ import { addDays } from "@/domain/dates/civil-date";
 import { cn } from "@/lib/utils";
 import type { UpcomingWeek } from "@/server/calendar/upcoming";
 import { EventIcon } from "./event-icon";
-import { TYPE_COLORS } from "./event-style";
+import { eventColor } from "./event-style";
 import { formatDay } from "./format";
 
 /** Eventos que caben en la tarjeta; el resto, en el calendario. */
@@ -129,7 +129,7 @@ function UpcomingRow({
         href={href}
         className="flex items-center gap-2.5 rounded-md px-2 py-1.5 outline-none transition-colors hover:bg-muted focus-visible:bg-muted focus-visible:ring-2 focus-visible:ring-ring/50"
       >
-        <EventIcon event={event} aria-hidden className="size-4 shrink-0" style={{ color: event.status === "overdue" ? "var(--destructive)" : TYPE_COLORS[event.type] }} />
+        <EventIcon event={event} aria-hidden className="size-4 shrink-0" style={{ color: eventColor(event) }} />
         {event.time && <span className="shrink-0 text-xs font-semibold tabular text-muted-foreground">{event.time}</span>}
         <span className="min-w-0 flex-1">
           <span className={cn("block truncate font-medium", event.status === "overdue" && "text-destructive")}>{eventSummary(event, t)}</span>

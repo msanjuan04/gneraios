@@ -148,6 +148,8 @@ export type CalendarEvent = {
   status: CalendarEventStatus;
   /** Socio responsable; null = de todos (p. ej. los plazos de la SL). */
   ownerMemberId: string | null;
+  /** Color propio del evento (p. ej. el del socio dueño de una cita); sin él, el del tipo. */
+  accent?: string | null;
   /** Ruta dentro de la org ("/invoices/<id>"): donde se cambia el dato. */
   href: string | null;
   source: CalendarSource;

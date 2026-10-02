@@ -14,7 +14,7 @@ import {
   Target,
   Users,
 } from "lucide-react";
-import type { CalendarEventStatus, CalendarEventType } from "@/domain/calendar";
+import type { CalendarEvent, CalendarEventStatus, CalendarEventType } from "@/domain/calendar";
 
 /*
  * Identidad de cada tipo: un icono y un color derivado de los tokens de marca (--chart-*, estados
@@ -72,3 +72,9 @@ export const STATUS_BADGE: Record<CalendarEventStatus, string> = {
   done: "bg-success/12 text-success",
   past: "bg-muted text-muted-foreground",
 };
+
+/** El color con el que se pinta un evento: rojo si está vencido; si no, el suyo (una cita lleva el del socio) o el de su tipo. */
+export function eventColor(event: Pick<CalendarEvent, "type" | "status" | "accent">): string {
+  if (event.status === "overdue") return "var(--destructive)";
+  return event.accent || TYPE_COLORS[event.type];
+}

@@ -97,7 +97,7 @@ beforeEach(async () => {
 });
 
 describe("citas privadas y conexión Google", () => {
-  it("cada socio ve y modifica solo sus citas; un owner no ve las de otro", async () => {
+  it("las citas las ven todos los miembros de la org (calendario compartido), pero solo las modifica su dueño", async () => {
     const entry = await as(db, partner, () => one<{ id: string }>(
       `insert into public.calendar_entries (org_id, member_id, title, starts_at, ends_at)
        values ($1, $2, 'Reunión privada', '2026-10-01T10:00:00Z', '2026-10-01T11:00:00Z') returning id`,
@@ -107,8 +107,8 @@ describe("citas privadas y conexión Google", () => {
       "select id from public.calendar_entries where org_id = $1", [orgId],
     ));
     expect(await visible(partner)).toEqual([{ id: entry.id }]);
-    expect(await visible(owner)).toEqual([]);
-    expect(await visible(viewer)).toEqual([]);
+    expect(await visible(owner)).toEqual([{ id: entry.id }]);
+    expect(await visible(viewer)).toEqual([{ id: entry.id }]);
     expect(await visible(intruder)).toEqual([]);
     expect((await as(db, owner, () => db.query("update public.calendar_entries set title = 'Invadida' where id = $1 returning id", [entry.id]))).rows).toHaveLength(0);
     await expect(as(db, partner, () => db.query(

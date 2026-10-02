@@ -8,7 +8,7 @@ import { addDays, type CivilDate } from "@/domain/dates/civil-date";
 import { cn } from "@/lib/utils";
 import { DayHintsBadge } from "./day-hints";
 import { EventIcon } from "./event-icon";
-import { STATUS_BADGE, TYPE_COLORS } from "./event-style";
+import { eventColor, STATUS_BADGE } from "./event-style";
 import { formatDay } from "./format";
 import { useCalendarText } from "./use-calendar-text";
 
@@ -132,7 +132,7 @@ function AgendaRow({
       <span
         aria-hidden
         className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-muted"
-        style={{ color: event.status === "overdue" ? "var(--destructive)" : TYPE_COLORS[event.type] }}
+        style={{ color: eventColor(event) }}
       >
         <EventIcon event={event} className="size-4" />
       </span>

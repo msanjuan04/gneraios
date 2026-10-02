@@ -4,7 +4,7 @@ import { useDraggable } from "@dnd-kit/core";
 import type { CalendarEvent } from "@/domain/calendar";
 import { cn } from "@/lib/utils";
 import { EventIcon } from "./event-icon";
-import { TYPE_COLORS } from "./event-style";
+import { eventColor } from "./event-style";
 import { useCalendarText } from "./use-calendar-text";
 
 type ChipProps = {
@@ -47,7 +47,7 @@ export function EventChip({ event, onOpen, hideAmount, dragging, overlay, classN
         className,
       )}
     >
-      <EventIcon event={event} aria-hidden className="size-3.5 shrink-0" style={{ color: overdue ? undefined : TYPE_COLORS[event.type] }} />
+      <EventIcon event={event} aria-hidden className="size-3.5 shrink-0" style={{ color: overdue ? undefined : eventColor(event) }} />
       {event.time && <span className="shrink-0 font-semibold tabular text-muted-foreground">{event.time}</span>}
       <span className={cn("min-w-0 flex-1 truncate font-medium", event.status === "done" && "line-through decoration-current/30")}>
         {summary}

@@ -6,7 +6,7 @@ import type { CivilDate } from "@/domain/dates/civil-date";
 import { cn } from "@/lib/utils";
 import { DayHintsBadge } from "./day-hints";
 import { DraggableChip, EventChip } from "./event-chip";
-import { TYPE_COLORS } from "./event-style";
+import { eventColor } from "./event-style";
 import { formatDay } from "./format";
 import { useCalendarText } from "./use-calendar-text";
 
@@ -139,7 +139,7 @@ function DayCell({
               key={event.id}
               aria-hidden
               className="size-1.5 rounded-full"
-              style={{ background: event.status === "overdue" ? "var(--destructive)" : TYPE_COLORS[event.type] }}
+              style={{ background: eventColor(event) }}
             />
           ))}
         </button>

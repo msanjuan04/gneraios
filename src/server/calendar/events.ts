@@ -49,7 +49,7 @@ export type CalendarQuery = {
   types?: readonly CalendarEventType[];
   /** "Solo lo mío": lo de este socio y lo que es de todos. */
   memberId?: string | null;
-  /** Citas privadas del socio: nunca se cargan en feeds ICS públicos o de otro miembro. */
+  /** Con sesión de este socio se cargan las citas (de todos: el calendario es compartido); en los feeds ICS públicos, no. */
   personalMemberId?: string;
   /** Además del rango, lo atrasado de antes que aún pide algo (cobros, acciones, hitos…). */
   includeOverdue?: boolean;
@@ -556,13 +556,23 @@ export async function getCalendarEvents(db: Db, orgId: string, query: CalendarQu
 async function loadAppointments(db: Db, orgId: string, memberId: string, from: CivilDate, to: CivilDate, timeZone: string, now: Date): Promise<CalendarEvent[]> {
   const start = startOfDay(from, timeZone);
   const end = startOfDay(addDays(to, 1), timeZone);
-  const rows = await fetchAll(
-    (a, b) => db.from("calendar_entries")
-      .select("id, member_id, title, description, starts_at, ends_at, all_day")
-      .eq("org_id", orgId).eq("member_id", memberId)
-      .lt("starts_at", end).gt("ends_at", start).is("deleted_at", null)
-      .order("starts_at").order("id").range(a, b),
-    "calendar.appointments",
-  );
-  return rows.flatMap((row) => appointmentCalendarEvents(row, from, to, timeZone, now));
+  // Calendario compartido: las citas de todos los socios, con el nombre y el color de quien la puso.
+  // `memberId` (quien mira) solo decide que hay sesión: sin ella (ICS público) no se cargan.
+  void memberId;
+  const [rows, members] = await Promise.all([
+    fetchAll(
+      (a, b) => db.from("calendar_entries")
+        .select("id, member_id, title, description, starts_at, ends_at, all_day")
+        .eq("org_id", orgId)
+        .lt("starts_at", end).gt("ends_at", start).is("deleted_at", null)
+        .order("starts_at").order("id").range(a, b),
+      "calendar.appointments",
+    ),
+    fetchAll((a, b) => db.from("members").select("id, full_name, color").eq("org_id", orgId).order("id").range(a, b), "calendar.appointments.members"),
+  ]);
+  const byMember = new Map(members.map((m) => [m.id, m]));
+  return rows.flatMap((row) => {
+    const member = byMember.get(row.member_id);
+    return appointmentCalendarEvents({ ...row, member_name: member?.full_name ?? null, member_color: member?.color ?? null }, from, to, timeZone, now);
+  });
 }

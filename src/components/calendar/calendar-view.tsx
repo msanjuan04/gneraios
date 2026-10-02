@@ -284,6 +284,7 @@ function CalendarScreen(props: CalendarViewProps) {
         members={members}
         basePath={props.basePath}
         canMove={canMove}
+        currentMemberId={props.currentMemberId}
         onMove={commitMove}
         onEditAppointment={(event) => setEditor({ date: event.date, event })}
         onAddAppointment={(date) => setEditor({ date, event: null })}

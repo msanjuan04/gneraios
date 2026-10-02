@@ -13,7 +13,7 @@ import type { AgendaMember } from "./agenda-list";
 import { DayHintsList } from "./day-hints";
 import { EventChip } from "./event-chip";
 import { EventIcon } from "./event-icon";
-import { STATUS_BADGE, TYPE_COLORS } from "./event-style";
+import { eventColor, STATUS_BADGE } from "./event-style";
 import { useCalendarText } from "./use-calendar-text";
 
 export type SheetState = { kind: "event"; eventId: string; fromDay: CivilDate | null } | { kind: "day"; date: CivilDate } | null;
@@ -28,13 +28,15 @@ type Props = {
   members: ReadonlyMap<string, AgendaMember>;
   basePath: string;
   canMove: boolean;
+  /** Quien mira: solo edita sus propias citas (el calendario es compartido). */
+  currentMemberId: string | null;
   onMove: (event: CalendarEvent, date: CivilDate) => void;
   onEditAppointment: (event: CalendarEvent) => void;
   onAddAppointment: (date: CivilDate) => void;
 };
 
 /** Panel lateral del calendario: el detalle de un evento o todo lo de un día. Nunca un modal encima de otro. */
-export function CalendarSheet({ state, onStateChange, events, dayEvents, members, basePath, canMove, onMove, onEditAppointment, onAddAppointment }: Props) {
+export function CalendarSheet({ state, onStateChange, events, dayEvents, members, basePath, canMove, currentMemberId, onMove, onEditAppointment, onAddAppointment }: Props) {
   const text = useCalendarText();
   const event = state?.kind === "event" ? events.find((e) => e.id === state.eventId) ?? null : null;
   const open = state !== null && (state.kind === "day" || event !== null);
@@ -64,6 +66,7 @@ export function CalendarSheet({ state, onStateChange, events, dayEvents, members
           members={members}
           basePath={basePath}
           canMove={canMove}
+          currentMemberId={currentMemberId}
           onMove={onMove}
           onBack={state.fromDay ? () => onStateChange({ kind: "day", date: state.fromDay! }) : null}
           onNavigate={close}
@@ -81,7 +84,7 @@ function EventTitle({ event }: { event: CalendarEvent }) {
       <span
         aria-hidden
         className="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-lg bg-muted"
-        style={{ color: event.status === "overdue" ? "var(--destructive)" : TYPE_COLORS[event.type] }}
+        style={{ color: eventColor(event) }}
       >
         <EventIcon event={event} className="size-4" />
       </span>
@@ -133,6 +136,7 @@ function EventContent({
   members,
   basePath,
   canMove,
+  currentMemberId,
   onMove,
   onBack,
   onNavigate,
@@ -142,6 +146,8 @@ function EventContent({
   members: ReadonlyMap<string, AgendaMember>;
   basePath: string;
   canMove: boolean;
+  /** Quien mira: solo edita sus propias citas (el calendario es compartido). */
+  currentMemberId: string | null;
   onMove: (event: CalendarEvent, date: CivilDate) => void;
   onBack: (() => void) | null;
   onNavigate: () => void;
@@ -217,7 +223,7 @@ function EventContent({
           </div>
         )}
 
-        {event.type === "appointment" && canMove ? (
+        {event.type === "appointment" && canMove && event.ownerMemberId === currentMemberId ? (
           <Button variant="secondary" onClick={onEditAppointment}><Pencil data-icon="inline-start" />{text.t("editor.editTitle")}</Button>
         ) : event.movable && canMove ? (
           <form onSubmit={submitMove} className="space-y-2 rounded-xl border px-4 py-3">
