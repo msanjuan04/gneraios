@@ -63,8 +63,15 @@ type QuoteTemplates = {
   Relationships: [];
 };
 
+// deals_board.last_contact_* (20261002190000_ultimo_contacto_deal.sql), hasta regenerar los tipos.
+type GeneratedDealsBoard = GeneratedPublic["Views"]["deals_board"];
+type DealsBoard = Omit<GeneratedDealsBoard, "Row"> & {
+  Row: GeneratedDealsBoard["Row"] & { last_contact_at: string | null; last_contact_direction: "incoming" | "outgoing" | "internal" | null };
+};
+
 export type Database = Omit<Generated, "public"> & {
-  public: Omit<GeneratedPublic, "Tables" | "Functions"> & {
+  public: Omit<GeneratedPublic, "Tables" | "Functions" | "Views"> & {
+    Views: Omit<GeneratedPublic["Views"], "deals_board"> & { deals_board: DealsBoard };
     Tables: Omit<GeneratedPublic["Tables"], "issuers" | "outbound_emails"> & {
       issuers: Omit<GeneratedIssuers, "Insert"> & { Insert: IssuersInsert };
       outbound_emails: OutboundEmails;

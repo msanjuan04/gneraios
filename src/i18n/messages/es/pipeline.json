@@ -17,7 +17,11 @@
     },
     "card": {
       "open": "Abrir {title}",
-      "moveHint": "⇧← ⇧→ para mover de etapa"
+      "moveHint": "⇧← ⇧→ para mover de etapa",
+      "lastContact": "{count, plural, =0 {Último contacto hoy} one {Último contacto hace # día} other {Último contacto hace # días}}",
+      "waitingReply": "{count, plural, =0 {Esperando respuesta desde hoy} one {Esperando respuesta · # día} other {Esperando respuesta · # días}}",
+      "ourTurn": "{count, plural, =0 {Nos toca contestar · hoy} one {Nos toca contestar · # día} other {Nos toca contestar · # días}}",
+      "noContact": "Sin contacto registrado"
     },
     "sheet": {
       "createTitle": "Nuevo deal",

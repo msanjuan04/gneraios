@@ -208,6 +208,45 @@ describe("vistas derivadas", () => {
     expect(row.closed_at).toBeNull();
   });
 
+  it("el tablero deriva el último contacto y de quién es el turno a partir de las actividades", async () => {
+    const client = await newClient("Ludoteca");
+    const deal = await newDeal(client, stages["Propuesta enviada"]!);
+    const board = () =>
+      as(db, owner, () =>
+        one<{ last_contact_at: Date | null; last_contact_direction: string | null }>(
+          "select last_contact_at, last_contact_direction from public.deals_board where id = $1",
+          [deal],
+        ),
+      );
+    expect(await board()).toMatchObject({ last_contact_at: null, last_contact_direction: null });
+
+    const mail = (direction: string, at: string, dealId: string | null = deal) =>
+      as(db, owner, () => db.query(
+        `insert into public.activities (org_id, client_id, deal_id, kind, title, occurred_at, direction, channel)
+         values ($1, $2, $3, 'email', 'Correo', $4, $5, 'email')`,
+        [orgId, client, dealId, at, direction],
+      ));
+    await mail("outgoing", "2026-09-23 17:15+02");
+    expect((await board()).last_contact_direction).toBe("outgoing");
+    // Un correo recibido después pasa la pelota a nuestro tejado.
+    await mail("incoming", "2026-09-29 12:06+02");
+    expect((await board()).last_contact_direction).toBe("incoming");
+    // Una llamada posterior cuenta como contacto, pero no tiene sentido (no es un correo).
+    await as(db, owner, () => db.query(
+      "insert into public.activities (org_id, client_id, deal_id, kind, title, occurred_at) values ($1, $2, $3, 'call', 'Llamada', '2026-09-30 10:00+02')",
+      [orgId, client, deal],
+    ));
+    expect(await board()).toMatchObject({ last_contact_at: new Date("2026-09-30T08:00:00Z"), last_contact_direction: null });
+    // Las notas no son contacto, y un correo del cliente sin deal también cuenta para sus deals.
+    await as(db, owner, () => db.query(
+      "insert into public.activities (org_id, client_id, deal_id, kind, title, occurred_at) values ($1, $2, $3, 'note', 'Nota', '2026-10-01 10:00+02')",
+      [orgId, client, deal],
+    ));
+    expect((await board()).last_contact_at).toEqual(new Date("2026-09-30T08:00:00Z"));
+    await mail("outgoing", "2026-10-01 12:00+02", null);
+    expect(await board()).toMatchObject({ last_contact_at: new Date("2026-10-01T10:00:00Z"), last_contact_direction: "outgoing" });
+  });
+
   it("el timeline une actividades y cambios de etapa sin duplicar datos", async () => {
     const client = await newClient("Hotel");
     const deal = await newDeal(client, stages["Lead"]!);

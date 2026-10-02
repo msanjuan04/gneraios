@@ -31,6 +31,10 @@ export type BoardDeal = {
   nextActionOn: string | null;
   nextActionOverdue: boolean;
   daysInStage: number;
+  /** Último correo, llamada o reunión del deal (derivado de las actividades); null si no hay ninguno. */
+  lastContactDaysAgo: number | null;
+  /** Sentido de ese último contacto si fue un correo: `outgoing` = esperamos respuesta, `incoming` = nos toca. */
+  lastContactDirection: "incoming" | "outgoing" | "internal" | null;
   lossReasonId: string | null;
   lossNote: string | null;
 };

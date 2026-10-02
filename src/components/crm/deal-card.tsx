@@ -1,12 +1,24 @@
 "use client";
 
-import { CalendarClock, Clock } from "lucide-react";
+import { CalendarClock, Clock, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { useFormatter, useTranslations } from "next-intl";
 import type { HTMLAttributes, KeyboardEvent, Ref } from "react";
 import { formatMoney } from "@/domain/money";
 import { cn } from "@/lib/utils";
 import type { BoardDeal } from "./board-types";
+
+/** «Esperando respuesta · 3 días», «Nos toca contestar · 1 día», «Último contacto hace 5 días» o «Sin contacto registrado». */
+export function lastContactLabel(
+  t: (key: string, values?: Record<string, number>) => string,
+  deal: Pick<BoardDeal, "lastContactDaysAgo" | "lastContactDirection">,
+): string {
+  if (deal.lastContactDaysAgo === null) return t("card.noContact");
+  const count = deal.lastContactDaysAgo;
+  if (deal.lastContactDirection === "outgoing") return t("card.waitingReply", { count });
+  if (deal.lastContactDirection === "incoming") return t("card.ourTurn", { count });
+  return t("card.lastContact", { count });
+}
 
 type Props = {
   deal: BoardDeal;
@@ -105,6 +117,16 @@ export function DealCard({ deal, dragging, overlay, ref, onOpen, onMove, clientH
           </span>
         </p>
       )}
+
+      <p
+        className={cn(
+          "mt-2 flex items-center gap-1.5 text-xs",
+          deal.lastContactDirection === "incoming" ? "font-semibold text-amber-600 dark:text-amber-400" : "text-muted-foreground",
+        )}
+      >
+        <MessageSquare className="size-3.5 shrink-0" />
+        <span className="truncate tabular">{lastContactLabel(t, deal)}</span>
+      </p>
 
       <div className="mt-3 flex items-center justify-between text-xs text-muted-foreground">
         <span className="flex items-center gap-1 tabular">

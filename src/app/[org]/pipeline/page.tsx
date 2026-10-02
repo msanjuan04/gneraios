@@ -51,6 +51,8 @@ export default async function PipelinePage(props: PageProps<"/[org]/pipeline">) 
         nextActionOn: d.next_action_on,
         nextActionOverdue: d.next_action_on !== null && daysBetween(d.next_action_on, today) > 0,
         daysInStage: Math.max(0, daysBetween(entered, today)),
+        lastContactDaysAgo: d.last_contact_at ? Math.max(0, daysBetween(nowInZone(org.timezone, new Date(d.last_contact_at)).date, today)) : null,
+        lastContactDirection: d.last_contact_direction,
         lossReasonId: d.loss_reason_id,
         lossNote: d.loss_note,
       },

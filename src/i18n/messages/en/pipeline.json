@@ -17,7 +17,11 @@
     },
     "card": {
       "open": "Open {title}",
-      "moveHint": "⇧← ⇧→ to change stage"
+      "moveHint": "⇧← ⇧→ to change stage",
+      "lastContact": "{count, plural, =0 {Last contact today} one {Last contact # day ago} other {Last contact # days ago}}",
+      "waitingReply": "{count, plural, =0 {Awaiting reply since today} one {Awaiting reply · # day} other {Awaiting reply · # days}}",
+      "ourTurn": "{count, plural, =0 {Our turn to reply · today} one {Our turn to reply · # day} other {Our turn to reply · # days}}",
+      "noContact": "No contact recorded"
     },
     "sheet": {
       "createTitle": "New deal",

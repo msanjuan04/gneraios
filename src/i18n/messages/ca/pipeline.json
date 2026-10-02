@@ -17,7 +17,11 @@
     },
     "card": {
       "open": "Obre {title}",
-      "moveHint": "⇧← ⇧→ per canviar d'etapa"
+      "moveHint": "⇧← ⇧→ per canviar d'etapa",
+      "lastContact": "{count, plural, =0 {Últim contacte avui} one {Últim contacte fa # dia} other {Últim contacte fa # dies}}",
+      "waitingReply": "{count, plural, =0 {Esperant resposta des d'avui} one {Esperant resposta · # dia} other {Esperant resposta · # dies}}",
+      "ourTurn": "{count, plural, =0 {Ens toca contestar · avui} one {Ens toca contestar · # dia} other {Ens toca contestar · # dies}}",
+      "noContact": "Sense contacte registrat"
     },
     "sheet": {
       "createTitle": "Nou deal",
