@@ -297,6 +297,11 @@ server {
         proxy_set_header Upgrade \$http_upgrade;
         proxy_set_header Connection "upgrade";
         proxy_read_timeout 300s;
+        # Las cookies de sesión de Supabase van troceadas y, al refrescarse, la respuesta trae varias
+        # Set-Cookie largas: con los 4k por defecto nginx devolvía 502 («upstream sent too big header»).
+        proxy_buffer_size 32k;
+        proxy_buffers 8 32k;
+        proxy_busy_buffers_size 64k;
     }
 }
 EOF
