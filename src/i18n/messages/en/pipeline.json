@@ -13,7 +13,9 @@
       "count": "{count, plural, one {# deal} other {# deals}}",
       "weighted": "Weighted",
       "total": "Total",
-      "empty": "Drag here"
+      "empty": "Drag here",
+      "showMore": "{hidden, plural, one {Show # more} other {Show {count} more (# left)}}",
+      "showLess": "Show less"
     },
     "card": {
       "open": "Open {title}",

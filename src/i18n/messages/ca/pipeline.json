@@ -13,7 +13,9 @@
       "count": "{count, plural, one {# deal} other {# deals}}",
       "weighted": "Ponderat",
       "total": "Total",
-      "empty": "Arrossega aquí"
+      "empty": "Arrossega aquí",
+      "showMore": "{hidden, plural, one {Mostra'n # més} other {Mostra'n {count} més (en queden #)}}",
+      "showLess": "Mostra'n menys"
     },
     "card": {
       "open": "Obre {title}",

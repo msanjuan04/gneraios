@@ -13,7 +13,9 @@
       "count": "{count, plural, one {# deal} other {# deals}}",
       "weighted": "Ponderado",
       "total": "Total",
-      "empty": "Arrastra aquí"
+      "empty": "Arrastra aquí",
+      "showMore": "{hidden, plural, one {Ver # más} other {Ver {count} más (quedan #)}}",
+      "showLess": "Ver menos"
     },
     "card": {
       "open": "Abrir {title}",

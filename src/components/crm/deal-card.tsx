@@ -4,21 +4,10 @@ import { CalendarClock, Clock, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { useFormatter, useTranslations } from "next-intl";
 import type { HTMLAttributes, KeyboardEvent, Ref } from "react";
+import { lastContactLabel } from "@/domain/crm/last-contact";
 import { formatMoney } from "@/domain/money";
 import { cn } from "@/lib/utils";
 import type { BoardDeal } from "./board-types";
-
-/** «Esperando respuesta · 3 días», «Nos toca contestar · 1 día», «Último contacto hace 5 días» o «Sin contacto registrado». */
-export function lastContactLabel(
-  t: (key: string, values?: Record<string, number>) => string,
-  deal: Pick<BoardDeal, "lastContactDaysAgo" | "lastContactDirection">,
-): string {
-  if (deal.lastContactDaysAgo === null) return t("card.noContact");
-  const count = deal.lastContactDaysAgo;
-  if (deal.lastContactDirection === "outgoing") return t("card.waitingReply", { count });
-  if (deal.lastContactDirection === "incoming") return t("card.ourTurn", { count });
-  return t("card.lastContact", { count });
-}
 
 type Props = {
   deal: BoardDeal;

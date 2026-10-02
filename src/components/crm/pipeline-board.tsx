@@ -27,6 +27,9 @@ import { DealCard } from "./deal-card";
 import { DealSheet } from "./deal-sheet";
 import { LossReasonDialog } from "./loss-reason-dialog";
 
+/** Tarjetas que enseña una columna antes de pedir «Ver más»: el tablero no crece sin fin. */
+const COLUMN_PAGE = 8;
+
 type Props = {
   slug: string;
   stages: BoardStage[];
@@ -258,6 +261,14 @@ function StageColumn({
   const tCrm = useTranslations("crm");
   const { setNodeRef, isOver } = useDroppable({ id: stage.id, disabled: !canEdit });
 
+  // Una columna enseña como mucho una página de tarjetas; el resto sale con «Ver N más». Si se
+  // abre un deal escondido (p. ej. desde la URL), la columna se despliega hasta él.
+  const [limit, setLimit] = useState(COLUMN_PAGE);
+  const highlightIndex = highlightId ? deals.findIndex((d) => d.id === highlightId) : -1;
+  const needed = highlightIndex >= 0 ? Math.ceil((highlightIndex + 1) / COLUMN_PAGE) * COLUMN_PAGE : 0;
+  const visible = deals.slice(0, Math.max(limit, needed));
+  const hidden = deals.length - visible.length;
+
   // Abiertas: ponderado (importe × probabilidad). Ganadas y perdidas: total real.
   const weighted = stage.kind === "open";
   const sum = (pick: (d: BoardDeal) => number) =>
@@ -302,7 +313,7 @@ function StageColumn({
         )}
       </header>
       <div className="flex min-h-24 flex-1 flex-col gap-2 overflow-y-auto p-2">
-        {deals.map((deal) => (
+        {visible.map((deal) => (
           <DraggableCard
             key={deal.id}
             deal={deal}
@@ -316,6 +327,24 @@ function StageColumn({
         ))}
         {deals.length === 0 && (
           <p className="m-auto py-6 text-xs text-muted-foreground/70">{t("empty")}</p>
+        )}
+        {hidden > 0 && (
+          <button
+            type="button"
+            onClick={() => setLimit((current) => current + COLUMN_PAGE)}
+            className="mt-1 min-h-9 rounded-lg border border-dashed text-xs font-semibold text-muted-foreground transition hover:border-primary/50 hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          >
+            {t("showMore", { count: Math.min(hidden, COLUMN_PAGE), hidden })}
+          </button>
+        )}
+        {hidden === 0 && deals.length > COLUMN_PAGE && (
+          <button
+            type="button"
+            onClick={() => setLimit(COLUMN_PAGE)}
+            className="mt-1 min-h-9 rounded-lg text-xs font-semibold text-muted-foreground hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          >
+            {t("showLess")}
+          </button>
         )}
       </div>
     </section>

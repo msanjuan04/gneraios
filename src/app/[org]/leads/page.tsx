@@ -6,7 +6,7 @@ import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { lastContactLabel } from "@/components/crm/deal-card";
+import { lastContactLabel } from "@/domain/crm/last-contact";
 import { daysBetween } from "@/domain/dates/civil-date";
 import { weightedPipeline } from "@/domain/metrics";
 import { nowInZone } from "@/lib/clock";
