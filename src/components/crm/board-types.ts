@@ -9,6 +9,12 @@ export type BoardStage = {
 };
 
 export type BoardOption = { id: string; name: string };
+
+/** Tarjetas que llegan del servidor por columna; el resto se pide con «Ver más» (no se carga todo de golpe). */
+export const BOARD_PAGE_SIZE = 8;
+
+/** Una columna tal y como la sirve el servidor: la primera página y cuántos deals hay en total. */
+export type BoardColumn = { stageId: string; deals: BoardDeal[]; total: number };
 export type BoardMember = { id: string; fullName: string; initials: string };
 
 /** Un deal tal y como lo pinta el tablero (derivado de la vista `deals_board`). */

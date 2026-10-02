@@ -15,25 +15,24 @@ import {
 import { Plus, SquareKanban } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { useEffect, useOptimistic, useRef, useState, useTransition } from "react";
+import { useEffect, useMemo, useOptimistic, useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
-import { moveDeal } from "@/app/[org]/pipeline/actions";
+import { loadStageDeals, moveDeal } from "@/app/[org]/pipeline/actions";
 import { useHotkeys } from "@/components/app-shell/use-hotkeys";
 import { Button } from "@/components/ui/button";
 import { formatMoney } from "@/domain/money";
 import { cn } from "@/lib/utils";
-import type { BoardDeal, BoardMember, BoardOption, BoardStage } from "./board-types";
+import { BOARD_PAGE_SIZE, type BoardColumn, type BoardDeal, type BoardMember, type BoardOption, type BoardStage } from "./board-types";
 import { DealCard } from "./deal-card";
 import { DealSheet } from "./deal-sheet";
 import { LossReasonDialog } from "./loss-reason-dialog";
 
-/** Tarjetas que enseña una columna antes de pedir «Ver más»: el tablero no crece sin fin. */
-const COLUMN_PAGE = 8;
 
 type Props = {
   slug: string;
   stages: BoardStage[];
-  deals: BoardDeal[];
+  /** Cada columna llega con su primera página y su total; el resto se pide con «Ver más». */
+  columns: BoardColumn[];
   clients: BoardOption[];
   sources: BoardOption[];
   lossReasons: BoardOption[];
@@ -53,9 +52,40 @@ export function PipelineBoard(props: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const [, startTransition] = useTransition();
-  const [deals, applyMove] = useOptimistic(props.deals, (state, move: Move) =>
+  // Páginas pedidas con «Ver más», por etapa. Lo que llega del servidor manda sobre lo ya cargado.
+  const [more, setMore] = useState<Record<string, BoardDeal[]>>({});
+  const [loadingStage, setLoadingStage] = useState<string | null>(null);
+  const baseDeals = useMemo(() => {
+    const byId = new Map<string, BoardDeal>();
+    for (const list of Object.values(more)) for (const deal of list) byId.set(deal.id, deal);
+    for (const column of props.columns) for (const deal of column.deals) byId.set(deal.id, deal);
+    return [...byId.values()];
+  }, [props.columns, more]);
+  const [deals, applyMove] = useOptimistic(baseDeals, (state, move: Move) =>
     state.map((d) => (d.id === move.dealId ? { ...d, stageId: move.stageId, daysInStage: 0 } : d)),
   );
+  // Total real de cada etapa: el del servidor más lo que ha entrado o salido moviendo tarjetas.
+  const totals = new Map(props.columns.map((column) => [column.stageId, column.total]));
+  const countFor = (stageId: string) => {
+    const base = baseDeals.filter((d) => d.stageId === stageId).length;
+    const current = deals.filter((d) => d.stageId === stageId).length;
+    return (totals.get(stageId) ?? base) + (current - base);
+  };
+  const totalAll = props.columns.reduce((sum, column) => sum + column.total, 0);
+
+  function loadMore(stageId: string) {
+    const offset = baseDeals.filter((d) => d.stageId === stageId).length;
+    setLoadingStage(stageId);
+    startTransition(async () => {
+      const result = await loadStageDeals(slug, stageId, offset);
+      setLoadingStage(null);
+      if (!result.ok) {
+        toast.error(result.error);
+        return;
+      }
+      setMore((current) => ({ ...current, [stageId]: [...(current[stageId] ?? []), ...result.deals] }));
+    });
+  }
   const [activeId, setActiveId] = useState<string | null>(null);
   const [pendingLoss, setPendingLoss] = useState<Move | null>(null);
   // El deal recién guardado: se salta a su columna y se resalta un momento.
@@ -73,12 +103,12 @@ export function PipelineBoard(props: Props) {
 
   useEffect(() => {
     if (!highlight) return;
-    const deal = props.deals.find((d) => d.id === highlight);
+    const deal = baseDeals.find((d) => d.id === highlight);
     if (!deal) return; // aún no ha llegado del servidor
     scrollToStage(deal.stageId);
     const timer = setTimeout(() => setHighlight(null), 2500);
     return () => clearTimeout(timer);
-  }, [highlight, props.deals]);
+  }, [highlight, baseDeals]);
   const [sheet, setSheet] = useState<SheetState>(() =>
     props.initial.dealId
       ? { open: true, dealId: props.initial.dealId }
@@ -147,7 +177,7 @@ export function PipelineBoard(props: Props) {
   return (
     <div className="flex min-h-0 flex-1 flex-col">
       <div className="mb-4 flex items-center justify-between gap-3">
-        <p className="text-sm text-muted-foreground">{t("column.count", { count: deals.length })}</p>
+        <p className="text-sm text-muted-foreground">{t("column.count", { count: totalAll })}</p>
         {canEdit && (
           <Button onClick={() => openSheet({ open: true, dealId: null })}>
             <Plus data-icon="inline-start" />
@@ -156,14 +186,14 @@ export function PipelineBoard(props: Props) {
         )}
       </div>
 
-      {deals.length === 0 ? (
+      {totalAll === 0 && deals.length === 0 ? (
         <EmptyBoard canEdit={canEdit} onCreate={() => openSheet({ open: true, dealId: null })} />
       ) : (
         <DndContext id="pipeline-board" sensors={sensors} onDragStart={onDragStart} onDragEnd={onDragEnd} onDragCancel={() => setActiveId(null)}>
           {/* Todas las etapas de un vistazo: en pantallas estrechas no caben y así se salta a cualquiera. */}
           <nav aria-label={t("stagesNav")} className="-mx-4 mb-3 flex gap-1.5 overflow-x-auto px-4 pb-1 md:-mx-8 md:px-8">
             {stages.map((stage) => {
-              const count = deals.filter((d) => d.stageId === stage.id).length;
+              const count = countFor(stage.id);
               return (
                 <button
                   key={stage.id}
@@ -196,11 +226,14 @@ export function PipelineBoard(props: Props) {
                 slug={slug}
                 stage={stage}
                 deals={deals.filter((d) => d.stageId === stage.id)}
+                total={countFor(stage.id)}
+                loading={loadingStage === stage.id}
                 activeId={activeId}
                 highlightId={highlight}
                 canEdit={canEdit}
                 onOpen={(deal) => openSheet({ open: true, dealId: deal.id })}
                 onMove={moveBy}
+                onLoadMore={() => loadMore(stage.id)}
               />
             ))}
           </div>
@@ -242,32 +275,35 @@ function StageColumn({
   slug,
   stage,
   deals,
+  total,
+  loading,
   activeId,
   highlightId,
   canEdit,
   onOpen,
   onMove,
+  onLoadMore,
 }: {
   slug: string;
   stage: BoardStage;
+  /** Las tarjetas ya cargadas de la etapa. */
   deals: BoardDeal[];
+  /** Cuántos deals hay en la etapa en total (los que faltan se piden con «Ver más»). */
+  total: number;
+  loading: boolean;
   activeId: string | null;
   highlightId: string | null;
   canEdit: boolean;
   onOpen: (deal: BoardDeal) => void;
   onMove: (deal: BoardDeal, direction: -1 | 1) => void;
+  onLoadMore: () => void;
 }) {
   const t = useTranslations("pipeline.column");
   const tCrm = useTranslations("crm");
   const { setNodeRef, isOver } = useDroppable({ id: stage.id, disabled: !canEdit });
 
-  // Una columna enseña como mucho una página de tarjetas; el resto sale con «Ver N más». Si se
-  // abre un deal escondido (p. ej. desde la URL), la columna se despliega hasta él.
-  const [limit, setLimit] = useState(COLUMN_PAGE);
-  const highlightIndex = highlightId ? deals.findIndex((d) => d.id === highlightId) : -1;
-  const needed = highlightIndex >= 0 ? Math.ceil((highlightIndex + 1) / COLUMN_PAGE) * COLUMN_PAGE : 0;
-  const visible = deals.slice(0, Math.max(limit, needed));
-  const hidden = deals.length - visible.length;
+  // Lo que falta por pedir al servidor. La cabecera y el ponderado hablan de lo cargado.
+  const hidden = Math.max(0, total - deals.length);
 
   // Abiertas: ponderado (importe × probabilidad). Ganadas y perdidas: total real.
   const weighted = stage.kind === "open";
@@ -302,7 +338,7 @@ function StageColumn({
             />
             {stage.name}
           </h3>
-          <span className="rounded-full bg-secondary px-2 py-0.5 text-xs font-semibold tabular">{deals.length}</span>
+          <span className="rounded-full bg-secondary px-2 py-0.5 text-xs font-semibold tabular">{total}</span>
         </div>
         {(oneOff > 0 || mrr > 0) && (
           <p className="mt-1 text-xs text-muted-foreground tabular">
@@ -313,7 +349,7 @@ function StageColumn({
         )}
       </header>
       <div className="flex min-h-24 flex-1 flex-col gap-2 overflow-y-auto p-2">
-        {visible.map((deal) => (
+        {deals.map((deal) => (
           <DraggableCard
             key={deal.id}
             deal={deal}
@@ -331,19 +367,11 @@ function StageColumn({
         {hidden > 0 && (
           <button
             type="button"
-            onClick={() => setLimit((current) => current + COLUMN_PAGE)}
-            className="mt-1 min-h-9 rounded-lg border border-dashed text-xs font-semibold text-muted-foreground transition hover:border-primary/50 hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+            onClick={onLoadMore}
+            disabled={loading}
+            className="mt-1 min-h-9 rounded-lg border border-dashed text-xs font-semibold text-muted-foreground transition hover:border-primary/50 hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-60"
           >
-            {t("showMore", { count: Math.min(hidden, COLUMN_PAGE), hidden })}
-          </button>
-        )}
-        {hidden === 0 && deals.length > COLUMN_PAGE && (
-          <button
-            type="button"
-            onClick={() => setLimit(COLUMN_PAGE)}
-            className="mt-1 min-h-9 rounded-lg text-xs font-semibold text-muted-foreground hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-          >
-            {t("showLess")}
+            {loading ? t("loading") : t("showMore", { count: Math.min(hidden, BOARD_PAGE_SIZE), hidden })}
           </button>
         )}
       </div>

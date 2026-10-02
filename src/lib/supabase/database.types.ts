@@ -63,6 +63,21 @@ type QuoteTemplates = {
   Relationships: [];
 };
 
+// ads_accounts y ads_insights (20261002200000_ads_cuentas.sql), hasta regenerar los tipos.
+type AdsProvider = "openai" | "google" | "meta" | "linkedin";
+type AdsAccounts = {
+  Row: { id: string; org_id: string; provider: AdsProvider; label: string; owner_client_id: string | null; external_account_id: string; login_customer_id: string | null; credential_ciphertext: string | null; developer_token_ciphertext: string | null; platform_name: string | null; currency: string | null; timezone: string | null; account_email: string | null; last_synced_at: string | null; last_error: string | null; created_at: string; updated_at: string; created_by: string | null; archived_at: string | null };
+  Insert: { id?: string; org_id: string; provider: AdsProvider; label: string; owner_client_id?: string | null; external_account_id: string; login_customer_id?: string | null; credential_ciphertext?: string | null; developer_token_ciphertext?: string | null; platform_name?: string | null; currency?: string | null; timezone?: string | null; account_email?: string | null; last_synced_at?: string | null; last_error?: string | null; created_at?: string; updated_at?: string; created_by?: string | null; archived_at?: string | null };
+  Update: { id?: string; org_id?: string; provider?: AdsProvider; label?: string; owner_client_id?: string | null; external_account_id?: string; login_customer_id?: string | null; credential_ciphertext?: string | null; developer_token_ciphertext?: string | null; platform_name?: string | null; currency?: string | null; timezone?: string | null; account_email?: string | null; last_synced_at?: string | null; last_error?: string | null; created_at?: string; updated_at?: string; created_by?: string | null; archived_at?: string | null };
+  Relationships: [];
+};
+type AdsInsights = {
+  Row: { org_id: string; account_id: string; period_from: string; period_to: string; fetched_at: string; campaigns: Json };
+  Insert: { org_id: string; account_id: string; period_from: string; period_to: string; fetched_at?: string; campaigns?: Json };
+  Update: { org_id?: string; account_id?: string; period_from?: string; period_to?: string; fetched_at?: string; campaigns?: Json };
+  Relationships: [];
+};
+
 // deals_board.last_contact_* (20261002190000_ultimo_contacto_deal.sql), hasta regenerar los tipos.
 type GeneratedDealsBoard = GeneratedPublic["Views"]["deals_board"];
 type DealsBoard = Omit<GeneratedDealsBoard, "Row"> & {
@@ -78,6 +93,8 @@ export type Database = Omit<Generated, "public"> & {
       calendar_entries: CalendarEntries;
       google_calendar_connections: GoogleCalendarConnections;
       ads_client_campaigns: AdsClientCampaigns;
+      ads_accounts: AdsAccounts;
+      ads_insights: AdsInsights;
       quote_templates: QuoteTemplates;
       org_documents: OrgDocuments;
     };

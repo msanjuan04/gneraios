@@ -1,0 +1,101 @@
+{
+  "ads": {
+    "title": "Ads",
+    "description": "Inversión y resultados de cada plataforma, por dueño: la agencia o un cliente. Las cifras se piden a cada API al abrir esta página si tienen más de 15 minutos; «Actualizar» las pide ahora mismo.",
+    "owner": {
+      "label": "De quién",
+      "agency": "GNERAI (la agencia)"
+    },
+    "add": "Añadir cuenta",
+    "refresh": "Actualizar",
+    "refreshing": "Pidiendo cifras…",
+    "refreshed": "Cifras actualizadas",
+    "period": "Del {from} al {to}",
+    "fetchedAgo": "{minutes, plural, =0 {actualizado hace un momento} one {actualizado hace # minuto} other {actualizado hace # minutos}}",
+    "neverFetched": "sin cifras todavía",
+    "metrics": {
+      "impressions": "Impresiones",
+      "clicks": "Clics",
+      "spend": "Inversión",
+      "ctr": "CTR"
+    },
+    "totals": {
+      "title": "Inversión de los últimos 28 días",
+      "hint": "Inversión publicitaria pagada a las plataformas, no facturación de GNERAI. Cada moneda se suma aparte."
+    },
+    "section": {
+      "empty": "Sin cuenta de {type} para {owner}.",
+      "addType": "Añadir {type}",
+      "sharesGoogle": "YouTube Ads usa la misma conexión que Google Ads: al conectar Google Ads, sus campañas de vídeo salen aquí solas.",
+      "notConnected": "Falta autorizar la lectura con Google.",
+      "connectGoogle": "Conectar con Google",
+      "error": "No se han podido leer las cifras ({message}). Se enseña la última foto, si la hay.",
+      "campaigns": "Campañas",
+      "campaignsHint": "Rendimiento por campaña en el periodo; incluye campañas sin impresiones.",
+      "noCampaigns": "Sin campañas en este periodo.",
+      "campaign": "Campaña",
+      "client": "Cliente / portal",
+      "unassigned": "Sin asignar",
+      "portal": "Portal",
+      "save": "Guardar",
+      "archive": "Quitar cuenta",
+      "archiveConfirm": "Se deja de leer esta cuenta y se borra su credencial. Las campañas vinculadas a clientes se desvinculan.",
+      "archived": "Cuenta quitada",
+      "accountOf": "Cuenta de {owner}"
+    },
+    "sheet": {
+      "title": "Añadir cuenta publicitaria",
+      "description": "Una conexión por plataforma y dueño. La credencial se guarda cifrada y solo la usa el servidor para leer cifras.",
+      "provider": "Plataforma",
+      "label": "Nombre",
+      "labelPlaceholder": "Meta Ads · Terrazea",
+      "owner": "De quién es",
+      "external": {
+        "openai": "ID de la cuenta (opcional: lo da la API)",
+        "meta": "ID de la cuenta publicitaria (act_…)",
+        "google": "ID de cliente de Google Ads (10 cifras)",
+        "linkedin": "ID de la cuenta (sponsoredAccount)"
+      },
+      "credential": {
+        "openai": "Clave de API de OpenAI Ads",
+        "meta": "Token de acceso (usuario del sistema, permiso ads_read)",
+        "linkedin": "Token de acceso (r_ads_reporting)"
+      },
+      "developerToken": "Developer token de Google Ads",
+      "loginCustomerId": "Cuenta administradora (MCC)",
+      "googleHint": "Guarda la cuenta y después pulsa «Conectar con Google» para autorizar la lectura (permiso adwords) con la cuenta Google que ve esa cuenta de anuncios.",
+      "submit": "Guardar cuenta",
+      "verifying": "Comprobando con la plataforma…",
+      "created": "Cuenta añadida",
+      "createdGoogle": "Cuenta guardada: ahora conecta con Google"
+    },
+    "errors": {
+      "verify": "La plataforma ha rechazado la credencial ({message}).",
+      "duplicate": "Ya hay una cuenta de esta plataforma para ese dueño.",
+      "notFound": "Esa cuenta ya no existe o no tienes acceso."
+    },
+    "flash": {
+      "saved": "Vínculo de campaña guardado.",
+      "save": "No se pudo guardar el vínculo de la campaña.",
+      "input": "Datos no válidos.",
+      "access": "Sin permiso para esta cuenta.",
+      "api": "La plataforma no ha respondido; vuelve a intentarlo.",
+      "connected": "Google Ads conectado.",
+      "refreshed": "Cifras actualizadas.",
+      "imported": "Clave del servidor importada como cuenta de GNERAI.",
+      "not_configured": "Google no está configurado en el servidor (GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, INTEGRATIONS_ENCRYPTION_KEY).",
+      "permission": "No tienes permiso para conectar cuentas.",
+      "oauth_denied": "Has cancelado la autorización en Google.",
+      "oauth_scope": "Google no concedió el permiso de Google Ads (adwords). Vuelve a conectar y márcalo.",
+      "oauth_state": "La conexión caducó o no coincide con tu sesión. Vuelve a intentarlo.",
+      "oauth_google": "Google no devolvió un token válido.",
+      "oauth_save": "No se pudo guardar la conexión."
+    },
+    "envKey": {
+      "title": "Clave de ChatGPT Ads en el servidor",
+      "body": "El servidor tiene una OPENAI_ADS_API_KEY en el entorno. Impórtala como cuenta de GNERAI para gestionarla aquí como las demás; después puedes quitarla del entorno.",
+      "import": "Importar como cuenta de GNERAI"
+    },
+    "clientNote": "El portal de cada cliente solo enseña las campañas marcadas «Portal» en su ficha; nunca la cuenta completa ni las campañas de otros."
+  }
+}

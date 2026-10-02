@@ -15,7 +15,8 @@
       "total": "Total",
       "empty": "Arrossega aquí",
       "showMore": "{hidden, plural, one {Mostra'n # més} other {Mostra'n {count} més (en queden #)}}",
-      "showLess": "Mostra'n menys"
+      "showLess": "Mostra'n menys",
+      "loading": "Carregant…"
     },
     "card": {
       "open": "Obre {title}",

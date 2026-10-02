@@ -2,10 +2,12 @@
 
 import type { PostgrestError } from "@supabase/supabase-js";
 import { revalidatePath } from "next/cache";
+import { BOARD_PAGE_SIZE, type BoardDeal } from "@/components/crm/board-types";
 import type { ActionResult } from "@/lib/action-result";
 import { createClient } from "@/lib/supabase/server";
 import { emptyToNull } from "@/lib/validation/fiscal";
 import { dbFailure, failure, forbidden, idSchema, invalidInput, memberContext, partnerContext } from "@/server/action-utils";
+import { fetchStageDeals } from "@/server/crm/board";
 import {
   type DealFormInput,
   dealFormSchema,
@@ -163,4 +165,13 @@ export async function getDealHistory(slug: string, dealId: string): Promise<Deal
     at: h.changed_at,
     byInitials: h.changed_by ? (initialsByUser.get(h.changed_by) ?? null) : null,
   }));
+}
+
+/** La siguiente página de una columna del tablero («Ver más»): cualquier miembro puede leerla. */
+export async function loadStageDeals(slug: string, stageId: string, offset: number): Promise<ActionResult<{ deals: BoardDeal[]; total: number }>> {
+  const ctx = await memberContext(slug);
+  if (!ctx) return forbidden();
+  if (!idSchema.safeParse(stageId).success || !Number.isInteger(offset) || offset < 0 || offset > 100_000) return invalidInput();
+  const page = await fetchStageDeals(ctx.org.id, stageId, offset, BOARD_PAGE_SIZE, ctx.org.timezone);
+  return { ok: true, ...page };
 }

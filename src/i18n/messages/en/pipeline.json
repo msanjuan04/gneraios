@@ -15,7 +15,8 @@
       "total": "Total",
       "empty": "Drag here",
       "showMore": "{hidden, plural, one {Show # more} other {Show {count} more (# left)}}",
-      "showLess": "Show less"
+      "showLess": "Show less",
+      "loading": "Loading…"
     },
     "card": {
       "open": "Open {title}",

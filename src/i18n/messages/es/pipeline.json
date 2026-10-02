@@ -15,7 +15,8 @@
       "total": "Total",
       "empty": "Arrastra aquí",
       "showMore": "{hidden, plural, one {Ver # más} other {Ver {count} más (quedan #)}}",
-      "showLess": "Ver menos"
+      "showLess": "Ver menos",
+      "loading": "Cargando…"
     },
     "card": {
       "open": "Abrir {title}",

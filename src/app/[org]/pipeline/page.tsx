@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import type { BoardDeal } from "@/components/crm/board-types";
+import type { BoardColumn } from "@/components/crm/board-types";
 import { PipelineBoard } from "@/components/crm/pipeline-board";
-import { daysBetween } from "@/domain/dates/civil-date";
-import { nowInZone } from "@/lib/clock";
 import { createClient } from "@/lib/supabase/server";
+import { fetchBoard, fetchBoardDeal } from "@/server/crm/board";
 import { getCrmConfig } from "@/server/crm/config";
 import { getOrgContext, hasRole } from "@/server/session";
 
@@ -19,57 +18,30 @@ export default async function PipelinePage(props: PageProps<"/[org]/pipeline">) 
   const { org, member } = await getOrgContext(slug);
   const config = await getCrmConfig(org.id);
   const supabase = await createClient();
+  const dealId = param(searchParams.deal);
 
-  const [deals, clients] = await Promise.all([
-    supabase.from("deals_board").select("*").eq("org_id", org.id),
+  // Cada columna trae solo su primera página; el resto se pide al pulsar «Ver más».
+  const [columns, requested, clients] = await Promise.all([
+    fetchBoard(org.id, config.stages.map((stage) => stage.id), org.timezone),
+    dealId ? fetchBoardDeal(org.id, dealId, org.timezone) : Promise.resolve(null),
     supabase.from("clients").select("id, display_name").eq("org_id", org.id).is("archived_at", null).order("display_name"),
   ]);
-  if (deals.error) throw deals.error;
   if (clients.error) throw clients.error;
 
-  // Los días y los vencimientos se cuentan en fechas civiles de la zona de la org.
-  const today = nowInZone(org.timezone).date;
-  const boardDeals: BoardDeal[] = (deals.data ?? []).flatMap((d) => {
-    if (!d.id || !d.stage_id || !d.client_id) return [];
-    const entered = d.stage_entered_at ? nowInZone(org.timezone, new Date(d.stage_entered_at)).date : today;
-    return [
-      {
-        id: d.id,
-        title: d.title ?? "",
-        clientId: d.client_id,
-        clientName: d.client_name ?? "",
-        stageId: d.stage_id,
-        estOneOffCents: d.est_one_off_cents ?? 0,
-        estMrrCents: d.est_mrr_cents ?? 0,
-        probabilityBps: d.probability_bps ?? 0,
-        probabilityOverrideBps: d.probability_override_bps,
-        sourceId: d.source_id,
-        broughtById: d.brought_by_member_id,
-        ownerId: d.owner_member_id,
-        ownerInitials: d.owner_initials,
-        nextAction: d.next_action,
-        nextActionOn: d.next_action_on,
-        nextActionOverdue: d.next_action_on !== null && daysBetween(d.next_action_on, today) > 0,
-        daysInStage: Math.max(0, daysBetween(entered, today)),
-        lastContactDaysAgo: d.last_contact_at ? Math.max(0, daysBetween(nowInZone(org.timezone, new Date(d.last_contact_at)).date, today)) : null,
-        lastContactDirection: d.last_contact_direction,
-        lossReasonId: d.loss_reason_id,
-        lossNote: d.loss_note,
-      },
-    ];
-  });
-
-  // Dentro de cada etapa: primero lo que tiene próxima acción más cercana.
-  boardDeals.sort(
-    (a, b) =>
-      (a.nextActionOn ?? "9999").localeCompare(b.nextActionOn ?? "9999") || b.daysInStage - a.daysInStage,
-  );
+  // El deal que piden por URL se enseña aunque no esté en la primera página de su columna.
+  const boardColumns: BoardColumn[] = requested
+    ? columns.map((column) =>
+        column.stageId === requested.stageId && !column.deals.some((deal) => deal.id === requested.id)
+          ? { ...column, deals: [...column.deals, requested] }
+          : column,
+      )
+    : columns;
 
   return (
     <PipelineBoard
       slug={org.slug}
       stages={config.stages}
-      deals={boardDeals}
+      columns={boardColumns}
       clients={(clients.data ?? []).map((c) => ({ id: c.id, name: c.display_name }))}
       sources={config.sources}
       lossReasons={config.lossReasons}
@@ -79,7 +51,7 @@ export default async function PipelinePage(props: PageProps<"/[org]/pipeline">) 
       initial={{
         newDeal: param(searchParams.new) === "1",
         clientId: param(searchParams.client),
-        dealId: param(searchParams.deal),
+        dealId,
       }}
     />
   );
