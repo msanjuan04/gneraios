@@ -47,3 +47,9 @@ Este documento permite retomar el trabajo sin confundir **código local**, **pre
 - Diseño local: `http://localhost:3000/preview` y `http://localhost:3000/preview/calendar` (sin datos reales; pruebas temporales).
 - App local real: `http://localhost:3000/login` (**sin acceso operativo** hasta poner claves y esquema de `cnj...`).
 - Versión publicada anterior: `https://gneraios.gnerai.com/login`.
+
+## Actualización del 2 de octubre (12:40)
+
+- **Producción ya usa `cnjroerndjuqocbitzye`**: 49 migraciones aplicadas, release `20261002103610` en `gneraios.gnerai.com`, `/etc/gneraios.env` apunta al proyecto nuevo (conserva el proveedor de email y la política de acceso que ya tenía el servidor). El proyecto `bxy…` queda sin tocar.
+- Cuenta de Marc Sanjuan creada (`prod:socios`); faltan las de Hugo Lago y Marc Cortada (emails). Primer acceso: `/onboarding` crea la org, emisores, series e invitaciones.
+- Código en commits `abdb274` y `b640cee`, sin push todavía. Detalle y pendientes en `docs/audit/2026-10-02.md`.
