@@ -199,6 +199,27 @@ select cron.schedule('gnerai-sites', '*/5 * * * *', $$
 $$);
 ```
 
+## Correo (bandeja de la empresa)
+
+`POST /api/cron/mail` trae el correo nuevo de los buzones conectados (módulo Correo). **Cada 5
+minutos.** En cada llamada, y para cada buzón de `mail_accounts`:
+
+1. Abre la contraseña cifrada (clave del servidor) y se conecta por IMAP.
+2. Sincroniza la bandeja de entrada y los enviados: pide solo los UID por encima del último
+   guardado, 200 mensajes como mucho por carpeta. La primera vez se limita a los últimos 120 días.
+3. Guarda cada mensaje en `mail_messages` (asunto, cuerpo en texto, hilo) y lo ata al cliente o lead
+   por la dirección de correo (contactos primero, luego el dominio de la web del cliente).
+4. Apunta en la cuenta cómo fue (`last_sync_at`, `last_error`), que es lo que se ve en la página.
+
+Repetirlo no duplica nada: cada mensaje es único por carpeta y UID.
+
+**Respuesta.** `{"ok": true, "accounts", "results": [{"account", "fetched", "linked", "error"}]}`.
+`200` si todos fueron bien, `207` si falló algún buzón y `500` si no se pudo ni empezar.
+
+```bash
+curl -X POST -H "Authorization: Bearer $CRON_SECRET" http://localhost:3100/api/cron/mail
+```
+
 ## En producción: el cron del servidor de gnerai.com
 
 En `gneraios.gnerai.com` no se usa pg_cron: `deploy/subir.sh` instala `/etc/cron.d/gneraios`, que llama
@@ -210,6 +231,7 @@ a la app en `127.0.0.1:3300` con `Authorization: Bearer $CRON_SECRET` mediante
 | `push` | cada 2 min | Reparte los avisos pendientes a los móviles |
 | `watchdog` | cada 5 min | Si `/api/health` no responde 3 veces seguidas, reinicia la app (pm2 `gneraios`) |
 | `sites` | cada 5 min | Comprueba las webs (solo si la versión subida trae el módulo Webs) |
+| `mail` | cada 5 min | Trae el correo de los buzones conectados (módulo Correo) |
 | `daily` | 06:30 | Facturación diaria, recordatorios y avisos |
 | `seo` | 07:30 | Sincroniza Search Console y GA4 |
 | `council` | cada hora (:15) | Consejo de agentes (necesita `ANTHROPIC_API_KEY`) |

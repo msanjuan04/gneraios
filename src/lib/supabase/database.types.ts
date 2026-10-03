@@ -103,14 +103,42 @@ type AdsInsights = {
 // deals_board.last_contact_* (20261002190000_ultimo_contacto_deal.sql), hasta regenerar los tipos.
 type GeneratedDealsBoard = GeneratedPublic["Views"]["deals_board"];
 type DealsBoard = Omit<GeneratedDealsBoard, "Row"> & {
-  Row: GeneratedDealsBoard["Row"] & { last_contact_at: string | null; last_contact_direction: "incoming" | "outgoing" | "internal" | null };
+  Row: GeneratedDealsBoard["Row"] & {
+    last_contact_at: string | null;
+    last_contact_direction: "incoming" | "outgoing" | "internal" | null;
+    temperature: DealTemperature | null;
+  };
+};
+
+// mail_accounts y mail_messages (20261003170000_correo.sql), hasta regenerar los tipos.
+type MailAccounts = {
+  Row: { id: string; org_id: string; address: string; display_name: string; imap_host: string; imap_port: number; smtp_host: string; smtp_port: number; username: string; password_ciphertext: string; last_sync_at: string | null; last_error: string | null; created_at: string; updated_at: string; created_by: string | null; archived_at: string | null };
+  Insert: { id?: string; org_id: string; address: string; display_name?: string; imap_host: string; imap_port?: number; smtp_host: string; smtp_port?: number; username: string; password_ciphertext: string; last_sync_at?: string | null; last_error?: string | null; created_at?: string; updated_at?: string; created_by?: string | null; archived_at?: string | null };
+  Update: { id?: string; org_id?: string; address?: string; display_name?: string; imap_host?: string; imap_port?: number; smtp_host?: string; smtp_port?: number; username?: string; password_ciphertext?: string; last_sync_at?: string | null; last_error?: string | null; created_at?: string; updated_at?: string; created_by?: string | null; archived_at?: string | null };
+  Relationships: [];
+};
+type MailMessages = {
+  Row: { id: string; org_id: string; account_id: string; folder: string; uid: number; message_id: string | null; in_reply_to: string | null; thread_key: string; direction: "incoming" | "outgoing"; from_address: string; from_name: string; to_addresses: string[]; cc_addresses: string[]; subject: string; body_text: string; body_html: string | null; snippet: string; sent_at: string; seen: boolean; has_attachments: boolean; client_id: string | null; created_at: string };
+  Insert: { id?: string; org_id: string; account_id: string; folder: string; uid: number; message_id?: string | null; in_reply_to?: string | null; thread_key: string; direction: "incoming" | "outgoing"; from_address: string; from_name?: string; to_addresses?: string[]; cc_addresses?: string[]; subject?: string; body_text?: string; body_html?: string | null; snippet?: string; sent_at: string; seen?: boolean; has_attachments?: boolean; client_id?: string | null; created_at?: string };
+  Update: { id?: string; org_id?: string; account_id?: string; folder?: string; uid?: number; message_id?: string | null; in_reply_to?: string | null; thread_key?: string; direction?: "incoming" | "outgoing"; from_address?: string; from_name?: string; to_addresses?: string[]; cc_addresses?: string[]; subject?: string; body_text?: string; body_html?: string | null; snippet?: string; sent_at?: string; seen?: boolean; has_attachments?: boolean; client_id?: string | null; created_at?: string };
+  Relationships: [];
+};
+
+// deals.temperature (20261003180000_leads_temperatura.sql), hasta regenerar los tipos.
+export type DealTemperature = "hot" | "warm" | "cold";
+type GeneratedDeals = GeneratedPublic["Tables"]["deals"];
+type Deals = Omit<GeneratedDeals, "Row" | "Insert" | "Update"> & {
+  Row: GeneratedDeals["Row"] & { temperature: DealTemperature | null };
+  Insert: GeneratedDeals["Insert"] & { temperature?: DealTemperature | null };
+  Update: GeneratedDeals["Update"] & { temperature?: DealTemperature | null };
 };
 
 export type Database = Omit<Generated, "public"> & {
   public: Omit<GeneratedPublic, "Tables" | "Functions" | "Views"> & {
     Views: Omit<GeneratedPublic["Views"], "deals_board"> & { deals_board: DealsBoard };
-    Tables: Omit<GeneratedPublic["Tables"], "issuers" | "outbound_emails" | "quotes"> & {
+    Tables: Omit<GeneratedPublic["Tables"], "issuers" | "outbound_emails" | "quotes" | "deals"> & {
       quotes: Quotes;
+      deals: Deals;
       issuers: Omit<GeneratedIssuers, "Insert"> & { Insert: IssuersInsert };
       outbound_emails: OutboundEmails;
       calendar_entries: CalendarEntries;
@@ -122,6 +150,8 @@ export type Database = Omit<Generated, "public"> & {
       ads_insights: AdsInsights;
       quote_templates: QuoteTemplates;
       org_documents: OrgDocuments;
+      mail_accounts: MailAccounts;
+      mail_messages: MailMessages;
     };
     Functions: GeneratedPublic["Functions"] & {
       quote_template_used: { Args: { p_template_id: string }; Returns: undefined };

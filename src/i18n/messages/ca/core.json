@@ -48,7 +48,8 @@
     "groupWork": "Feina",
     "sites": "Webs",
     "quoteTemplates": "Plantilles",
-    "passwords": "Contrasenyes"
+    "passwords": "Contrasenyes",
+    "mail": "Correu"
   },
   "user": {
     "menu": "El teu compte",

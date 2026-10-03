@@ -49,7 +49,8 @@
     "groupWork": "Trabajo",
     "sites": "Webs",
     "quoteTemplates": "Plantillas",
-    "passwords": "Contraseñas"
+    "passwords": "Contraseñas",
+    "mail": "Correo"
   },
   "user": {
     "menu": "Tu cuenta",

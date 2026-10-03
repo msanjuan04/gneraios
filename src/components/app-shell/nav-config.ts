@@ -8,6 +8,7 @@ import {
   KeyRound,
   Landmark,
   LayoutTemplate,
+  Mail,
   Megaphone,
   FileSignature,
   FileText,
@@ -24,6 +25,7 @@ export type NavKey =
   | "dashboard"
   | "calendar"
   | "council"
+  | "mail"
   | "passwords"
   | "seo"
   | "ads"
@@ -57,6 +59,7 @@ export const NAV_GROUPS: { label: "groupDirection" | "groupSales" | "groupWork" 
       { key: "dashboard", path: "", icon: LayoutDashboard, shortcut: "g d" },
       { key: "calendar", path: "/calendar", icon: CalendarDays, shortcut: "g l" },
       { key: "council", path: "/council", icon: BrainCircuit, shortcut: "g a" },
+      { key: "mail", path: "/mail", icon: Mail, shortcut: "g m" },
       { key: "passwords", path: "/passwords", icon: KeyRound, shortcut: "g w" },
     ],
   },

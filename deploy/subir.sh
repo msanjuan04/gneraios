@@ -248,6 +248,10 @@ SITES_LINE=""
 if [ -d /opt/gneraios/current/.next/server/app/api/cron/sites ]; then
   SITES_LINE="*/5 * * * * root /opt/gneraios/cron.sh sites"
 fi
+MAIL_LINE=""
+if [ -d /opt/gneraios/current/.next/server/app/api/cron/mail ]; then
+  MAIL_LINE="*/5 * * * * root /opt/gneraios/cron.sh mail"
+fi
 cat >/etc/cron.d/gneraios <<CRONTAB
 # GNERAI OS (deploy/subir.sh). Hora del servidor (Europe/Madrid).
 SHELL=/bin/bash
@@ -260,6 +264,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 0 7 * * 1 root /opt/gneraios/cron.sh weekly
 45 3 * * * root /opt/gneraios/cron.sh backup
 $SITES_LINE
+$MAIL_LINE
 CRONTAB
 chmod 644 /etc/cron.d/gneraios
 

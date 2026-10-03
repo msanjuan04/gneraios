@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import { cache } from "react";
 import { z } from "zod";
 import { readOrgSettings } from "@/app/[org]/settings/schema";
 import { ClientDetail } from "@/components/clients/client-detail";
 import type { ClientDeal, ClientDetailData, MemberOption, StageKind, TimelineEntry } from "@/components/clients/types";
+import { isClient } from "@/domain/crm";
 import { calendarDaysBetween } from "@/domain/dates/zoned-time";
 import { localeNames } from "@/i18n/config";
 import { createClient } from "@/lib/supabase/server";
@@ -85,6 +86,11 @@ export default async function ClientPage({ params }: PageProps<"/[org]/clients/[
   if (!client) notFound();
 
   const supabase = await createClient();
+  // Mientras es un lead, su ficha es la de lead: aquí no hay facturas, proyectos ni webs que enseñar.
+  const { data: relationship } = await supabase.from("clients_overview").select("status, manual_status").eq("org_id", org.id).eq("id", clientId).maybeSingle();
+  if (relationship && !isClient({ status: relationship.status ?? null, manualStatus: relationship.manual_status ?? null })) {
+    redirect(`/${org.slug}/leads/${clientId}`);
+  }
   const [
     config,
     overviewRes,

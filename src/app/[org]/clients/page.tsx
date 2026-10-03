@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { readOrgSettings } from "@/app/[org]/settings/schema";
+import { isClient } from "@/domain/crm";
 import { ClientsList } from "@/components/clients/clients-list";
 import type { ClientListItem } from "@/components/clients/types";
 import { createClient } from "@/lib/supabase/server";
@@ -62,6 +63,8 @@ export default async function ClientsPage({ params }: PageProps<"/[org]/clients"
   });
 
   const clients: ClientListItem[] = rows
+    // Un lead todavía no es un cliente: vive en Leads, con su propia ficha.
+    .filter((row) => isClient({ status: row.status ?? null, manualStatus: row.manual_status ?? null }))
     .map((row) => ({
       id: row.id,
       displayName: row.name,

@@ -22,6 +22,8 @@
   - Las migraciones van en `supabase/migrations` y los tests de base de datos en `tests/db`, sobre PGlite y sin Docker. `tests/integration` prueba contra el Postgres local lo que PGlite no puede (concurrencia) y se salta si no está en marcha.
   - Para la base local: `pnpm db:migrate` aplica lo pendiente sin borrar datos, y `pnpm db:seed:demo` recrea la org demo simulando 18 meses de facturación con el motor real (cron, emisión con PDF y cobros).
   - Si cambia el esquema, `pnpm db:types` regenera `src/lib/supabase/database.generated.ts`. `database.types.ts` solo añade las correcciones que el generador no ve (p. ej. columnas que rellena un trigger).
+- **Correo (módulo Correo):** `mail_accounts` guarda el buzón (IMAP/SMTP) con la contraseña cifrada por `secretStoreFromEnv()`; esa columna no la puede leer ningún miembro (grants por columna) y solo la abre el servidor para conectarse. `mail_messages` es una copia de trabajo: el original se queda en el servidor de correo, cada mensaje es único por `(cuenta, carpeta, uid)` y se ata al cliente por la dirección. Las reglas de hilos y direcciones van puras en `src/domain/mail`; IMAP en `src/server/mail/sync.ts`, SMTP en `send.ts`, y el cron cada 5 min en `/api/cron/mail`.
+
 - **i18n:**
   - Toda cadena de UI va en `src/i18n/messages/<locale>/<área>.json` (core, auth, onboarding, settings, crm, clients, pipeline, funnel…), que `index.ts` fusiona. El español va completo; el catalán y el inglés caen al español si falta una clave.
   - Las llaves literales en un mensaje ICU se escapan con comillas simples: `'{yyyy}'`.
