@@ -61,7 +61,8 @@
         "dashboard": "Analítica",
         "finance": "Finanzas",
         "clients": "Clientes"
-      }
+      },
+      "tasksLabel": "Tareas"
     },
     "kpi": {
       "label": "Cifras principales",

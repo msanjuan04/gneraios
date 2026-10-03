@@ -61,7 +61,8 @@
         "analytics": "Analytics",
         "finance": "Finance",
         "clients": "Clients"
-      }
+      },
+      "tasksLabel": "Tasks"
     },
     "kpi": {
       "label": "Key figures",

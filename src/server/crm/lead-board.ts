@@ -105,10 +105,10 @@ async function pastQuotes(orgId: string): Promise<{ oneOffCents: number; monthly
   return rows.map((row) => ({ oneOffCents: row.one_off_cents ?? 0, monthlyCents: row.monthly_cents ?? 0 }));
 }
 
-/** Cuántos presupuestos tiene cada oportunidad (los borradores también cuentan como trabajo hecho). */
+/** Cuántos presupuestos tiene cada oportunidad (los borradores también cuentan como trabajo hecho). `quotes` no se archiva: se borra o se rechaza. */
 async function countQuotes(orgId: string, dealIds: readonly string[]): Promise<Map<string, number>> {
   const db = await createClient();
-  const { data, error } = await db.from("quotes").select("deal_id").eq("org_id", orgId).in("deal_id", dealIds).is("archived_at", null);
+  const { data, error } = await db.from("quotes").select("deal_id").eq("org_id", orgId).in("deal_id", dealIds);
   if (error) throw error;
   const counts = new Map<string, number>();
   for (const row of data ?? []) if (row.deal_id) counts.set(row.deal_id, (counts.get(row.deal_id) ?? 0) + 1);
