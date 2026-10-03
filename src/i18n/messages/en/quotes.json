@@ -347,7 +347,9 @@
       "add": "Add",
       "empty": "This proposal was sent as a PDF only.",
       "saved": "Landing page saved",
-      "invalid": "The landing page must be an https address."
+      "invalid": "The landing page must be an https address.",
+      "proposalPdf": "Proposal PDF",
+      "proposalPdfHint": "Cover, numbered scope and prices. It does not replace the formal quote, which is the one that gets accepted."
     }
   }
 }

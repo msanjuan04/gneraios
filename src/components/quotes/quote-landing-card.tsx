@@ -1,6 +1,6 @@
 "use client";
 
-import { ExternalLink, Globe, Pencil } from "lucide-react";
+import { ExternalLink, FileText, Globe, Pencil } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
@@ -81,6 +81,18 @@ export function QuoteLandingCard({ slug, quoteId, landingUrl, canAct }: { slug: 
       ) : (
         <p className="text-sm text-muted-foreground">{t("empty")}</p>
       )}
+      {/* La propuesta bonita (portada oscura, alcance numerado): la que se manda a quien pide algo. */}
+      <a
+        href={`/api/quotes/${quoteId}/proposal`}
+        target="_blank"
+        rel="noreferrer noopener"
+        className="mt-3 flex items-center gap-2 rounded-xl border px-3 py-2.5 text-sm font-semibold transition hover:border-primary/50 hover:text-primary"
+      >
+        <FileText className="size-4 shrink-0" aria-hidden />
+        <span className="min-w-0 flex-1">{t("proposalPdf")}</span>
+        <ExternalLink className="size-4 shrink-0" aria-hidden />
+      </a>
+      <p className="mt-1.5 text-xs text-muted-foreground">{t("proposalPdfHint")}</p>
     </SettingsCard>
   );
 }

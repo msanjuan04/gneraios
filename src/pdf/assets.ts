@@ -20,6 +20,21 @@ function fontFile(subset: "latin" | "latin-ext", weight: number): string {
   return path.join(process.cwd(), "public", "fonts", "manrope", `manrope-${subset}-${weight}-normal.woff`);
 }
 
+/** El logo en negro con fondo transparente (el plano trae un fondo claro opaco). */
+export function logoBlackPath(): string {
+  return path.join(process.cwd(), "public", "brand", "gnerai-logo-negro.png");
+}
+
+/** El logo en blanco, para fondos oscuros (la portada de la propuesta). */
+export function logoWhitePath(): string {
+  return path.join(process.cwd(), "public", "brand", "gnerai-logo-blanco.png");
+}
+
+/** El isotipo metálico con transparencia, para la marca de agua de la portada. */
+export function isotypePath(): string {
+  return path.join(process.cwd(), "public", brand.logos.isotypeMetal);
+}
+
 /** Logo plano (negro sobre blanco) de `brand.ts`. */
 export function logoPath(): string {
   return path.join(process.cwd(), "public", brand.logos.logoFlat);

@@ -132,7 +132,8 @@
         "meeting": "Hola {name},\n\nPerfecto. ¿Te va bien esta semana? Te propongo dos huecos:\n\n- \n- \n\nDime el que mejor te vaya y lo confirmo.\n\nUn saludo,",
         "pricing": "Hola {name},\n\nTe preparo la propuesta con el detalle y el precio. Antes de pasártela, dos cosas para ajustarla:\n\n- \n- \n\nEn cuanto me lo confirmes te la envío.\n\nUn saludo,",
         "other": "Hola {name},\n\nGracias por escribir. Lo miro y te digo algo hoy mismo.\n\nUn saludo,"
-      }
+      },
+      "briefIntro": "Esto es lo que nos pides:"
     },
     "estimated": "Estimado",
     "estimatedHint": "Estimación según lo que se ha presupuestado antes",

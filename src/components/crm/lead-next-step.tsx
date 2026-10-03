@@ -47,6 +47,8 @@ export function LeadNextStep({
     client: clientId,
     ...(dealId ? { deal: dealId } : {}),
     ...(signal.template ? { template: signal.template.id } : {}),
+    // Lo que piden, para que la propuesta arranque ya con su resumen.
+    ...(signal.summary.length > 0 ? { brief: `${t("briefIntro")}\n${signal.summary.map((line) => `- ${line}`).join("\n")}` } : {}),
   }).toString()}`;
 
   const copy = async () => {

@@ -46,6 +46,9 @@ next-env.d.ts
 .gstack/
 src/lib/supabase/database.generated.ts.tmp
 
+# PDFs e imágenes de muestra generados en local
+/tmp/
+
 # Copia local del visor de documentos (se regenera)
 .claude/docs-viewer/
 

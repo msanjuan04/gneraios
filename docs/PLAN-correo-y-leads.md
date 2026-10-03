@@ -1,6 +1,6 @@
 # Plan: lo que queda de Correo y Leads
 
-> **Estado (03/10/2026):** las fases 1 a 3 están hechas (commits `a7f5c03` y `0fee79f`, en el servidor; falta `git push` a GitHub). La fase 4 está a medias: el PDF de propuesta comercial está en local sin commit ni subida, pendiente de revisar con un PDF de muestra; la landing sigue por decidir. Queda la fase 0 (tú: push + contraseña IONOS) y revisar con correos reales la detección de aceptaciones y de remitentes automáticos.
+> **Estado (03/10/2026):** las fases 1 a 3 están hechas (commits `a7f5c03` y `0fee79f`, en el servidor; falta `git push` a GitHub). Fase 4: el PDF de propuesta comercial (estética Nadia) está listo y revisado con muestra; la landing pública es la que ya existe (`/p/q/<token>`, enlace secreto con caducidad y aceptación). Borradores de respuesta: se quedan en plantillas (sin IA). Queda la fase 0 (tú: push + contraseña IONOS) y revisar con correos reales la detección de aceptaciones y de remitentes automáticos.
 
 Estado a 03/10/2026. En el servidor están `796ad9c`, `a7f5c03` y `0fee79f`; en GitHub solo el primero. Este documento es lo que falta,
 en el orden en que se hará, con qué se entrega en cada paso y cómo se comprueba.
@@ -93,9 +93,10 @@ con la plantilla que mejor encaja y el resumen de lo que piden, y genera dos for
 4. Revisión obligatoria: el borrador **no se envía solo**. Sale en «Borrador», se revisa y se envía con el flujo
    de envío que ya guarda la evidencia (copia del PDF, canal y destinatario).
 
-**Decisión que necesito de ti antes de empezar** (ver abajo): dónde vive la landing.
+**Decisión cerrada:** la landing pública es `/p/q/<token>` (ver Decisiones abajo). El PDF lleva la estética Nadia.
 
-**Hecho cuando:** desde un lead de prueba salen un PDF y una landing con enlace, ambos con el aspecto de la de Nadia.
+**Hecho cuando:** desde un lead de prueba salen un PDF de propuesta (ruta `/api/quotes/<id>/proposal`) y el enlace
+público del presupuesto (`/p/q/<token>`), con revisión obligatoria antes de enviar.
 
 ## Fase 5: remate (~20 min)
 
@@ -118,15 +119,13 @@ con la plantilla que mejor encaja y el resumen de lo que piden, y genera dos for
 Total: unas 2 horas de trabajo mío, subiendo en dos entregas (fases 1–3, y fase 4) para que lo primero ya
 funcione mientras hago lo segundo.
 
-## Decisiones tuyas (con mi recomendación)
+## Decisiones (cerradas 03/10/2026)
 
-- **A. ¿Dónde vive la landing?** Recomiendo en la propia app, con enlace secreto que caduca. Alternativa: subirla
-  a otro sitio, pero entonces hay que mantener dos sitios.
-- **B. ¿Quién redacta los borradores de respuesta?** Hoy son plantillas por tipo de correo (gratis y siempre
-  igual). Alternativa: que los redacte una IA leyendo el correo, mejor texto pero con coste por uso y a veces
-  se equivoca. Recomiendo seguir con plantillas.
-- **C. ¿Filtro de basura estricto o laxo?** Recomiendo estricto: es mejor perder un lead raro que llenar Leads
-  de newsletters.
+- **A. Landing:** en la propia app, con el enlace secreto que ya existe (`/p/q/<token>`). Caduca, no se adivina y
+  permite aceptar online. Si se manda además una landing externa (cliente.gnerai.com), se guarda en
+  `quotes.landing_url` como hasta ahora. No se hace una segunda página visual «tipo Nadia»: esa estética va en el PDF.
+- **B. Borradores de respuesta:** plantillas fijas por tipo de correo (sin IA).
+- **C. Filtro de basura:** estricto (ya aplicado en fases 1–3).
 
 ## Lo que no se hará (por seguridad)
 

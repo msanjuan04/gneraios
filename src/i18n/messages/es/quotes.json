@@ -347,7 +347,9 @@
       "add": "Añadir",
       "empty": "Esta propuesta se envió solo en PDF.",
       "saved": "Landing guardada",
-      "invalid": "La landing tiene que ser una dirección https."
+      "invalid": "La landing tiene que ser una dirección https.",
+      "proposalPdf": "Propuesta en PDF",
+      "proposalPdfHint": "Portada, alcance numerado y precios. No sustituye al presupuesto formal, que es el que se acepta."
     }
   }
 }

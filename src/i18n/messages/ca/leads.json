@@ -132,7 +132,8 @@
         "meeting": "Hola {name},\n\nPerfecte. Et va bé aquesta setmana? Et proposo dos forats:\n\n- \n- \n\nDigues-me el que et vagi millor i ho confirmo.\n\nSalutacions,",
         "pricing": "Hola {name},\n\nT'preparo la proposta amb el detall i el preu. Abans de passar-te-la, dues coses per ajustar-la:\n\n- \n- \n\nQuan m'ho confirmis te l'envio.\n\nSalutacions,",
         "other": "Hola {name},\n\nGràcies per escriure. Ho miro i et dic alguna cosa avui mateix.\n\nSalutacions,"
-      }
+      },
+      "briefIntro": "Això és el que ens demanes:"
     },
     "estimated": "Estimat",
     "estimatedHint": "Estimació segons el que s'ha pressupostat abans",

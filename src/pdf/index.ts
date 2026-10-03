@@ -22,6 +22,9 @@ export type {
   QuotePdfTotals,
 } from "./quote-types";
 export { renderQuotePdf } from "./quote-render";
+export { renderProposalPdf } from "./proposal-render";
+export { ProposalDocument, createProposalDocument } from "./proposal-document";
+export { buildProposalView, type ProposalView } from "./proposal-view-model";
 export { QuoteDocument, createQuoteDocument } from "./quote-document";
 export { buildQuoteView, type QuoteView } from "./quote-view-model";
 export { renderClientReportPdf } from "./report-render";

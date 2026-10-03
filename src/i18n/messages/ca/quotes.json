@@ -347,7 +347,9 @@
       "add": "Afegeix",
       "empty": "Aquesta proposta es va enviar només en PDF.",
       "saved": "Landing desada",
-      "invalid": "La landing ha de ser una adreça https."
+      "invalid": "La landing ha de ser una adreça https.",
+      "proposalPdf": "Proposta en PDF",
+      "proposalPdfHint": "Portada, abast numerat i preus. No substitueix el pressupost formal, que és el que s'accepta."
     }
   }
 }

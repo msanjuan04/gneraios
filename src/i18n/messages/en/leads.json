@@ -132,7 +132,8 @@
         "meeting": "Hi {name},\n\nSounds good. Does this week work? Two slots:\n\n- \n- \n\nTell me which suits you and I will confirm.\n\nBest,",
         "pricing": "Hi {name},\n\nI will put the proposal together with the detail and the price. Two things first so I can get it right:\n\n- \n- \n\nAs soon as you confirm I will send it over.\n\nBest,",
         "other": "Hi {name},\n\nThanks for writing. I will look at it and get back to you today.\n\nBest,"
-      }
+      },
+      "briefIntro": "This is what you asked us for:"
     },
     "estimated": "Estimated",
     "estimatedHint": "Estimate from what has been quoted before",

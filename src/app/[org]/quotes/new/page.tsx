@@ -54,6 +54,11 @@ export default async function NewQuotePage({ params, searchParams }: Props) {
     await supabase.rpc("quote_template_used", { p_template_id: template.id });
   }
 
+  // ?brief= trae lo que pide el cliente (leído de su correo): abre las notas, que son el resumen
+  // de la propuesta. Se recorta y va como texto, nunca como HTML.
+  const brief = typeof query.brief === "string" ? query.brief.trim().slice(0, 1200) : "";
+  if (brief) defaults.notes = [brief, defaults.notes].filter(Boolean).join("\n\n");
+
   const data: QuoteEditorData = {
     mode: "create",
     quoteId: null,
