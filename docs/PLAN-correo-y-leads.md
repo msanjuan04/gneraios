@@ -1,6 +1,6 @@
 # Plan: lo que queda de Correo y Leads
 
-> **Estado (03/10/2026):** las fases 1 a 3 están hechas (commits `a7f5c03` y `0fee79f`, en el servidor; falta `git push` a GitHub). Fase 4: el PDF de propuesta comercial (estética Nadia) está listo y revisado con muestra; la landing pública es la que ya existe (`/p/q/<token>`, enlace secreto con caducidad y aceptación). Borradores de respuesta: se quedan en plantillas (sin IA). Queda la fase 0 (tú: push + contraseña IONOS) y revisar con correos reales la detección de aceptaciones y de remitentes automáticos.
+> **Estado (03/10/2026, noche):** todo lo de las fases 1 a 4 está hecho y subido (último commit `36b4500`). Además: correo en modo chat dentro de cada lead y cliente, próximos cobros, recurrencia, ficha de cliente por pestañas, embudo visual y solo leads vivos (2 semanas o calientes). **Bloqueos que no son de código:** (1) enviar correo desde la app necesita que DigitalOcean desbloquee SMTP o una clave de proveedor HTTP (BREVO_API_KEY/RESEND_API_KEY está vacía en producción); (2) SEO pide reconectar Google (credencial guardada con una clave anterior a la migración del 2/10). **Pendiente de decisión del usuario:** gastos de autónomos (90/90/300), Marc Cortada al 33 % económico, Sees/Nitid (IVA), NIF/IBAN de UDB, y revisar los 3 leads de hoy (Álex Parra, Jesús Ros, Ignacio Cortada).
 
 Estado a 03/10/2026. En el servidor están `796ad9c`, `a7f5c03` y `0fee79f`; en GitHub solo el primero. Este documento es lo que falta,
 en el orden en que se hará, con qué se entrega en cada paso y cómo se comprueba.
