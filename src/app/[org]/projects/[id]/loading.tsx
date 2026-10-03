@@ -5,7 +5,7 @@ const CARDS_PER_COLUMN = [3, 2, 1, 2];
 /** Ficha de proyecto cargando: cabecera, cifras, pestañas y el tablero de tareas. */
 export default function ProjectLoading() {
   return (
-    <div className="mx-auto max-w-7xl">
+    <div>
       <Skeleton className="mb-5 h-4 w-24" />
       <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
         <div>

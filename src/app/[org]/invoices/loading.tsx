@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 /** Listado de facturas cargando: cabecera, cifras, pestañas y filas. */
 export default function InvoicesLoading() {
   return (
-    <div className="mx-auto max-w-7xl">
+    <div>
       <div className="mb-8 flex items-end justify-between gap-4">
         <div>
           <Skeleton className="h-10 w-48" />

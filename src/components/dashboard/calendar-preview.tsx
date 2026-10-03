@@ -35,7 +35,7 @@ export function CalendarPreview() {
 
   const rawMonthTitle = new Intl.DateTimeFormat("es-ES", { month: "long", year: "numeric" }).format(anchor);
   const monthTitle = rawMonthTitle[0].toUpperCase() + rawMonthTitle.slice(1);
-  return <div className="mx-auto max-w-[88rem] space-y-5 pb-8">
+  return <div className="space-y-5 pb-8">
     <header className="flex flex-wrap items-end justify-between gap-3">
       <div><p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Agenda operativa</p><h2 className="mt-1 text-4xl font-extrabold heading-tight md:text-5xl">Calendario</h2><p className="mt-2 text-muted-foreground">Reuniones propias, entregas, tareas y fechas importantes en un solo lugar.</p></div>
       <Button onClick={() => open(iso(today))}><Plus data-icon="inline-start" />Nuevo evento</Button>

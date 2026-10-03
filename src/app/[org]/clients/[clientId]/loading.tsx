@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 /** Ficha 360 cargando: cabecera, métricas y las dos columnas. */
 export default function ClientLoading() {
   return (
-    <div className="mx-auto max-w-6xl">
+    <div>
       <Skeleton className="mb-5 h-4 w-24" />
       <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
         <div>

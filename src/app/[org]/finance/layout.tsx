@@ -12,7 +12,7 @@ export default async function FinanceLayout({ children, params }: { children: Re
   const t = await getTranslations("finance");
   const base = `/${org}/finance`;
   return (
-    <div className="mx-auto max-w-[88rem]">
+    <div>
       <PageHeader title={t("title")} description={t("description")} />
       <FinanceTabs
         label={t("tabs.label")}

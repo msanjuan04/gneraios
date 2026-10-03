@@ -34,7 +34,9 @@ export function AppShell({ children, sidebarOpen = true, preview = false, ...dat
         <SidebarInset className="min-w-0">
           <Topbar />
           {preview && <PreviewBanner />}
-          <main className="flex-1 px-4 py-6 md:px-8 md:py-8">{children}</main>
+          {/* El ancho y los márgenes de toda la app se deciden aquí, en un solo sitio: así cada
+              pantalla empieza y acaba donde las demás. */}
+          <main className="mx-auto w-full max-w-[96rem] flex-1 px-4 py-6 md:px-8 md:py-8">{children}</main>
         </SidebarInset>
         <CommandMenu />
         <ShortcutsDialog />

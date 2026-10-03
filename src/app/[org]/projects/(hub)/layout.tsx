@@ -10,7 +10,7 @@ export default async function ProjectsHubLayout({ children, params }: Props) {
   const { org } = await params;
   const t = await getTranslations("projects.tabs");
   return (
-    <div className="mx-auto max-w-7xl">
+    <div>
       <ProjectsTabs
         tabs={[
           { href: `/${org}/projects`, label: t("projects") },

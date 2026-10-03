@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 /** Webs cargando: cabecera, resumen, filtros y filas. */
 export default function SitesLoading() {
   return (
-    <div className="mx-auto max-w-7xl">
+    <div>
       <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
           <Skeleton className="h-10 w-40" />

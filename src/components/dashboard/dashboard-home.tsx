@@ -88,7 +88,7 @@ export async function DashboardHome({ data }: { data: DashboardData }) {
   ];
 
   return (
-    <div className="mx-auto max-w-6xl">
+    <div>
       <div className="mb-10">
         <h2 className="text-4xl font-extrabold heading-tight md:text-5xl">
           {tShell(greeting, { name: data.firstName })}

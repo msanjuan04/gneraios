@@ -30,7 +30,7 @@ export default async function PasswordsPage({ params }: PageProps<"/[org]/passwo
   if (clients.error) throw clients.error;
 
   return (
-    <div className="mx-auto w-full max-w-5xl">
+    <div className="w-full">
       <PageHeader title={t("title")} description={t("description")} />
       <VaultView
         slug={org.slug}

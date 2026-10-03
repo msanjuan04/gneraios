@@ -33,7 +33,7 @@ export async function DesignShowcase() {
   const t = await getTranslations("preview");
 
   return (
-    <div className="mx-auto max-w-6xl space-y-8">
+    <div className="space-y-8">
       <PageHeader title={t("designTitle")} description={t("designSubtitle")} />
 
       <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">

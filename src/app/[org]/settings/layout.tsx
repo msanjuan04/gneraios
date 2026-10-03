@@ -10,7 +10,7 @@ export default async function SettingsLayout({ children, params }: LayoutProps<"
   const t = await getTranslations("settings");
 
   return (
-    <div className="mx-auto max-w-5xl">
+    <div>
       <PageHeader title={t("title")} description={t("subtitle")} />
       <SettingsNav basePath={`/${org.slug}`} modules={readOrgModules(org.settings)} />
       <div className="mt-8">{children}</div>

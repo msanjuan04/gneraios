@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 /** Factura cargando: cabecera, tarjetas de datos y líneas, totales a la derecha. */
 export default function InvoiceLoading() {
   return (
-    <div className="mx-auto max-w-7xl">
+    <div>
       <Skeleton className="mb-5 h-4 w-24" />
       <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
         <div>

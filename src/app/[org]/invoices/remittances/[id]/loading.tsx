@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 /** Remesa cargando: cabecera, datos y recibos. */
 export default function RemittanceLoading() {
   return (
-    <div className="mx-auto max-w-7xl">
+    <div>
       <Skeleton className="mb-5 h-4 w-24" />
       <Skeleton className="h-10 w-72 max-w-full" />
       <Skeleton className="mt-3 mb-6 h-4 w-80 max-w-full" />

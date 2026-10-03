@@ -167,7 +167,7 @@ export default async function SeoPage({ params, searchParams }: SeoPageProps) {
 
   return (
     <SeoFrame>
-      <div className="mx-auto w-full max-w-7xl">
+      <div className="w-full">
         <PageHeader
           title={t("title")}
           description={t("description")}

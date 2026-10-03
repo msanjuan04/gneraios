@@ -45,7 +45,7 @@ const definitions: Record<Module, { title: string; description: string; columns:
 export function ModulePreview({ module }: { module: Module }) {
   const section = definitions[module];
   const isFinance = module === "finance";
-  return <div className="mx-auto max-w-[88rem] space-y-5 pb-8">
+  return <div className="space-y-5 pb-8">
     <header className="flex flex-wrap items-end justify-between gap-3">
       <div><h2 className="text-4xl font-extrabold heading-tight md:text-5xl">{section.title}</h2><p className="mt-2 text-muted-foreground">{section.description}</p></div>
       <Link href={module === "clients" ? "/preview/leads" : "/preview"} className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold hover:bg-muted">{module === "clients" ? "Ver leads" : "Ir a Inicio"}<ArrowRight aria-hidden className="size-4" /></Link>

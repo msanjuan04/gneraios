@@ -39,7 +39,7 @@ export default async function SeoPropertiesPage({ params, searchParams }: Proper
   const connected = setup.integration?.status === "connected";
 
   return (
-    <div className="mx-auto w-full max-w-4xl">
+    <div className="w-full">
       <Link
         href={`${basePath}/seo`}
         className="mb-5 inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"

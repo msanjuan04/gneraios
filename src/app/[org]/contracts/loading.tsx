@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 /** Listado de contratos cargando: cabecera, filtros por estado y filas. */
 export default function ContractsLoading() {
   return (
-    <div className="mx-auto max-w-6xl">
+    <div>
       <div className="mb-8 flex items-end justify-between gap-4">
         <div>
           <Skeleton className="h-10 w-48" />

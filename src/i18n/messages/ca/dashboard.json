@@ -27,19 +27,41 @@
     "listsLabel": "Clients, renovacions i cobraments",
     "operationsLabel": "Pipeline i salut del sistema",
     "operational": {
-      "greeting": "Hola, {name}", "subtitle": "El que requereix atenció aquest mes: {month}.", "projects": "Projectes",
-      "cashLabel": "Cobraments del mes", "received": "Ha entrat aquest mes", "receivedHint": "Cobraments registrats, inclosos rebuts sense factura.",
-      "due": "Pendent de cobrament aquest mes", "dueHint": "Factures obertes amb venciment fins a final de mes.",
-      "urgentToday": "Urgent avui", "urgentHint": "{overdue, plural, =0 {Cap tasca endarrerida} one {# endarrerida} other {# endarrerides}} · {today, plural, =0 {res venç avui} one {# venç avui} other {# vencen avui}}",
+      "greeting": "Hola, {name}",
+      "subtitle": "El que requereix atenció aquest mes: {month}.",
+      "projects": "Projectes",
+      "cashLabel": "Cobraments del mes",
+      "received": "Ha entrat aquest mes",
+      "receivedHint": "Cobraments registrats, inclosos rebuts sense factura.",
+      "due": "Pendent de cobrament aquest mes",
+      "dueHint": "Factures obertes amb venciment fins a final de mes.",
+      "urgentToday": "Urgent avui",
+      "urgentHint": "{overdue, plural, =0 {Cap tasca endarrerida} one {# endarrerida} other {# endarrerides}} · {today, plural, =0 {res venç avui} one {# venç avui} other {# vencen avui}}",
       "urgentDeliverables": "{count, plural, =0 {cap lliurament endarrerit ni per a avui} one {# lliurament endarrerit o per a avui} other {# lliuraments endarrerits o per a avui}}",
-      "deliverablesTitle": "Lliuraments compromesos", "deliverablesHint": "Endarrerits primer, després els propers 30 dies.", "noDeliverables": "No hi ha lliuraments oberts amb data en els propers 30 dies.", "overdue": "Endarrerit",
-      "pipelineForecast": "Ingressos potencials d'oportunitats", "pipelineForecastHint": "Estimació ponderada per probabilitat · {count, plural, one {# oportunitat oberta} other {# oportunitats obertes}}",
-      "weightedOneOff": "Ingressos puntuals probables", "weightedMonthly": "Ingressos recurrents probables", "month": "mes",
-      "pipelineDisclaimer": "Estimació comercial, no facturada ni garantida. L'MRR es mostra separat i no se suma a l'import puntual.", "actionsLabel": "Feina prioritària",
-      "crmTitle": "Oportunitats i clients", "crmDescription": "Reprèn converses, propostes i propers passos comercials.",
-      "openPipeline": "Veure oportunitats", "openClients": "Veure clients", "openQuotes": "Veure propostes",
-      "analyticsTitle": "Visió del negoci", "analyticsHint": "Mètriques i control financer, en segon pla.", "analyticsDetail": "Obrir analítica completa",
-      "analytics": { "analytics": "Analítica", "finance": "Finances", "clients": "Clients" }
+      "deliverablesTitle": "Lliuraments compromesos",
+      "deliverablesHint": "Endarrerits primer, després els propers 30 dies.",
+      "noDeliverables": "No hi ha lliuraments oberts amb data en els propers 30 dies.",
+      "overdue": "Endarrerit",
+      "pipelineForecast": "Ingressos potencials d'oportunitats",
+      "pipelineForecastHint": "Estimació ponderada per probabilitat · {count, plural, one {# oportunitat oberta} other {# oportunitats obertes}}",
+      "weightedOneOff": "Ingressos puntuals probables",
+      "weightedMonthly": "Ingressos recurrents probables",
+      "month": "mes",
+      "pipelineDisclaimer": "Estimació comercial, no facturada ni garantida. L'MRR es mostra separat i no se suma a l'import puntual.",
+      "actionsLabel": "Feina prioritària",
+      "crmTitle": "Oportunitats i clients",
+      "crmDescription": "Reprèn converses, propostes i propers passos comercials.",
+      "openPipeline": "Veure oportunitats",
+      "openClients": "Veure clients",
+      "openQuotes": "Veure propostes",
+      "analyticsTitle": "Visió del negoci",
+      "analyticsHint": "Mètriques i control financer, en segon pla.",
+      "analyticsDetail": "Obrir analítica completa",
+      "analytics": {
+        "analytics": "Analítica",
+        "finance": "Finances",
+        "clients": "Clients"
+      }
     },
     "kpi": {
       "label": "Xifres principals",
@@ -268,6 +290,31 @@
     "setupGoals": "Objectius d'MRR i de facturació de l'any",
     "setupGoalsAction": "Fixa'ls",
     "setupPush": "Avisos al mòbil i l'app instal·lada",
-    "setupPushAction": "Activa'ls"
+    "setupPushAction": "Activa'ls",
+    "monthly": {
+      "label": "Diners del mes",
+      "month": "Mes",
+      "inProgress": "El mes encara no ha acabat.",
+      "vsPreviousUp": "{percent} % més que el mes passat",
+      "vsPreviousDown": "{percent} % menys que el mes passat",
+      "invoiced": {
+        "title": "Facturació",
+        "hint": "facturat aquest mes, sense IVA"
+      },
+      "expenses": {
+        "title": "Despeses",
+        "hint": "gastat aquest mes, amb l'IVA que no es dedueix"
+      }
+    },
+    "team": {
+      "title": "L'equip avui",
+      "description": "Què té cadascú entre mans; primer qui va més just.",
+      "empty": "Ningú té tasques obertes.",
+      "nothingToday": "Res per avui.",
+      "overdue": "{count} vençuda(es)",
+      "today": "{count} avui",
+      "open": "{count} obertes",
+      "allTasks": "Mostra totes les tasques"
+    }
   }
 }

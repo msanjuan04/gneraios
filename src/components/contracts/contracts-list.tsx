@@ -205,7 +205,7 @@ export function ContractsList({ basePath, slug, contracts, options, canEdit, tod
   ) : undefined;
 
   return (
-    <div className="mx-auto max-w-6xl">
+    <div>
       <PageHeader title={t("title")} description={t("description")} actions={newButton} />
       {!canEdit && <ReadOnlyNotice className="-mt-4 mb-6">{t("readOnly")}</ReadOnlyNotice>}
 

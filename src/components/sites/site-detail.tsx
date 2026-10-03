@@ -40,7 +40,7 @@ export function SiteDetail({ slug, basePath, data, canEdit }: Props) {
   const tone = (expiry: SiteExpiry | null) => (expiry?.severity === "expired" ? "danger" : expiry?.severity === "warning" ? "warning" : undefined);
 
   return (
-    <div className="mx-auto max-w-6xl">
+    <div>
       <Link
         href={`${basePath}/sites`}
         className="mb-5 inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"

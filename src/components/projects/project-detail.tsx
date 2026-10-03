@@ -126,7 +126,7 @@ export function ProjectDetail({ data, viewer, options, initial }: Props) {
   const late = project.overdue ? daysLate(project.dueOn, viewer.today) : 0;
 
   return (
-    <div className="mx-auto max-w-7xl">
+    <div>
       <Link
         href={`${viewer.basePath}/projects`}
         className="mb-4 inline-flex items-center gap-1.5 text-sm font-semibold text-muted-foreground hover:text-foreground"

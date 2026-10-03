@@ -12,7 +12,7 @@ export default async function CouncilLayout({ children, params }: LayoutProps<"/
   if (!readOrgModules(org.settings).council) notFound();
   const t = await getTranslations("council");
   return (
-    <div className="mx-auto w-full max-w-6xl">
+    <div className="w-full">
       <PageHeader title={t("title")} description={t("description")} />
       <CouncilNav basePath={`/${org.slug}`} isOwner={hasRole(member.role, "owner")} />
       {children}

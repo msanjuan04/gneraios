@@ -5,7 +5,7 @@ const CHIPS = [2, 0, 1, 3, 0, 1, 0, 1, 2, 0, 0, 3, 1, 0, 2, 1, 0, 0, 2, 1, 1, 0,
 /** El calendario cargando: la cabecera, los filtros y la cuadrícula del mes (en el móvil, la agenda). */
 export function CalendarSkeleton() {
   return (
-    <div className="mx-auto max-w-[96rem] space-y-4" aria-hidden>
+    <div className="space-y-4" aria-hidden>
       <div className="flex flex-wrap items-center gap-3">
         <Skeleton className="h-8 w-52" />
         <Skeleton className="h-8 w-40 rounded-full" />

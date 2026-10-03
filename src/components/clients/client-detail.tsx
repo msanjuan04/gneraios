@@ -99,7 +99,7 @@ export function ClientDetail({ data }: { data: ClientDetailData }) {
   const openMrr = openDeals.reduce((sum, d) => sum + d.mrrCents, 0);
 
   return (
-    <div className="mx-auto max-w-6xl">
+    <div>
       <Link
         href={`${basePath}/clients`}
         className="mb-5 inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"

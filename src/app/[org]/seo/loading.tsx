@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 /** Esqueleto de SEO al llegar desde otra pestaña (cambiar de propiedad o periodo no lo muestra). */
 export default function Loading() {
   return (
-    <div className="mx-auto w-full max-w-7xl space-y-6">
+    <div className="w-full space-y-6">
       <div className="space-y-3">
         <Skeleton className="h-10 w-40" />
         <Skeleton className="h-5 w-96 max-w-full" />

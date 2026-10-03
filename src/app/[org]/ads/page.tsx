@@ -90,7 +90,7 @@ export default async function AdsPage({ params, searchParams }: PageProps<"/[org
   const day = (date: string) => format.dateTime(new Date(`${date}T12:00:00Z`), { day: "numeric", month: "short" });
 
   return (
-    <div className="mx-auto w-full max-w-7xl space-y-6">
+    <div className="w-full space-y-6">
       <PageHeader
         title={t("title")}
         description={t("description")}

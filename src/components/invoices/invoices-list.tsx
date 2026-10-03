@@ -307,7 +307,7 @@ export function InvoicesList({
   );
 
   return (
-    <div className="mx-auto max-w-7xl">
+    <div>
       <PageHeader title={t("title")} description={t("description")} actions={headerActions} />
       <InvoicesNav basePath={basePath} outboxCount={outboxCount} />
       {!canEdit && <ReadOnlyNotice className="-mt-2 mb-6">{t("readOnly")}</ReadOnlyNotice>}

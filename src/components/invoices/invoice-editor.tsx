@@ -398,7 +398,7 @@ export function InvoiceEditor({ slug, basePath, today, canEdit, data }: Props) {
   const linesError = message(formState.errors.lines?.message ?? formState.errors.lines?.root?.message);
 
   return (
-    <div className="mx-auto max-w-7xl">
+    <div>
       <Link
         href={`${basePath}/invoices${creating ? "" : "?status=draft"}`}
         className="mb-5 inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"

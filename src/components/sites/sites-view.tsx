@@ -126,7 +126,7 @@ export function SitesView({ slug, basePath, data, canEdit, isOwner, initialFilte
   );
 
   return (
-    <div className="mx-auto max-w-7xl">
+    <div>
       <PageHeader title={t("title")} description={t("description")} actions={canEdit || isOwner ? actions : undefined} />
       {!canEdit && <ReadOnlyNotice className="-mt-4 mb-6">{t("readOnly")}</ReadOnlyNotice>}
 

@@ -25,7 +25,7 @@ function Lines({ rows }: { rows: number }) {
 /** Esqueleto del dashboard: la misma rejilla, para que nada salte al llegar los datos. */
 export function DashboardSkeleton() {
   return (
-    <div className="mx-auto max-w-[88rem] space-y-8" aria-busy>
+    <div className="space-y-8" aria-busy>
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <Skeleton className="h-11 w-80 max-w-full md:h-12" />

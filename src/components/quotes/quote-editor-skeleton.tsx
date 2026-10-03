@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 /** Editor de presupuesto cargando: cabecera con acciones, tarjetas del formulario y resumen al lado. */
 export function QuoteEditorSkeleton() {
   return (
-    <div className="mx-auto max-w-7xl">
+    <div>
       <Skeleton className="mb-5 h-4 w-28" />
       <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
         <div>

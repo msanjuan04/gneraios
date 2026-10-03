@@ -27,19 +27,41 @@
     "listsLabel": "Clients, renewals and payments",
     "operationsLabel": "Pipeline and system health",
     "operational": {
-      "greeting": "Hello, {name}", "subtitle": "What needs attention in {month}.", "projects": "Projects",
-      "cashLabel": "This month's collections", "received": "Received this month", "receivedHint": "Recorded payments, including receipts without invoices.",
-      "due": "Due to collect this month", "dueHint": "Open invoices due by month end.",
-      "urgentToday": "Urgent today", "urgentHint": "{overdue, plural, =0 {No overdue tasks} one {# overdue} other {# overdue}} · {today, plural, =0 {nothing due today} one {# due today} other {# due today}}",
+      "greeting": "Hello, {name}",
+      "subtitle": "What needs attention in {month}.",
+      "projects": "Projects",
+      "cashLabel": "This month's collections",
+      "received": "Received this month",
+      "receivedHint": "Recorded payments, including receipts without invoices.",
+      "due": "Due to collect this month",
+      "dueHint": "Open invoices due by month end.",
+      "urgentToday": "Urgent today",
+      "urgentHint": "{overdue, plural, =0 {No overdue tasks} one {# overdue} other {# overdue}} · {today, plural, =0 {nothing due today} one {# due today} other {# due today}}",
       "urgentDeliverables": "{count, plural, =0 {no overdue or due-today deliveries} one {# overdue or due-today delivery} other {# overdue or due-today deliveries}}",
-      "deliverablesTitle": "Committed deliveries", "deliverablesHint": "Overdue first, then the next 30 days.", "noDeliverables": "No open deliveries due in the next 30 days.", "overdue": "Overdue",
-      "pipelineForecast": "Potential revenue from opportunities", "pipelineForecastHint": "Probability-weighted estimate · {count, plural, one {# open opportunity} other {# open opportunities}}",
-      "weightedOneOff": "Likely one-off revenue", "weightedMonthly": "Likely recurring revenue", "month": "month",
-      "pipelineDisclaimer": "Commercial estimate, not invoiced or guaranteed. MRR stays separate and is not added to one-off revenue.", "actionsLabel": "Priority work",
-      "crmTitle": "Opportunities and clients", "crmDescription": "Follow up conversations, proposals, and next commercial steps.",
-      "openPipeline": "View opportunities", "openClients": "View clients", "openQuotes": "View proposals",
-      "analyticsTitle": "Business overview", "analyticsHint": "Metrics and financial control, secondary to daily work.", "analyticsDetail": "Open full analytics",
-      "analytics": { "analytics": "Analytics", "finance": "Finance", "clients": "Clients" }
+      "deliverablesTitle": "Committed deliveries",
+      "deliverablesHint": "Overdue first, then the next 30 days.",
+      "noDeliverables": "No open deliveries due in the next 30 days.",
+      "overdue": "Overdue",
+      "pipelineForecast": "Potential revenue from opportunities",
+      "pipelineForecastHint": "Probability-weighted estimate · {count, plural, one {# open opportunity} other {# open opportunities}}",
+      "weightedOneOff": "Likely one-off revenue",
+      "weightedMonthly": "Likely recurring revenue",
+      "month": "month",
+      "pipelineDisclaimer": "Commercial estimate, not invoiced or guaranteed. MRR stays separate and is not added to one-off revenue.",
+      "actionsLabel": "Priority work",
+      "crmTitle": "Opportunities and clients",
+      "crmDescription": "Follow up conversations, proposals, and next commercial steps.",
+      "openPipeline": "View opportunities",
+      "openClients": "View clients",
+      "openQuotes": "View proposals",
+      "analyticsTitle": "Business overview",
+      "analyticsHint": "Metrics and financial control, secondary to daily work.",
+      "analyticsDetail": "Open full analytics",
+      "analytics": {
+        "analytics": "Analytics",
+        "finance": "Finance",
+        "clients": "Clients"
+      }
     },
     "kpi": {
       "label": "Key figures",
@@ -268,6 +290,31 @@
     "setupGoals": "MRR and yearly revenue goals",
     "setupGoalsAction": "Set them",
     "setupPush": "Notifications on your phone and the installed app",
-    "setupPushAction": "Turn them on"
+    "setupPushAction": "Turn them on",
+    "monthly": {
+      "label": "This month's money",
+      "month": "Month",
+      "inProgress": "The month is not over yet.",
+      "vsPreviousUp": "{percent}% more than last month",
+      "vsPreviousDown": "{percent}% less than last month",
+      "invoiced": {
+        "title": "Invoiced",
+        "hint": "invoiced this month, excluding VAT"
+      },
+      "expenses": {
+        "title": "Expenses",
+        "hint": "spent this month, including non-deductible VAT"
+      }
+    },
+    "team": {
+      "title": "The team today",
+      "description": "What each person has on; the most stretched first.",
+      "empty": "Nobody has open tasks.",
+      "nothingToday": "Nothing for today.",
+      "overdue": "{count} overdue",
+      "today": "{count} today",
+      "open": "{count} open",
+      "allTasks": "See all tasks"
+    }
   }
 }

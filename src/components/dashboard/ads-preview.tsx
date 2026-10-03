@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 /** Diseño sin acceso a datos de la cuenta publicitaria. */
 export function AdsPreview() {
   return (
-    <div className="mx-auto w-full max-w-7xl space-y-6">
+    <div className="w-full space-y-6">
       <header><h2 className="text-4xl font-extrabold heading-tight">Ads</h2><p className="mt-2 text-muted-foreground">Operación interna y resultados que se comparten con cada cliente.</p></header>
       <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
         {[

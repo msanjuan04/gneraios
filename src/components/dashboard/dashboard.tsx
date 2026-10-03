@@ -35,7 +35,7 @@ export async function Dashboard({
   const cron = view.health.cron;
 
   return (
-    <div className="mx-auto max-w-[88rem] space-y-8">
+    <div className="space-y-8">
       <header className="flex flex-wrap items-end justify-between gap-4">
         <div className="min-w-0">
           <h2 className="text-4xl font-extrabold heading-tight md:text-5xl">{tShell(greeting, { name: view.firstName })}</h2>

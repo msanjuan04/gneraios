@@ -39,13 +39,13 @@ export async function ConnectState({
   const t = await getTranslations("seo.connect");
 
   return (
-    <div className="mx-auto mt-4 w-full max-w-3xl md:mt-8">
+    <div className="mt-4 w-full md:mt-8">
       <div className="rounded-3xl border bg-card/50 px-6 py-10 text-center sm:px-10">
         <div className="mx-auto flex size-14 items-center justify-center rounded-2xl bg-brand-gradient text-white shadow-[0_10px_40px_rgb(46_128_255/0.35)]">
           <ChartNoAxesCombined className="size-6" />
         </div>
         <h2 className="mt-6 text-2xl font-extrabold heading-tight md:text-3xl">{t(`${variant}.title`)}</h2>
-        <p className="mx-auto mt-3 max-w-xl text-muted-foreground">{t(`${variant}.body`)}</p>
+        <p className="mt-3 text-muted-foreground">{t(`${variant}.body`)}</p>
 
         <ul className="mx-auto mt-8 grid max-w-2xl gap-3 text-left sm:grid-cols-2">
           {BENEFITS.map(({ key, icon: Icon }) => (
@@ -61,7 +61,7 @@ export async function ConnectState({
           ))}
         </ul>
 
-        {error && <p className="mx-auto mt-6 max-w-xl rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-2.5 text-sm text-destructive">{error}</p>}
+        {error && <p className="mt-6 rounded-xl border border-destructive/30 bg-destructive/10 px-4 py-2.5 text-sm text-destructive">{error}</p>}
 
         {variant !== "setup" &&
           (isOwner ? (

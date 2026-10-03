@@ -76,7 +76,7 @@ export function ContractDetail({ data }: { data: ContractDetailData }) {
   const hasOneOff = data.lines.some((l) => l.billingType === "one_off");
 
   return (
-    <div className="mx-auto max-w-6xl">
+    <div>
       <Link
         href={`${data.basePath}/contracts`}
         className="mb-5 inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"

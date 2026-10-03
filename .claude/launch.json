@@ -3,7 +3,7 @@
   "configurations": [
     {
       "name": "app",
-      "runtimeExecutable": "pnpm",
+      "runtimeExecutable": "node_modules/.bin/next",
       "runtimeArgs": [
         "dev",
         "--port",
@@ -14,7 +14,7 @@
     },
     {
       "name": "app-rapida",
-      "runtimeExecutable": "pnpm",
+      "runtimeExecutable": "node_modules/.bin/next",
       "runtimeArgs": [
         "start",
         "--port",

@@ -60,7 +60,7 @@ export default async function LeadsPage({ params }: PageProps<"/[org]/leads">) {
   const canEdit = hasRole(member.role, "partner");
 
   return (
-    <div className="mx-auto max-w-[88rem] space-y-6">
+    <div className="space-y-6">
       <PageHeader title={t("title")} description={t("description")} actions={<><Button asChild variant="outline"><Link href={`${basePath}/pipeline`}>{t("board")}<ArrowUpRight data-icon="inline-end" /></Link></Button>{canEdit && <Button asChild><Link href={`${basePath}/pipeline?new=1`}><Plus data-icon="inline-start" />{t("new")}</Link></Button>}</>} />
 
       <section className="grid gap-3 sm:grid-cols-3" aria-label={t("summary")}>

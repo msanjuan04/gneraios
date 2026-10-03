@@ -219,7 +219,7 @@ export function ClientsList({ basePath, slug, clients, members, canEdit, current
   ) : undefined;
 
   return (
-    <div className="mx-auto max-w-6xl">
+    <div>
       <PageHeader title={t("title")} description={t("description")} actions={newButton} />
       {!canEdit && <ReadOnlyNotice className="-mt-4 mb-6">{t("readOnly")}</ReadOnlyNotice>}
 

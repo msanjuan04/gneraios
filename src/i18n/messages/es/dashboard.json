@@ -57,7 +57,11 @@
       "analyticsTitle": "Visión del negocio",
       "analyticsHint": "Métricas y control financiero, en segundo plano.",
       "analyticsDetail": "Abrir analítica completa",
-      "analytics": { "dashboard": "Analítica", "finance": "Finanzas", "clients": "Clientes" }
+      "analytics": {
+        "dashboard": "Analítica",
+        "finance": "Finanzas",
+        "clients": "Clientes"
+      }
     },
     "kpi": {
       "label": "Cifras principales",
@@ -286,6 +290,31 @@
     "setupGoals": "Objetivos de MRR y de facturación del año",
     "setupGoalsAction": "Marcarlos",
     "setupPush": "Avisos en el móvil y la app instalada",
-    "setupPushAction": "Activarlos"
+    "setupPushAction": "Activarlos",
+    "monthly": {
+      "label": "Dinero del mes",
+      "month": "Mes",
+      "inProgress": "El mes todavía no ha terminado.",
+      "vsPreviousUp": "{percent} % más que el mes pasado",
+      "vsPreviousDown": "{percent} % menos que el mes pasado",
+      "invoiced": {
+        "title": "Facturación",
+        "hint": "facturado este mes, sin IVA"
+      },
+      "expenses": {
+        "title": "Gastos",
+        "hint": "gastado este mes, con el IVA que no se deduce"
+      }
+    },
+    "team": {
+      "title": "El equipo hoy",
+      "description": "Qué tiene cada uno entre manos; primero quien va más apurado.",
+      "empty": "Nadie tiene tareas abiertas.",
+      "nothingToday": "Nada para hoy.",
+      "overdue": "{count} vencida(s)",
+      "today": "{count} hoy",
+      "open": "{count} abiertas",
+      "allTasks": "Ver todas las tareas"
+    }
   }
 }

@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 /** Plantillas cargando: cabecera y tarjetas. */
 export default function QuoteTemplatesLoading() {
   return (
-    <div className="mx-auto max-w-6xl">
+    <div>
       <div className="mb-8 flex items-end justify-between gap-4">
         <div>
           <Skeleton className="h-10 w-72" />

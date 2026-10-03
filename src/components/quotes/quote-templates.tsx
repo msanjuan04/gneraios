@@ -222,7 +222,7 @@ export function QuoteTemplates({ slug, basePath, templates, canEdit }: Props) {
   const groups = CATALOG_CATEGORIES.map((category) => ({ category, items: templates.filter((item) => item.category === category) })).filter((g) => g.items.length > 0);
 
   return (
-    <div className="mx-auto max-w-6xl">
+    <div>
       <PageHeader
         title={t("title")}
         description={t("description")}

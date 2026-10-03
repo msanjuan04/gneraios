@@ -35,14 +35,14 @@ export function NoStatements({ canEdit, onUpload }: { canEdit: boolean; onUpload
   const steps = ["step1", "step2", "step3", "step4"] as const;
   return (
     <div className="rounded-3xl border bg-card/50 px-6 py-12 md:px-10 md:py-14">
-      <div className="mx-auto max-w-xl text-center">
+      <div className="text-center">
         <div className="mx-auto flex size-12 items-center justify-center rounded-2xl bg-brand-gradient text-white shadow-[0_10px_40px_rgb(46_128_255/0.35)]">
           <Upload className="size-5" />
         </div>
         <h3 className="mt-5 text-2xl font-extrabold heading-tight">{t("title")}</h3>
         <p className="mt-2 text-sm text-muted-foreground">{t("body")}</p>
       </div>
-      <ol className="mx-auto mt-6 max-w-xl space-y-2.5">
+      <ol className="mt-6 space-y-2.5">
         {steps.map((step, i) => (
           <li key={step} className="flex gap-3 text-sm">
             <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-primary/15 text-xs font-bold text-primary">{i + 1}</span>
@@ -50,7 +50,7 @@ export function NoStatements({ canEdit, onUpload }: { canEdit: boolean; onUpload
           </li>
         ))}
       </ol>
-      <p className="mx-auto mt-4 max-w-xl text-xs text-muted-foreground">{t("note")}</p>
+      <p className="mt-4 text-xs text-muted-foreground">{t("note")}</p>
       <div className="mt-6 text-center">
         {canEdit ? (
           <Button onClick={onUpload}>

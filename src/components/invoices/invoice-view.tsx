@@ -119,7 +119,7 @@ export function InvoiceView({ slug, basePath, today, timeZone, canEdit, invoice,
   const legalNotes = [...new Set(invoice.lines.map((l) => l.legalNote?.trim()).filter((n): n is string => Boolean(n)))];
 
   return (
-    <div className="mx-auto max-w-7xl">
+    <div>
       <Link
         href={`${basePath}/invoices`}
         className="mb-5 inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"

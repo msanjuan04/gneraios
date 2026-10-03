@@ -111,7 +111,7 @@ export function InvoiceHistory({ basePath, outboxCount, granularity, rows, total
   };
 
   return (
-    <div className="mx-auto max-w-7xl">
+    <div>
       <PageHeader
         title={t("title")}
         description={t("description")}

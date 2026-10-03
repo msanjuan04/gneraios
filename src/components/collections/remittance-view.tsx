@@ -99,7 +99,7 @@ export function RemittanceView({
   };
 
   return (
-    <div className="mx-auto max-w-7xl">
+    <div>
       <Link
         href={`${basePath}/invoices/remittances`}
         className="mb-5 inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"

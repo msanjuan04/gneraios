@@ -378,7 +378,7 @@ export function QuoteEditor({ slug, basePath, today, data, share }: Props) {
     : null;
 
   return (
-    <div className="mx-auto max-w-7xl">
+    <div>
       <Link
         href={`${basePath}/quotes`}
         className="mb-5 inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"

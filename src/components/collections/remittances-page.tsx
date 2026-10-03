@@ -57,7 +57,7 @@ export function RemittancesPage({
   const href = (id: string) => `${basePath}/invoices/remittances/${id}`;
 
   return (
-    <div className="mx-auto max-w-7xl">
+    <div>
       <PageHeader title={t("title")} description={t("description")} />
       <InvoicesNav basePath={basePath} outboxCount={outboxCount} />
       {!canEdit && <ReadOnlyNotice className="-mt-2 mb-6">{t("readOnly")}</ReadOnlyNotice>}

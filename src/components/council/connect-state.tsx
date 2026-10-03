@@ -24,7 +24,7 @@ export async function CouncilIntro({ variant, isOwner }: { variant: "connect" | 
   const tCadence = await getTranslations("council.cadence");
 
   return (
-    <div className="mx-auto w-full max-w-5xl space-y-6">
+    <div className="w-full space-y-6">
       <div className="relative overflow-hidden rounded-3xl border bg-card/50 px-6 py-10 text-center sm:px-10">
         <div aria-hidden className="pointer-events-none absolute inset-x-0 -top-24 mx-auto h-48 max-w-lg rounded-full bg-brand-gradient opacity-20 blur-3xl" />
         <div className="relative mx-auto flex size-14 items-center justify-center rounded-2xl bg-brand-gradient text-white shadow-[0_10px_40px_rgb(46_128_255/0.35)]">
@@ -33,7 +33,7 @@ export async function CouncilIntro({ variant, isOwner }: { variant: "connect" | 
         <h2 className="relative mt-6 text-2xl font-extrabold heading-tight md:text-3xl">{t(`${variant}.title`)}</h2>
         <p className="relative mx-auto mt-3 max-w-2xl text-muted-foreground">{t(`${variant}.body`)}</p>
 
-        <ul className="relative mx-auto mt-8 grid max-w-4xl gap-3 text-left sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="relative mt-8 grid gap-3 text-left sm:grid-cols-2 lg:grid-cols-3">
           {PRINCIPLES.map(({ key, icon: Icon }) => (
             <li key={key} className="flex gap-3 rounded-2xl border bg-background/60 p-4">
               <span className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">

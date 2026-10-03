@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 /** Vista sin base de datos: enseña estructura y estados vacíos; nunca inventa clientes ni cifras. */
 export function OperationalPreview() {
   return (
-    <div className="mx-auto max-w-[88rem] space-y-6 pb-8">
+    <div className="space-y-6 pb-8">
       <header className="flex flex-wrap items-end justify-between gap-3">
         <div><h2 className="text-4xl font-extrabold heading-tight md:text-5xl">Inicio</h2><p className="mt-2 text-muted-foreground">Trabajo prioritario, clientes y próximos cobros.</p></div>
         <Link href="/preview/projects" className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold hover:bg-muted">Abrir proyectos <ArrowRight aria-hidden className="size-4" /></Link>
@@ -52,7 +52,7 @@ export function OperationalPreview() {
 export function LeadsPreview() {
   const names = ["Little", "Metrickal", "BAKoffice"];
   return (
-    <div className="mx-auto max-w-[88rem] space-y-6">
+    <div className="space-y-6">
       <header className="flex flex-wrap items-end justify-between gap-3"><div><h2 className="text-4xl font-extrabold heading-tight">Leads y oportunidades</h2><p className="mt-2 text-muted-foreground">Expediente comercial, propuesta enviada, respuestas y siguiente acción.</p></div><Link href="/preview/pipeline" className="rounded-full border px-4 py-2 text-sm font-semibold hover:bg-muted">Abrir pipeline <ArrowRight className="ml-1 inline size-4" /></Link></header>
       <div className="grid gap-3 sm:grid-cols-3"><Metric icon={<MessageSquareText className="size-4" />} title="Oportunidades abiertas" value="—" caption="Se calcula desde deals existentes." /><Metric icon={<FileText className="size-4" />} title="Presupuestos enviados" value="—" caption="Estado enlazado al presupuesto real." /><Metric icon={<CircleAlert className="size-4" />} title="Seguimientos pendientes" value="—" caption="Próxima acción y vencimiento del lead." /></div>
       <Card className="overflow-hidden"><CardHeader className="border-b"><CardTitle>CRM · Leads</CardTitle><CardDescription>Estos nombres vienen de lo que has mencionado. La preview no inventa estado, propuesta, importe ni actividad.</CardDescription></CardHeader><ul className="divide-y sm:hidden">{names.map((name) => <li key={name} className="px-5 py-4"><p className="font-semibold">{name}</p><p className="mt-1 text-xs text-muted-foreground">Etapa, presupuesto y próxima acción se cargan desde la organización.</p></li>)}</ul><div className="hidden overflow-x-auto sm:block"><table className="w-full text-left text-sm"><thead className="border-b text-xs text-muted-foreground"><tr><th className="px-5 py-3">Empresa</th><th className="px-5 py-3">Etapa</th><th className="px-5 py-3">Presupuesto</th><th className="px-5 py-3">Próxima acción</th><th className="px-5 py-3 text-right">Expediente</th></tr></thead><tbody className="divide-y">{names.map((name) => <tr key={name}><td className="px-5 py-4 font-semibold">{name}</td><td className="px-5 py-4 text-muted-foreground">—</td><td className="px-5 py-4 text-muted-foreground">—</td><td className="px-5 py-4 text-muted-foreground">—</td><td className="px-5 py-4 text-right"><span className="text-xs text-muted-foreground">Se carga desde la organización</span></td></tr>)}</tbody></table></div></Card>

@@ -48,7 +48,7 @@ export function OutboxList({ basePath, slug, tab, items, pendingCount, dunningDa
   ];
 
   return (
-    <div className="mx-auto max-w-4xl">
+    <div>
       <PageHeader title={t("title")} description={t("description", { days: dunningDays })} />
       <InvoicesNav basePath={basePath} outboxCount={pendingCount} />
       {!canEdit && <ReadOnlyNotice className="-mt-2 mb-6">{t("readOnly")}</ReadOnlyNotice>}

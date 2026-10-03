@@ -5,8 +5,9 @@ import { DashboardHome } from "@/components/dashboard/dashboard-home";
 import { nowInZone } from "@/lib/clock";
 import { createClient } from "@/lib/supabase/server";
 import { getBillingForecast } from "@/server/billing/forecast";
-import { loadUpcomingWeek } from "@/server/calendar/upcoming";
 import { loadActionQueue } from "@/server/metrics/action-queue";
+import { loadMonthlyBars } from "@/server/metrics/monthly-bars";
+import { loadTeamToday } from "@/server/projects/team-today";
 import { getMyTasksCard } from "@/server/projects/cards";
 import { getUpcomingDeliverables } from "@/server/projects/queries";
 import { loadDashboard, loadMonthlyCash, orgHasBusinessData } from "@/server/metrics/dashboard";
@@ -75,13 +76,14 @@ export default async function DashboardPage({ params }: PageProps<"/[org]">) {
   if (!(await orgHasBusinessData(ctx.org.id))) return <Onboarding ctx={ctx} />;
   const supabase = await createClient();
   const today = nowInZone(ctx.org.timezone).date;
-  const [view, monthlyCash, forecast, upcoming, queue, myTasks, deliverables] = await Promise.all([
+  const [view, monthlyCash, forecast, bars, queue, myTasks, team, deliverables] = await Promise.all([
     loadDashboard(ctx),
     loadMonthlyCash(ctx, today),
     getBillingForecast(supabase, ctx.org.id, today, 13),
-    loadUpcomingWeek(supabase, ctx),
+    loadMonthlyBars(ctx.org.id, today),
     loadActionQueue(supabase, ctx.org),
     getMyTasksCard(ctx.org.id, ctx.member.id, today),
+    loadTeamToday(ctx.org.id, today),
     getUpcomingDeliverables(ctx.org.id, today),
   ]);
   // El mes en curso solo cuenta si aún le queda algo por facturar (se factura por adelantado, el día 1).
@@ -96,9 +98,10 @@ export default async function DashboardPage({ params }: PageProps<"/[org]">) {
       currency={ctx.org.currency}
       receivedCents={monthlyCash.receivedCents}
       dueCents={monthlyCash.dueCents}
-      upcoming={upcoming}
+      bars={bars}
       queue={queue}
       tasks={myTasks}
+      team={team}
       deliverables={deliverables.items}
       urgentDeliverableCount={deliverables.urgentCount}
       canEdit={ctx.member.role === "owner" || ctx.member.role === "partner"}
