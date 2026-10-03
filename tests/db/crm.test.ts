@@ -284,3 +284,44 @@ describe("búsqueda", () => {
     expect(leaked.rows).toHaveLength(0);
   });
 });
+
+describe("borrar un cliente del todo", () => {
+  it("un owner borra un lead que nunca llegó a nada, con sus mensajes y su deal", async () => {
+    const client = await newClient("Prospección fría");
+    const deal = await newDeal(client, stages["Lead"]!);
+    await as(db, owner, () => db.query(
+      `insert into public.activities (org_id, client_id, deal_id, kind, title, occurred_at, direction, channel)
+       values ($1, $2, $3, 'email', 'Correo sin respuesta', now(), 'outgoing', 'email')`,
+      [orgId, client, deal],
+    ));
+    // Un mensaje del expediente no se borra suelto: eso sigue igual.
+    await expect(as(db, owner, () => db.query("delete from public.activities where client_id = $1", [client]))).rejects.toMatchObject({
+      hint: "activity_message_immutable",
+    });
+
+    await as(db, owner, () => db.query("select public.purge_client($1)", [client]));
+    for (const [table, column] of [["clients", "id"], ["deals", "client_id"], ["activities", "client_id"]] as const) {
+      expect((await db.query(`select 1 from public.${table} where ${column} = $1`, [client])).rows, table).toHaveLength(0);
+    }
+  });
+
+  it("no se borra un cliente con papeles: ese se archiva", async () => {
+    const client = await newClient("Cliente con presupuesto");
+    // Los presupuestos solo se escriben por RPC; aquí basta con que la fila exista (rol del servidor).
+    await db.query(
+      `insert into public.quotes (org_id, client_id, issuer_id, title, status)
+       select $1, $2, i.id, 'Presupuesto', 'draft' from public.issuers i where i.org_id = $1 limit 1`,
+      [orgId, client],
+    );
+    await expect(as(db, owner, () => db.query("select public.purge_client($1)", [client]))).rejects.toMatchObject({
+      hint: "client_has_documents",
+    });
+  });
+
+  it("un socio no puede borrar un cliente", async () => {
+    const partner = await createUser(db, "socio-purga@example.com");
+    await db.query("insert into public.members (org_id, user_id, role, full_name, initials) values ($1,$2,'partner','Socio','SP')", [orgId, partner]);
+    const client = await newClient("Otro lead");
+    await expect(as(db, partner, () => db.query("select public.purge_client($1)", [client]))).rejects.toThrow(/owner/i);
+  });
+});
