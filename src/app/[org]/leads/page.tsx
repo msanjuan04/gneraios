@@ -78,7 +78,7 @@ export default async function LeadsPage({ params }: PageProps<"/[org]/leads">) {
               <TableBody>{openDeals.map((deal) => {
                 const quote = latestQuote.get(deal.id);
                 return <TableRow key={deal.id}>
-                  <TableCell className="min-w-52"><Link className="font-semibold hover:text-primary" href={`${basePath}/pipeline?deal=${deal.id}`}>{deal.title}</Link><Link className="mt-0.5 block text-xs text-muted-foreground hover:text-primary" href={`${basePath}/clients/${deal.client_id}`}>{deal.client_name}</Link></TableCell>
+                  <TableCell className="min-w-52"><Link className="font-semibold hover:text-primary" href={`${basePath}/clients/${deal.client_id}`}>{deal.client_name}</Link><Link className="mt-0.5 block text-xs text-muted-foreground hover:text-primary" href={`${basePath}/pipeline?deal=${deal.id}`}>{deal.title}</Link></TableCell>
                   <TableCell>{stageNames.get(deal.stage_id) ?? "—"}<span className="ml-2 text-xs text-muted-foreground">{format.number((deal.probability_bps ?? 0) / 10_000, { style: "percent", maximumFractionDigits: 0 })}</span></TableCell>
                   <TableCell className="min-w-44">{deal.next_action ? <><span className="block text-sm">{deal.next_action}</span><span className="text-xs text-muted-foreground">{deal.next_action_on ?? t("noDate")}</span></> : <span className="text-sm text-muted-foreground">{t("noAction")}</span>}</TableCell>
                   <TableCell className={deal.last_contact_direction === "incoming" ? "text-sm font-semibold text-amber-600 dark:text-amber-400" : "text-sm text-muted-foreground"}>{lastContact(deal)}</TableCell>
