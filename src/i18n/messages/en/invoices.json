@@ -557,6 +557,29 @@
       "title": "This invoice doesn't exist",
       "body": "The draft may have been deleted, the link may be wrong, or it may belong to another organization.",
       "back": "Back to invoices"
+    },
+    "upcoming": {
+      "title": "Upcoming payments",
+      "description": "What is going to come in, payment by payment, invoice or not. Amounts excl. VAT.",
+      "empty": "No expected payments: no signed contract has monthly fees, yearly fees or pending payments.",
+      "dueNow": "Due to invoice now",
+      "next30": "Next 30 days",
+      "total": "Next 12 months",
+      "monthTotal": "{amount} this month",
+      "showMore": "Show the next {count} payments",
+      "hint": "Billing is in advance, on the payment day, following each contract's schedule. If a payment has no invoice yet, it is issued on its own that day; to do it earlier, create it from Invoices.",
+      "kind": {
+        "monthly": "Monthly fee",
+        "yearly": "Yearly fee",
+        "milestone": "One-off"
+      },
+      "status": {
+        "overdue": "Due now",
+        "today": "Today",
+        "soon": "This week",
+        "planned": "Planned"
+      },
+      "concepts": "{first} and {count, plural, one {# more} other {# more}}"
     }
   }
 }

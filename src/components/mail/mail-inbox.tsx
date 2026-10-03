@@ -131,9 +131,9 @@ export async function MailInbox({
                     <span className="mt-0.5 flex items-center gap-2 text-xs text-muted-foreground">
                       <span className="truncate">{thread.snippet}</span>
                     </span>
-                    {(thread.lastDirection === "incoming" || thread.messages > 1) && (
+                    {(thread.needsReply || thread.messages > 1) && (
                       <span className="mt-1.5 flex flex-wrap gap-1.5">
-                        {thread.lastDirection === "incoming" && (
+                        {thread.needsReply && (
                           <span className="rounded-full bg-amber-500/15 px-2 py-0.5 text-[11px] font-semibold text-amber-700 dark:text-amber-300">{t("needsReply")}</span>
                         )}
                         {thread.messages > 1 && (

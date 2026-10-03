@@ -4,7 +4,7 @@ import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { after } from "next/server";
 import type { ActionResult } from "@/lib/action-result";
-import { quoteForReply, replySubject } from "@/domain/mail";
+import { normalizeAddress, quoteForReply, replySubject } from "@/domain/mail";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { failure, forbidden, idSchema, invalidInput, partnerContext } from "@/server/action-utils";
@@ -159,7 +159,9 @@ export async function sendMailMessage(slug: string, input: unknown): Promise<Act
 
   const to = splitAddresses(v.to);
   const cc = splitAddresses(v.cc);
-  if (to.length === 0) return invalidInput();
+  // Solo direcciones con forma de correo y un máximo razonable: un campo mal pegado no sale por la puerta.
+  const looksLikeEmail = (address: string) => /^[^@\s<>"]+@[^@\s<>"]+\.[^@\s<>"]+$/.test(normalizeAddress(address));
+  if (to.length === 0 || to.length + cc.length > 10 || ![...to, ...cc].every(looksLikeEmail)) return failure("mail.errors.badAddress");
 
   const db = await createClient();
   let inReplyTo: string | null = null;

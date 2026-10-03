@@ -142,3 +142,35 @@ const STOP_WORDS = new Set([
   "plantilla", "propuesta", "presupuesto", "servicio", "servicios", "cliente", "mensual", "basico",
   "template", "proposal", "quote", "service", "services", "monthly", "basic",
 ]);
+
+/** Palabras con las que se cierra una conversación sin pedir nada. */
+const ACK_STARTS = [
+  "ok", "okay", "vale", "perfecto", "perfect", "genial", "estupendo", "gracias", "muchas gracias", "thanks", "thank you",
+  "de acuerdo", "entendido", "recibido", "queda asi", "quedamos asi", "hecho", "great", "sounds good", "d'acord", "perfecte", "gracies",
+];
+
+/** Lo que delata que sí esperan algo de nosotros, aunque empiecen con un «ok». */
+const REQUEST_WORDS = [
+  "podeis", "puedes", "podriais", "necesitamos", "necesito", "enviad", "enviame", "mandad", "mandame", "pasadme", "pasanos",
+  "falta", "cuando", "cuanto", "como ", "podrias", "could you", "can you", "please send", "poden", "pots",
+];
+
+/**
+ * ¿Es un mensaje que cierra el tema («ok perfecto», «gracias», «lo vemos y os decimos») y por tanto
+ * no hay nada que contestar? Es de las pocas cosas en que fallar hacia «sí toca contestar» es lo
+ * seguro: ante la duda, se avisa.
+ */
+export function isAcknowledgement(text: string): boolean {
+  const own = normalize(ownText(text).replace(/[«»"“”]/g, " "));
+  if (!own || own.includes("?")) return false;
+  // Solo cuenta si empieza con la fórmula de cierre: «ok perfect, nos reunimos…», no «necesitamos ok».
+  const head = own.replace(/^[^a-z0-9]+/, "");
+  const starts = ACK_STARTS.some((word) => head === word || head.startsWith(`${word} `) || head.startsWith(`${word},`) || head.startsWith(`${word}.`) || head.startsWith(`${word}!`) || head.startsWith(`${word}:`));
+  if (!starts) return false;
+  return !REQUEST_WORDS.some((word) => own.includes(word));
+}
+
+/** ¿Nos toca contestar? El último mensaje es suyo y pide o espera algo (no es solo un «ok»). */
+export function needsReply(last: { direction: "incoming" | "outgoing" | "internal" | null; text: string }): boolean {
+  return last.direction === "incoming" && !isAcknowledgement(last.text);
+}

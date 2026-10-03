@@ -557,6 +557,29 @@
       "title": "Aquesta factura no existeix",
       "body": "Pot ser que s'esborrés l'esborrany, que l'enllaç estigui malament o que sigui d'una altra organització.",
       "back": "Torna a les factures"
+    },
+    "upcoming": {
+      "title": "Propers cobraments",
+      "description": "El que entrarà, cobrament a cobrament, hi hagi factura o no. Imports sense IVA.",
+      "empty": "No hi ha cobraments previstos: cap contracte signat té mensualitats, anualitats o pagaments pendents.",
+      "dueNow": "Toca facturar ja",
+      "next30": "Propers 30 dies",
+      "total": "Propers 12 mesos",
+      "monthTotal": "{amount} al mes",
+      "showMore": "Veure els {count} cobraments següents",
+      "hint": "Es factura per avançat, el dia del cobrament, amb el calendari de cada contracte. Si un cobrament encara no té factura, s'emet sola aquell dia; si vols avançar-la, fes-la des de Factures.",
+      "kind": {
+        "monthly": "Mensualitat",
+        "yearly": "Anualitat",
+        "milestone": "Pagament únic"
+      },
+      "status": {
+        "overdue": "Toca ja",
+        "today": "Avui",
+        "soon": "Aquesta setmana",
+        "planned": "Previst"
+      },
+      "concepts": "{first} i {count, plural, one {# més} other {# més}}"
     }
   }
 }

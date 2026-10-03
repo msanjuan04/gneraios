@@ -24,7 +24,11 @@ export type OutgoingMail = {
 
 export type SendResult = { messageId: string };
 
-export async function sendMail(account: MailAccount, mail: OutgoingMail): Promise<SendResult> {
+/** Un asunto no puede llevar saltos de línea: es la forma de colar otra cabecera en un correo. */
+const oneLine = (value: string): string => value.replace(/[\r\n]+/g, " ").trim();
+
+export async function sendMail(account: MailAccount, rawMail: OutgoingMail): Promise<SendResult> {
+  const mail = { ...rawMail, subject: oneLine(rawMail.subject) };
   const to = mail.to.map(normalizeAddress).filter(Boolean);
   if (to.length === 0) throw new Error("Hace falta al menos un destinatario.");
   const from = account.displayName ? `${account.displayName} <${account.address}>` : account.address;
@@ -81,7 +85,7 @@ export async function sendMail(account: MailAccount, mail: OutgoingMail): Promis
       account_id: account.id,
       folder: "GNERAI/sent",
       // Un hueco propio: los UID de verdad los pone el servidor de correo.
-      uid: Date.now(),
+      uid: Date.now() * 1000 + Math.floor(Math.random() * 1000),
       message_id: messageId,
       in_reply_to: mail.inReplyTo ?? null,
       thread_key: mail.references?.[0] ?? mail.inReplyTo ?? messageId ?? mail.subject.slice(0, 998),

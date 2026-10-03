@@ -62,7 +62,8 @@
       "connect": "The mailbox could not be saved.",
       "sync": "Mail could not be fetched. See the notice on the page.",
       "send": "The message could not be sent.",
-      "generic": "The operation could not be completed."
+      "generic": "The operation could not be completed.",
+      "badAddress": "An address does not look like an email (or there are too many)."
     },
     "tabsLabel": "Which conversations to show",
     "tabAll": "All",
@@ -79,6 +80,28 @@
     "showQuoted": "Show full message",
     "hideQuoted": "Hide quoted text",
     "backToList": "Back to the list",
-    "sendShortcut": "⌘ + Enter to send"
+    "sendShortcut": "⌘ + Enter to send",
+    "chat": {
+      "title": "Mail",
+      "description": "{count, plural, =0 {No mail with this file yet} one {# message} other {# messages}} · tap a message to read it in full",
+      "openFull": "Open full screen",
+      "empty": "No mail with this file yet. Write the first one below.",
+      "noSubject": "(no subject)",
+      "attachments": "Has attachments",
+      "sentMark": "Sent",
+      "to": "To",
+      "toPlaceholder": "mail@example.com",
+      "from": "from {address}",
+      "newTopic": "New topic",
+      "replyToLast": "Reply to the last one",
+      "subject": "Subject of the new mail",
+      "replying": "Replying to: {subject}",
+      "placeholder": "Write a message…",
+      "send": "Send",
+      "shortcut": "⌘ + Enter to send. It arrives as a normal email, with its subject.",
+      "sent": "Sent",
+      "noRecipient": "Say who you are sending it to.",
+      "subjectRequired": "A new topic needs a subject."
+    }
   }
 }

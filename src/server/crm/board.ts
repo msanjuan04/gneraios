@@ -1,4 +1,5 @@
 import "server-only";
+import { needsReply } from "@/domain/mail";
 
 import { BOARD_PAGE_SIZE, type BoardColumn, type BoardDeal } from "@/components/crm/board-types";
 import { type CivilDate, daysBetween } from "@/domain/dates/civil-date";
@@ -8,7 +9,7 @@ import { createClient } from "@/lib/supabase/server";
 
 type BoardRow = Database["public"]["Views"]["deals_board"]["Row"];
 
-const COLUMNS = "id, client_id, client_name, title, stage_id, est_one_off_cents, est_mrr_cents, probability_bps, probability_override_bps, source_id, brought_by_member_id, owner_member_id, owner_initials, next_action, next_action_on, loss_reason_id, loss_note, stage_entered_at, last_contact_at, last_contact_direction";
+const COLUMNS = "id, client_id, client_name, title, stage_id, est_one_off_cents, est_mrr_cents, probability_bps, probability_override_bps, source_id, brought_by_member_id, owner_member_id, owner_initials, next_action, next_action_on, loss_reason_id, loss_note, stage_entered_at, last_contact_at, last_contact_direction, last_contact_text";
 
 /** Una fila de `deals_board` → tarjeta. Los días se cuentan en fechas civiles de la zona de la org. */
 export function toBoardDeal(d: BoardRow, timezone: string, today: CivilDate): BoardDeal | null {
@@ -33,7 +34,9 @@ export function toBoardDeal(d: BoardRow, timezone: string, today: CivilDate): Bo
     nextActionOverdue: d.next_action_on !== null && daysBetween(d.next_action_on, today) > 0,
     daysInStage: Math.max(0, daysBetween(entered, today)),
     lastContactDaysAgo: d.last_contact_at ? Math.max(0, daysBetween(nowInZone(timezone, new Date(d.last_contact_at)).date, today)) : null,
-    lastContactDirection: d.last_contact_direction,
+    // Un «ok perfecto» del cliente no es una pregunta: la pelota no está en nuestro tejado.
+    lastContactDirection:
+      d.last_contact_direction === "incoming" && !needsReply({ direction: "incoming", text: d.last_contact_text ?? "" }) ? "internal" : d.last_contact_direction,
     lossReasonId: d.loss_reason_id,
     lossNote: d.loss_note,
   };

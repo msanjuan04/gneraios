@@ -1,5 +1,6 @@
 import "server-only";
 
+import { needsReply } from "@/domain/mail";
 import { estimateFromHistory, isClient, type LeadSummary, leadValue } from "@/domain/crm";
 import { daysBetween } from "@/domain/dates/civil-date";
 import { nowInZone } from "@/lib/clock";
@@ -29,7 +30,7 @@ export async function loadLeadBoard(orgId: string, timezone: string): Promise<Le
         db
           .from("deals_board")
           .select(
-            "id, client_id, client_name, title, stage_id, stage_kind, est_one_off_cents, est_mrr_cents, probability_bps, next_action, next_action_on, last_contact_at, last_contact_direction, temperature",
+            "id, client_id, client_name, title, stage_id, stage_kind, est_one_off_cents, est_mrr_cents, probability_bps, next_action, next_action_on, last_contact_at, last_contact_direction, last_contact_text, temperature",
           )
           .eq("org_id", orgId)
           .eq("stage_kind", "open")
@@ -85,7 +86,7 @@ export async function loadLeadBoard(orgId: string, timezone: string): Promise<Le
         ? Math.max(0, daysBetween(nowInZone(timezone, new Date(deal.last_contact_at)).date, today))
         : null,
       // Si el último mensaje fue suyo, la pelota es nuestra.
-      awaitingOurReply: deal.last_contact_direction === "incoming",
+      awaitingOurReply: needsReply({ direction: deal.last_contact_direction, text: deal.last_contact_text ?? "" }),
       quotes: quotes.get(deal.id) ?? 0,
       messages: messages.get(deal.client_id) ?? 0,
     };

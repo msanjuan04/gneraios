@@ -107,6 +107,7 @@ type DealsBoard = Omit<GeneratedDealsBoard, "Row"> & {
     last_contact_at: string | null;
     last_contact_direction: "incoming" | "outgoing" | "internal" | null;
     temperature: DealTemperature | null;
+    last_contact_text: string | null;
   };
 };
 

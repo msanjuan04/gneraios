@@ -9,7 +9,7 @@ import type { Database } from "@/lib/supabase/database.types";
 import { type GoogleConfig, googleSetup } from "./config";
 import { type AccessTokenSource, GoogleClient, type GoogleClientOptions } from "./google-api";
 import { type FetchLike, GoogleAuthError, refreshAccessToken } from "./google-oauth";
-import { integrationSecretContext, type SecretStore, secretStoreFromEnv } from "./secret-store";
+import { integrationSecretContext, type SecretStore, SecretStoreError, secretStoreFromEnv } from "./secret-store";
 
 export type AdminDb = SupabaseClient<Database>;
 
@@ -62,7 +62,19 @@ export async function openGoogleSession(admin: AdminDb, orgId: string, opts: Goo
   }
 
   const secrets = opts.secrets ?? secretStoreFromEnv();
-  const refreshToken = await secrets.open(integration.refresh_token_encrypted, integrationSecretContext(orgId, "google"));
+  let refreshToken: string;
+  try {
+    refreshToken = await secrets.open(integration.refresh_token_encrypted, integrationSecretContext(orgId, "google"));
+  } catch (error) {
+    // Un token guardado con una clave que ya no existe (p. ej. antes de mover el servidor) no se
+    // puede recuperar: pide reconectar Google en vez de fallar con un error técnico. Los datos de SEO
+    // ya descargados se quedan.
+    if (error instanceof SecretStoreError && (error.code === "secret_invalid" || error.code === "secret_format")) {
+      await markReconnectNeeded(admin, integration.id, "secret_unreadable");
+      throw new SeoConnectionError("reconnect");
+    }
+    throw error;
+  }
 
   let current: { token: string; expiresAt: number } | null = null;
   const source: AccessTokenSource = {

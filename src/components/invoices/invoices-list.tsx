@@ -73,6 +73,8 @@ type Props = {
   today: string;
   timeZone: string;
   outboxCount: number;
+  /** Los próximos cobros previstos (se pinta entre el resumen y la lista). */
+  upcoming?: ReactNode;
 };
 
 /**
@@ -93,6 +95,7 @@ export function InvoicesList({
   today,
   timeZone,
   outboxCount,
+  upcoming,
 }: Props) {
   const t = useTranslations("invoices");
   const tFilter = useTranslations("invoices.filters");
@@ -332,6 +335,8 @@ export function InvoicesList({
           href={summary.draftsCount > 0 ? hrefFor({ filter: "draft" }) : undefined}
         />
       </div>
+
+      {upcoming}
 
       {summary.counts.all === 0 ? (
         <EmptyState canEdit={canEdit} newHref={newHref} billing={billingControls} />

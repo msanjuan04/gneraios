@@ -62,7 +62,8 @@
       "connect": "No s'ha pogut desar la bústia.",
       "sync": "No s'ha pogut portar el correu. Mira l'avís de la pàgina.",
       "send": "No s'ha pogut enviar el correu.",
-      "generic": "No s'ha pogut completar l'operació."
+      "generic": "No s'ha pogut completar l'operació.",
+      "badAddress": "Alguna adreça no té forma de correu (o n'hi ha massa)."
     },
     "tabsLabel": "Quines converses veure",
     "tabAll": "Tot",
@@ -79,6 +80,28 @@
     "showQuoted": "Veure tot el missatge",
     "hideQuoted": "Amagar el citat",
     "backToList": "Tornar a la llista",
-    "sendShortcut": "⌘ + Enter per enviar"
+    "sendShortcut": "⌘ + Enter per enviar",
+    "chat": {
+      "title": "Correu",
+      "description": "{count, plural, =0 {Encara no hi ha correus amb aquesta fitxa} one {# missatge} other {# missatges}} · prem un missatge per veure'l sencer",
+      "openFull": "Obrir a pantalla completa",
+      "empty": "Encara no hi ha correus amb aquesta fitxa. Escriu el primer a sota.",
+      "noSubject": "(sense assumpte)",
+      "attachments": "Porta adjunts",
+      "sentMark": "Enviat",
+      "to": "Per a",
+      "toPlaceholder": "correu@exemple.com",
+      "from": "des de {address}",
+      "newTopic": "Tema nou",
+      "replyToLast": "Contestar l'últim",
+      "subject": "Assumpte del correu nou",
+      "replying": "Responent a: {subject}",
+      "placeholder": "Escriu un missatge…",
+      "send": "Enviar",
+      "shortcut": "⌘ + Enter per enviar. Arriba com un correu normal, amb el seu assumpte.",
+      "sent": "Enviat",
+      "noRecipient": "Posa a qui l'envies.",
+      "subjectRequired": "Un tema nou necessita assumpte."
+    }
   }
 }

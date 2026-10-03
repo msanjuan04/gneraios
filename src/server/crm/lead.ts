@@ -2,6 +2,7 @@ import "server-only";
 
 import type { ActivityKind } from "@/app/[org]/clients/schema";
 import type { LeadTemperature } from "@/domain/crm";
+import { needsReply } from "@/domain/mail";
 import type { CivilDate } from "@/domain/dates/civil-date";
 import { createClient } from "@/lib/supabase/server";
 import { fetchAll } from "@/server/billing/context";
@@ -129,7 +130,7 @@ export async function loadLead(orgId: string, clientId: string): Promise<LeadDet
   // entera vive en su propia página (/leads/<id>/mail), que es donde se responde.
   const mailRows = await db
     .from("mail_messages")
-    .select("direction, sent_at")
+    .select("direction, sent_at, snippet")
     .eq("org_id", orgId)
     .eq("client_id", clientId)
     .order("sent_at", { ascending: false })
@@ -137,7 +138,7 @@ export async function loadLead(orgId: string, clientId: string): Promise<LeadDet
   if (mailRows.error) throw mailRows.error;
   const mail = {
     total: mailRows.data?.length ?? 0,
-    awaitingOurReply: (mailRows.data ?? [])[0]?.direction === "incoming",
+    awaitingOurReply: needsReply({ direction: (mailRows.data ?? [])[0]?.direction ?? null, text: (mailRows.data ?? [])[0]?.snippet ?? "" }),
     lastAt: (mailRows.data ?? [])[0]?.sent_at ?? null,
   };
 

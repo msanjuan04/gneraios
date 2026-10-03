@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { LeadDetailView } from "@/components/crm/lead-detail";
+import { MailChatCard } from "@/components/mail/mail-chat-card";
 import { isClient } from "@/domain/crm";
 import { createClient } from "@/lib/supabase/server";
 import { idSchema } from "@/server/action-utils";
@@ -46,5 +47,14 @@ export default async function LeadPage({ params }: Props) {
     canEdit ? loadLeadMailSignal(org.id, clientId) : Promise.resolve(null),
   ]);
   if (!lead) notFound();
-  return <LeadDetailView lead={lead} slug={org.slug} basePath={`/${org.slug}`} canEdit={canEdit} signal={signal} />;
+  return (
+    <LeadDetailView
+      lead={lead}
+      slug={org.slug}
+      basePath={`/${org.slug}`}
+      canEdit={canEdit}
+      signal={signal}
+      chat={<MailChatCard orgId={org.id} slug={org.slug} clientId={clientId} basePath={`/${org.slug}`} canSee={canEdit} />}
+    />
+  );
 }

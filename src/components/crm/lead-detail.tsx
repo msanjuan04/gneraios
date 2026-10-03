@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { ArrowLeft, ArrowUpRight, CalendarClock, ExternalLink, FileText, Globe, Mail, MessageSquare, Phone, Plus, Reply, Users } from "lucide-react";
 import { getFormatter, getTranslations } from "next-intl/server";
 import { LeadNextStep } from "@/components/crm/lead-next-step";
@@ -22,6 +23,7 @@ export async function LeadDetailView({
   basePath,
   canEdit,
   signal,
+  chat,
 }: {
   lead: LeadData;
   slug: string;
@@ -29,6 +31,8 @@ export async function LeadDetailView({
   canEdit: boolean;
   /** Lo que dice su último correo, si lo escribieron ellos (null si la pelota no es nuestra). */
   signal: LeadMailSignal | null;
+  /** El apartado de correo en modo conversación (null si no hay buzón o no es socio). */
+  chat?: ReactNode;
 }) {
   const t = await getTranslations("leads.detail");
   const tKind = await getTranslations("crm.activityKind");
@@ -182,6 +186,8 @@ export async function LeadDetailView({
           )}
         </CardContent>
       </Card>
+
+      {chat}
 
       <div className="grid gap-5 lg:grid-cols-[1.4fr_1fr]">
         {/* La conversación: lo que nos hemos dicho, lo último arriba. */}

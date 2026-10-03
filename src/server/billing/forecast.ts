@@ -1,18 +1,14 @@
 import "server-only";
-import { type ForecastContract, type ForecastMonth, forecastBilling } from "@/domain/billing/forecast";
+import { type ForecastContract, type ForecastItem, type ForecastMonth, forecastBilling, forecastItems } from "@/domain/billing/forecast";
 import type { CivilDate } from "@/domain/dates/civil-date";
 import { type Db, fetchAll, must } from "./context";
 
-/**
- * Facturación prevista (base sin IVA) de los próximos `months` meses: lo que el cron va a
- * facturar con los contratos firmados, si nada cambia. Con el cliente del usuario (RLS).
- */
-export async function getBillingForecast(db: Db, orgId: string, from: CivilDate, months = 12): Promise<ForecastMonth[]> {
+async function loadForecastContracts(db: Db, orgId: string): Promise<ForecastContract[]> {
   const contracts = must(
     await db
       .from("contracts")
       .select(
-        "id, signed_on, contract_lines(id, billing_type, quantity, unit_price_cents, discount_bps, starts_on, ends_on, billing_day, prorate_first, contract_line_pauses(starts_on, ends_on)), contract_milestones(id, position, percent_bps, planned_on)",
+        "id, client_id, title, signed_on, contract_lines(id, description, billing_type, quantity, unit_price_cents, discount_bps, starts_on, ends_on, billing_day, prorate_first, contract_line_pauses(starts_on, ends_on)), contract_milestones(id, position, percent_bps, planned_on)",
       )
       .eq("org_id", orgId)
       .is("archived_at", null)
@@ -41,11 +37,14 @@ export async function getBillingForecast(db: Db, orgId: string, from: CivilDate,
     if (item.milestone_id) billedMilestones.add(item.milestone_id);
   }
 
-  const input: ForecastContract[] = contracts.map((c) => ({
+  return contracts.map((c) => ({
     id: c.id,
+    clientId: c.client_id,
+    title: c.title,
     signedOn: c.signed_on,
     lines: c.contract_lines.map((l) => ({
       id: l.id,
+      description: l.description,
       billingType: l.billing_type,
       quantity: String(l.quantity),
       unitPriceCents: l.unit_price_cents,
@@ -60,5 +59,24 @@ export async function getBillingForecast(db: Db, orgId: string, from: CivilDate,
     billedMilestoneIds: billedMilestones,
     billedStarts,
   }));
-  return forecastBilling(input, from, months);
+}
+
+/**
+ * Facturación prevista (base sin IVA) de los próximos `months` meses: lo que el cron va a
+ * facturar con los contratos firmados, si nada cambia. Con el cliente del usuario (RLS).
+ */
+export async function getBillingForecast(db: Db, orgId: string, from: CivilDate, months = 12): Promise<ForecastMonth[]> {
+  return forecastBilling(await loadForecastContracts(db, orgId), from, months);
+}
+
+/** Cada cobro previsto, uno por uno y por fecha, con su cliente: lo que se enseña en «Próximos cobros». */
+export async function getUpcomingCharges(db: Db, orgId: string, from: CivilDate, months = 12): Promise<(ForecastItem & { clientName: string })[]> {
+  const items = forecastItems(await loadForecastContracts(db, orgId), from, months);
+  const clientIds = [...new Set(items.flatMap((item) => (item.clientId ? [item.clientId] : [])))];
+  const names = new Map<string, string>();
+  if (clientIds.length > 0) {
+    const clients = must(await db.from("clients").select("id, display_name").eq("org_id", orgId).in("id", clientIds), "forecast.clients");
+    for (const client of clients) names.set(client.id, client.display_name);
+  }
+  return items.map((item) => ({ ...item, clientName: (item.clientId && names.get(item.clientId)) || "—" }));
 }

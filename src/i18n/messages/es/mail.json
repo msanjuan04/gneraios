@@ -62,7 +62,8 @@
       "connect": "No se pudo guardar el buzón.",
       "sync": "No se pudo traer el correo. Mira el aviso de la página.",
       "send": "No se pudo enviar el correo.",
-      "generic": "No se pudo completar la operación."
+      "generic": "No se pudo completar la operación.",
+      "badAddress": "Alguna dirección no tiene forma de correo (o son demasiadas)."
     },
     "tabsLabel": "Qué conversaciones ver",
     "tabAll": "Todo",
@@ -79,6 +80,28 @@
     "showQuoted": "Ver todo el mensaje",
     "hideQuoted": "Ocultar lo citado",
     "backToList": "Volver a la lista",
-    "sendShortcut": "⌘ + Enter para enviar"
+    "sendShortcut": "⌘ + Enter para enviar",
+    "chat": {
+      "title": "Correo",
+      "description": "{count, plural, =0 {Aún no hay correos con esta ficha} one {# mensaje} other {# mensajes}} · pulsa en un mensaje para verlo entero",
+      "openFull": "Abrir a pantalla completa",
+      "empty": "Todavía no hay correos con esta ficha. Escribe el primero abajo.",
+      "noSubject": "(sin asunto)",
+      "attachments": "Lleva adjuntos",
+      "sentMark": "Enviado",
+      "to": "Para",
+      "toPlaceholder": "correo@ejemplo.com",
+      "from": "desde {address}",
+      "newTopic": "Nuevo tema",
+      "replyToLast": "Contestar al último",
+      "subject": "Asunto del correo nuevo",
+      "replying": "Respondiendo a: {subject}",
+      "placeholder": "Escribe un mensaje…",
+      "send": "Enviar",
+      "shortcut": "⌘ + Enter para enviar. Llega como un correo normal, con su asunto.",
+      "sent": "Enviado",
+      "noRecipient": "Pon a quién se lo envías.",
+      "subjectRequired": "Un tema nuevo necesita asunto."
+    }
   }
 }

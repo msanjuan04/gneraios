@@ -10,6 +10,8 @@ import { periodAmountCents, periodsDue, type Pause } from "./schedule";
 
 export type ForecastLine = {
   id: string;
+  /** Texto de la línea del contrato, para enseñar qué se cobra. */
+  description?: string;
   billingType: "one_off" | "monthly" | "yearly" | "usage";
   quantity: string | number;
   unitPriceCents: number;
@@ -23,6 +25,9 @@ export type ForecastLine = {
 
 export type ForecastContract = {
   id: string;
+  /** Para enseñar de quién es el cobro; la previsión por meses no lo necesita. */
+  clientId?: string;
+  title?: string;
   signedOn: CivilDate | null;
   lines: ForecastLine[];
   milestones: { id: string; position: number; percentBps: number; plannedOn: CivilDate | null }[];
@@ -34,21 +39,35 @@ export type ForecastContract = {
 
 export type ForecastMonth = { month: CivilDate; recurringCents: number; oneOffCents: number };
 
+/** Un cobro concreto: qué se cobra, cuándo toca y cuánto (base sin IVA). */
+export type ForecastItem = {
+  contractId: string;
+  clientId: string | null;
+  contractTitle: string | null;
+  /** Mensualidad, anualidad o hito de un pago único. */
+  kind: "monthly" | "yearly" | "milestone";
+  /** Línea (recurrentes) o hito (pagos únicos). */
+  refId: string;
+  description: string | null;
+  /** El día en que toca facturarlo (se factura por adelantado, el primer día del periodo). */
+  date: CivilDate;
+  /** Con fecha anterior a la de partida y sin facturar: toca facturarlo ya. */
+  overdue: boolean;
+  cents: number;
+};
+
 const monthKey = (date: CivilDate) => `${date.slice(0, 7)}-01`;
 
 /**
- * Facturación prevista para `months` meses desde el mes de `from` (incluido). Solo contratos
- * firmados. Lo ya facturado no cuenta; lo vencido y aún no facturado cae en el primer mes.
+ * Cada cobro previsto en los `months` meses desde el mes de `from` (incluido), uno por uno y por
+ * fecha. Es el MISMO calendario que factura (periodsDue): lo ya facturado no sale y lo vencido sin
+ * facturar sale marcado `overdue`. Solo contratos firmados. El uso no se puede prever.
  */
-export function forecastBilling(contracts: readonly ForecastContract[], from: CivilDate, months: number): ForecastMonth[] {
+export function forecastItems(contracts: readonly ForecastContract[], from: CivilDate, months: number): ForecastItem[] {
   const first = monthKey(from);
-  const buckets = new Map<string, ForecastMonth>();
-  for (let i = 0; i < months; i++) {
-    const month = addMonthsClamped(first, i);
-    buckets.set(month, { month, recurringCents: 0, oneOffCents: 0 });
-  }
   const lastDay = addMonthsClamped(first, months);
-  const bucketFor = (date: CivilDate) => buckets.get(compareCivil(date, first) < 0 ? first : monthKey(date));
+  const items: ForecastItem[] = [];
+  const base = (contract: ForecastContract) => ({ contractId: contract.id, clientId: contract.clientId ?? null, contractTitle: contract.title ?? null });
 
   for (const contract of contracts) {
     if (!contract.signedOn) continue;
@@ -63,8 +82,15 @@ export function forecastBilling(contracts: readonly ForecastContract[], from: Ci
       for (const period of periods) {
         if (compareCivil(period.billableOn, lastDay) >= 0) continue;
         const unit = period.activeDays === period.cycleDays ? line.unitPriceCents : periodAmountCents(line.unitPriceCents, period);
-        const bucket = bucketFor(period.billableOn);
-        if (bucket) bucket.recurringCents += lineBaseCents({ quantity: line.quantity, unitPriceCents: unit, discountBps: line.discountBps });
+        items.push({
+          ...base(contract),
+          kind: line.billingType,
+          refId: line.id,
+          description: line.description ?? null,
+          date: period.billableOn,
+          overdue: compareCivil(period.billableOn, from) < 0,
+          cents: lineBaseCents({ quantity: line.quantity, unitPriceCents: unit, discountBps: line.discountBps }),
+        });
       }
     }
 
@@ -78,10 +104,36 @@ export function forecastBilling(contracts: readonly ForecastContract[], from: Ci
     for (const milestone of milestones) {
       if (contract.billedMilestoneIds.has(milestone.id) || !milestone.plannedOn) continue;
       if (compareCivil(milestone.plannedOn, lastDay) >= 0) continue;
-      const bucket = bucketFor(milestone.plannedOn);
-      if (!bucket) continue;
-      bucket.oneOffCents += Object.values(shares[milestone.id] ?? {}).reduce((sum, cents) => sum + cents, 0);
+      items.push({
+        ...base(contract),
+        kind: "milestone",
+        refId: milestone.id,
+        description: null,
+        date: milestone.plannedOn,
+        overdue: compareCivil(milestone.plannedOn, from) < 0,
+        cents: Object.values(shares[milestone.id] ?? {}).reduce((sum, cents) => sum + cents, 0),
+      });
     }
+  }
+  return items.sort((a, b) => compareCivil(a.date, b.date) || a.contractId.localeCompare(b.contractId));
+}
+
+/**
+ * Facturación prevista para `months` meses desde el mes de `from` (incluido), sumada por mes.
+ * Lo ya facturado no cuenta; lo vencido y aún no facturado cae en el primer mes.
+ */
+export function forecastBilling(contracts: readonly ForecastContract[], from: CivilDate, months: number): ForecastMonth[] {
+  const first = monthKey(from);
+  const buckets = new Map<string, ForecastMonth>();
+  for (let i = 0; i < months; i++) {
+    const month = addMonthsClamped(first, i);
+    buckets.set(month, { month, recurringCents: 0, oneOffCents: 0 });
+  }
+  for (const item of forecastItems(contracts, from, months)) {
+    const bucket = buckets.get(compareCivil(item.date, first) < 0 ? first : monthKey(item.date));
+    if (!bucket) continue;
+    if (item.kind === "milestone") bucket.oneOffCents += item.cents;
+    else bucket.recurringCents += item.cents;
   }
   return [...buckets.values()];
 }

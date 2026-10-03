@@ -5,6 +5,7 @@ import { cache } from "react";
 import { z } from "zod";
 import { readOrgSettings } from "@/app/[org]/settings/schema";
 import { ClientDetail } from "@/components/clients/client-detail";
+import { MailChatCard } from "@/components/mail/mail-chat-card";
 import type { ClientDeal, ClientDetailData, MemberOption, StageKind, TimelineEntry } from "@/components/clients/types";
 import { isClient } from "@/domain/crm";
 import { calendarDaysBetween } from "@/domain/dates/zoned-time";
@@ -356,5 +357,10 @@ export default async function ClientPage({ params }: PageProps<"/[org]/clients/[
     defaultPaymentTerms,
   };
 
-  return <ClientDetail data={data} />;
+  return (
+    <ClientDetail
+      data={data}
+      mail={<MailChatCard orgId={org.id} slug={org.slug} clientId={client.id} basePath={`/${org.slug}`} canSee={hasRole(member.role, "partner")} />}
+    />
+  );
 }

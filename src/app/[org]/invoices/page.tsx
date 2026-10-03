@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { InvoicesList } from "@/components/invoices/invoices-list";
+import { UpcomingChargesCard } from "@/components/invoices/upcoming-charges-card";
 import { nowInZone } from "@/lib/clock";
 import { createClient } from "@/lib/supabase/server";
 import { idSchema } from "@/server/action-utils";
+import { getUpcomingCharges } from "@/server/billing/forecast";
 import { getInvoicesSummary, getLastBillingRun, getOutboxCount, listInvoices } from "@/server/invoices/queries";
 import { getOrgContext, hasRole } from "@/server/session";
 import { readListFilter } from "./schema";
@@ -31,12 +33,15 @@ export default async function InvoicesPage(props: PageProps<"/[org]/invoices">) 
   const q = (param(searchParams.q) ?? "").trim().slice(0, 100);
   const supabase = await createClient();
 
-  const [list, summary, lastRun, outboxCount, clientRow] = await Promise.all([
+  const today = nowInZone(org.timezone).date;
+  const [list, summary, lastRun, outboxCount, clientRow, charges] = await Promise.all([
     listInvoices(supabase, org.id, { filter, q, clientId, limit: LIST_LIMIT }),
     getInvoicesSummary(supabase, org.id),
     getLastBillingRun(supabase, org.id, org.timezone),
     getOutboxCount(supabase, org.id),
     clientId ? supabase.from("clients").select("id, display_name").eq("org_id", org.id).eq("id", clientId).maybeSingle() : null,
+    // Lo que va a entrar, haya factura o no: el calendario real del cron para los próximos 12 meses.
+    getUpcomingCharges(supabase, org.id, today, 12),
   ]);
   if (clientRow?.error) throw clientRow.error;
 
@@ -52,9 +57,10 @@ export default async function InvoicesPage(props: PageProps<"/[org]/invoices">) 
       summary={summary}
       lastRun={lastRun}
       canEdit={hasRole(member.role, "partner")}
-      today={nowInZone(org.timezone).date}
+      today={today}
       timeZone={org.timezone}
       outboxCount={outboxCount}
+      upcoming={<UpcomingChargesCard charges={clientId ? charges.filter((charge) => charge.clientId === clientId) : charges} basePath={`/${org.slug}`} today={today} />}
     />
   );
 }

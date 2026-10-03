@@ -1,6 +1,6 @@
 import "server-only";
 
-import { baseSubject } from "@/domain/mail";
+import { baseSubject, needsReply } from "@/domain/mail";
 import { createClient } from "@/lib/supabase/server";
 
 /**
@@ -14,6 +14,8 @@ export type ThreadSummary = {
   snippet: string;
   lastAt: string;
   lastDirection: "incoming" | "outgoing";
+  /** El último mensaje es suyo y espera algo: un «ok perfecto» no cuenta. */
+  needsReply: boolean;
   counterpart: string;
   counterpartName: string;
   messages: number;
@@ -79,7 +81,12 @@ export async function listThreads(orgId: string, filter: ThreadFilter = {}, page
   if (filter.client === "none") query = query.is("client_id", null);
   else if (filter.client) query = query.eq("client_id", filter.client);
   const term = filter.query?.trim();
-  if (term) query = query.or(`subject.ilike.%${term}%,from_address.ilike.%${term}%,body_text.ilike.%${term}%`);
+  if (term) {
+    // El término va dentro de un filtro de PostgREST: una coma, un paréntesis o un comodín suyo
+    // cambiarían el filtro. Se deja solo lo que se puede buscar como texto.
+    const safe = term.replace(/[,()*%_\\"'`]/g, " ").replace(/\s+/g, " ").trim();
+    if (safe) query = query.or(`subject.ilike.%${safe}%,from_address.ilike.%${safe}%,body_text.ilike.%${safe}%`);
+  }
 
   const { data, error } = await query;
   if (error) throw error;
@@ -100,6 +107,7 @@ export async function listThreads(orgId: string, filter: ThreadFilter = {}, page
       snippet: row.snippet,
       lastAt: row.sent_at,
       lastDirection: row.direction,
+      needsReply: needsReply({ direction: row.direction, text: row.snippet }),
       // Con quién se habla: si lo enviamos nosotros, el destinatario; si no, el remitente.
       counterpart: row.direction === "outgoing" ? (row.to_addresses[0] ?? "") : row.from_address,
       counterpartName: row.direction === "outgoing" ? "" : row.from_name,
@@ -116,10 +124,10 @@ export async function listThreads(orgId: string, filter: ThreadFilter = {}, page
   const counts = {
     all: grouped.length,
     unread: grouped.filter((thread) => thread.unread > 0).length,
-    reply: grouped.filter((thread) => thread.lastDirection === "incoming").length,
+    reply: grouped.filter((thread) => thread.needsReply).length,
   };
   const view = filter.view ?? "all";
-  const all = grouped.filter((thread) => (view === "unread" ? thread.unread > 0 : view === "reply" ? thread.lastDirection === "incoming" : true));
+  const all = grouped.filter((thread) => (view === "unread" ? thread.unread > 0 : view === "reply" ? thread.needsReply : true));
   const total = all.length;
   const pages = Math.max(1, Math.ceil(total / THREADS_PER_PAGE));
   const current = Math.min(Math.max(1, page), pages);

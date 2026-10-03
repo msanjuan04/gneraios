@@ -557,6 +557,29 @@
       "title": "Esta factura no existe",
       "body": "Puede que se borrara el borrador, que el enlace esté mal o que sea de otra organización.",
       "back": "Volver a facturas"
+    },
+    "upcoming": {
+      "title": "Próximos cobros",
+      "description": "Lo que va a entrar, cobro a cobro, haya factura o no. Importes sin IVA.",
+      "empty": "No hay cobros previstos: ningún contrato firmado tiene mensualidades, anualidades o pagos pendientes.",
+      "dueNow": "Toca facturar ya",
+      "next30": "Próximos 30 días",
+      "total": "Próximos 12 meses",
+      "monthTotal": "{amount} en el mes",
+      "showMore": "Ver los {count} cobros siguientes",
+      "hint": "Se factura por adelantado, el día del cobro, con el calendario de cada contrato. Si un cobro aún no tiene factura, se emite sola ese día; si prefieres adelantarla, hazla desde Facturas.",
+      "kind": {
+        "monthly": "Mensualidad",
+        "yearly": "Anualidad",
+        "milestone": "Pago único"
+      },
+      "status": {
+        "overdue": "Toca ya",
+        "today": "Hoy",
+        "soon": "Esta semana",
+        "planned": "Previsto"
+      },
+      "concepts": "{first} y {count, plural, one {# más} other {# más}}"
     }
   }
 }

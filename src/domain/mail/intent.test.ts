@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ownText, readMailIntent, suggestTemplate, summarizeRequest } from "./intent";
+import { isAcknowledgement, needsReply, ownText, readMailIntent, suggestTemplate, summarizeRequest } from "./intent";
 
 const mail = (bodyText: string, subject = "Propuesta") => ({ subject, bodyText });
 
@@ -87,5 +87,32 @@ describe("la plantilla que encaja", () => {
 
   it("si no encaja ninguna, no se inventa una", () => {
     expect(suggestTemplate("Os paso la factura firmada", templates)).toBeNull();
+  });
+});
+
+describe("cuándo no hace falta contestar", () => {
+  it("un «ok perfecto» que anuncia que ellos nos dirán algo no pide respuesta", () => {
+    expect(isAcknowledgement("«Ok perfect»: se reúnen internamente la semana que viene y nos dan el visto bueno")).toBe(true);
+    expect(isAcknowledgement("Ok perfecto, gracias")).toBe(true);
+    expect(isAcknowledgement("Gracias, lo vemos y os decimos algo")).toBe(true);
+    expect(isAcknowledgement("Perfect!")).toBe(true);
+  });
+
+  it("si piden algo, aunque empiecen con un ok, sí toca contestar", () => {
+    expect(isAcknowledgement("Ok, ¿podéis enviarnos la factura?")).toBe(false);
+    expect(isAcknowledgement("Vale, necesitamos el logo en vectorial")).toBe(false);
+    expect(isAcknowledgement("Perfecto. ¿Cuándo empezamos?")).toBe(false);
+  });
+
+  it("un mensaje que no es un cierre no se da por contestado", () => {
+    expect(isAcknowledgement("Hola, queríamos una web nueva para el restaurante")).toBe(false);
+    expect(isAcknowledgement("")).toBe(false);
+  });
+
+  it("solo nos toca contestar si el último mensaje es suyo", () => {
+    expect(needsReply({ direction: "incoming", text: "¿Cuánto costaría?" })).toBe(true);
+    expect(needsReply({ direction: "incoming", text: "Ok perfect, os decimos" })).toBe(false);
+    expect(needsReply({ direction: "outgoing", text: "¿Cuánto costaría?" })).toBe(false);
+    expect(needsReply({ direction: null, text: "" })).toBe(false);
   });
 });

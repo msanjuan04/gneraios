@@ -58,7 +58,7 @@ function websiteParts(website: string): { href: string; label: string } {
 }
 
 /** Ficha 360 del cliente: cabecera con acciones, métricas, deals, actividad, resumen fiscal y contactos. */
-export function ClientDetail({ data }: { data: ClientDetailData }) {
+export function ClientDetail({ data, mail }: { data: ClientDetailData; /** El correo en modo conversación (null si no hay buzón o no es socio). */ mail?: ReactNode }) {
   const t = useTranslations("clients.detail");
   const tCrm = useTranslations("crm");
   const format = useFormatter();
@@ -261,6 +261,7 @@ export function ClientDetail({ data }: { data: ClientDetailData }) {
 
       <div className="mt-6 grid gap-6 lg:grid-cols-3">
         <div className="min-w-0 space-y-6 lg:col-span-2">
+          {mail}
           <ClientContractsCard basePath={basePath} clientId={client.id} contracts={data.contracts} canEdit={canEdit} />
           <ClientCollectionsCard
             slug={slug}

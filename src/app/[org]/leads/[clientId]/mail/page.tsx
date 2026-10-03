@@ -3,14 +3,12 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import { MailThread } from "@/components/mail/mail-thread";
+import { MailChatCard } from "@/components/mail/mail-chat-card";
 import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
-import { baseSubject } from "@/domain/mail";
 import { createClient } from "@/lib/supabase/server";
 import { idSchema } from "@/server/action-utils";
 import { getMailAccount } from "@/server/mail/account";
-import { listClientMail } from "@/server/mail/queries";
 import { getOrgContext, hasRole } from "@/server/session";
 
 type Props = { params: Promise<{ org: string; clientId: string }> };
@@ -25,10 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return { title: data ? `${data.display_name} · ${t("title")}` : t("title") };
 }
 
-/**
- * Toda la conversación por correo con este lead: lo que nos ha escrito y lo que le hemos enviado,
- * en orden y agrupado por hilos, con la respuesta a mano. Es la bandeja, filtrada a una sola ficha.
- */
+/** Toda la conversación por correo con esta ficha, en modo chat y a pantalla completa. */
 export default async function LeadMailPage({ params }: Props) {
   const { org: slug, clientId } = await params;
   if (!idSchema.safeParse(clientId).success) notFound();
@@ -37,22 +32,11 @@ export default async function LeadMailPage({ params }: Props) {
   if (!hasRole(member.role, "partner")) notFound();
   const t = await getTranslations("leads.mail");
   const db = await createClient();
-  const [{ data: client }, account, messages] = await Promise.all([
+  const [{ data: client }, account] = await Promise.all([
     db.from("clients").select("display_name").eq("org_id", org.id).eq("id", clientId).maybeSingle(),
     getMailAccount(org.id),
-    listClientMail(org.id, clientId, 200),
   ]);
   if (!client) notFound();
-
-  // Hilos, lo último primero: cada uno es una conversación con su respuesta.
-  const threads = new Map<string, typeof messages>();
-  for (const message of [...messages].reverse()) {
-    const key = baseSubject(message.subject) || message.id;
-    const existing = threads.get(key);
-    if (existing) existing.push(message);
-    else threads.set(key, [message]);
-  }
-  const ordered = [...threads.values()].sort((a, b) => (a.at(-1)!.sentAt < b.at(-1)!.sentAt ? 1 : -1));
   const basePath = `/${org.slug}`;
 
   return (
@@ -69,21 +53,15 @@ export default async function LeadMailPage({ params }: Props) {
           </Button>
         }
       />
-      {!account ? (
+      {account ? (
+        <MailChatCard orgId={org.id} slug={org.slug} clientId={clientId} basePath={basePath} canSee tall />
+      ) : (
         <p className="rounded-xl border border-dashed px-5 py-12 text-center text-sm text-muted-foreground">
           {t("notConnected")}{" "}
           <Link href={`${basePath}/mail`} className="font-semibold text-primary hover:underline">
             {t("connect")}
           </Link>
         </p>
-      ) : ordered.length === 0 ? (
-        <p className="rounded-xl border border-dashed px-5 py-12 text-center text-sm text-muted-foreground">{t("empty")}</p>
-      ) : (
-        <div className="space-y-5">
-          {ordered.map((thread) => (
-            <MailThread key={thread[0]!.id} slug={org.slug} messages={thread} basePath={basePath} canSend />
-          ))}
-        </div>
       )}
     </div>
   );
