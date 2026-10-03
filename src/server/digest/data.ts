@@ -1,4 +1,5 @@
 import "server-only";
+import { readOrgModules } from "@/domain/org";
 import { addDays, type CivilDate } from "@/domain/dates/civil-date";
 import {
   type MonthRevenue,
@@ -87,13 +88,16 @@ export async function loadDigestOrgData(db: Db, org: DigestOrg, today: CivilDate
     loadRevenueRows(db, org.id, monthOf(yearStart), current),
     getBillingForecast(db, org.id, today, 13),
     loadActionQueue(db, org),
-    db
-      .from("recommendations")
-      .select("id, title, agent, urgency, created_at")
-      .eq("org_id", org.id)
-      .eq("status", "nueva")
-      .order("created_at", { ascending: false })
-      .limit(20),
+    // Con el consejo apagado, el resumen no pregunta por sus recomendaciones ni lleva su bloque.
+    readOrgModules(org.settings).council
+      ? db
+          .from("recommendations")
+          .select("id, title, agent, urgency, created_at")
+          .eq("org_id", org.id)
+          .eq("status", "nueva")
+          .order("created_at", { ascending: false })
+          .limit(20)
+      : { data: [] },
   ]);
   const URGENCY_RANK = { hoy: 0, esta_semana: 1, este_mes: 2 } as const;
   const councilRows = (council.data ?? [])

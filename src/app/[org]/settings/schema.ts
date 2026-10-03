@@ -66,6 +66,15 @@ export const ORG_SETTINGS_DEFAULTS = {
     renewal_warning_days: 14,
     monthly_renewal_min_cents: 5000,
   },
+  /**
+   * Módulos que puede apagar una org. Apagado: no sale en el menú ni en Ajustes, su ruta no existe,
+   * no cuenta en la cola de acciones ni en el resumen semanal y su cron no trabaja (ni gasta en IA).
+   * Lo guardado no se toca: volver a encenderlo lo deja como estaba.
+   */
+  modules: {
+    /** Consejo de agentes (CONSEJO.md). Apagado por defecto: cuesta dinero y hay que quererlo. */
+    council: false,
+  },
 };
 
 const PROFITABILITY_DEFAULTS = ORG_SETTINGS_DEFAULTS.profitability;
@@ -105,6 +114,11 @@ const storedFinanceSchema = z.object({
   monthly_renewal_min_cents: financeLimit("monthly_renewal_min_cents"),
 });
 
+const MODULES_DEFAULTS = ORG_SETTINGS_DEFAULTS.modules;
+const storedModulesSchema = z.object({
+  council: z.boolean().catch(MODULES_DEFAULTS.council),
+});
+
 const storedSettingsSchema = z.object({
   payment_terms_days: z.number().int().min(0).max(MAX_DAYS).catch(ORG_SETTINGS_DEFAULTS.payment_terms_days),
   billing_day: z.number().int().min(1).max(31).catch(ORG_SETTINGS_DEFAULTS.billing_day),
@@ -116,6 +130,7 @@ const storedSettingsSchema = z.object({
   profitability: storedProfitabilitySchema.catch(PROFITABILITY_DEFAULTS),
   sites: storedSitesSchema.catch(SITES_DEFAULTS),
   finance: storedFinanceSchema.catch(FINANCE_DEFAULTS),
+  modules: storedModulesSchema.catch(MODULES_DEFAULTS),
 });
 
 /** Reglas guardadas en `orgs.settings`; lo que falte o no sea válido toma el valor por defecto. */

@@ -8,7 +8,8 @@ import { type ReactNode, useEffect } from "react";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "./app-sidebar";
 import { CommandMenu } from "./command-menu";
-import { ALL_NAV_ITEMS } from "./nav-config";
+import { navItems } from "./nav-config";
+import type { OrgModules } from "@/domain/org";
 import { type ShellMember, type ShellOrg, type ShellOrgOption, ShellProvider, useShell } from "./shell-context";
 import { ShortcutsDialog } from "./shortcuts-dialog";
 import { Topbar } from "./topbar";
@@ -19,6 +20,7 @@ type AppShellProps = {
   member: ShellMember;
   orgs: ShellOrgOption[];
   basePath: string;
+  modules: OrgModules;
   preview?: boolean;
   sidebarOpen?: boolean;
   children: ReactNode;
@@ -45,10 +47,10 @@ export function AppShell({ children, sidebarOpen = true, preview = false, ...dat
 
 function GlobalHotkeys() {
   const router = useRouter();
-  const { basePath, commandOpen, setCommandOpen, setShortcutsOpen } = useShell();
+  const { basePath, modules, commandOpen, setCommandOpen, setShortcutsOpen } = useShell();
 
   const navigation = Object.fromEntries(
-    ALL_NAV_ITEMS.filter((i) => i.shortcut).map((i) => [i.shortcut!, () => router.push(`${basePath}${i.path}`)]),
+    navItems(modules).filter((i) => i.shortcut).map((i) => [i.shortcut!, () => router.push(`${basePath}${i.path}`)]),
   );
 
   useHotkeys({

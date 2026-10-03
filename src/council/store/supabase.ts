@@ -5,6 +5,7 @@ import "server-only";
 // consultas filtran por la org de forma explícita.
 
 import type { CivilDate } from "@/domain/dates/civil-date";
+import { readOrgModules } from "@/domain/org";
 import type { Json, Tables } from "@/lib/supabase/database.types";
 import { type Db, must } from "@/server/billing/context";
 import type { PolicyRecord } from "../policy/schema";
@@ -69,7 +70,8 @@ export class SupabaseCouncilStore implements CouncilStore {
   constructor(private readonly db: Db) {}
 
   async orgs() {
-    return must(await this.db.from("orgs").select("id, timezone"), "council.store.orgs");
+    const rows = must(await this.db.from("orgs").select("id, timezone, settings"), "council.store.orgs");
+    return rows.filter((row) => readOrgModules(row.settings).council).map(({ id, timezone }) => ({ id, timezone }));
   }
 
   async enqueueJob(job: NewJob) {

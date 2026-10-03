@@ -17,6 +17,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
+import type { OrgModules } from "@/domain/org";
 import { cn } from "@/lib/utils";
 
 const TABS: {
@@ -37,7 +38,9 @@ const TABS: {
 ];
 
 /** Pestañas de Ajustes como enlaces: cada una tiene su URL y se puede compartir. */
-export function SettingsNav({ basePath }: { basePath: string }) {
+export function SettingsNav({ basePath, modules }: { basePath: string; modules: OrgModules }) {
+  // La pestaña de un módulo apagado no se enseña (su página tampoco existe).
+  const tabs = TABS.filter((tab) => tab.key !== "council" || modules.council);
   const t = useTranslations("settings");
   const pathname = usePathname();
   const root = `${basePath}/settings`;
@@ -54,7 +57,7 @@ export function SettingsNav({ basePath }: { basePath: string }) {
   return (
     <nav aria-label={t("title")} className="-mx-4 overflow-x-auto px-4 md:mx-0 md:px-0">
       <ul className="inline-flex min-w-max items-center gap-0.5 rounded-full border bg-card/60 p-1">
-        {TABS.map((tab) => {
+        {tabs.map((tab) => {
           const isActive = tab.key === active;
           return (
             <li key={tab.key}>

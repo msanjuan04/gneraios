@@ -1,4 +1,5 @@
 import "server-only";
+import { readOrgModules } from "@/domain/org";
 import { addDays, type CivilDate } from "@/domain/dates/civil-date";
 import { nowInZone } from "@/lib/clock";
 import type { Db } from "@/server/billing/context";
@@ -50,6 +51,8 @@ export async function loadActionQueue(
   const soon = addDays(today, SOON_DAYS);
   const followUpBefore = addDays(today, -QUOTE_FOLLOW_UP_DAYS);
   const base = `/${org.slug}`;
+  // Con el consejo apagado no se pregunta por sus recomendaciones ni sale su fila.
+  const council = readOrgModules(org.settings).council;
 
   const [drafts, reminders, quotes, deals, expenses, recommendations, health, bank, belowThresholds, rebills] = await Promise.all([
     db.from("invoices_overview").select("total_cents").eq("org_id", org.id).in("status", ["draft", "issuing"]),
@@ -66,7 +69,7 @@ export async function loadActionQueue(
       .eq("stage_kind", "open")
       .lt("next_action_on", today),
     db.from("expenses_overview").select("status, payable_on, total_cents").eq("org_id", org.id).in("status", ["pending", "overdue"]),
-    db.from("recommendations").select("id", { count: "exact", head: true }).eq("org_id", org.id).eq("status", "nueva"),
+    council ? db.from("recommendations").select("id", { count: "exact", head: true }).eq("org_id", org.id).eq("status", "nueva") : { count: 0 },
     loadClientsHealth(db, org),
     // Si el módulo de banco aún no tiene datos (o falla), la fila simplemente no sale.
     loadBankingQueueCount(db, org.id).catch(() => 0),

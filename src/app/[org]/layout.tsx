@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { AppShell } from "@/components/app-shell/app-shell";
 import { WelcomeVeil } from "@/components/brand/welcome";
 import { WELCOME_COOKIE, WELCOME_NAME_MAX } from "@/lib/welcome";
+import { readOrgModules } from "@/domain/org";
 import { getOrgContext } from "@/server/session";
 
 export default async function OrgLayout({ children, params }: LayoutProps<"/[org]">) {
@@ -19,6 +20,7 @@ export default async function OrgLayout({ children, params }: LayoutProps<"/[org
       member={{ fullName: member.fullName, initials: member.initials, role: member.role }}
       orgs={orgs.map((o) => ({ slug: o.slug, name: o.name }))}
       basePath={`/${org.slug}`}
+      modules={readOrgModules(org.settings)}
       sidebarOpen={sidebarOpen}
     >
       {children}

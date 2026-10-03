@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, type ReactNode, useContext, useState } from "react";
+import type { OrgModules } from "@/domain/org";
 
 export type ShellOrg = { id: string; slug: string; name: string };
 export type ShellMember = { fullName: string; initials: string; role: "owner" | "partner" | "viewer" };
@@ -12,6 +13,8 @@ type ShellData = {
   orgs: ShellOrgOption[];
   /** Prefijo de todas las rutas: `/{slug}` o `/preview`. */
   basePath: string;
+  /** Módulos encendidos de la org: lo apagado no sale en el menú ni en el buscador. */
+  modules: OrgModules;
   preview: boolean;
 };
 

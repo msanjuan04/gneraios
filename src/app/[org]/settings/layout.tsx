@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { PageHeader } from "@/components/page-header";
+import { readOrgModules } from "@/domain/org";
 import { getOrgContext } from "@/server/session";
 import { SettingsNav } from "./settings-nav";
 
@@ -11,7 +12,7 @@ export default async function SettingsLayout({ children, params }: LayoutProps<"
   return (
     <div className="mx-auto max-w-5xl">
       <PageHeader title={t("title")} description={t("subtitle")} />
-      <SettingsNav basePath={`/${org.slug}`} />
+      <SettingsNav basePath={`/${org.slug}`} modules={readOrgModules(org.settings)} />
       <div className="mt-8">{children}</div>
     </div>
   );

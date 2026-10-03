@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { cadenceOf } from "@/components/council/cadence";
 import { AgentSettingsList } from "@/components/council/settings/agent-settings";
@@ -9,6 +10,7 @@ import { UpsellRulesEditor } from "@/components/council/settings/upsell-rules";
 import { SettingsSectionHeader } from "@/components/settings/settings-card";
 import { AGENTS } from "@/council/agents";
 import { councilConfigured, councilProviderName, getAgentStatuses, getPolicyWithHistory, listUpsellRules, reviewAccuracy } from "@/council/queries";
+import { readOrgModules } from "@/domain/org";
 import { cn } from "@/lib/utils";
 import { getOrgContext, hasRole } from "@/server/session";
 
@@ -27,6 +29,8 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function CouncilSettingsPage({ params, searchParams }: PageProps<"/[org]/settings/council">) {
   const [{ org: slug }, query] = await Promise.all([params, searchParams]);
   const { org, member } = await getOrgContext(slug);
+  // Módulo apagado (orgs.settings.modules.council): la pestaña no existe.
+  if (!readOrgModules(org.settings).council) notFound();
   const t = await getTranslations("council.settings");
   const tCadence = await getTranslations("council.cadence");
   const isOwner = hasRole(member.role, "owner");

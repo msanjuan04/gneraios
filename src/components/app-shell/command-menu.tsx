@@ -33,7 +33,7 @@ import {
 import { localeNames, locales } from "@/i18n/config";
 import { type SearchResult, searchOrg } from "@/server/crm/search";
 import { setLocale } from "@/server/preferences";
-import { ALL_NAV_ITEMS } from "./nav-config";
+import { navItems } from "./nav-config";
 import { useShell } from "./shell-context";
 
 // Acciones de creación (en /preview, sin base de datos, se ven desactivadas).
@@ -80,7 +80,7 @@ export function CommandMenu() {
   const tNav = useTranslations("nav");
   const tUser = useTranslations("user");
   const tShortcuts = useTranslations("shortcuts");
-  const { org, basePath, commandOpen, setCommandOpen, setShortcutsOpen, preview } = useShell();
+  const { org, basePath, modules, commandOpen, setCommandOpen, setShortcutsOpen, preview } = useShell();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const router = useRouter();
@@ -139,7 +139,7 @@ export function CommandMenu() {
             </>
           )}
           <CommandGroup heading={t("groupGo")}>
-            {ALL_NAV_ITEMS.map((item) => (
+            {navItems(modules).map((item) => (
               <CommandItem key={item.key} value={tNav(item.key)} onSelect={() => run(() => router.push(`${basePath}${item.path}`))}>
                 <item.icon />
                 {tNav(item.key)}

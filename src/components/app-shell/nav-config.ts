@@ -1,3 +1,4 @@
+import type { OrgModules } from "@/domain/org";
 import {
   Activity,
   BrainCircuit,
@@ -90,6 +91,26 @@ export const NAV_GROUPS: { label: "groupDirection" | "groupSales" | "groupWork" 
 export const SETTINGS_ITEM: NavItem = { key: "settings", path: "/settings", icon: Settings, shortcut: "g s" };
 
 export const ALL_NAV_ITEMS: NavItem[] = [...NAV_GROUPS.flatMap((g) => g.items), SETTINGS_ITEM];
+
+/** Entradas que dependen de un módulo que la org puede tener apagado (src/domain/org/modules.ts). */
+const MODULE_OF: Partial<Record<NavKey, keyof OrgModules>> = { council: "council" };
+
+const enabled = (item: NavItem, modules: OrgModules) => {
+  const needs = MODULE_OF[item.key];
+  return needs === undefined || modules[needs];
+};
+
+/** Los grupos del menú sin lo que la org tiene apagado (un grupo que se queda vacío desaparece). */
+export function navGroups(modules: OrgModules): typeof NAV_GROUPS {
+  return NAV_GROUPS.map((group) => ({ ...group, items: group.items.filter((item) => enabled(item, modules)) })).filter(
+    (group) => group.items.length > 0,
+  );
+}
+
+/** Todas las entradas (menú y ajustes) que la org tiene encendidas: atajos y buscador. */
+export function navItems(modules: OrgModules): NavItem[] {
+  return ALL_NAV_ITEMS.filter((item) => enabled(item, modules));
+}
 
 /** Elemento de navegación activo para una ruta (la más específica gana). */
 export function activeNavKey(pathname: string, basePath: string): NavKey {

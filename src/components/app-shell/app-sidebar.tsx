@@ -33,12 +33,12 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { signOut } from "./command-menu";
-import { activeNavKey, NAV_GROUPS, SETTINGS_ITEM } from "./nav-config";
+import { activeNavKey, navGroups, SETTINGS_ITEM } from "./nav-config";
 import { useShell } from "./shell-context";
 
 export function AppSidebar() {
   const t = useTranslations("nav");
-  const { basePath } = useShell();
+  const { basePath, modules } = useShell();
   const active = activeNavKey(usePathname(), basePath);
 
   return (
@@ -47,7 +47,7 @@ export function AppSidebar() {
         <OrgSwitcher />
       </SidebarHeader>
       <SidebarContent>
-        {NAV_GROUPS.map((group) => (
+        {navGroups(modules).map((group) => (
           <SidebarGroup key={group.label}>
             <SidebarGroupLabel>{t(group.label)}</SidebarGroupLabel>
             <SidebarMenu>

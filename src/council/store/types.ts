@@ -154,7 +154,10 @@ export type ReviewResult = {
 };
 
 export interface CouncilStore {
-  /** Orgs con su zona horaria (para programar los trabajos de cada una). */
+  /**
+   * Orgs **con el consejo encendido** (orgs.settings.modules.council) y su zona horaria, para
+   * programar los trabajos de cada una. Una org que lo tiene apagado no encola ni gasta en IA.
+   */
   orgs(): Promise<{ id: string; timezone: string }[]>;
   enqueueJob(job: NewJob): Promise<{ id: string; created: boolean }>;
   claimJobs(opts: { limit: number; orgId?: string; jobIds?: string[] }): Promise<JobRecord[]>;
