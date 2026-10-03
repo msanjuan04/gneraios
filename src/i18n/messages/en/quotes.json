@@ -337,6 +337,17 @@
         "notFound": "That template no longer exists.",
         "noLines": "The quote has no lines to save."
       }
+    },
+    "landing": {
+      "title": "Proposal landing page",
+      "description": "The page where the client saw the proposal.",
+      "emptyDescription": "If the proposal was sent as a landing page, record its address here.",
+      "url": "Landing page address",
+      "urlHint": "Must start with https. Leave empty if only the PDF was sent.",
+      "add": "Add",
+      "empty": "This proposal was sent as a PDF only.",
+      "saved": "Landing page saved",
+      "invalid": "The landing page must be an https address."
     }
   }
 }

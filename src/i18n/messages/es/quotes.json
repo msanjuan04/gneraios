@@ -337,6 +337,17 @@
         "notFound": "Esa plantilla ya no existe.",
         "noLines": "El presupuesto no tiene líneas que guardar."
       }
+    },
+    "landing": {
+      "title": "Landing de la propuesta",
+      "description": "La página donde el cliente vio la propuesta.",
+      "emptyDescription": "Si la propuesta se envió como una landing, apunta aquí su dirección.",
+      "url": "Dirección de la landing",
+      "urlHint": "Tiene que empezar por https. Déjalo vacío si solo se envió el PDF.",
+      "add": "Añadir",
+      "empty": "Esta propuesta se envió solo en PDF.",
+      "saved": "Landing guardada",
+      "invalid": "La landing tiene que ser una dirección https."
     }
   }
 }

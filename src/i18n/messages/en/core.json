@@ -48,7 +48,8 @@
     "projects": "Projects",
     "groupWork": "Work",
     "sites": "Websites",
-    "quoteTemplates": "Templates"
+    "quoteTemplates": "Templates",
+    "passwords": "Passwords"
   },
   "user": {
     "menu": "Your account",

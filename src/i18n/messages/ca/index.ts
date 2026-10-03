@@ -33,6 +33,7 @@ import infrastructure from "./infrastructure.json";
 import invoiceImport from "./invoice-import.json";
 import vendors from "./vendors.json";
 import ads from "./ads.json";
+import passwords from "./passwords.json";
 
 const messages: Messages = deepMerge(
   core,
@@ -69,6 +70,7 @@ const messages: Messages = deepMerge(
   invoiceImport,
   vendors,
   ads,
+  passwords,
 );
 
 export default messages;

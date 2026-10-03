@@ -310,6 +310,7 @@ export async function getQuoteEditorData(
     rejectedAt: quote.rejected_at,
     rejectionReason: quote.rejection_reason,
     contract: contract?.data ? { id: contract.data.id, title: contract.data.title } : null,
+    landingUrl: quote.landing_url,
     emails: emailItems,
     manualVersions,
     options: withExtras,

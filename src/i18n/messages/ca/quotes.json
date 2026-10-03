@@ -337,6 +337,17 @@
         "notFound": "Aquesta plantilla ja no existeix.",
         "noLines": "El pressupost no té línies per desar."
       }
+    },
+    "landing": {
+      "title": "Landing de la proposta",
+      "description": "La pàgina on el client va veure la proposta.",
+      "emptyDescription": "Si la proposta es va enviar com una landing, apunta-hi l'adreça.",
+      "url": "Adreça de la landing",
+      "urlHint": "Ha de començar per https. Deixa-ho buit si només es va enviar el PDF.",
+      "add": "Afegeix",
+      "empty": "Aquesta proposta es va enviar només en PDF.",
+      "saved": "Landing desada",
+      "invalid": "La landing ha de ser una adreça https."
     }
   }
 }

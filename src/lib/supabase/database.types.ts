@@ -63,6 +63,34 @@ type QuoteTemplates = {
   Relationships: [];
 };
 
+// quotes.landing_url (20261003110000_landing_presupuesto.sql), hasta regenerar los tipos.
+type GeneratedQuotes = GeneratedPublic["Tables"]["quotes"];
+type Quotes = Omit<GeneratedQuotes, "Row" | "Insert" | "Update"> & {
+  Row: GeneratedQuotes["Row"] & { landing_url: string | null };
+  Insert: GeneratedQuotes["Insert"] & { landing_url?: string | null };
+  Update: GeneratedQuotes["Update"] & { landing_url?: string | null };
+};
+
+// vault_keys, vault_grants y vault_items (20261003100000_contrasenas.sql), hasta regenerar los tipos.
+type VaultKeys = {
+  Row: { org_id: string; member_id: string; public_key: string; private_key_ciphertext: string; kdf_salt: string; kdf_iterations: number; created_at: string; updated_at: string };
+  Insert: { org_id: string; member_id: string; public_key: string; private_key_ciphertext: string; kdf_salt: string; kdf_iterations: number; created_at?: string; updated_at?: string };
+  Update: { org_id?: string; member_id?: string; public_key?: string; private_key_ciphertext?: string; kdf_salt?: string; kdf_iterations?: number; created_at?: string; updated_at?: string };
+  Relationships: [];
+};
+type VaultGrants = {
+  Row: { org_id: string; member_id: string; wrapped_key: string; granted_by: string | null; created_at: string };
+  Insert: { org_id: string; member_id: string; wrapped_key: string; granted_by?: string | null; created_at?: string };
+  Update: { org_id?: string; member_id?: string; wrapped_key?: string; granted_by?: string | null; created_at?: string };
+  Relationships: [];
+};
+type VaultItems = {
+  Row: { id: string; org_id: string; client_id: string | null; ciphertext: string; created_at: string; updated_at: string; created_by: string | null; archived_at: string | null };
+  Insert: { id?: string; org_id: string; client_id?: string | null; ciphertext: string; created_at?: string; updated_at?: string; created_by?: string | null; archived_at?: string | null };
+  Update: { id?: string; org_id?: string; client_id?: string | null; ciphertext?: string; created_at?: string; updated_at?: string; created_by?: string | null; archived_at?: string | null };
+  Relationships: [];
+};
+
 // ads_accounts y ads_insights (20261002200000_ads_cuentas.sql), hasta regenerar los tipos.
 type AdsProvider = "openai" | "google" | "meta" | "linkedin";
 type AdsAccounts = {
@@ -87,19 +115,24 @@ type DealsBoard = Omit<GeneratedDealsBoard, "Row"> & {
 export type Database = Omit<Generated, "public"> & {
   public: Omit<GeneratedPublic, "Tables" | "Functions" | "Views"> & {
     Views: Omit<GeneratedPublic["Views"], "deals_board"> & { deals_board: DealsBoard };
-    Tables: Omit<GeneratedPublic["Tables"], "issuers" | "outbound_emails"> & {
+    Tables: Omit<GeneratedPublic["Tables"], "issuers" | "outbound_emails" | "quotes"> & {
+      quotes: Quotes;
       issuers: Omit<GeneratedIssuers, "Insert"> & { Insert: IssuersInsert };
       outbound_emails: OutboundEmails;
       calendar_entries: CalendarEntries;
       google_calendar_connections: GoogleCalendarConnections;
       ads_client_campaigns: AdsClientCampaigns;
       ads_accounts: AdsAccounts;
+      vault_keys: VaultKeys;
+      vault_grants: VaultGrants;
+      vault_items: VaultItems;
       ads_insights: AdsInsights;
       quote_templates: QuoteTemplates;
       org_documents: OrgDocuments;
     };
     Functions: GeneratedPublic["Functions"] & {
       quote_template_used: { Args: { p_template_id: string }; Returns: undefined };
+      set_quote_landing: { Args: { p_quote: string; p_url: string }; Returns: undefined };
     };
   };
 };

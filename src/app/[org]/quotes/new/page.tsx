@@ -70,6 +70,7 @@ export default async function NewQuotePage({ params, searchParams }: Props) {
     rejectedAt: null,
     rejectionReason: null,
     contract: null,
+    landingUrl: null,
     emails: [],
     manualVersions: [],
     options,

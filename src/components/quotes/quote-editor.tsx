@@ -49,6 +49,7 @@ import { QuoteActivityCard } from "./quote-activity-card";
 import { QuoteLines } from "./quote-lines";
 import { QuotePdfPreview } from "./quote-pdf-preview";
 import { QuoteStateBadge } from "./quote-state-badge";
+import { QuoteLandingCard } from "./quote-landing-card";
 import { QuoteSummaryCard } from "./quote-summary-card";
 import { SaveTemplateSheet } from "./save-template-sheet";
 import { SendQuoteSheet } from "./send-quote-sheet";
@@ -754,6 +755,7 @@ export function QuoteEditor({ slug, basePath, today, data, share }: Props) {
           <aside className="min-w-0 space-y-6 xl:sticky xl:top-20 xl:self-start">
             <QuoteSummaryCard totals={totals} firstPayment={firstPayment} validUntil={validityText} />
             {!creating && <QuoteActivityCard basePath={basePath} data={data} />}
+            {!creating && quoteId && <QuoteLandingCard slug={slug} quoteId={quoteId} landingUrl={data.landingUrl} canAct={data.canAct} />}
             {!creating && share}
           </aside>
         </div>

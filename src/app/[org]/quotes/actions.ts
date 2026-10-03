@@ -7,7 +7,7 @@ import { renderQuotePdf } from "@/pdf";
 import type { ActionResult } from "@/lib/action-result";
 import { nowInZone } from "@/lib/clock";
 import { createClient } from "@/lib/supabase/server";
-import { type Failure, failure, forbidden, idSchema, invalidInput, partnerContext } from "@/server/action-utils";
+import { dbFailure, type Failure, failure, forbidden, idSchema, invalidInput, partnerContext } from "@/server/action-utils";
 import { BillingRuleError, DbError } from "@/server/billing/context";
 import { loadQuoteDocument } from "@/server/quotes/document";
 import { acceptQuoteFlow } from "@/server/quotes/accept";
@@ -342,6 +342,20 @@ async function templateFailure(error: { code?: string; message?: string; hint?: 
  * Guarda las líneas, el texto y el plan de un presupuesto como plantilla (nueva o sustituyendo
  * una existente). La plantilla es una copia: el presupuesto sigue igual.
  */
+/** Guarda (o quita) la landing pública donde se envió la propuesta. No toca importes ni estado. */
+export async function setQuoteLanding(slug: string, quoteId: string, url: string): Promise<ActionResult> {
+  const ctx = await partnerContext(slug);
+  if (!ctx) return forbidden();
+  const trimmed = url.trim();
+  if (!idSchema.safeParse(quoteId).success) return invalidInput();
+  if (trimmed && !/^https:\/\/\S{3,500}$/.test(trimmed)) return failure("quotes.landing.invalid");
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("set_quote_landing", { p_quote: quoteId, p_url: trimmed });
+  if (error) return dbFailure(error, "quotes.setLanding");
+  revalidatePath(`/${ctx.org.slug}/quotes/${quoteId}`);
+  return { ok: true };
+}
+
 export async function saveQuoteAsTemplate(slug: string, quoteId: string, input: SaveAsTemplateInput): Promise<ActionResult<{ id: string }>> {
   const ctx = await partnerContext(slug);
   if (!ctx) return forbidden();

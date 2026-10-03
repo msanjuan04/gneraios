@@ -5,6 +5,7 @@ import {
   Building2,
   CalendarDays,
   ChartNoAxesCombined,
+  KeyRound,
   Landmark,
   LayoutTemplate,
   Megaphone,
@@ -23,6 +24,7 @@ export type NavKey =
   | "dashboard"
   | "calendar"
   | "council"
+  | "passwords"
   | "seo"
   | "ads"
   | "pipeline"
@@ -55,6 +57,7 @@ export const NAV_GROUPS: { label: "groupDirection" | "groupSales" | "groupWork" 
       { key: "dashboard", path: "", icon: LayoutDashboard, shortcut: "g d" },
       { key: "calendar", path: "/calendar", icon: CalendarDays, shortcut: "g l" },
       { key: "council", path: "/council", icon: BrainCircuit, shortcut: "g a" },
+      { key: "passwords", path: "/passwords", icon: KeyRound, shortcut: "g w" },
     ],
   },
   {

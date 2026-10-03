@@ -92,6 +92,8 @@ export type QuoteEditorData = {
   rejectedAt: string | null;
   rejectionReason: string | null;
   contract: { id: string; title: string } | null;
+  /** Landing pública donde se envió la propuesta (https); null si solo se mandó el PDF. */
+  landingUrl: string | null;
   emails: QuoteEmailItem[];
   manualVersions: QuoteManualVersion[];
   options: QuoteFormOptions;
