@@ -24,6 +24,19 @@ export type OutgoingMail = {
 
 export type SendResult = { messageId: string };
 
+/** El servidor no tiene forma de enviar correo: falta el proveedor (Brevo/Resend) y SMTP está cerrado. */
+export class MailSendUnavailableError extends Error {
+  constructor() {
+    super("mail_send_unavailable");
+    this.name = "MailSendUnavailableError";
+  }
+}
+
+/** ¿Se puede enviar desde esta instalación? Con proveedor sí; sin él solo si SMTP llega (no en nuestro servidor). */
+export function canSendMail(): boolean {
+  return getEmailProvider() !== null;
+}
+
 /** Un asunto no puede llevar saltos de línea: es la forma de colar otra cabecera en un correo. */
 const oneLine = (value: string): string => value.replace(/[\r\n]+/g, " ").trim();
 
@@ -59,19 +72,28 @@ export async function sendMail(account: MailAccount, rawMail: OutgoingMail): Pro
       port: account.smtpPort,
       secure: account.smtpPort === 465,
       auth: { user: account.username, pass: password },
-      connectionTimeout: 10_000,
-      greetingTimeout: 10_000,
-      socketTimeout: 20_000,
+      connectionTimeout: 8_000,
+      greetingTimeout: 8_000,
+      socketTimeout: 15_000,
     });
-    const info = await transport.sendMail({
-      from: account.displayName ? { name: account.displayName, address: account.address } : account.address,
-      to,
-      cc,
-      subject: mail.subject,
-      text: mail.bodyText,
-      inReplyTo: mail.inReplyTo ?? undefined,
-      references: mail.references?.length ? mail.references : undefined,
-    });
+    const info = await transport
+      .sendMail({
+        from: account.displayName ? { name: account.displayName, address: account.address } : account.address,
+        to,
+        cc,
+        subject: mail.subject,
+        text: mail.bodyText,
+        inReplyTo: mail.inReplyTo ?? undefined,
+        references: mail.references?.length ? mail.references : undefined,
+      })
+      .catch((error: unknown) => {
+        transport.close();
+        // Sin proveedor y con el puerto de SMTP cerrado no hay forma de enviar: se dice qué falta.
+        if (/timeout|ETIMEDOUT|ECONNREFUSED|ECONNECTION|ESOCKET/i.test(String((error as { code?: string; message?: string })?.code ?? "") + String((error as Error)?.message ?? ""))) {
+          throw new MailSendUnavailableError();
+        }
+        throw error;
+      });
     transport.close();
     messageId = info.messageId ?? null;
   }

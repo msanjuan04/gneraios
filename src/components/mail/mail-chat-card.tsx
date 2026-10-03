@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server";
 import { MailChat } from "@/components/mail/mail-chat";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { loadMailChat } from "@/server/mail/chat";
+import { canSendMail } from "@/server/mail/send";
 
 /**
  * El apartado «Correo» de la ficha de un lead o de un cliente, en modo conversación. Solo lo ven los
@@ -54,6 +55,7 @@ export async function MailChatCard({
           messages={chat.messages}
           recipients={chat.recipients}
           accountAddress={chat.account.address}
+          canSend={canSendMail()}
           maxHeightClass={tall ? "max-h-[calc(100dvh-24rem)] min-h-64" : "max-h-[30rem]"}
         />
       </CardContent>

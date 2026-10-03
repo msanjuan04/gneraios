@@ -9,7 +9,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 import { failure, forbidden, idSchema, invalidInput, partnerContext } from "@/server/action-utils";
 import { getMailAccount, mailSecretContext } from "@/server/mail/account";
-import { sendMail } from "@/server/mail/send";
+import { MailSendUnavailableError, sendMail } from "@/server/mail/send";
 import { syncMailAccount, verifyImapLogin } from "@/server/mail/sync";
 import { secretStoreFromEnv } from "@/server/seo/secret-store";
 import { connectMailSchema, sendMailSchema, splitAddresses } from "./schema";
@@ -208,6 +208,7 @@ export async function sendMailMessage(slug: string, input: unknown): Promise<Act
     revalidatePath(mailPath(ctx.org.slug));
     return { ok: true, threadKey };
   } catch (error) {
+    if (error instanceof MailSendUnavailableError) return failure("mail.errors.notConfigured");
     console.error("[mail] send", error);
     return failure("mail.errors.send");
   }

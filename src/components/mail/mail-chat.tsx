@@ -35,6 +35,7 @@ export function MailChat({
   messages,
   recipients,
   accountAddress,
+  canSend = true,
   maxHeightClass = "max-h-[34rem]",
 }: {
   slug: string;
@@ -42,6 +43,8 @@ export function MailChat({
   messages: ChatMessage[];
   recipients: { address: string; name: string }[];
   accountAddress: string;
+  /** Falso si el servidor no tiene forma de enviar (falta la clave de Brevo): se explica en vez de fallar al enviar. */
+  canSend?: boolean;
   maxHeightClass?: string;
 }) {
   const t = useTranslations("mail.chat");
@@ -155,6 +158,9 @@ export function MailChat({
       </div>
 
       {/* El cuadro para escribir, pegado abajo como en WhatsApp. */}
+      {!canSend ? (
+        <p className="border-t bg-amber-500/10 px-4 py-3 text-sm text-amber-800 dark:text-amber-200">{t("sendUnavailable")}</p>
+      ) : (
       <div className="border-t bg-card/70 px-3 py-3 sm:px-4">
         <div className="mb-2 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs text-muted-foreground">
           <label className="flex min-w-0 items-center gap-1.5">
@@ -226,6 +232,7 @@ export function MailChat({
         </div>
         <p className="mt-1.5 hidden text-[11px] text-muted-foreground sm:block">{t("shortcut")}</p>
       </div>
+      )}
     </div>
   );
 }

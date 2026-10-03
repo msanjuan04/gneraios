@@ -63,7 +63,8 @@
       "sync": "No s'ha pogut portar el correu. Mira l'avís de la pàgina.",
       "send": "No s'ha pogut enviar el correu.",
       "generic": "No s'ha pogut completar l'operació.",
-      "badAddress": "Alguna adreça no té forma de correu (o n'hi ha massa)."
+      "badAddress": "Alguna adreça no té forma de correu (o n'hi ha massa).",
+      "notConfigured": "Llegir el correu funciona, però enviar no: al servidor li falta la clau de Brevo (BREVO_API_KEY) i el seu port d'SMTP està tancat. Quan s'afegeixi la clau, enviar funciona sense tocar res més."
     },
     "tabsLabel": "Quines converses veure",
     "tabAll": "Tot",
@@ -101,7 +102,9 @@
       "shortcut": "⌘ + Enter per enviar. Arriba com un correu normal, amb el seu assumpte.",
       "sent": "Enviat",
       "noRecipient": "Posa a qui l'envies.",
-      "subjectRequired": "Un tema nou necessita assumpte."
-    }
+      "subjectRequired": "Un tema nou necessita assumpte.",
+      "sendUnavailable": "Llegir el correu funciona, però enviar no: al servidor li falta la clau de Brevo (BREVO_API_KEY) i el seu port d'SMTP està tancat. Quan s'afegeixi la clau, enviar funciona sense tocar res més."
+    },
+    "sendUnavailable": "Llegir el correu funciona, però enviar no: al servidor li falta la clau de Brevo (BREVO_API_KEY) i el seu port d'SMTP està tancat. Quan s'afegeixi la clau, enviar funciona sense tocar res més."
   }
 }

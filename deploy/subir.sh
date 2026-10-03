@@ -201,7 +201,7 @@ COPYFILE_DISABLE=1 tar --no-xattrs --no-mac-metadata -C deploy/out -czf - . | ss
 # viven en el servidor (proveedor de email, política de acceso) se conservan si aquí no se dan.
 grep -vE '^(#|$|DEPLOY_SSH=|SUPABASE_DB_URL=|SUPABASE_DB_PASSWORD=|SUPABASE_PROJECT_REF=|SUPABASE_ORG_ID=)' "$ENV_FILE" |
   ssh "$SSH_TARGET" 'umask 077 && cat > /etc/gneraios.env.new && for key in BREVO_API_KEY RESEND_API_KEY AUTH_MFA_REQUIRED AUTH_DEVICE_CONFIRMATION; do
-    grep -q "^$key=" /etc/gneraios.env.new || grep "^$key=" /etc/gneraios.env 2>/dev/null >> /etc/gneraios.env.new || true
+    grep -q "^$key=." /etc/gneraios.env.new || { sed -i "/^$key=\$/d" /etc/gneraios.env.new; grep "^$key=." /etc/gneraios.env 2>/dev/null >> /etc/gneraios.env.new; } || true
   done && mv /etc/gneraios.env.new /etc/gneraios.env'
 ok "Subida a $RELEASE"
 

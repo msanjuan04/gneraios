@@ -63,7 +63,8 @@
       "sync": "Mail could not be fetched. See the notice on the page.",
       "send": "The message could not be sent.",
       "generic": "The operation could not be completed.",
-      "badAddress": "An address does not look like an email (or there are too many)."
+      "badAddress": "An address does not look like an email (or there are too many).",
+      "notConfigured": "Reading mail works, but sending does not: the server is missing the Brevo key (BREVO_API_KEY) and its SMTP port is closed. Once the key is added, sending works with nothing else to change."
     },
     "tabsLabel": "Which conversations to show",
     "tabAll": "All",
@@ -101,7 +102,9 @@
       "shortcut": "⌘ + Enter to send. It arrives as a normal email, with its subject.",
       "sent": "Sent",
       "noRecipient": "Say who you are sending it to.",
-      "subjectRequired": "A new topic needs a subject."
-    }
+      "subjectRequired": "A new topic needs a subject.",
+      "sendUnavailable": "Reading mail works, but sending does not: the server is missing the Brevo key (BREVO_API_KEY) and its SMTP port is closed. Once the key is added, sending works with nothing else to change."
+    },
+    "sendUnavailable": "Reading mail works, but sending does not: the server is missing the Brevo key (BREVO_API_KEY) and its SMTP port is closed. Once the key is added, sending works with nothing else to change."
   }
 }

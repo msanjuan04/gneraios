@@ -63,7 +63,8 @@
       "sync": "No se pudo traer el correo. Mira el aviso de la página.",
       "send": "No se pudo enviar el correo.",
       "generic": "No se pudo completar la operación.",
-      "badAddress": "Alguna dirección no tiene forma de correo (o son demasiadas)."
+      "badAddress": "Alguna dirección no tiene forma de correo (o son demasiadas).",
+      "notConfigured": "Leer el correo funciona, pero enviar no: al servidor le falta la clave de Brevo (BREVO_API_KEY) y su puerto de SMTP está cerrado. Cuando se añada la clave, enviar funciona sin tocar nada más."
     },
     "tabsLabel": "Qué conversaciones ver",
     "tabAll": "Todo",
@@ -101,7 +102,9 @@
       "shortcut": "⌘ + Enter para enviar. Llega como un correo normal, con su asunto.",
       "sent": "Enviado",
       "noRecipient": "Pon a quién se lo envías.",
-      "subjectRequired": "Un tema nuevo necesita asunto."
-    }
+      "subjectRequired": "Un tema nuevo necesita asunto.",
+      "sendUnavailable": "Leer el correo funciona, pero enviar no: al servidor le falta la clave de Brevo (BREVO_API_KEY) y su puerto de SMTP está cerrado. Cuando se añada la clave, enviar funciona sin tocar nada más."
+    },
+    "sendUnavailable": "Leer el correo funciona, pero enviar no: al servidor le falta la clave de Brevo (BREVO_API_KEY) y su puerto de SMTP está cerrado. Cuando se añada la clave, enviar funciona sin tocar nada más."
   }
 }

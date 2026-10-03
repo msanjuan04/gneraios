@@ -8,6 +8,7 @@ import { MailSyncButton } from "@/components/mail/mail-sync-button";
 import { MailThread } from "@/components/mail/mail-thread";
 import { PageHeader } from "@/components/page-header";
 import { getMailAccount } from "@/server/mail/account";
+import { canSendMail } from "@/server/mail/send";
 import { listMailClients, listThreads, loadThread, type ThreadView } from "@/server/mail/queries";
 import { getOrgContext, hasRole } from "@/server/session";
 
@@ -74,6 +75,7 @@ export default async function MailPage({ params, searchParams }: Props) {
         }
         actions={<MailSyncButton slug={org.slug} />}
       />
+      {!canSendMail() && <p className="mb-5 rounded-xl border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm">{t("sendUnavailable")}</p>}
       {account.lastError && <p className="mb-5 rounded-xl border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm">{account.lastError}</p>}
       <div className="grid items-start gap-5 lg:grid-cols-[minmax(20rem,26rem)_minmax(0,1fr)]">
         {/* En pantallas pequeñas, o la lista o la conversación: nunca las dos apretadas. */}
