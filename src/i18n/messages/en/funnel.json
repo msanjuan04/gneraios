@@ -110,6 +110,8 @@
       "closeRate": "The close rate by source and by partner",
       "loss": "Why they are lost",
       "cta": "Go to the board"
-    }
+    },
+    "nowTitle": "Right now",
+    "nowDescription": "Open opportunities by stage and what they add up to if all are won."
   }
 }

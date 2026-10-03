@@ -16,6 +16,8 @@ import {
   toDateRange,
   topLossReasons,
 } from "@/domain/pipeline";
+import { FunnelStagesCard } from "@/components/crm/funnel-stages";
+import { funnelStages as openStageTotals } from "@/domain/crm";
 import { nowInZone } from "@/lib/clock";
 import { getCrmConfig } from "@/server/crm/config";
 import { getOrgContext } from "@/server/session";
@@ -75,6 +77,7 @@ export default async function FunnelPage({ params, searchParams }: PageProps<"/[
 
   const stages: FunnelStage[] = config.stages.map(({ id, name, position, kind }) => ({ id, name, position, kind }));
   const sequence = funnelSequence(stages);
+  const openStageIds = new Set(stages.filter((stage) => stage.kind === "open").map((stage) => stage.id));
   const color = (index: number) => stageColor(index, sequence.length);
 
   const totals = summary(deals, history, stages, range);
@@ -144,6 +147,19 @@ export default async function FunnelPage({ params, searchParams }: PageProps<"/[
           to={civil.to}
           today={today}
           caption={caption}
+        />
+        {/* Ahora mismo: una bola por oportunidad abierta en cada etapa y lo que suman. Esto no
+            depende del periodo de arriba, que filtra el análisis histórico. */}
+        <FunnelStagesCard
+          stages={openStageTotals(
+            stages.filter((stage) => stage.kind === "open"),
+            deals
+              .filter((deal) => openStageIds.has(deal.stageId))
+              .map((deal) => ({ stageId: deal.stageId, estOneOffCents: deal.estOneOffCents, estMrrCents: deal.estMrrCents })),
+          )}
+          money={(cents) => format.number(cents / 100, { style: "currency", currency: org.currency, maximumFractionDigits: 0 })}
+          title={t("nowTitle")}
+          description={t("nowDescription")}
         />
         <FunnelContent className="space-y-6">
           <FunnelKpis totals={totals} allTime={range === null} money={{ locale: org.locale, currency: org.currency }} />

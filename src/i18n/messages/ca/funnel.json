@@ -110,6 +110,8 @@
       "closeRate": "La taxa de tancament per font i per soci",
       "loss": "Per quins motius es perden",
       "cta": "Ves al tauler"
-    }
+    },
+    "nowTitle": "Ara mateix",
+    "nowDescription": "Les oportunitats obertes per etapa i el que sumen si entren totes."
   }
 }

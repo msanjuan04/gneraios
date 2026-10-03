@@ -6,6 +6,7 @@ import { isClient } from "@/domain/crm";
 import { createClient } from "@/lib/supabase/server";
 import { idSchema } from "@/server/action-utils";
 import { loadLead } from "@/server/crm/lead";
+import { loadLeadMailSignal } from "@/server/crm/mail-signals";
 import { getOrgContext, hasRole } from "@/server/session";
 
 type Props = { params: Promise<{ org: string; clientId: string }> };
@@ -38,7 +39,12 @@ export default async function LeadPage({ params }: Props) {
   if (!row) notFound();
   if (isClient({ status: row.status ?? null, manualStatus: row.manual_status ?? null })) redirect(`/${org.slug}/clients/${clientId}`);
 
-  const lead = await loadLead(org.id, clientId);
+  const canEdit = hasRole(member.role, "partner");
+  const [lead, signal] = await Promise.all([
+    loadLead(org.id, clientId),
+    // El correo de la empresa lo ven los socios: para un viewer no se lee ni se sugiere nada.
+    canEdit ? loadLeadMailSignal(org.id, clientId) : Promise.resolve(null),
+  ]);
   if (!lead) notFound();
-  return <LeadDetailView lead={lead} basePath={`/${org.slug}`} canEdit={hasRole(member.role, "partner")} />;
+  return <LeadDetailView lead={lead} slug={org.slug} basePath={`/${org.slug}`} canEdit={canEdit} signal={signal} />;
 }

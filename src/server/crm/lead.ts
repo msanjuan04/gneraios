@@ -1,6 +1,7 @@
 import "server-only";
 
 import type { ActivityKind } from "@/app/[org]/clients/schema";
+import type { LeadTemperature } from "@/domain/crm";
 import type { CivilDate } from "@/domain/dates/civil-date";
 import { createClient } from "@/lib/supabase/server";
 import { fetchAll } from "@/server/billing/context";
@@ -49,6 +50,7 @@ export type LeadDeal = {
   nextActionOn: CivilDate | null;
   ownerName: string | null;
   sourceName: string | null;
+  temperature: LeadTemperature | null;
 };
 
 export type LeadContact = { id: string; fullName: string; role: string | null; email: string | null; phone: string | null; isPrimary: boolean };
@@ -65,6 +67,8 @@ export type LeadDetail = {
   contacts: LeadContact[];
   messages: LeadMessage[];
   quotes: LeadQuote[];
+  /** Los correos del buzón conectado: cuántos hay y de quién es el turno. */
+  mail: { total: number; awaitingOurReply: boolean; lastAt: string | null };
 };
 
 /** null si no existe, no se ve (RLS) o ya es un cliente de verdad (esa tiene su propia ficha). */
@@ -82,7 +86,7 @@ export async function loadLead(orgId: string, clientId: string): Promise<LeadDet
   const [deals, contacts, activities, quotes, members, sources] = await Promise.all([
     db
       .from("deals_board")
-      .select("id, title, stage_id, stage_kind, stage_position, est_one_off_cents, est_mrr_cents, probability_bps, next_action, next_action_on, owner_member_id, source_id")
+      .select("id, title, stage_id, stage_kind, stage_position, est_one_off_cents, est_mrr_cents, probability_bps, next_action, next_action_on, owner_member_id, source_id, temperature, last_contact_at, last_contact_direction")
       .eq("org_id", orgId)
       .eq("client_id", clientId)
       .order("stage_position"),
@@ -121,8 +125,25 @@ export async function loadLead(orgId: string, clientId: string): Promise<LeadDet
   const landingOf = new Map((landings.data ?? []).map((row) => [row.id, row.landing_url]));
   const withPdf = new Set((snapshots.data ?? []).map((row) => row.quote_id));
 
+  // El correo del buzón conectado: aquí solo el recuento y de quién es el turno; la conversación
+  // entera vive en su propia página (/leads/<id>/mail), que es donde se responde.
+  const mailRows = await db
+    .from("mail_messages")
+    .select("direction, sent_at")
+    .eq("org_id", orgId)
+    .eq("client_id", clientId)
+    .order("sent_at", { ascending: false })
+    .limit(500);
+  if (mailRows.error) throw mailRows.error;
+  const mail = {
+    total: mailRows.data?.length ?? 0,
+    awaitingOurReply: (mailRows.data ?? [])[0]?.direction === "incoming",
+    lastAt: (mailRows.data ?? [])[0]?.sent_at ?? null,
+  };
+
   return {
     id: client.id,
+    mail,
     displayName: client.display_name,
     sector: client.sector,
     website: client.website,
@@ -144,6 +165,7 @@ export async function loadLead(orgId: string, clientId: string): Promise<LeadDet
               nextActionOn: deal.next_action_on,
               ownerName: deal.owner_member_id ? (memberName.get(deal.owner_member_id) ?? null) : null,
               sourceName: null,
+              temperature: deal.temperature ?? null,
             },
           ]
         : [],

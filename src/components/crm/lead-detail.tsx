@@ -1,12 +1,15 @@
 import Link from "next/link";
-import { ArrowUpRight, CalendarClock, ExternalLink, FileText, Globe, Mail, MessageSquare, Phone, Plus, Users } from "lucide-react";
+import { ArrowUpRight, CalendarClock, ExternalLink, FileText, Globe, Mail, MessageSquare, Phone, Plus, Reply, Users } from "lucide-react";
 import { getFormatter, getTranslations } from "next-intl/server";
+import { LeadNextStep } from "@/components/crm/lead-next-step";
+import { LeadTemperaturePicker } from "@/components/crm/lead-temperature";
 import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatMoney } from "@/domain/money";
 import { cn } from "@/lib/utils";
 import type { LeadDetail as LeadData, LeadMessage } from "@/server/crm/lead";
+import type { LeadMailSignal } from "@/server/crm/mail-signals";
 
 /**
  * La ficha de un lead: con quién hablamos, qué nos hemos dicho, qué le hemos propuesto y qué toca
@@ -15,18 +18,26 @@ import type { LeadDetail as LeadData, LeadMessage } from "@/server/crm/lead";
  */
 export async function LeadDetailView({
   lead,
+  slug,
   basePath,
   canEdit,
+  signal,
 }: {
   lead: LeadData;
+  slug: string;
   basePath: string;
   canEdit: boolean;
+  /** Lo que dice su último correo, si lo escribieron ellos (null si la pelota no es nuestra). */
+  signal: LeadMailSignal | null;
 }) {
   const t = await getTranslations("leads.detail");
   const tKind = await getTranslations("crm.activityKind");
   const format = await getFormatter();
   const open = lead.deals.filter((deal) => deal.stageKind === "open");
   const main = open[0] ?? lead.deals[0];
+  // A quién se escribe o se llama: el contacto principal, y si no hay, el primero que tenga algo.
+  const contact = lead.contacts.find((item) => item.isPrimary && (item.email || item.phone)) ?? lead.contacts.find((item) => item.email || item.phone);
+  const lastQuote = lead.quotes[0];
 
   return (
     <div className="space-y-6">
@@ -35,6 +46,29 @@ export async function LeadDetailView({
         description={[lead.sector, lead.city].filter(Boolean).join(" · ") || t("noSector")}
         actions={
           <div className="flex flex-wrap gap-2">
+            {/* Lo que se hace de verdad desde aquí: escribirle, llamarle y leer la conversación. */}
+            {contact?.email && (
+              <Button asChild variant="outline">
+                <a href={`mailto:${contact.email}`}>
+                  <Mail data-icon="inline-start" />
+                  {t("writeEmail")}
+                </a>
+              </Button>
+            )}
+            {contact?.phone && (
+              <Button asChild variant="outline">
+                <a href={`tel:${contact.phone}`}>
+                  <Phone data-icon="inline-start" />
+                  {t("call")}
+                </a>
+              </Button>
+            )}
+            <Button asChild variant="outline">
+              <Link href={`${basePath}/leads/${lead.id}/mail`}>
+                <MessageSquare data-icon="inline-start" />
+                {t("allMessages", { count: lead.mail.total })}
+              </Link>
+            </Button>
             {main && (
               <Button asChild variant="outline">
                 <Link href={`${basePath}/pipeline?deal=${main.id}`}>
@@ -98,6 +132,48 @@ export async function LeadDetailView({
           </CardContent>
         </Card>
       )}
+
+      {signal && (
+        <LeadNextStep
+          signal={signal}
+          slug={slug}
+          basePath={basePath}
+          clientId={lead.id}
+          dealId={main?.id ?? null}
+          canEdit={canEdit}
+        />
+      )}
+
+      {/* Qué quiere y en qué punto está: lo que se lee antes de decidir si toca algo. */}
+      <Card>
+        <CardContent className="space-y-4 py-5">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div className="min-w-0">
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t("wants")}</p>
+              <p className="mt-1 text-balance font-semibold">{main?.title ?? t("noDeal")}</p>
+              {lastQuote && (
+                <p className="mt-1 text-sm text-muted-foreground">
+                  {t("lastProposal", {
+                    title: lastQuote.number ?? lastQuote.title,
+                    state: t(`state.${lastQuote.state}`),
+                  })}
+                </p>
+              )}
+              {lead.notes && <p className="mt-2 whitespace-pre-line text-sm text-muted-foreground">{lead.notes}</p>}
+            </div>
+            {canEdit && main && <LeadTemperaturePicker slug={slug} dealId={main.id} value={main.temperature} />}
+          </div>
+          {lead.mail.awaitingOurReply && (
+            <p className="flex items-center gap-2 rounded-lg border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-sm font-semibold text-amber-700 dark:text-amber-300">
+              <Reply className="size-4 shrink-0" aria-hidden />
+              {t("needsReply")}
+              <Link href={`${basePath}/leads/${lead.id}/mail`} className="ml-auto underline">
+                {t("answerNow")}
+              </Link>
+            </p>
+          )}
+        </CardContent>
+      </Card>
 
       <div className="grid gap-5 lg:grid-cols-[1.4fr_1fr]">
         {/* La conversación: lo que nos hemos dicho, lo último arriba. */}

@@ -110,6 +110,8 @@
       "closeRate": "La tasa de cierre por fuente y por socio",
       "loss": "Por qué motivos se pierden",
       "cta": "Ir al tablero"
-    }
+    },
+    "nowTitle": "Ahora mismo",
+    "nowDescription": "Las oportunidades abiertas por etapa y lo que suman si entran todas."
   }
 }

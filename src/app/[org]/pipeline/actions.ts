@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { BOARD_PAGE_SIZE, type BoardDeal } from "@/components/crm/board-types";
 import type { ActionResult } from "@/lib/action-result";
 import { createClient } from "@/lib/supabase/server";
+import { isLeadTemperature, type LeadTemperature } from "@/domain/crm";
 import { emptyToNull } from "@/lib/validation/fiscal";
 import { dbFailure, failure, forbidden, idSchema, invalidInput, memberContext, partnerContext } from "@/server/action-utils";
 import { fetchStageDeals } from "@/server/crm/board";
@@ -24,7 +25,11 @@ const knownDealErrors = (error: PostgrestError) =>
 function revalidateDeal(slug: string, clientId?: string) {
   revalidatePath(`/${slug}/pipeline`);
   revalidatePath(`/${slug}/clients`);
-  if (clientId) revalidatePath(`/${slug}/clients/${clientId}`);
+  revalidatePath(`/${slug}/leads`);
+  if (clientId) {
+    revalidatePath(`/${slug}/clients/${clientId}`);
+    revalidatePath(`/${slug}/leads/${clientId}`);
+  }
 }
 
 /** Crea o edita un deal. Sin cliente elegido, crea el cliente a la vez: así nace un lead. */
@@ -113,6 +118,31 @@ export async function moveDeal(slug: string, input: MoveDealInput): Promise<Acti
     .select("id, client_id")
     .maybeSingle();
   if (error) return dbFailure(error, "moveDeal", knownDealErrors);
+  if (!data) return failure("pipeline.errors.notFound");
+
+  revalidateDeal(ctx.org.slug, data.client_id);
+  return { ok: true };
+}
+
+/**
+ * Califica un lead: caliente, templado, frío o sin calificar (`null`). Es lo único de un lead que
+ * se guarda a mano en lugar de derivarse: es nuestro juicio, no un dato que esté en ningún sitio.
+ */
+export async function setDealTemperature(slug: string, dealId: string, temperature: LeadTemperature | null): Promise<ActionResult> {
+  const ctx = await partnerContext(slug);
+  if (!ctx) return forbidden();
+  const id = idSchema.safeParse(dealId);
+  if (!id.success || (temperature !== null && !isLeadTemperature(temperature))) return invalidInput();
+
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("deals")
+    .update({ temperature })
+    .eq("id", id.data)
+    .eq("org_id", ctx.org.id)
+    .select("client_id")
+    .maybeSingle();
+  if (error) return dbFailure(error, "setDealTemperature");
   if (!data) return failure("pipeline.errors.notFound");
 
   revalidateDeal(ctx.org.slug, data.client_id);
