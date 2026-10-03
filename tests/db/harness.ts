@@ -1,3 +1,5 @@
+import { addDays } from "../../src/domain/dates/civil-date";
+import { nowInZone } from "../../src/lib/clock";
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { PGlite } from "@electric-sql/pglite";
@@ -149,4 +151,13 @@ export async function createOrg(db: Db, userId: string, payload = onboardingPayl
     ]);
     return rows[0]!.id;
   });
+}
+
+/**
+ * Días desde hoy EN LA ZONA DE LA ORG (Madrid), que es el «hoy» con el que la base deriva estados y
+ * valida fechas. Con la fecha UTC, entre las 00:00 y las 02:00 de Madrid «mañana» ya era hoy y las
+ * pruebas de «fecha futura» fallaban solo de madrugada.
+ */
+export function daysFromToday(days: number): string {
+  return addDays(nowInZone("Europe/Madrid").date, days);
 }

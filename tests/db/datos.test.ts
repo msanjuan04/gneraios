@@ -4,7 +4,7 @@ import { parseCsv } from "@/domain/dataio/csv";
 import { autoMapColumns } from "@/domain/dataio/fields";
 import { type InvoiceImportContext, planInvoiceImport, toImportPayload } from "@/domain/dataio/invoices-import";
 import { computeLine } from "@/domain/tax";
-import { as, createDb, createOrg, createUser, type Db, onboardingPayload } from "./harness";
+import { as, createDb, createOrg, createUser, type Db, onboardingPayload, daysFromToday } from "./harness";
 
 let db: Db;
 let owner: string;
@@ -28,11 +28,6 @@ async function expectHint(promise: Promise<unknown>, hint: string) {
   await expect(promise).rejects.toMatchObject({ hint });
 }
 
-function daysFromToday(days: number): string {
-  const d = new Date();
-  d.setUTCDate(d.getUTCDate() + days);
-  return d.toISOString().slice(0, 10);
-}
 
 /** Línea histórica con los importes del dominio (como hace el importador). */
 function line(description: string, unitPriceCents: number, billingType: "one_off" | "monthly" | "yearly" | "usage", irpfBps = 1500) {

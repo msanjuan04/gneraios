@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 import { beforeEach, describe, expect, it } from "vitest";
 import { formatInvoiceNumber } from "@/domain/invoicing/number-format";
 import { computeLine } from "@/domain/tax";
-import { as, createDb, createOrg, createUser, type Db } from "./harness";
+import { as, createDb, createOrg, createUser, type Db, daysFromToday } from "./harness";
 
 let db: Db;
 let owner: string;
@@ -24,11 +24,6 @@ async function expectHint(promise: Promise<unknown>, hint: string) {
   await expect(promise).rejects.toMatchObject({ hint });
 }
 
-function daysFromToday(days: number): string {
-  const d = new Date();
-  d.setUTCDate(d.getUTCDate() + days);
-  return d.toISOString().slice(0, 10);
-}
 
 /** Línea de borrador con los importes calculados por el dominio (como hace el servidor). */
 function line(

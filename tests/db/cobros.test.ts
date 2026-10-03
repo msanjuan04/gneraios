@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { endToEndId, proposeSpanishCreditorId } from "@/domain/collections";
 import { computeLine } from "@/domain/tax";
 import { composeRemittanceFile } from "@/server/collections/generate";
-import { as, createDb, createOrg, createUser, type Db } from "./harness";
+import { as, createDb, createOrg, createUser, type Db, daysFromToday } from "./harness";
 
 let db: Db;
 let owner: string;
@@ -28,11 +28,6 @@ async function expectHint(promise: Promise<unknown>, hint: string) {
   await expect(promise).rejects.toMatchObject({ hint });
 }
 
-function daysFromToday(days: number): string {
-  const d = new Date();
-  d.setUTCDate(d.getUTCDate() + days);
-  return d.toISOString().slice(0, 10);
-}
 
 /** Factura emitida del autónomo (IRPF 15 %): 900 € de base → 954 € a cobrar, domiciliada. */
 async function issuedInvoice(clientId: string, issuedOn = daysFromToday(-40)): Promise<string> {
