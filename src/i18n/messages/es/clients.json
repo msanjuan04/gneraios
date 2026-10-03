@@ -25,7 +25,8 @@
         "place": "Ciudad · Sector",
         "deals": "Deals",
         "lastActivity": "Última actividad",
-        "source": "Fuente"
+        "source": "Fuente",
+        "recurrence": "Recurrencia"
       },
       "archived": "Archivado",
       "noActivity": "Sin actividad",
@@ -40,7 +41,9 @@
       "emptyBody": "Aquí vive cada cliente con sus datos fiscales, contactos, deals y actividad. Un lead también es un cliente: pasa a activo cuando gana su primer deal.",
       "emptyHint": "o pulsa <kbd>C</kbd> desde el listado",
       "emptyReadOnly": "Cuando un socio dé de alta el primero, aparecerá aquí.",
-      "attention": "{count, plural, one {# requiere atención} other {# requieren atención}}"
+      "attention": "{count, plural, one {# requiere atención} other {# requieren atención}}",
+      "perMonth": "/mes",
+      "perYear": "/año"
     },
     "form": {
       "createTitle": "Nuevo cliente",

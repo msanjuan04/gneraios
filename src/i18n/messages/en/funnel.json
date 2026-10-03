@@ -112,6 +112,15 @@
       "cta": "Go to the board"
     },
     "nowTitle": "Right now",
-    "nowDescription": "Open opportunities by stage and what they add up to if all are won."
+    "nowDescription": "Open opportunities by stage and what they add up to if all are won.",
+    "board": {
+      "label": "Opportunity funnel",
+      "title": "Funnel",
+      "description": "One ball per opportunity and, on the right, how many there are and what they add up to at each stage.",
+      "empty": "Empty",
+      "perMonth": "{amount} / month",
+      "estimatedHint": "Estimate based on what has been quoted before",
+      "hint": "{count, plural, =0 {No open opportunities.} one {# open opportunity.} other {# open opportunities.}} Unweighted amounts: what comes in if all land. “≈” is an estimate."
+    }
   }
 }

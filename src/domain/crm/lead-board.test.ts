@@ -120,6 +120,14 @@ describe("el embudo", () => {
     ]);
   });
 
+  it("marca la etapa como estimada si algún importe lo es", () => {
+    const funnel = funnelStages(stages, [
+      { stageId: "s1", estOneOffCents: 100_000, estMrrCents: 0 },
+      { stageId: "s2", estOneOffCents: 90_000, estMrrCents: 0, estimated: true },
+    ]);
+    expect(funnel.map((stage) => stage.estimated)).toEqual([false, true, false]);
+  });
+
   it("un deal de una etapa que ya no existe no rompe nada", () => {
     expect(funnelStages(stages, [{ stageId: "borrada", estOneOffCents: 1, estMrrCents: 0 }]).every((stage) => stage.deals === 0)).toBe(true);
   });

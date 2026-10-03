@@ -63,6 +63,22 @@
       "sync": "No s'ha pogut portar el correu. Mira l'avís de la pàgina.",
       "send": "No s'ha pogut enviar el correu.",
       "generic": "No s'ha pogut completar l'operació."
-    }
+    },
+    "tabsLabel": "Quines converses veure",
+    "tabAll": "Tot",
+    "tabReply": "Toca contestar",
+    "tabUnread": "Sense llegir",
+    "newMail": "Correu nou",
+    "clientFilter": "Filtrar per client",
+    "allClients": "Tots els clients",
+    "noClient": "Sense client enllaçat",
+    "needsReply": "Toca contestar",
+    "messagesInThread": "{count, plural, one {# missatge} other {# missatges}}",
+    "hasAttachments": "Porta adjunts",
+    "ccLine": "Cc: {addresses}",
+    "showQuoted": "Veure tot el missatge",
+    "hideQuoted": "Amagar el citat",
+    "backToList": "Tornar a la llista",
+    "sendShortcut": "⌘ + Enter per enviar"
   }
 }

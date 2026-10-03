@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { readOrgSettings } from "@/app/[org]/settings/schema";
+import { type RecurringLine, recurrenceOf } from "@/domain/clients/recurrence";
 import { isClient } from "@/domain/crm";
 import { ClientsList } from "@/components/clients/clients-list";
 import type { ClientListItem } from "@/components/clients/types";
+import { nowInZone } from "@/lib/clock";
 import { createClient } from "@/lib/supabase/server";
 import { loadClientsHealth } from "@/server/clients/health";
 import { getCrmConfig } from "@/server/crm/config";
@@ -62,6 +64,38 @@ export default async function ClientsPage({ params }: PageProps<"/[org]/clients"
     sourceIds: rows.map((r) => r.acquisition_source_id),
   });
 
+  // Lo recurrente sale de las líneas de contratos firmados y no archivados (nunca se guarda).
+  const recurringLines = await fetchAll(
+    (from, to) =>
+      supabase
+        .from("contract_lines")
+        .select("billing_type, quantity, unit_price_cents, discount_bps, starts_on, ends_on, cancelled_on, contracts!inner(client_id, signed_on, archived_at)")
+        .eq("org_id", org.id)
+        .in("billing_type", ["monthly", "yearly"])
+        .is("contracts.archived_at", null)
+        .not("contracts.signed_on", "is", null)
+        .order("id")
+        .range(from, to),
+    "clients.list.recurrence",
+  );
+  const linesByClient = new Map<string, RecurringLine[]>();
+  for (const row of recurringLines) {
+    const contract = Array.isArray(row.contracts) ? row.contracts[0] : row.contracts;
+    if (!contract) continue;
+    const list = linesByClient.get(contract.client_id) ?? [];
+    list.push({
+      billingType: row.billing_type,
+      quantity: Number(row.quantity),
+      unitPriceCents: Number(row.unit_price_cents),
+      discountBps: row.discount_bps,
+      startsOn: row.starts_on,
+      endsOn: row.ends_on,
+      cancelledOn: row.cancelled_on,
+    });
+    linesByClient.set(contract.client_id, list);
+  }
+  const today = nowInZone(org.timezone).date;
+
   const clients: ClientListItem[] = rows
     // Un lead todavía no es un cliente: vive en Leads, con su propia ficha.
     .filter((row) => isClient({ status: row.status ?? null, manualStatus: row.manual_status ?? null }))
@@ -79,6 +113,7 @@ export default async function ClientsPage({ params }: PageProps<"/[org]/clients"
       billedCents: balances.get(row.id)?.billed ?? 0,
       collectedCents: balances.get(row.id)?.collected ?? 0,
       outstandingCents: balances.get(row.id)?.outstanding ?? 0,
+      recurrence: recurrenceOf(linesByClient.get(row.id) ?? [], today),
       lastActivityAt: row.last_activity_at,
       sourceName: names.source(row.acquisition_source_id),
       archived: row.archived_at !== null,

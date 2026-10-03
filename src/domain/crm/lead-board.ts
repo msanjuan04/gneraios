@@ -130,9 +130,13 @@ export type FunnelStage = {
   stageId: string;
   name: string;
   position: number;
+  /** `open` mientras se trabaja, `won` cuando se cierra. Las perdidas no salen en el embudo. */
+  kind: string;
   deals: number;
   oneOffCents: number;
   mrrCents: number;
+  /** Cierto si algún importe de la etapa es una estimación del histórico y no del propio deal. */
+  estimated: boolean;
 };
 
 /**
@@ -142,11 +146,20 @@ export type FunnelStage = {
  */
 export function funnelStages(
   stages: readonly { id: string; name: string; position: number; kind: string }[],
-  deals: readonly { stageId: string; estOneOffCents: number; estMrrCents: number }[],
+  deals: readonly { stageId: string; estOneOffCents: number; estMrrCents: number; estimated?: boolean }[],
 ): FunnelStage[] {
   const byStage = new Map<string, FunnelStage>();
   for (const stage of stages) {
-    byStage.set(stage.id, { stageId: stage.id, name: stage.name, position: stage.position, deals: 0, oneOffCents: 0, mrrCents: 0 });
+    byStage.set(stage.id, {
+      stageId: stage.id,
+      name: stage.name,
+      position: stage.position,
+      kind: stage.kind,
+      deals: 0,
+      oneOffCents: 0,
+      mrrCents: 0,
+      estimated: false,
+    });
   }
   for (const deal of deals) {
     const stage = byStage.get(deal.stageId);
@@ -154,6 +167,7 @@ export function funnelStages(
     stage.deals += 1;
     stage.oneOffCents += deal.estOneOffCents;
     stage.mrrCents += deal.estMrrCents;
+    if (deal.estimated) stage.estimated = true;
   }
   return [...byStage.values()].sort((a, b) => a.position - b.position);
 }

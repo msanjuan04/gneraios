@@ -112,6 +112,15 @@
       "cta": "Ves al tauler"
     },
     "nowTitle": "Ara mateix",
-    "nowDescription": "Les oportunitats obertes per etapa i el que sumen si entren totes."
+    "nowDescription": "Les oportunitats obertes per etapa i el que sumen si entren totes.",
+    "board": {
+      "label": "Embut d'oportunitats",
+      "title": "Embut",
+      "description": "Una bola per oportunitat i, a la dreta, quantes n'hi ha i quant sumen a cada etapa.",
+      "empty": "Buida",
+      "perMonth": "{amount} / mes",
+      "estimatedHint": "Estimació segons el que s'ha pressupostat abans",
+      "hint": "{count, plural, =0 {Sense oportunitats obertes.} one {# oportunitat oberta.} other {# oportunitats obertes.}} Imports sense ponderar: el que entra si entren totes. «≈» és una estimació."
+    }
   }
 }

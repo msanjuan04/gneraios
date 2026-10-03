@@ -8,6 +8,8 @@ export type EmailMessage = {
   /** Versión HTML opcional (el resumen semanal); el texto plano va siempre. */
   html?: string;
   replyTo?: string | null;
+  /** Cabeceras extra (In-Reply-To, References…): lo que encadena una respuesta a su hilo. */
+  headers?: Record<string, string>;
   attachments?: { filename: string; content: Uint8Array; contentType: string }[];
   /** Clave estable del envío: el proveedor (Resend) no repite un email con la misma clave en 24 h. */
   idempotencyKey?: string;
@@ -39,6 +41,7 @@ function resend(apiKey: string): EmailProvider {
           text: m.text,
           html: m.html,
           reply_to: m.replyTo ?? undefined,
+          headers: m.headers,
           attachments: m.attachments?.map((a) => ({ filename: a.filename, content: toBase64(a.content) })),
         }),
       });
@@ -71,6 +74,7 @@ function brevo(apiKey: string): EmailProvider {
           subject: m.subject,
           textContent: m.text,
           htmlContent: m.html,
+          headers: m.headers,
           attachment: m.attachments?.map((a) => ({ name: a.filename, content: toBase64(a.content) })),
         }),
       });

@@ -3,6 +3,7 @@ import "server-only";
 import { createTransport } from "nodemailer";
 import { normalizeAddress, replySubject } from "@/domain/mail";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { getEmailProvider } from "@/server/email/provider";
 import { type MailAccount, openMailPassword } from "./account";
 
 /**
@@ -26,25 +27,50 @@ export type SendResult = { messageId: string };
 export async function sendMail(account: MailAccount, mail: OutgoingMail): Promise<SendResult> {
   const to = mail.to.map(normalizeAddress).filter(Boolean);
   if (to.length === 0) throw new Error("Hace falta al menos un destinatario.");
-  const password = await openMailPassword(account);
+  const from = account.displayName ? `${account.displayName} <${account.address}>` : account.address;
+  const cc = mail.cc?.map(normalizeAddress).filter(Boolean);
+  const threadHeaders: Record<string, string> = {};
+  if (mail.inReplyTo) threadHeaders["In-Reply-To"] = mail.inReplyTo;
+  if (mail.references?.length) threadHeaders.References = mail.references.join(" ");
 
-  const transport = createTransport({
-    host: account.smtpHost,
-    port: account.smtpPort,
-    secure: account.smtpPort === 465,
-    auth: { user: account.username, pass: password },
-  });
-
-  const info = await transport.sendMail({
-    from: account.displayName ? { name: account.displayName, address: account.address } : account.address,
-    to,
-    cc: mail.cc?.map(normalizeAddress).filter(Boolean),
-    subject: mail.subject,
-    text: mail.bodyText,
-    inReplyTo: mail.inReplyTo ?? undefined,
-    references: mail.references?.length ? mail.references : undefined,
-  });
-  transport.close();
+  // Por HTTP (Brevo/Resend): los servidores en la nube suelen tener cerrados los puertos de SMTP, y
+  // el nuestro también. El remitente es el mismo (info@gnerai.com, dominio ya autenticado) y las
+  // respuestas siguen entrando en el buzón de siempre. Sin proveedor configurado, SMTP directo.
+  const provider = getEmailProvider();
+  let messageId: string | null = null;
+  if (provider) {
+    const sent = await provider.send({
+      from,
+      to,
+      subject: mail.subject,
+      text: mail.bodyText,
+      replyTo: account.address,
+      headers: Object.keys(threadHeaders).length ? threadHeaders : undefined,
+    });
+    messageId = sent.id;
+  } else {
+    const password = await openMailPassword(account);
+    const transport = createTransport({
+      host: account.smtpHost,
+      port: account.smtpPort,
+      secure: account.smtpPort === 465,
+      auth: { user: account.username, pass: password },
+      connectionTimeout: 10_000,
+      greetingTimeout: 10_000,
+      socketTimeout: 20_000,
+    });
+    const info = await transport.sendMail({
+      from: account.displayName ? { name: account.displayName, address: account.address } : account.address,
+      to,
+      cc,
+      subject: mail.subject,
+      text: mail.bodyText,
+      inReplyTo: mail.inReplyTo ?? undefined,
+      references: mail.references?.length ? mail.references : undefined,
+    });
+    transport.close();
+    messageId = info.messageId ?? null;
+  }
 
   // Se guarda ya, sin esperar a la siguiente sincronización: quien lo envía quiere verlo al momento.
   // La carpeta «salida» es solo nuestra; cuando IMAP traiga el de verdad, ese lo sustituye.
@@ -56,14 +82,14 @@ export async function sendMail(account: MailAccount, mail: OutgoingMail): Promis
       folder: "GNERAI/sent",
       // Un hueco propio: los UID de verdad los pone el servidor de correo.
       uid: Date.now(),
-      message_id: info.messageId ?? null,
+      message_id: messageId,
       in_reply_to: mail.inReplyTo ?? null,
-      thread_key: mail.references?.[0] ?? mail.inReplyTo ?? info.messageId ?? mail.subject.slice(0, 998),
+      thread_key: mail.references?.[0] ?? mail.inReplyTo ?? messageId ?? mail.subject.slice(0, 998),
       direction: "outgoing",
       from_address: account.address,
       from_name: account.displayName,
       to_addresses: to,
-      cc_addresses: mail.cc?.map(normalizeAddress).filter(Boolean) ?? [],
+      cc_addresses: cc ?? [],
       subject: mail.subject.slice(0, 998),
       body_text: mail.bodyText.slice(0, 500_000),
       snippet: mail.bodyText.replace(/\s+/g, " ").trim().slice(0, 200),
@@ -71,7 +97,7 @@ export async function sendMail(account: MailAccount, mail: OutgoingMail): Promis
       seen: true,
     });
 
-  return { messageId: info.messageId ?? "" };
+  return { messageId: messageId ?? "" };
 }
 
 /** Comprueba que el buzón contesta y que la contraseña vale, sin enviar nada. */
@@ -82,6 +108,9 @@ export async function verifySmtp(account: MailAccount): Promise<void> {
     port: account.smtpPort,
     secure: account.smtpPort === 465,
     auth: { user: account.username, pass: password },
+    connectionTimeout: 8_000,
+    greetingTimeout: 8_000,
+    socketTimeout: 12_000,
   });
   try {
     await transport.verify();

@@ -43,6 +43,8 @@ export type ClientListItem = {
   billedCents: number;
   collectedCents: number;
   outstandingCents: number;
+  /** Lo que paga de forma recurrente: mensualidades y anualidades vivas, sin IVA. */
+  recurrence: { monthlyCents: number; yearlyCents: number };
   lastActivityAt: string | null;
   sourceName: string | null;
   archived: boolean;

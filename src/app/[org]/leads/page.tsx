@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight, Plus } from "lucide-react";
-import { getFormatter, getTranslations } from "next-intl/server";
-import { FunnelStagesCard } from "@/components/crm/funnel-stages";
+import { getTranslations } from "next-intl/server";
+import { FunnelBoard } from "@/components/crm/funnel-board";
 import { LeadFolders } from "@/components/crm/lead-folders";
 import { PageHeader } from "@/components/page-header";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { funnelStages, leadTotals, sortLeads } from "@/domain/crm";
+import { formatMoney } from "@/domain/money";
 import { loadLeadBoard } from "@/server/crm/lead-board";
 import { getOrgContext, hasRole } from "@/server/session";
 
@@ -23,16 +24,16 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function LeadsPage({ params }: PageProps<"/[org]/leads">) {
   const { org: slug } = await params;
   const { org, member } = await getOrgContext(slug);
-  const [t, format, board] = await Promise.all([getTranslations("leads"), getFormatter(), loadLeadBoard(org.id, org.timezone)]);
+  const [t, board] = await Promise.all([getTranslations("leads"), loadLeadBoard(org.id, org.timezone)]);
   const basePath = `/${org.slug}`;
   const canEdit = hasRole(member.role, "partner");
   const leads = sortLeads(board.leads);
   const totals = leadTotals(leads);
   const funnel = funnelStages(
     board.stages.filter((stage) => stage.kind === "open"),
-    leads.map((lead) => ({ stageId: lead.stageId, estOneOffCents: lead.estOneOffCents, estMrrCents: lead.estMrrCents })),
+    leads.map((lead) => ({ stageId: lead.stageId, estOneOffCents: lead.estOneOffCents, estMrrCents: lead.estMrrCents, estimated: lead.estimated })),
   );
-  const money = (cents: number) => format.number(cents / 100, { style: "currency", currency: org.currency, maximumFractionDigits: 0 });
+  const money = (cents: number) => formatMoney(cents, { locale: org.locale, currency: org.currency, wholeUnits: true });
 
   return (
     <div className="space-y-6">
@@ -78,7 +79,15 @@ export default async function LeadsPage({ params }: PageProps<"/[org]/leads">) {
         <section aria-label={t("listTitle")}>
           <LeadFolders leads={leads} basePath={basePath} money={money} />
         </section>
-        <FunnelStagesCard stages={funnel} money={money} />
+        <Card className="self-start">
+          <CardHeader className="border-b">
+            <CardTitle>{t("funnel.title")}</CardTitle>
+            <CardDescription>{t("funnel.description")}</CardDescription>
+          </CardHeader>
+          <CardContent className="pt-5">
+            <FunnelBoard stages={funnel} money={money} compact />
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

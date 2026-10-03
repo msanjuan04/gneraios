@@ -95,7 +95,7 @@ export async function loadLeadBoard(orgId: string, timezone: string): Promise<Le
 }
 
 /** Los presupuestos enviados o aceptados de siempre: los borradores no se han ofrecido, no cuentan. */
-async function pastQuotes(orgId: string): Promise<{ oneOffCents: number; monthlyCents: number }[]> {
+export async function pastQuotes(orgId: string): Promise<{ oneOffCents: number; monthlyCents: number }[]> {
   const db = await createClient();
   const rows = await fetchAll(
     (from, to) =>

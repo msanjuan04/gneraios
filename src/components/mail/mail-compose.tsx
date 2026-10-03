@@ -29,7 +29,7 @@ export function MailCompose({
   clientId?: string | null;
 }) {
   const t = useTranslations("mail.compose");
-  const [open, setOpen] = useState(mode === "new");
+  const [open, setOpen] = useState(true);
   const [pending, start] = useTransition();
   const [body, setBody] = useState("");
 
@@ -78,6 +78,10 @@ export function MailCompose({
       <Textarea
         name="body"
         required
+        onKeyDown={(event) => {
+          // Cmd/Ctrl + Enter envía, como en cualquier correo.
+          if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) event.currentTarget.form?.requestSubmit();
+        }}
         rows={mode === "reply" ? 6 : 10}
         value={body}
         onChange={(event) => setBody(event.target.value)}
@@ -88,6 +92,7 @@ export function MailCompose({
           <Send data-icon="inline-start" />
           {pending ? t("sending") : t("send")}
         </Button>
+        <span className="hidden text-xs text-muted-foreground sm:inline">{t("sendShortcut")}</span>
         {mode === "reply" && (
           <Button type="button" variant="ghost" onClick={() => setOpen(false)}>
             <X data-icon="inline-start" />

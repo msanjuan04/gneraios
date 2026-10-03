@@ -63,6 +63,22 @@
       "sync": "Mail could not be fetched. See the notice on the page.",
       "send": "The message could not be sent.",
       "generic": "The operation could not be completed."
-    }
+    },
+    "tabsLabel": "Which conversations to show",
+    "tabAll": "All",
+    "tabReply": "Needs reply",
+    "tabUnread": "Unread",
+    "newMail": "New mail",
+    "clientFilter": "Filter by client",
+    "allClients": "All clients",
+    "noClient": "No client linked",
+    "needsReply": "Needs reply",
+    "messagesInThread": "{count, plural, one {# message} other {# messages}}",
+    "hasAttachments": "Has attachments",
+    "ccLine": "Cc: {addresses}",
+    "showQuoted": "Show full message",
+    "hideQuoted": "Hide quoted text",
+    "backToList": "Back to the list",
+    "sendShortcut": "⌘ + Enter to send"
   }
 }

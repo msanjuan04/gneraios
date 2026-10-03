@@ -44,9 +44,25 @@ export const THREADS_PER_PAGE = 25;
 /** Cuántos mensajes se miran para armar la lista de hilos (los más recientes). */
 const SCAN = 600;
 
-export type ThreadFilter = { clientId?: string | null; query?: string; unreadOnly?: boolean };
+/** Qué conversaciones se enseñan: todas, las que tienen algo sin leer o aquellas a las que nos toca contestar. */
+export type ThreadView = "all" | "unread" | "reply";
 
-export type ThreadPage = { threads: ThreadSummary[]; page: number; pages: number; total: number };
+export type ThreadFilter = {
+  /** Una ficha concreta; `"none"` son las conversaciones que no se han podido enlazar a nadie. */
+  client?: string | null;
+  query?: string;
+  view?: ThreadView;
+};
+
+export type ThreadPage = {
+  threads: ThreadSummary[];
+  page: number;
+  pages: number;
+  /** Con el filtro aplicado (lo que se pagina). */
+  total: number;
+  /** Los tres números de las pestañas, sobre todo lo que cumple la búsqueda y el cliente. */
+  counts: { all: number; unread: number; reply: number };
+};
 
 /**
  * Las conversaciones más recientes. Se agrupan aquí y no en SQL a propósito: la clave de hilo ya
@@ -60,8 +76,8 @@ export async function listThreads(orgId: string, filter: ThreadFilter = {}, page
     .eq("org_id", orgId)
     .order("sent_at", { ascending: false })
     .limit(SCAN);
-  if (filter.clientId) query = query.eq("client_id", filter.clientId);
-  if (filter.unreadOnly) query = query.eq("seen", false).eq("direction", "incoming");
+  if (filter.client === "none") query = query.is("client_id", null);
+  else if (filter.client) query = query.eq("client_id", filter.client);
   const term = filter.query?.trim();
   if (term) query = query.or(`subject.ilike.%${term}%,from_address.ilike.%${term}%,body_text.ilike.%${term}%`);
 
@@ -94,14 +110,23 @@ export async function listThreads(orgId: string, filter: ThreadFilter = {}, page
     });
   }
 
-  const all = [...byThread.values()];
+  // Las pestañas se cuentan sobre todo lo que cumple la búsqueda y el cliente; el filtro de la
+  // pestaña se aplica después, en memoria, porque «sin leer» y «toca contestar» son del hilo entero.
+  const grouped = [...byThread.values()];
+  const counts = {
+    all: grouped.length,
+    unread: grouped.filter((thread) => thread.unread > 0).length,
+    reply: grouped.filter((thread) => thread.lastDirection === "incoming").length,
+  };
+  const view = filter.view ?? "all";
+  const all = grouped.filter((thread) => (view === "unread" ? thread.unread > 0 : view === "reply" ? thread.lastDirection === "incoming" : true));
   const total = all.length;
   const pages = Math.max(1, Math.ceil(total / THREADS_PER_PAGE));
   const current = Math.min(Math.max(1, page), pages);
   const threads = all.slice((current - 1) * THREADS_PER_PAGE, current * THREADS_PER_PAGE);
 
   await nameClients(orgId, threads);
-  return { threads, page: current, pages, total };
+  return { threads, page: current, pages, total, counts };
 }
 
 /** Los nombres de los clientes enlazados, de una vez (la lista solo tiene sus ids). */
@@ -175,4 +200,16 @@ export async function listClientMail(orgId: string, clientId: string, limit = 20
     messageId: row.message_id,
     clientId: row.client_id,
   }));
+}
+
+/** Los clientes y leads que tienen correo, por nombre: lo que se ofrece en el filtro de arriba. */
+export async function listMailClients(orgId: string): Promise<{ id: string; name: string }[]> {
+  const db = await createClient();
+  const { data, error } = await db.from("mail_messages").select("client_id").eq("org_id", orgId).not("client_id", "is", null).limit(5000);
+  if (error) throw error;
+  const ids = [...new Set((data ?? []).flatMap((row) => (row.client_id ? [row.client_id] : [])))];
+  if (ids.length === 0) return [];
+  const names = await db.from("clients").select("id, display_name").eq("org_id", orgId).in("id", ids).order("display_name");
+  if (names.error) throw names.error;
+  return (names.data ?? []).map((client) => ({ id: client.id, name: client.display_name }));
 }

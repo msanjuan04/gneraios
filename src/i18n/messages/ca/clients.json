@@ -25,7 +25,8 @@
         "place": "Ciutat · Sector",
         "deals": "Deals",
         "lastActivity": "Última activitat",
-        "source": "Font"
+        "source": "Font",
+        "recurrence": "Recurrència"
       },
       "archived": "Arxivat",
       "noActivity": "Sense activitat",
@@ -40,7 +41,9 @@
       "emptyBody": "Aquí viu cada client amb les seves dades fiscals, contactes, deals i activitat. Un lead també és un client: passa a actiu quan guanya el seu primer deal.",
       "emptyHint": "o prem <kbd>C</kbd> des del llistat",
       "emptyReadOnly": "Quan un soci doni d'alta el primer, apareixerà aquí.",
-      "attention": "{count, plural, one {# requereix atenció} other {# requereixen atenció}}"
+      "attention": "{count, plural, one {# requereix atenció} other {# requereixen atenció}}",
+      "perMonth": "/mes",
+      "perYear": "/any"
     },
     "form": {
       "createTitle": "Nou client",

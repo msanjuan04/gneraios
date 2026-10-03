@@ -4,6 +4,7 @@ import { Building2, Plus, Search, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useFormatter, useTranslations } from "next-intl";
+import { formatMoney as formatEuros } from "@/domain/money";
 import { type KeyboardEvent as ReactKeyboardEvent, type MouseEvent, useMemo, useRef, useState } from "react";
 import { newClientDefaults } from "@/app/[org]/clients/schema";
 import { CLIENT_MANUAL_STATUSES, type ClientManualStatus, effectiveClientStatus } from "@/domain/clients/status";
@@ -342,7 +343,7 @@ export function ClientsList({ basePath, slug, clients, members, canEdit, current
                     <TableHead className="pl-5 text-xs text-muted-foreground">{t("list.columns.name")}</TableHead>
                     <TableHead className="text-xs text-muted-foreground">{t("list.columns.status")}</TableHead>
                     <TableHead className="hidden text-right text-xs text-muted-foreground md:table-cell">
-                      {t("list.columns.billed")}
+                      {t("list.columns.recurrence")}
                     </TableHead>
                     <TableHead className="hidden text-right text-xs text-muted-foreground lg:table-cell">
                       {t("list.columns.collected")}
@@ -400,7 +401,7 @@ export function ClientsList({ basePath, slug, clients, members, canEdit, current
                           <ClientStatusBadge status={client.status} manual={client.manualStatus} />
                         </TableCell>
                         <TableCell className="hidden text-right tabular-nums md:table-cell">
-                          {formatMoney(client.billedCents)}
+                          <Recurrence recurrence={client.recurrence} />
                         </TableCell>
                         <TableCell className="hidden text-right tabular-nums lg:table-cell">
                           {formatMoney(client.collectedCents)}
@@ -460,6 +461,28 @@ function EmptyState({ canEdit, onCreate }: { canEdit: boolean; onCreate: () => v
         </>
       ) : (
         <p className="mt-6 text-xs text-muted-foreground">{t("list.emptyReadOnly")}</p>
+      )}
+    </div>
+  );
+}
+
+/** «1.175 €/mes» y/o «1.200 €/año»; sin recurrencia, un guion. Cada cosa en su línea y con su unidad. */
+function Recurrence({ recurrence }: { recurrence: { monthlyCents: number; yearlyCents: number } }) {
+  const t = useTranslations("clients.list");
+  if (recurrence.monthlyCents === 0 && recurrence.yearlyCents === 0) return <span className="text-muted-foreground">—</span>;
+  return (
+    <div className="flex flex-col items-end leading-tight">
+      {recurrence.monthlyCents > 0 && (
+        <span className="font-semibold">
+          {formatEuros(recurrence.monthlyCents, { wholeUnits: true })}
+          <span className="ml-1 text-xs font-medium text-muted-foreground">{t("perMonth")}</span>
+        </span>
+      )}
+      {recurrence.yearlyCents > 0 && (
+        <span className="font-semibold">
+          {formatEuros(recurrence.yearlyCents, { wholeUnits: true })}
+          <span className="ml-1 text-xs font-medium text-muted-foreground">{t("perYear")}</span>
+        </span>
       )}
     </div>
   );

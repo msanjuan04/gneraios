@@ -92,7 +92,7 @@ export function ownText(bodyText: string): string {
     .join("\n")
     .split(/^-- $/m)[0]!
     // «El 3 de octubre, X escribió:» abre la cita en casi todos los clientes de correo.
-    .split(/\n[^\n]{0,80}(escribio|escribió|escrigue|escrigué|wrote):\s*\n/i)[0]!
+    .split(/\n[^\n]{0,80}(escribio|escribió|escrigue|escrigué|wrote):\s*(\n|$)/i)[0]!
     .trim();
 }
 

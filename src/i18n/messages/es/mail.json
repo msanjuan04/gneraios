@@ -63,6 +63,22 @@
       "sync": "No se pudo traer el correo. Mira el aviso de la página.",
       "send": "No se pudo enviar el correo.",
       "generic": "No se pudo completar la operación."
-    }
+    },
+    "tabsLabel": "Qué conversaciones ver",
+    "tabAll": "Todo",
+    "tabReply": "Toca contestar",
+    "tabUnread": "Sin leer",
+    "newMail": "Nuevo correo",
+    "clientFilter": "Filtrar por cliente",
+    "allClients": "Todos los clientes",
+    "noClient": "Sin cliente enlazado",
+    "needsReply": "Toca contestar",
+    "messagesInThread": "{count, plural, one {# mensaje} other {# mensajes}}",
+    "hasAttachments": "Lleva adjuntos",
+    "ccLine": "Cc: {addresses}",
+    "showQuoted": "Ver todo el mensaje",
+    "hideQuoted": "Ocultar lo citado",
+    "backToList": "Volver a la lista",
+    "sendShortcut": "⌘ + Enter para enviar"
   }
 }

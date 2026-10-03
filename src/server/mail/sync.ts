@@ -279,3 +279,25 @@ function matchClient(index: ContactIndex, addresses: readonly string[]): string 
 }
 
 const describe = (error: unknown): string => (error instanceof Error ? error.message.slice(0, 300) : "error desconocido");
+
+/**
+ * Comprueba que el servidor acepta el usuario y la contraseña, sin traer nada. Rápido y con tope:
+ * un servidor que no contesta no puede dejar al usuario esperando minutos delante de un botón.
+ */
+export async function verifyImapLogin(input: { host: string; port: number; username: string; password: string }): Promise<void> {
+  const client = new ImapFlow({
+    host: input.host,
+    port: input.port,
+    secure: input.port === 993,
+    auth: { user: input.username, pass: input.password },
+    logger: false,
+    connectionTimeout: 15_000,
+    greetingTimeout: 15_000,
+    socketTimeout: 20_000,
+  });
+  try {
+    await client.connect();
+  } finally {
+    await client.logout().catch(() => client.close());
+  }
+}

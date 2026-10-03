@@ -2,6 +2,7 @@
 
 import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
 import type { ActionResult } from "@/lib/action-result";
 import { quoteForReply, replySubject } from "@/domain/mail";
 import { createAdminClient } from "@/lib/supabase/admin";
@@ -9,8 +10,7 @@ import { createClient } from "@/lib/supabase/server";
 import { failure, forbidden, idSchema, invalidInput, partnerContext } from "@/server/action-utils";
 import { getMailAccount, mailSecretContext } from "@/server/mail/account";
 import { sendMail } from "@/server/mail/send";
-import { syncMailAccount } from "@/server/mail/sync";
-import { verifySmtp } from "@/server/mail/send";
+import { syncMailAccount, verifyImapLogin } from "@/server/mail/sync";
 import { secretStoreFromEnv } from "@/server/seo/secret-store";
 import { connectMailSchema, sendMailSchema, splitAddresses } from "./schema";
 
@@ -32,6 +32,15 @@ export async function connectMailAccount(slug: string, input: unknown): Promise<
 
   const existing = await getMailAccount(ctx.org.id);
   if (existing) return failure("mail.errors.alreadyConnected");
+
+  // Antes de guardar nada: ¿acepta el servidor ese usuario y esa contraseña? Se comprueba la
+  // lectura (IMAP), que es lo que hace falta para tener el correo. Enviar no se comprueba aquí: si
+  // el servidor no puede abrir SMTP, no se tira el alta por eso (las respuestas salen por HTTP).
+  try {
+    await verifyImapLogin({ host: v.imap_host, port: v.imap_port, username: v.username, password: v.password });
+  } catch {
+    return failure("mail.errors.credentials");
+  }
 
   const id = randomUUID();
   const ciphertext = await secretStoreFromEnv().seal(v.password, mailSecretContext(ctx.org.id, id));
@@ -66,18 +75,12 @@ export async function connectMailAccount(slug: string, input: unknown): Promise<
     lastSyncAt: null,
     lastError: null,
   };
-  try {
-    await verifySmtp(account);
-  } catch {
-    // Si no entra, no se queda una cuenta a medias: se borra y se vuelve a pedir la contraseña.
-    await admin.from("mail_accounts").delete().eq("org_id", ctx.org.id).eq("id", id);
-    return failure("mail.errors.credentials");
-  }
-
-  // La primera sincronización, aquí mismo: al volver a la página ya hay correo que mirar.
-  const result = await syncMailAccount(account);
+  // La primera descarga (120 días) tarda minutos: se hace DESPUÉS de contestar, para que el botón
+  // responda al momento. La bandeja se va llenando y el cron la completa cada 5 minutos.
+  after(async () => {
+    await syncMailAccount(account).catch((syncError) => console.error("[mail] primera descarga", syncError));
+  });
   revalidatePath(mailPath(ctx.org.slug));
-  if (result.error) return failure("mail.errors.sync");
   return { ok: true, id };
 }
 

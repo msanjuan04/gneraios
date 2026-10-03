@@ -25,7 +25,8 @@
         "place": "City · Sector",
         "deals": "Deals",
         "lastActivity": "Last activity",
-        "source": "Source"
+        "source": "Source",
+        "recurrence": "Recurring"
       },
       "archived": "Archived",
       "noActivity": "No activity",
@@ -40,7 +41,9 @@
       "emptyBody": "This is where each client lives, with their tax details, contacts, deals and activity. A lead is also a client: it becomes active when its first deal is won.",
       "emptyHint": "or press <kbd>C</kbd> from the list",
       "emptyReadOnly": "When a partner adds the first one, it will appear here.",
-      "attention": "{count, plural, one {# needs attention} other {# need attention}}"
+      "attention": "{count, plural, one {# needs attention} other {# need attention}}",
+      "perMonth": "/month",
+      "perYear": "/year"
     },
     "form": {
       "createTitle": "New client",

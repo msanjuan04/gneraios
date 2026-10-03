@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight, CalendarClock, ExternalLink, FileText, Globe, Mail, MessageSquare, Phone, Plus, Reply, Users } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, CalendarClock, ExternalLink, FileText, Globe, Mail, MessageSquare, Phone, Plus, Reply, Users } from "lucide-react";
 import { getFormatter, getTranslations } from "next-intl/server";
 import { LeadNextStep } from "@/components/crm/lead-next-step";
 import { LeadTemperaturePicker } from "@/components/crm/lead-temperature";
@@ -41,6 +41,14 @@ export async function LeadDetailView({
 
   return (
     <div className="space-y-6">
+      {/* Siempre se puede volver a la lista: la ficha no es un callejón sin salida. */}
+      <Link
+        href={`${basePath}/leads`}
+        className="-mb-2 inline-flex items-center gap-1.5 rounded-full px-2 py-1 text-sm font-semibold text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+      >
+        <ArrowLeft className="size-4" aria-hidden />
+        {t("backToLeads")}
+      </Link>
       <PageHeader
         title={lead.displayName}
         description={[lead.sector, lead.city].filter(Boolean).join(" · ") || t("noSector")}

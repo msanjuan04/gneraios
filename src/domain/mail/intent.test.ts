@@ -46,6 +46,13 @@ describe("el texto propio del correo", () => {
   });
 });
 
+describe("la cabecera de la cita", () => {
+  it("«El día X escribió:» se quita aunque sea lo último una vez retirada la cita", () => {
+    const body = ["Nos encaja la opción A.", "", "El 3 de octubre, GNERAI escribió:", "> Hola Nadia"].join("\n");
+    expect(ownText(body)).toBe("Nos encaja la opción A.");
+  });
+});
+
 describe("el resumen de lo que piden", () => {
   it("se salta saludos y despedidas y deja lo que importa", () => {
     const body = [

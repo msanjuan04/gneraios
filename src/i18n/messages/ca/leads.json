@@ -68,7 +68,8 @@
       "answerNow": "Contestar",
       "writeEmail": "Escriure",
       "call": "Trucar",
-      "allMessages": "{count, plural, =0 {Missatges} one {# missatge} other {# missatges}}"
+      "allMessages": "{count, plural, =0 {Missatges} one {# missatge} other {# missatges}}",
+      "backToLeads": "Leads"
     },
     "potentialOneOff": "Pagament únic potencial",
     "potentialMrr": "Recurrent potencial",

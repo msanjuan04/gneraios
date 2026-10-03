@@ -412,3 +412,19 @@
     transition: none !important;
   }
 }
+
+/* Embudo: cada bola cae dentro de su caja, una detrás de otra, y rebota un poco al llegar. */
+@keyframes gos-drop {
+  0% { transform: translateY(-140px); opacity: 0; }
+  15% { opacity: 1; }
+  70% { transform: translateY(0); }
+  84% { transform: translateY(-9px); }
+  100% { transform: translateY(0); }
+}
+.gos-ball {
+  animation: gos-drop 0.9s cubic-bezier(0.33, 0.8, 0.4, 1) both;
+  animation-delay: calc(var(--i, 0) * 55ms + var(--row, 0) * 160ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  .gos-ball { animation: none; }
+}
