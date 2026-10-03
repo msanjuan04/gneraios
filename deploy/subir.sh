@@ -126,6 +126,30 @@ fi
 fi
 [ -f deploy/out/server.js ] || fail "La compilación no ha dejado server.js (mira deploy/build.log)."
 
+# PDF: pdfkit (el motor de react-pdf) carga sus fuentes estándar con require() y el trazado de
+# ficheros de Next solo se lleva la versión .mjs, así que en el servidor ninguna factura, presupuesto
+# o propuesta se generaba («Cannot find module .../standard-fonts/Helvetica.cjs»). Se completa la
+# carpeta con la del proyecto y se comprueba, con el propio bundle, que un PDF sale de verdad.
+PDFKIT_SRC=$(ls -d node_modules/.pnpm/pdfkit@*/node_modules/pdfkit 2>/dev/null | head -1 || true)
+for dest in deploy/out/node_modules/.pnpm/pdfkit@*/node_modules/pdfkit; do
+  [ -d "$dest" ] && [ -n "$PDFKIT_SRC" ] && cp -R "$PDFKIT_SRC/js/." "$dest/js/"
+done
+REACT_DIR=$(ls -d deploy/out/node_modules/.pnpm/react@*/node_modules/react 2>/dev/null | head -1 || true)
+if [ -n "$REACT_DIR" ] && ls -d deploy/out/node_modules/@react-pdf >/dev/null 2>&1; then
+  cat >deploy/out/.smoke-pdf.mjs <<'JS'
+import { createRequire } from "node:module";
+const React = createRequire(process.cwd() + "/")(process.env.REACT_DIR);
+const rp = await import("@react-pdf/renderer");
+const doc = React.createElement(rp.Document, null, React.createElement(rp.Page, null, React.createElement(rp.Text, null, "prueba")));
+const pdf = await rp.renderToBuffer(doc);
+if (pdf.subarray(0, 5).toString() !== "%PDF-") throw new Error("no es un PDF");
+JS
+  ( cd deploy/out && REACT_DIR="$PWD/../../$REACT_DIR" node .smoke-pdf.mjs ) >deploy/smoke-pdf.log 2>&1 \
+    || { tail -8 deploy/smoke-pdf.log >&2; rm -f deploy/out/.smoke-pdf.mjs; fail "Con este bundle no se generan PDFs: no se sube (deploy/smoke-pdf.log)."; }
+  rm -f deploy/out/.smoke-pdf.mjs
+  ok "PDF: el bundle genera PDFs"
+fi
+
 # sharp (next/image) es el único paquete con binarios por plataforma: si el bundle lleva los de
 # macOS, se cambian por los de linux-x64 del registro npm, en la misma estructura pnpm del standalone.
 SHARP_PKG=$(ls -d deploy/out/node_modules/.pnpm/sharp@*/ 2>/dev/null | head -1 || true)
