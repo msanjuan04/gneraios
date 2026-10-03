@@ -1,3 +1,5 @@
+// Ya aplicado en producción el 03/10/2026 (idempotente). Se guarda como constancia de qué se cambió y por qué.
+// Ejecutar solo desde la raíz, con deploy/.env.production presente y BACKUP=<fichero> para la copia previa.
 // UDB Sports: cobra el día 5 con la SL desde octubre. Terrazea: a la SL desde el 2/10. Idempotente.
 const { createRequire } = require("node:module");
 const req = createRequire("/Users/lago/GNERAI/01_PROYECTOS/03_WEB_Y_PRESENCIA/GNERAIOS/package.json");

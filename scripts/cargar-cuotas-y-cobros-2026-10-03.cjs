@@ -1,3 +1,5 @@
+// Ya aplicado en producción el 03/10/2026 (idempotente). Se guarda como constancia de qué se cambió y por qué.
+// Ejecutar solo desde la raíz, con deploy/.env.production presente y BACKUP=<fichero> para la copia previa.
 // Cuotas de autónomos (90/90/300), cobros anteriores de Sees y Nitid (sin IVA) y reparto a tres.
 const { createRequire } = require("node:module");
 const req = createRequire("/Users/lago/GNERAI/01_PROYECTOS/03_WEB_Y_PRESENCIA/GNERAIOS/package.json");
