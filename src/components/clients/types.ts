@@ -134,6 +134,10 @@ export type ClientDetailData = {
   billedNetCents: number;
   /** Fecha de la primera factura emitida ("YYYY-MM-DD"). */
   firstInvoiceOn: string | null;
+  /** Lo que paga de forma recurrente (mensualidades y anualidades vivas, sin IVA). */
+  recurrence: { monthlyCents: number; yearlyCents: number };
+  /** El próximo cobro previsto (haya factura o no): cuándo y cuánto, sin IVA. null si no hay ninguno. */
+  nextCharge: { date: string; cents: number } | null;
   lastActivityAt: string | null;
   contacts: ContactRow[];
   requests: ClientRequestRow[];

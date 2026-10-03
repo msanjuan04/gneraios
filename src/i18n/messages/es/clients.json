@@ -145,7 +145,22 @@
         "noActivity": "Nada registrado todavía",
         "ltvSince": "Base sin IVA, desde el {date}",
         "ltvSinceReceipts": "Cobrado sin factura, desde el {date}",
-        "ltvSinceMixed": "Facturado sin IVA y cobrado sin factura, desde el {date}"
+        "ltvSinceMixed": "Facturado sin IVA y cobrado sin factura, desde el {date}",
+        "recurrence": "Recurrencia",
+        "perMonth": "/mes",
+        "perYear": "/año",
+        "exVat": "Sin IVA",
+        "noRecurrence": "Sin mensualidad ni anualidad",
+        "nextCharge": "Próximo cobro",
+        "nextChargeHint": "{amount} sin IVA",
+        "noNextCharge": "Nada previsto"
+      },
+      "tabs": {
+        "label": "Secciones de la ficha",
+        "summary": "Resumen",
+        "billing": "Facturación",
+        "work": "Trabajo",
+        "activity": "Actividad"
       }
     },
     "summary": {

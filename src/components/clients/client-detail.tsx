@@ -12,8 +12,10 @@ import {
   Plus,
 } from "lucide-react";
 import Link from "next/link";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useFormatter, useLocale, useTranslations } from "next-intl";
 import { type ReactNode, useState, useTransition } from "react";
+import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { setClientArchived } from "@/app/[org]/clients/actions";
 import { clientFormDefaults } from "@/app/[org]/clients/schema";
@@ -64,6 +66,7 @@ export function ClientDetail({ data, mail }: { data: ClientDetailData; /** El co
   const format = useFormatter();
   const locale = useLocale();
   const { client, basePath, slug } = data;
+  const [tab, setTab] = useClientTab();
   const archived = client.archived_at !== null;
   const canEdit = data.isPartner && !archived;
   // LTV: lo facturado (base sin IVA) más lo cobrado sin factura, desde lo primero de los dos.
@@ -95,8 +98,6 @@ export function ClientDetail({ data, mail }: { data: ClientDetailData; /** El co
   const openDeals = data.deals.filter((d) => d.stageKind === "open");
   const newDealHref = `${basePath}/pipeline?new=1&client=${client.id}`;
   const money = (cents: number) => formatMoney(cents, { locale, wholeUnits: true });
-  const openOneOff = openDeals.reduce((sum, d) => sum + d.oneOffCents, 0);
-  const openMrr = openDeals.reduce((sum, d) => sum + d.mrrCents, 0);
 
   return (
     <div>
@@ -209,6 +210,25 @@ export function ClientDetail({ data, mail }: { data: ClientDetailData; /** El co
 
       <dl className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <Stat
+          label={t("stats.recurrence")}
+          value={
+            data.recurrence.monthlyCents === 0 && data.recurrence.yearlyCents === 0 ? (
+              "—"
+            ) : (
+              <span className="flex flex-col leading-tight">
+                {data.recurrence.monthlyCents > 0 && <span>{money(data.recurrence.monthlyCents)}<span className="ml-1 text-xs font-medium text-muted-foreground">{t("stats.perMonth")}</span></span>}
+                {data.recurrence.yearlyCents > 0 && <span>{money(data.recurrence.yearlyCents)}<span className="ml-1 text-xs font-medium text-muted-foreground">{t("stats.perYear")}</span></span>}
+              </span>
+            )
+          }
+          hint={data.recurrence.monthlyCents === 0 && data.recurrence.yearlyCents === 0 ? t("stats.noRecurrence") : t("stats.exVat")}
+        />
+        <Stat
+          label={t("stats.nextCharge")}
+          value={data.nextCharge ? format.dateTime(new Date(`${data.nextCharge.date}T12:00:00Z`), { day: "numeric", month: "short", timeZone: "UTC" }) : "—"}
+          hint={data.nextCharge ? t("stats.nextChargeHint", { amount: money(data.nextCharge.cents) }) : t("stats.noNextCharge")}
+        />
+        <Stat
           label={t("stats.ltv")}
           value={ltvCents !== 0 ? money(ltvCents) : "—"}
           hint={
@@ -217,29 +237,6 @@ export function ClientDetail({ data, mail }: { data: ClientDetailData; /** El co
                   date: format.dateTime(new Date(`${ltvFrom}T12:00:00Z`), { dateStyle: "medium", timeZone: "UTC" }),
                 })
               : t("stats.ltvHint")
-          }
-        />
-        <Stat
-          label={t("stats.since")}
-          value={
-            data.clientSince
-              ? format.dateTime(new Date(data.clientSince), { dateStyle: "medium", timeZone: data.timeZone })
-              : "—"
-          }
-          hint={data.clientSince ? format.relativeTime(new Date(data.clientSince), data.now) : t("stats.sinceNone")}
-        />
-        <Stat
-          label={t("stats.openDeals")}
-          value={String(openDeals.length)}
-          hint={
-            openDeals.length === 0
-              ? t("stats.noOpenDeals")
-              : [
-                  openOneOff > 0 ? money(openOneOff) : null,
-                  openMrr > 0 ? tCrm("amount.perMonth", { amount: money(openMrr) }) : null,
-                ]
-                  .filter(Boolean)
-                  .join(" · ") || t("stats.noAmount")
           }
         />
         <Stat
@@ -253,6 +250,25 @@ export function ClientDetail({ data, mail }: { data: ClientDetailData; /** El co
         />
       </dl>
 
+      {/* Pestañas: la ficha tiene mucho; así se ve primero lo que importa y el resto está a un clic. */}
+      <nav className="mt-6 flex w-fit max-w-full gap-1 overflow-x-auto rounded-full border bg-card/60 p-1 [scrollbar-width:none]" role="tablist" aria-label={t("tabs.label")}>
+        {CLIENT_TABS.map((key) => (
+          <button
+            key={key}
+            type="button"
+            role="tab"
+            aria-selected={tab === key}
+            onClick={() => setTab(key)}
+            className={cn(
+              "rounded-full px-4 py-1.5 text-sm font-semibold whitespace-nowrap transition-colors",
+              tab === key ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground",
+            )}
+          >
+            {t(`tabs.${key}`)}
+          </button>
+        ))}
+      </nav>
+
       {data.health.level !== "good" && (
         <div className="mt-6">
           <HealthPanel health={data.health} />
@@ -261,57 +277,76 @@ export function ClientDetail({ data, mail }: { data: ClientDetailData; /** El co
 
       <div className="mt-6 grid gap-6 lg:grid-cols-3">
         <div className="min-w-0 space-y-6 lg:col-span-2">
-          {mail}
-          <ClientContractsCard basePath={basePath} clientId={client.id} contracts={data.contracts} canEdit={canEdit} />
-          <ClientCollectionsCard
-            slug={slug}
-            basePath={basePath}
-            clientId={client.id}
-            clientName={client.display_name}
-            data={data.collections}
-            projects={data.projects.projects.filter((p) => !p.archived).map((p) => ({ id: p.id, name: p.name }))}
-            today={data.today}
-            // Un cliente archivado también puede pagar lo que debía: el cobro no depende de archivarlo.
-            canEdit={data.isPartner}
-          />
-          <ClientVendorsCard
-            basePath={basePath}
-            clientId={client.id}
-            data={data.vendors}
-            actions={canEdit ? <RecordExpenseButton slug={slug} clientId={client.id} /> : undefined}
-          />
-          <ClientInvoicesCard
-            basePath={basePath}
-            clientId={client.id}
-            data={data.invoices}
-            canEdit={canEdit}
-            extraActions={canEdit ? <InvoiceImportButton slug={slug} clientId={client.id} size="sm" /> : undefined}
-          />
-          <ClientRebillCard slug={slug} clientId={client.id} clientName={client.display_name} data={data.rebills} canEdit={canEdit} />
-          <ClientProjectsCard slug={slug} basePath={basePath} clientId={client.id} data={data.projects} canEdit={canEdit} />
-          <ClientRequestsPanel slug={slug} clientId={client.id} requests={data.requests} files={data.requestFiles} projects={data.projects.projects.filter((p) => !p.archived).map((p) => ({ id: p.id, name: p.name }))} canEdit={canEdit} />
-          <DealsCard basePath={basePath} clientId={client.id} deals={data.deals} canEdit={canEdit} />
-          <ActivityCard
-            slug={slug}
-            basePath={basePath}
-            clientId={client.id}
-            timeline={data.timeline}
-            truncated={data.timelineTruncated}
-            timeZone={data.timeZone}
-            now={data.now}
-            canEdit={canEdit}
-            onLogActivity={openActivity}
-          />
+          {tab === "summary" && (
+            <>
+              {mail}
+              <DealsCard basePath={basePath} clientId={client.id} deals={data.deals} canEdit={canEdit} />
+              <ClientContractsCard basePath={basePath} clientId={client.id} contracts={data.contracts} canEdit={canEdit} />
+            </>
+          )}
+          {tab === "billing" && (
+            <>
+              <ClientContractsCard basePath={basePath} clientId={client.id} contracts={data.contracts} canEdit={canEdit} />
+              <ClientCollectionsCard
+                slug={slug}
+                basePath={basePath}
+                clientId={client.id}
+                clientName={client.display_name}
+                data={data.collections}
+                projects={data.projects.projects.filter((p) => !p.archived).map((p) => ({ id: p.id, name: p.name }))}
+                today={data.today}
+                // Un cliente archivado también puede pagar lo que debía: el cobro no depende de archivarlo.
+                canEdit={data.isPartner}
+              />
+              <ClientInvoicesCard
+                basePath={basePath}
+                clientId={client.id}
+                data={data.invoices}
+                canEdit={canEdit}
+                extraActions={canEdit ? <InvoiceImportButton slug={slug} clientId={client.id} size="sm" /> : undefined}
+              />
+              <ClientVendorsCard
+                basePath={basePath}
+                clientId={client.id}
+                data={data.vendors}
+                actions={canEdit ? <RecordExpenseButton slug={slug} clientId={client.id} /> : undefined}
+              />
+              <ClientRebillCard slug={slug} clientId={client.id} clientName={client.display_name} data={data.rebills} canEdit={canEdit} />
+            </>
+          )}
+          {tab === "work" && (
+            <>
+              <ClientProjectsCard slug={slug} basePath={basePath} clientId={client.id} data={data.projects} canEdit={canEdit} />
+              <ClientRequestsPanel slug={slug} clientId={client.id} requests={data.requests} files={data.requestFiles} projects={data.projects.projects.filter((p) => !p.archived).map((p) => ({ id: p.id, name: p.name }))} canEdit={canEdit} />
+            </>
+          )}
+          {tab === "activity" && (
+            <ActivityCard
+              slug={slug}
+              basePath={basePath}
+              clientId={client.id}
+              timeline={data.timeline}
+              truncated={data.timelineTruncated}
+              timeZone={data.timeZone}
+              now={data.now}
+              canEdit={canEdit}
+              onLogActivity={openActivity}
+            />
+          )}
         </div>
         <div className="min-w-0 space-y-6">
           <SummaryCard data={data} />
           <ContactsCard slug={slug} clientId={client.id} contacts={data.contacts} canEdit={canEdit} />
-          <ClientPortalCard slug={slug} clientName={client.display_name} data={data.portal} canEdit={data.isPartner} />
-          <ClientMandateCard slug={slug} basePath={basePath} clientId={client.id} data={data.mandates} canEdit={canEdit} />
-          <ClientSeoCard summary={data.seo} basePath={basePath} clientId={client.id} canManage={data.isPartner} />
-          <ClientSitesCard basePath={basePath} clientId={client.id} data={data.sites} canEdit={canEdit} />
-          {data.isPartner && <ClientProfitabilityCard slug={slug} clientId={client.id} />}
-          {data.isPartner && <ClientReportCard slug={slug} clientId={client.id} timeZone={data.timeZone} />}
+          {tab === "billing" && <ClientMandateCard slug={slug} basePath={basePath} clientId={client.id} data={data.mandates} canEdit={canEdit} />}
+          {tab === "work" && (
+            <>
+              <ClientPortalCard slug={slug} clientName={client.display_name} data={data.portal} canEdit={data.isPartner} />
+              <ClientSeoCard summary={data.seo} basePath={basePath} clientId={client.id} canManage={data.isPartner} />
+              <ClientSitesCard basePath={basePath} clientId={client.id} data={data.sites} canEdit={canEdit} />
+              {data.isPartner && <ClientProfitabilityCard slug={slug} clientId={client.id} />}
+              {data.isPartner && <ClientReportCard slug={slug} clientId={client.id} timeZone={data.timeZone} />}
+            </>
+          )}
         </div>
       </div>
 
@@ -421,4 +456,23 @@ function SummaryCard({ data }: { data: ClientDetailData }) {
       </dl>
     </SettingsCard>
   );
+}
+
+const CLIENT_TABS = ["summary", "billing", "work", "activity"] as const;
+type ClientTab = (typeof CLIENT_TABS)[number];
+
+/** La pestaña vive en la URL (?tab=): se puede compartir el enlace y recargar sin perder el sitio. */
+function useClientTab(): [ClientTab, (tab: ClientTab) => void] {
+  const router = useRouter();
+  const pathname = usePathname();
+  const params = useSearchParams();
+  const raw = params.get("tab");
+  const tab = (CLIENT_TABS as readonly string[]).includes(raw ?? "") ? (raw as ClientTab) : "summary";
+  const set = (next: ClientTab) => {
+    const search = new URLSearchParams(params.toString());
+    if (next === "summary") search.delete("tab");
+    else search.set("tab", next);
+    router.replace(`${pathname}${search.size ? `?${search}` : ""}`, { scroll: false });
+  };
+  return [tab, set];
 }

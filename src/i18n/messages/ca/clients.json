@@ -145,7 +145,22 @@
         "noActivity": "Encara no hi ha res registrat",
         "ltvSince": "Base sense IVA, des del {date}",
         "ltvSinceReceipts": "Cobrat sense factura, des del {date}",
-        "ltvSinceMixed": "Facturat sense IVA i cobrat sense factura, des del {date}"
+        "ltvSinceMixed": "Facturat sense IVA i cobrat sense factura, des del {date}",
+        "recurrence": "Recurrència",
+        "perMonth": "/mes",
+        "perYear": "/any",
+        "exVat": "Sense IVA",
+        "noRecurrence": "Sense mensualitat ni anualitat",
+        "nextCharge": "Proper cobrament",
+        "nextChargeHint": "{amount} sense IVA",
+        "noNextCharge": "Res previst"
+      },
+      "tabs": {
+        "label": "Seccions de la fitxa",
+        "summary": "Resum",
+        "billing": "Facturació",
+        "work": "Feina",
+        "activity": "Activitat"
       }
     },
     "summary": {

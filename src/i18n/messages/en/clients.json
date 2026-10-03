@@ -145,7 +145,22 @@
         "noActivity": "Nothing logged yet",
         "ltvSince": "Before VAT, since {date}",
         "ltvSinceReceipts": "Collected without an invoice, since {date}",
-        "ltvSinceMixed": "Invoiced excl. VAT and collected without an invoice, since {date}"
+        "ltvSinceMixed": "Invoiced excl. VAT and collected without an invoice, since {date}",
+        "recurrence": "Recurring",
+        "perMonth": "/month",
+        "perYear": "/year",
+        "exVat": "Excl. VAT",
+        "noRecurrence": "No monthly or yearly fee",
+        "nextCharge": "Next payment",
+        "nextChargeHint": "{amount} excl. VAT",
+        "noNextCharge": "Nothing expected"
+      },
+      "tabs": {
+        "label": "File sections",
+        "summary": "Summary",
+        "billing": "Billing",
+        "work": "Work",
+        "activity": "Activity"
       }
     },
     "summary": {

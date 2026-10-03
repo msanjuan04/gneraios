@@ -15,7 +15,9 @@ import { idSchema } from "@/server/action-utils";
 import { loadClientsHealth } from "@/server/clients/health";
 import { getClientMandates } from "@/server/collections/mandates";
 import { getClientContracts } from "@/server/contracts/queries";
+import { recurrenceOf, type RecurringLine } from "@/domain/clients/recurrence";
 import { nowInZone } from "@/lib/clock";
+import { getUpcomingCharges } from "@/server/billing/forecast";
 import { getClientCollections } from "@/server/clients/collections";
 import { getClientRebills } from "@/server/finance/rebill";
 import { getClientInvoices } from "@/server/invoices/queries";
@@ -312,8 +314,38 @@ export default async function ClientPage({ params }: PageProps<"/[org]/clients/[
     ownerOptions.push({ id: owner.id, fullName: owner.fullName ?? owner.initials, initials: owner.initials });
   }
 
+  // Lo recurrente y lo próximo que entra: de las líneas de sus contratos y del calendario real del cron.
+  const todayCivil = nowInZone(timeZone).date;
+  const [contractLines, upcoming] = await Promise.all([
+    supabase
+      .from("contract_lines")
+      .select("billing_type, quantity, unit_price_cents, discount_bps, starts_on, ends_on, cancelled_on, contracts!inner(client_id, signed_on, archived_at)")
+      .eq("org_id", org.id)
+      .in("billing_type", ["monthly", "yearly"])
+      .eq("contracts.client_id", client.id)
+      .is("contracts.archived_at", null)
+      .not("contracts.signed_on", "is", null),
+    getUpcomingCharges(supabase, org.id, todayCivil, 12),
+  ]);
+  if (contractLines.error) throw contractLines.error;
+  const recurringLines: RecurringLine[] = (contractLines.data ?? []).map((row) => ({
+    billingType: row.billing_type,
+    quantity: Number(row.quantity),
+    unitPriceCents: Number(row.unit_price_cents),
+    discountBps: row.discount_bps,
+    startsOn: row.starts_on,
+    endsOn: row.ends_on,
+    cancelledOn: row.cancelled_on,
+  }));
+  // El primero de la lista (ya va por fecha) y todo lo que se cobra ese mismo día, sumado.
+  const mine = upcoming.filter((charge) => charge.clientId === client.id);
+  const nextDate = mine[0]?.date ?? null;
+  const nextCharge = nextDate ? { date: nextDate, cents: mine.filter((charge) => charge.date === nextDate).reduce((sum, charge) => sum + charge.cents, 0) } : null;
+
   const defaultPaymentTerms = readOrgSettings(org.settings).payment_terms_days;
   const data: ClientDetailData = {
+    recurrence: (({ monthlyCents, yearlyCents }) => ({ monthlyCents, yearlyCents }))(recurrenceOf(recurringLines, todayCivil)),
+    nextCharge,
     slug: org.slug,
     basePath: `/${org.slug}`,
     timeZone,
