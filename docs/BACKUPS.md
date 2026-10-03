@@ -138,3 +138,11 @@ Una copia que no se ha restaurado nunca no es una copia. Una vez por trimestre (
 | Hace falta un dato de hace años (inspección) | `db/yearly/` o `db/monthly/` restaurado en un proyecto aparte |
 
 Después de cualquier restauración en producción, comprobar el último número de cada serie antes de emitir: el contador nunca puede quedar por debajo de la última factura (la base de datos lo impide), pero sí por debajo de facturas que se hubieran emitido después de la copia.
+
+## Copia fuera del servidor (`deploy/traer-copias.sh`)
+
+La copia nocturna vive en `/var/backups/gneraios` del propio servidor: si el servidor se pierde, se
+pierde con ella. `bash deploy/traer-copias.sh` la trae al ordenador (`~/GNERAI_copias`, o lo que diga
+`GNERAI_COPIAS`) y hace además un `pg_dump` completo (esquemas public, private, auth y storage). Solo
+copia, no borra nada. Conviene programarla en el ordenador (crontab o launchd) y, de vez en cuando,
+comprobar que un `.dump` se restaura (`pg_restore --list`).

@@ -8,7 +8,7 @@
     "syncing": "Fetching…",
     "syncedCount": "{count, plural, one {# new message} other {# new messages}}",
     "syncedNothing": "Nothing new",
-    "searchPlaceholder": "Search by subject, sender or text…",
+    "searchPlaceholder": "Search mail",
     "searchAction": "Search",
     "filterAll": "All",
     "filterUnread": "Unread",
@@ -53,7 +53,8 @@
       "send": "Send",
       "sending": "Sending…",
       "sent": "Sent",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "sendShortcut": "⌘ + Enter to send"
     },
     "errors": {
       "alreadyConnected": "A mailbox is already connected.",

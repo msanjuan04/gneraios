@@ -22,8 +22,21 @@
       "chooseFile": "Vincula el document",
       "noFile": "Sense document",
       "fileHint": "Abans de marcar un lliurament com a enviat, vincula el fitxer o enllaç exacte a l'expedient del client. L'historial desa qui i quan ha canviat l'estat.",
-      "status": { "planned": "Planificat", "in_progress": "En curs", "review": "En revisió", "sent": "Enviat", "accepted": "Acceptat", "cancelled": "Cancel·lat" },
-      "actions": { "start": "Comença", "review": "Envia a revisió", "send": "Marca com a enviat", "accept": "Marca com a acceptat", "cancel": "Cancel·la el lliurament" }
+      "status": {
+        "planned": "Planificat",
+        "in_progress": "En curs",
+        "review": "En revisió",
+        "sent": "Enviat",
+        "accepted": "Acceptat",
+        "cancelled": "Cancel·lat"
+      },
+      "actions": {
+        "start": "Comença",
+        "review": "Envia a revisió",
+        "send": "Marca com a enviat",
+        "accept": "Marca com a acceptat",
+        "cancel": "Cancel·la el lliurament"
+      }
     },
     "title": "Projectes",
     "description": "El que s'està fent, quantes hores porta de debò i quant es guanya per hora. Objectiu: {target}.",
@@ -208,7 +221,8 @@
       "tabs": {
         "tasks": "Tasques",
         "time": "Hores",
-        "summary": "Resum"
+        "summary": "Resum",
+        "deliveries": "Lliurables"
       }
     },
     "kpi": {

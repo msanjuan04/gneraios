@@ -112,7 +112,7 @@ export async function UpcomingChargesCard({ charges: raw, basePath, today }: { c
     return keys.map((key) => (
       <li key={key}>
         <div className="flex items-baseline justify-between border-y bg-muted/30 px-5 py-1.5">
-          <p className="text-xs font-bold capitalize tracking-wide text-muted-foreground">{monthLabel(key)}</p>
+          <p className="text-xs font-bold tracking-wide first-letter:uppercase text-muted-foreground">{monthLabel(key)}</p>
           <p className="text-xs font-semibold tabular-nums text-muted-foreground">{t("monthTotal", { amount: money(sum(byMonth.get(key) ?? [])) })}</p>
         </div>
         <ul className="divide-y">{list.filter((charge) => charge.date.startsWith(key)).map(row)}</ul>

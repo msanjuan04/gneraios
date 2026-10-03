@@ -43,14 +43,20 @@ export async function FunnelBoard({
           return (
             <li
               key={stage.stageId}
-              className={cn("grid items-stretch gap-3", compact ? "grid-cols-[minmax(0,1fr)_6.5rem]" : "grid-cols-[minmax(0,1fr)_11rem] md:gap-6")}
+              className={cn(
+                "grid items-stretch gap-3",
+                compact ? "grid-cols-[minmax(0,1fr)_6.5rem]" : "grid-cols-[minmax(0,1fr)_7.5rem] sm:grid-cols-[minmax(0,1fr)_11rem] md:gap-6",
+              )}
             >
               {/* La caja: centrada y cada vez más estrecha. Las bolas caen y se apilan abajo. */}
               <div className="flex justify-center">
                 <div
-                  style={{ width: `${width}%` }}
+                  // En móvil las cajas ocupan todo el ancho (si se estrecharan, el nombre de la etapa se cortaría);
+                  // el estrechamiento de embudo se ve desde pantallas medianas.
+                  style={{ "--w": `${width}%` } as React.CSSProperties}
                   className={cn(
-                    "relative flex flex-col justify-between overflow-hidden rounded-2xl border px-4 pb-3 pt-2.5",
+                    "relative flex w-full flex-col justify-between overflow-hidden rounded-2xl border px-4 pb-3 pt-2.5",
+                    compact ? "w-[var(--w)]" : "sm:w-[var(--w)]",
                     compact ? "min-h-20" : "min-h-28",
                     won ? "border-success/40 bg-success/10" : "border-primary/25 bg-primary/[0.06]",
                   )}
@@ -76,7 +82,7 @@ export async function FunnelBoard({
 
               {/* Los números, siempre a la derecha y alineados entre etapas. */}
               <div className="flex flex-col justify-center text-right">
-                <p className={cn("font-extrabold tabular-nums leading-none heading-tight", compact ? "text-2xl" : "text-4xl")}>{stage.deals}</p>
+                <p className={cn("font-extrabold tabular-nums leading-none heading-tight", compact ? "text-2xl" : "text-3xl sm:text-4xl")}>{stage.deals}</p>
                 <p className={cn("mt-1.5 font-bold tabular-nums", compact ? "text-xs" : "text-base")}>
                   {stage.estimated && <span title={t("estimatedHint")}>≈ </span>}
                   {money(stage.oneOffCents)}

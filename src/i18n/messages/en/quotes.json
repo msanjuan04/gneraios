@@ -227,7 +227,19 @@
       "markSentHint": "Gives it its number without sending the email, in case you deliver it by hand or some other way.",
       "marking": "Marking…",
       "sentToast": "Quote {number} sent to {to}",
-      "markedToast": "Quote {number} marked as sent"
+      "markedToast": "Quote {number} marked as sent",
+      "manualTitle": "Sent through another channel",
+      "manualHint": "If you already passed it on by WhatsApp, LinkedIn or in person, note it here: the channel, who it went to and a copy of the PDF they saw are kept.",
+      "manualMethod": "Channel",
+      "chooseMethod": "Choose a channel…",
+      "methods": {
+        "email": "Email",
+        "whatsapp": "WhatsApp",
+        "linkedin": "LinkedIn",
+        "other": "Other"
+      },
+      "manualRecipient": "To whom",
+      "manualNote": "Note"
     },
     "activity": {
       "title": "Activity",
@@ -236,7 +248,14 @@
       "rejected": "Declined on {date}",
       "emails": "Emails sent",
       "noEmails": "It hasn't been sent by email yet.",
-      "downloadSentCopy": "Download sent copy"
+      "downloadSentCopy": "Download sent copy",
+      "manualSends": "Sends recorded by hand",
+      "methods": {
+        "email": "Email",
+        "whatsapp": "WhatsApp",
+        "linkedin": "LinkedIn",
+        "other": "Other channel"
+      }
     },
     "notFound": {
       "title": "This quote doesn't exist",

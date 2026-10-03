@@ -155,7 +155,8 @@ export async function syncMailAccount(account: MailAccount, opts: { folders?: Fo
               cc_addresses: cc.slice(0, 50),
               subject: (parsed.subject ?? "").slice(0, 998),
               body_text: bodyText,
-              body_html: typeof parsed.html === "string" ? parsed.html.slice(0, 2_000_000) : null,
+              // El HTML no se guarda: no se enseña ni se usa (pesaba ≈ 39 KB por mensaje); se lee el texto.
+              body_html: null,
               snippet: snippetOf(bodyText),
               sent_at: sentAt.toISOString(),
               seen: Array.isArray(message.flags) ? message.flags.includes("\\Seen") : Boolean(message.flags?.has?.("\\Seen")),

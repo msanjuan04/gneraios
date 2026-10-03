@@ -227,7 +227,19 @@
       "markSentHint": "Le da su número sin enviar el email, por si lo entregas en mano o por otra vía.",
       "marking": "Marcando…",
       "sentToast": "Presupuesto {number} enviado a {to}",
-      "markedToast": "Presupuesto {number} marcado como enviado"
+      "markedToast": "Presupuesto {number} marcado como enviado",
+      "manualTitle": "Enviado por otro canal",
+      "manualHint": "Si ya se lo has pasado por WhatsApp, LinkedIn o en persona, apúntalo aquí: queda guardado el canal, a quién y una copia del PDF que vio.",
+      "manualMethod": "Canal",
+      "chooseMethod": "Elige el canal…",
+      "methods": {
+        "email": "Correo",
+        "whatsapp": "WhatsApp",
+        "linkedin": "LinkedIn",
+        "other": "Otro"
+      },
+      "manualRecipient": "A quién",
+      "manualNote": "Nota"
     },
     "activity": {
       "title": "Actividad",
@@ -236,7 +248,14 @@
       "rejected": "Rechazado el {date}",
       "emails": "Envíos",
       "noEmails": "Aún no se ha enviado por email.",
-      "downloadSentCopy": "Descargar copia enviada"
+      "downloadSentCopy": "Descargar copia enviada",
+      "manualSends": "Envíos registrados a mano",
+      "methods": {
+        "email": "Correo",
+        "whatsapp": "WhatsApp",
+        "linkedin": "LinkedIn",
+        "other": "Otro canal"
+      }
     },
     "notFound": {
       "title": "Este presupuesto no existe",

@@ -8,7 +8,7 @@
     "syncing": "Portant…",
     "syncedCount": "{count, plural, one {# missatge nou} other {# missatges nous}}",
     "syncedNothing": "Res de nou",
-    "searchPlaceholder": "Cerca per assumpte, remitent o text…",
+    "searchPlaceholder": "Cerca al correu",
     "searchAction": "Cerca",
     "filterAll": "Tot",
     "filterUnread": "Sense llegir",
@@ -53,7 +53,8 @@
       "send": "Enviar",
       "sending": "Enviant…",
       "sent": "Enviat",
-      "cancel": "Cancel·lar"
+      "cancel": "Cancel·lar",
+      "sendShortcut": "⌘ + Enter per enviar"
     },
     "errors": {
       "alreadyConnected": "Ja hi ha una bústia connectada.",

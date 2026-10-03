@@ -3,7 +3,8 @@
     "tab": "Infrastructure",
     "partnersOnly": {
       "title": "Partners only",
-      "body": "Infrastructure shows what each website and each client really costs: only partners can see it."
+      "body": "Infrastructure shows what each website and each client really costs: only partners can see it.",
+      "tab": "Infrastructure"
     },
     "intro": "Servers, databases, domains and the websites' software: what they cost, when they renew and what each hosted website costs.",
     "toolbar": {

@@ -3,7 +3,8 @@
     "tab": "Profitability",
     "partnersOnly": {
       "title": "Partners only",
-      "body": "Profitability uses each person's internal hourly cost, which only partners can see."
+      "body": "Profitability uses each person's internal hourly cost, which only partners can see.",
+      "tab": "Profitability"
     },
     "toolbar": {
       "settings": "Thresholds",

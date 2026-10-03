@@ -3,7 +3,8 @@
     "tab": "Infraestructura",
     "partnersOnly": {
       "title": "Solo para socios",
-      "body": "La infraestructura enseña lo que cuesta de verdad cada web y cada cliente: solo la ven los socios."
+      "body": "La infraestructura enseña lo que cuesta de verdad cada web y cada cliente: solo la ven los socios.",
+      "tab": "Infraestructura"
     },
     "intro": "Servidores, bases de datos, dominios y el software de las webs: lo que cuestan, cuándo se renuevan y cuánto cuesta cada web alojada.",
     "toolbar": {

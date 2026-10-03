@@ -227,7 +227,19 @@
       "markSentHint": "Li dona el número sense enviar l'email, per si el lliures en mà o per una altra via.",
       "marking": "Marcant…",
       "sentToast": "Pressupost {number} enviat a {to}",
-      "markedToast": "Pressupost {number} marcat com a enviat"
+      "markedToast": "Pressupost {number} marcat com a enviat",
+      "manualTitle": "Enviat per un altre canal",
+      "manualHint": "Si ja li has passat per WhatsApp, LinkedIn o en persona, apunta-ho aquí: queda desat el canal, a qui i una còpia del PDF que va veure.",
+      "manualMethod": "Canal",
+      "chooseMethod": "Tria el canal…",
+      "methods": {
+        "email": "Correu",
+        "whatsapp": "WhatsApp",
+        "linkedin": "LinkedIn",
+        "other": "Un altre"
+      },
+      "manualRecipient": "A qui",
+      "manualNote": "Nota"
     },
     "activity": {
       "title": "Activitat",
@@ -236,7 +248,14 @@
       "rejected": "Rebutjat el {date}",
       "emails": "Enviaments",
       "noEmails": "Encara no s'ha enviat per email.",
-      "downloadSentCopy": "Baixa la còpia enviada"
+      "downloadSentCopy": "Baixa la còpia enviada",
+      "manualSends": "Enviaments registrats a mà",
+      "methods": {
+        "email": "Correu",
+        "whatsapp": "WhatsApp",
+        "linkedin": "LinkedIn",
+        "other": "Un altre canal"
+      }
     },
     "notFound": {
       "title": "Aquest pressupost no existeix",

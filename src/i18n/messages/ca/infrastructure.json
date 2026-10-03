@@ -3,7 +3,8 @@
     "tab": "Infraestructura",
     "partnersOnly": {
       "title": "Només per a socis",
-      "body": "La infraestructura ensenya el que costa de debò cada web i cada client: només la veuen els socis."
+      "body": "La infraestructura ensenya el que costa de debò cada web i cada client: només la veuen els socis.",
+      "tab": "Infraestructura"
     },
     "intro": "Servidors, bases de dades, dominis i el programari de les webs: el que costen, quan es renoven i quant costa cada web allotjada.",
     "toolbar": {

@@ -29,15 +29,15 @@ export async function LeadFolders({
   return (
     <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
       {leads.map((lead) => (
-        <li key={lead.dealId}>
+        <li key={lead.dealId} className="min-w-0">
           <Link
             href={`${basePath}/leads/${lead.clientId}`}
             className={cn(
-              "flex h-full flex-col gap-3 rounded-2xl border bg-card/60 p-4 transition-colors hover:border-primary/40 hover:bg-card",
+              "flex h-full min-w-0 flex-col gap-3 rounded-2xl border bg-card/60 p-4 transition-colors hover:border-primary/40 hover:bg-card",
               lead.awaitingOurReply && "border-amber-500/50",
             )}
           >
-            <div className="flex items-start gap-3">
+            <div className="flex min-w-0 items-start gap-3">
               {/* Las iniciales: la «carpeta» que se reconoce sin leer. */}
               <span
                 aria-hidden
@@ -49,10 +49,14 @@ export async function LeadFolders({
                 <p className="truncate font-bold">{lead.clientName}</p>
                 <p className="truncate text-sm text-muted-foreground">{lead.title}</p>
               </div>
-              {lead.temperature && <LeadTemperatureBadge value={lead.temperature} label={t(`temperature.${lead.temperature}`)} />}
+              {lead.temperature && (
+                <span className="shrink-0">
+                  <LeadTemperatureBadge value={lead.temperature} label={t(`temperature.${lead.temperature}`)} />
+                </span>
+              )}
             </div>
 
-            <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+            <div className="flex min-w-0 flex-wrap items-baseline gap-x-4 gap-y-1">
               <p className="text-lg font-bold tabular-nums" title={lead.estimated ? t("estimatedHint") : undefined}>
                 {lead.estimated && <span aria-label={t("estimated")}>≈ </span>}
                 {money(lead.estOneOffCents)}
@@ -60,7 +64,7 @@ export async function LeadFolders({
               {lead.estMrrCents > 0 && (
                 <p className="text-sm text-muted-foreground tabular-nums">{t("perMonth", { amount: money(lead.estMrrCents) })}</p>
               )}
-              <p className="ml-auto rounded-full bg-muted px-2 py-0.5 text-xs font-semibold text-muted-foreground">{lead.stageName}</p>
+              <p className="ml-auto max-w-full truncate rounded-full bg-muted px-2 py-0.5 text-xs font-semibold text-muted-foreground">{lead.stageName}</p>
             </div>
 
             {lead.awaitingOurReply ? (

@@ -22,8 +22,21 @@
       "chooseFile": "Vincula el documento",
       "noFile": "Sin documento",
       "fileHint": "Para marcar como enviada, vincula primero el archivo o enlace exacto en el expediente del cliente. El registro guarda quién y cuándo cambió el estado.",
-      "status": { "planned": "Planificada", "in_progress": "En curso", "review": "En revisión", "sent": "Enviada", "accepted": "Aceptada", "cancelled": "Cancelada" },
-      "actions": { "start": "Empezar", "review": "A revisión", "send": "Marcar enviada", "accept": "Marcar aceptada", "cancel": "Cancelar entrega" }
+      "status": {
+        "planned": "Planificada",
+        "in_progress": "En curso",
+        "review": "En revisión",
+        "sent": "Enviada",
+        "accepted": "Aceptada",
+        "cancelled": "Cancelada"
+      },
+      "actions": {
+        "start": "Empezar",
+        "review": "A revisión",
+        "send": "Marcar enviada",
+        "accept": "Marcar aceptada",
+        "cancel": "Cancelar entrega"
+      }
     },
     "title": "Proyectos",
     "description": "Lo que se está haciendo, cuántas horas lleva de verdad y cuánto se gana por hora. Objetivo: {target}.",
@@ -208,7 +221,8 @@
       "tabs": {
         "tasks": "Tareas",
         "time": "Horas",
-        "summary": "Resumen"
+        "summary": "Resumen",
+        "deliveries": "Entregables"
       }
     },
     "kpi": {

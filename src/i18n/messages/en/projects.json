@@ -22,8 +22,21 @@
       "chooseFile": "Link the document",
       "noFile": "No document",
       "fileHint": "Before marking a deliverable as sent, link the exact file or URL from the client record. The status history records who changed it and when.",
-      "status": { "planned": "Planned", "in_progress": "In progress", "review": "In review", "sent": "Sent", "accepted": "Accepted", "cancelled": "Cancelled" },
-      "actions": { "start": "Start", "review": "Send to review", "send": "Mark sent", "accept": "Mark accepted", "cancel": "Cancel deliverable" }
+      "status": {
+        "planned": "Planned",
+        "in_progress": "In progress",
+        "review": "In review",
+        "sent": "Sent",
+        "accepted": "Accepted",
+        "cancelled": "Cancelled"
+      },
+      "actions": {
+        "start": "Start",
+        "review": "Send to review",
+        "send": "Mark sent",
+        "accept": "Mark accepted",
+        "cancel": "Cancel deliverable"
+      }
     },
     "title": "Projects",
     "description": "What's being worked on, how many hours it's really taking and how much is earned per hour. Target: {target}.",
@@ -208,7 +221,8 @@
       "tabs": {
         "tasks": "Tasks",
         "time": "Hours",
-        "summary": "Summary"
+        "summary": "Summary",
+        "deliveries": "Deliverables"
       }
     },
     "kpi": {

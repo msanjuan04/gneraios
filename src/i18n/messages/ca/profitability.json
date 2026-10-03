@@ -3,7 +3,8 @@
     "tab": "Rendibilitat",
     "partnersOnly": {
       "title": "Només per a socis",
-      "body": "La rendibilitat fa servir el cost intern per hora de cada persona, que només veuen els socis."
+      "body": "La rendibilitat fa servir el cost intern per hora de cada persona, que només veuen els socis.",
+      "tab": "Rendibilitat"
     },
     "toolbar": {
       "settings": "Llindars",

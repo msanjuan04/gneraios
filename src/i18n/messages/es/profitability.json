@@ -3,7 +3,8 @@
     "tab": "Rentabilidad",
     "partnersOnly": {
       "title": "Solo para socios",
-      "body": "La rentabilidad usa el coste interno por hora de cada persona, que solo ven los socios."
+      "body": "La rentabilidad usa el coste interno por hora de cada persona, que solo ven los socios.",
+      "tab": "Rentabilidad"
     },
     "toolbar": {
       "settings": "Umbrales",
