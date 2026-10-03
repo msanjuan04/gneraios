@@ -93,7 +93,7 @@ con la plantilla que mejor encaja y el resumen de lo que piden, y genera dos for
 4. Revisión obligatoria: el borrador **no se envía solo**. Sale en «Borrador», se revisa y se envía con el flujo
    de envío que ya guarda la evidencia (copia del PDF, canal y destinatario).
 
-**Decisión cerrada:** la landing pública es `/p/q/<token>` (ver Decisiones abajo). El PDF lleva la estética Nadia.
+**Landing:** hoy se usa la que ya existe (`/p/q/<token>`, con aceptación online), que NO tiene la estética oscura de la propuesta de Nadia. Si se quiere esa estética también en la landing, es trabajo nuevo (ver Decisiones, punto A).
 
 **Hecho cuando:** desde un lead de prueba salen un PDF de propuesta (ruta `/api/quotes/<id>/proposal`) y el enlace
 público del presupuesto (`/p/q/<token>`), con revisión obligatoria antes de enviar.
@@ -119,13 +119,16 @@ público del presupuesto (`/p/q/<token>`), con revisión obligatoria antes de en
 Total: unas 2 horas de trabajo mío, subiendo en dos entregas (fases 1–3, y fase 4) para que lo primero ya
 funcione mientras hago lo segundo.
 
-## Decisiones (cerradas 03/10/2026)
+## Decisiones (03/10/2026)
 
-- **A. Landing:** en la propia app, con el enlace secreto que ya existe (`/p/q/<token>`). Caduca, no se adivina y
-  permite aceptar online. Si se manda además una landing externa (cliente.gnerai.com), se guarda en
-  `quotes.landing_url` como hasta ahora. No se hace una segunda página visual «tipo Nadia»: esa estética va en el PDF.
-- **B. Borradores de respuesta:** plantillas fijas por tipo de correo (sin IA).
-- **C. Filtro de basura:** estricto (ya aplicado en fases 1–3).
+- **A. Landing: PENDIENTE de confirmar.** Se delegó la elección («lo que consideres») y se eligió provisionalmente
+  el enlace que ya existe (`/p/q/<token>`): caduca, no se adivina y permite aceptar online. Pero el usuario pidió
+  «una landing con la estética de Nadia», y esa página tiene el aspecto de la app, no el de la propuesta oscura.
+  Opciones: dejarla así, o restilarla con la portada oscura y el alcance numerado (~45–60 min). Hasta que lo
+  decida, no se da por cerrada. Si además se manda una landing externa (cliente.gnerai.com), se guarda en
+  `quotes.landing_url` como hasta ahora.
+- **B. Borradores de respuesta:** plantillas fijas por tipo de correo (sin IA). Delegado al criterio del asistente.
+- **C. Filtro de basura:** estricto (ya aplicado en fases 1–3). Delegado al criterio del asistente.
 
 ## Lo que no se hará (por seguridad)
 
