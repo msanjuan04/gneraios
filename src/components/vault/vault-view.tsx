@@ -1,10 +1,10 @@
 "use client";
 
-import { Check, Copy, Eye, EyeOff, KeyRound, Lock, LockOpen, Plus, RefreshCw, Search, ShieldCheck, Trash2, UserPlus } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { Check, Copy, Eye, EyeOff, KeyRound, Lock, LockOpen, Plus, RefreshCw, Search, Trash2 } from "lucide-react";
+import { useFormatter, useTranslations } from "next-intl";
 import { type ReactNode, useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
-import { archiveVaultItem, grantVaultAccess, registerVaultKeys, revokeVaultAccess, saveVaultItem } from "@/app/[org]/passwords/actions";
+import { archiveVaultItem, createVault, rotateVaultPassword, saveVaultItem } from "@/app/[org]/passwords/actions";
 import { InlineConfirm } from "@/components/invoices/inline-confirm";
 import { FormField } from "@/components/settings/form-field";
 import { SettingsCard } from "@/components/settings/settings-card";
@@ -14,24 +14,21 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  createMemberKeys,
-  createVaultKey,
+  createVaultSettings,
   decryptWithKey,
   EMPTY_SECRET,
   encryptWithKey,
   generatePassword,
   matchesQuery,
+  openVault,
   passwordStrength,
   readVaultSecret,
-  unlockPrivateKey,
-  unwrapVaultKey,
   type VaultEntry,
   type VaultSecret,
   VaultCryptoError,
-  wrapVaultKey,
 } from "@/domain/vault";
 import { cn } from "@/lib/utils";
-import type { VaultMemberKey, VaultRow, VaultState } from "@/server/vault/queries";
+import type { VaultRow, VaultState } from "@/server/vault/queries";
 
 /** Minutos de inactividad tras los que la bóveda se cierra sola. */
 const AUTO_LOCK_MINUTES = 15;
@@ -42,14 +39,13 @@ type Props = {
   state: VaultState;
   rows: VaultRow[];
   clients: { id: string; name: string }[];
-  canManageAccess: boolean;
 };
 
 /**
  * Contraseñas del equipo. Todo se cifra y descifra aquí, en el navegador: la contraseña maestra no
  * sale nunca y el servidor solo guarda texto cifrado.
  */
-export function VaultView({ slug, state, rows, clients, canManageAccess }: Props) {
+export function VaultView({ slug, state, rows, clients }: Props) {
   const t = useTranslations("passwords");
   const [vaultKey, setVaultKey] = useState<CryptoKey | null>(null);
   const [entries, setEntries] = useState<VaultEntry[]>([]);
@@ -101,9 +97,8 @@ export function VaultView({ slug, state, rows, clients, canManageAccess }: Props
   const visible = useMemo(() => entries.filter((entry) => matchesQuery(entry.secret, query)), [entries, query]);
   const clientName = (id: string | null) => (id ? (clients.find((c) => c.id === id)?.name ?? "") : t("ours"));
 
-  if (!state.myKeys) return <CreateMasterPassword slug={slug} first={!state.exists} />;
-  if (!state.myWrappedKey) return <AwaitingAccess members={state.members} />;
-  if (!vaultKey) return <Unlock keys={state.myKeys} wrappedKey={state.myWrappedKey} onOpen={openWith} />;
+  if (!state.settings) return <CreateTeamPassword slug={slug} />;
+  if (!vaultKey) return <Unlock settings={state.settings} onOpen={openWith} />;
 
   return (
     <div className="space-y-5">
@@ -134,7 +129,7 @@ export function VaultView({ slug, state, rows, clients, canManageAccess }: Props
         </ul>
       )}
 
-      {canManageAccess && <AccessPanel slug={slug} members={state.members} vaultKey={vaultKey} />}
+      <ChangePasswordPanel slug={slug} entries={entries} rotated={state.rotated} onChanged={setVaultKey} />
 
       {editing && (
         <SecretSheet
@@ -199,77 +194,79 @@ function ConfirmButton({
 
 // --- primera vez ---------------------------------------------------------------------------------
 
-function CreateMasterPassword({ slug, first }: { slug: string; first: boolean }) {
+/** Campo de contraseña con el medidor y la repetición: igual al crearla que al cambiarla. */
+function PasswordPair({
+  idPrefix,
+  label,
+  hint,
+  password,
+  repeat,
+  onPassword,
+  onRepeat,
+}: {
+  idPrefix: string;
+  label: string;
+  hint?: string;
+  password: string;
+  repeat: string;
+  onPassword: (value: string) => void;
+  onRepeat: (value: string) => void;
+}) {
+  const t = useTranslations("passwords.setup");
+  return (
+    <>
+      <FormField id={idPrefix} label={label} description={hint}>
+        <Input id={idPrefix} type="password" autoComplete="new-password" value={password} onChange={(e) => onPassword(e.target.value)} />
+      </FormField>
+      <StrengthBar score={passwordStrength(password)} />
+      <FormField id={`${idPrefix}-repeat`} label={t("repeat")} error={repeat.length > 0 && repeat !== password ? t("mismatch") : undefined}>
+        <Input id={`${idPrefix}-repeat`} type="password" autoComplete="new-password" value={repeat} onChange={(e) => onRepeat(e.target.value)} />
+      </FormField>
+    </>
+  );
+}
+
+/** La bóveda aún no existe: el primero que entra elige la contraseña que usará todo el equipo. */
+function CreateTeamPassword({ slug }: { slug: string }) {
   const t = useTranslations("passwords.setup");
   const tCommon = useTranslations("common");
   const [password, setPassword] = useState("");
   const [repeat, setRepeat] = useState("");
   const [pending, startTransition] = useTransition();
-  const strength = passwordStrength(password);
-  const tooShort = password.length > 0 && password.length < 12;
-  const mismatch = repeat.length > 0 && repeat !== password;
+  const ready = password.length >= 12 && password === repeat;
 
-  const submit = () => {
+  const submit = (event: React.FormEvent) => {
+    event.preventDefault();
     startTransition(async () => {
-      const keys = await createMemberKeys(password);
-      // El primero crea la bóveda y se queda con la llave; los demás esperan a que se la den.
-      const wrapped = first ? await wrapVaultKey(await createVaultKey(), keys.publicKey) : undefined;
-      const result = await registerVaultKeys(slug, {
-        public_key: keys.publicKey,
-        private_key_ciphertext: keys.privateKeyCiphertext,
-        kdf_salt: keys.kdfSalt,
-        kdf_iterations: keys.kdfIterations,
-        wrapped_key: wrapped,
+      const { settings } = await createVaultSettings(password);
+      const result = await createVault(slug, {
+        kdf_salt: settings.kdfSalt,
+        kdf_iterations: settings.kdfIterations,
+        verifier: settings.verifier,
       });
       if (!result.ok) toast.error(result.error);
-      else toast.success(first ? t("createdVault") : t("createdKeys"));
+      else toast.success(t("created"));
     });
   };
 
   return (
-    <SettingsCard title={t("title")} description={first ? t("descriptionFirst") : t("descriptionJoin")}>
-      <div className="grid max-w-md gap-4">
-        <FormField id="master" label={t("master")} description={t("masterHint")}>
-          <Input id="master" type="password" autoComplete="new-password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        </FormField>
-        <StrengthBar score={strength} />
-        <FormField id="master-repeat" label={t("repeat")} error={mismatch ? t("mismatch") : undefined}>
-          <Input id="master-repeat" type="password" autoComplete="new-password" value={repeat} onChange={(e) => setRepeat(e.target.value)} />
-        </FormField>
+    <SettingsCard title={t("title")} description={t("description")}>
+      <form onSubmit={submit} className="grid max-w-md gap-4">
+        <PasswordPair idPrefix="team-password" label={t("password")} hint={t("passwordHint")} password={password} repeat={repeat} onPassword={setPassword} onRepeat={setRepeat} />
         <p className="rounded-xl border border-warning/30 bg-warning/5 p-3 text-xs">{t("warning")}</p>
         <div>
-          <Button onClick={submit} disabled={pending || tooShort || password.length < 12 || password !== repeat}>
+          <Button type="submit" disabled={pending || !ready}>
             {pending ? tCommon("saving") : t("submit")}
           </Button>
         </div>
-      </div>
-    </SettingsCard>
-  );
-}
-
-function AwaitingAccess({ members }: { members: VaultMemberKey[] }) {
-  const t = useTranslations("passwords.waiting");
-  const holders = members.filter((member) => member.hasAccess);
-  return (
-    <SettingsCard title={t("title")} description={t("description")}>
-      <p className="text-sm text-muted-foreground">
-        {holders.length > 0 ? t("askThem", { names: holders.map((h) => h.fullName).join(", ") }) : t("noHolders")}
-      </p>
+      </form>
     </SettingsCard>
   );
 }
 
 // --- desbloqueo ----------------------------------------------------------------------------------
 
-function Unlock({
-  keys,
-  wrappedKey,
-  onOpen,
-}: {
-  keys: NonNullable<VaultState["myKeys"]>;
-  wrappedKey: string;
-  onOpen: (key: CryptoKey) => Promise<void>;
-}) {
+function Unlock({ settings, onOpen }: { settings: NonNullable<VaultState["settings"]>; onOpen: (key: CryptoKey) => Promise<void> }) {
   const t = useTranslations("passwords.unlock");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -280,8 +277,7 @@ function Unlock({
     setError(null);
     startTransition(async () => {
       try {
-        const privateKey = await unlockPrivateKey(password, keys);
-        await onOpen(await unwrapVaultKey(privateKey, wrappedKey));
+        await onOpen(await openVault(password, settings));
         setPassword("");
       } catch (err) {
         setError(err instanceof VaultCryptoError && err.code === "wrong_password" ? t("wrong") : t("failed"));
@@ -292,7 +288,7 @@ function Unlock({
   return (
     <SettingsCard title={t("title")} description={t("description")}>
       <form onSubmit={submit} className="grid max-w-md gap-4">
-        <FormField id="unlock" label={t("master")} error={error ?? undefined}>
+        <FormField id="unlock" label={t("password")} error={error ?? undefined}>
           <Input id="unlock" type="password" autoComplete="current-password" autoFocus value={password} onChange={(e) => setPassword(e.target.value)} />
         </FormField>
         <div>
@@ -500,66 +496,88 @@ function SecretSheet({
   );
 }
 
-// --- quién tiene acceso -----------------------------------------------------------------------------
+// --- cambiar la contraseña del equipo ---------------------------------------------------------------
 
-function AccessPanel({ slug, members, vaultKey }: { slug: string; members: VaultMemberKey[]; vaultKey: CryptoKey }) {
-  const t = useTranslations("passwords.access");
+/**
+ * Cambiar la contraseña: se vuelven a cifrar aquí todos los secretos con la nueva (es el único sitio
+ * donde están en claro) y se guardan con los parámetros nuevos. Hay que hacerlo cuando alguien deja
+ * el equipo: lo que ya vio no se puede borrar de su cabeza, pero deja de poder entrar.
+ */
+function ChangePasswordPanel({
+  slug,
+  entries,
+  rotated,
+  onChanged,
+}: {
+  slug: string;
+  entries: VaultEntry[];
+  rotated: VaultState["rotated"];
+  onChanged: (key: CryptoKey) => void;
+}) {
+  const t = useTranslations("passwords.change");
+  const tCommon = useTranslations("common");
+  const format = useFormatter();
+  const [open, setOpen] = useState(false);
+  const [password, setPassword] = useState("");
+  const [repeat, setRepeat] = useState("");
   const [pending, startTransition] = useTransition();
+  const ready = password.length >= 12 && password === repeat;
+
+  const submit = (event: React.FormEvent) => {
+    event.preventDefault();
+    startTransition(async () => {
+      const { settings, key } = await createVaultSettings(password);
+      // Todo lo guardado, vuelto a cifrar con la contraseña nueva antes de tocar nada.
+      const items = await Promise.all(
+        entries.map(async (entry) => ({ id: entry.id, ciphertext: await encryptWithKey(key, JSON.stringify(entry.secret)) })),
+      );
+      const result = await rotateVaultPassword(
+        slug,
+        { kdf_salt: settings.kdfSalt, kdf_iterations: settings.kdfIterations, verifier: settings.verifier },
+        items,
+      );
+      if (!result.ok) {
+        toast.error(result.error);
+        return;
+      }
+      onChanged(key);
+      setPassword("");
+      setRepeat("");
+      setOpen(false);
+      toast.success(t("changed"));
+    });
+  };
 
   return (
-    <SettingsCard title={t("title")} description={t("description")}>
-      <ul className="divide-y">
-        {members.map((member) => (
-          <li key={member.memberId} className="flex flex-wrap items-center justify-between gap-3 py-3 first:pt-0 last:pb-0">
-            <span className="flex items-center gap-2 text-sm">
-              <span className="flex size-7 items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ backgroundColor: member.color ?? "var(--primary)" }}>
-                {member.initials}
-              </span>
-              {member.fullName}
-              {member.hasAccess && <ShieldCheck className="size-4 text-success" aria-label={t("hasAccess")} />}
-            </span>
-            {member.hasAccess ? (
-              member.isMe ? (
-                <span className="text-xs text-muted-foreground">{t("you")}</span>
-              ) : (
-                <ConfirmButton
-                  label={t("revoke")}
-                  description={t("revokeConfirm")}
-                  tone="destructive"
-                  pending={pending}
-                  onConfirm={() =>
-                    startTransition(async () => {
-                      const result = await revokeVaultAccess(slug, member.memberId);
-                      if (!result.ok) toast.error(result.error);
-                      else toast.success(t("revoked"));
-                    })
-                  }
-                />
-              )
-            ) : (
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                disabled={pending}
-                onClick={() =>
-                  startTransition(async () => {
-                    // El sobre se prepara aquí: la clave de la bóveda no sale del navegador.
-                    const wrapped = await wrapVaultKey(vaultKey, member.publicKey);
-                    const result = await grantVaultAccess(slug, member.memberId, wrapped);
-                    if (!result.ok) toast.error(result.error);
-                    else toast.success(t("granted", { name: member.fullName }));
-                  })
-                }
-              >
-                <UserPlus data-icon="inline-start" />
-                {t("grant")}
-              </Button>
-            )}
-          </li>
-        ))}
-      </ul>
-      <p className="mt-4 text-xs text-muted-foreground">{t("note")}</p>
+    <SettingsCard
+      title={t("title")}
+      description={t("description")}
+      actions={
+        !open ? (
+          <Button variant="outline" size="sm" onClick={() => setOpen(true)}>
+            <KeyRound data-icon="inline-start" />
+            {t("action")}
+          </Button>
+        ) : undefined
+      }
+    >
+      {open ? (
+        <form onSubmit={submit} className="grid max-w-md gap-4">
+          <PasswordPair idPrefix="new-team-password" label={t("newPassword")} hint={t("newPasswordHint", { count: entries.length })} password={password} repeat={repeat} onPassword={setPassword} onRepeat={setRepeat} />
+          <div className="flex justify-end gap-2">
+            <Button type="button" variant="ghost" onClick={() => setOpen(false)} disabled={pending}>
+              {tCommon("cancel")}
+            </Button>
+            <Button type="submit" disabled={pending || !ready}>
+              {pending ? t("changing") : t("action")}
+            </Button>
+          </div>
+        </form>
+      ) : (
+        <p className="text-sm text-muted-foreground">
+          {rotated ? t("lastChange", { date: format.dateTime(new Date(rotated.at), { dateStyle: "long" }), who: rotated.by ?? t("someone") }) : t("never")}
+        </p>
+      )}
     </SettingsCard>
   );
 }

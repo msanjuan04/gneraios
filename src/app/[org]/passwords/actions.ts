@@ -9,15 +9,10 @@ import { dbFailure, failure, forbidden, idSchema, invalidInput, partnerContext }
 // Acciones de la bóveda. Aquí solo entran y salen textos ya cifrados en el navegador: ninguna de
 // estas funciones puede leer una contraseña, ni queriendo.
 
-const base64 = (max: number) => z.string().trim().min(16).max(max).regex(/^[A-Za-z0-9+/=.]+$/, "invalid");
-
-const registerKeysSchema = z.object({
-  public_key: base64(2000),
-  private_key_ciphertext: base64(8000),
-  kdf_salt: base64(128),
+const settingsSchema = z.object({
+  kdf_salt: z.string().trim().min(16).max(128),
   kdf_iterations: z.number().int().min(100_000).max(10_000_000),
-  /** Al crear la bóveda, el primer socio se da acceso a sí mismo en el mismo paso. */
-  wrapped_key: base64(2000).optional(),
+  verifier: z.string().trim().min(20).max(500),
 });
 
 const itemSchema = z.object({
@@ -25,62 +20,61 @@ const itemSchema = z.object({
   client_id: z.union([z.literal(""), z.guid()]).default(""),
 });
 
+/** Los secretos vueltos a cifrar con la contraseña nueva, al cambiarla. */
+const reEncryptedSchema = z.array(z.object({ id: z.guid(), ciphertext: z.string().trim().min(20).max(100_000) })).max(2000);
+
 const path = (slug: string) => `/${slug}/passwords`;
 
-/** Guarda el par de claves del miembro (la privada ya cifrada con su contraseña maestra). */
-export async function registerVaultKeys(slug: string, input: unknown): Promise<ActionResult> {
+/** Crea la bóveda del equipo con la contraseña que acaban de elegir. Solo si no existe ya. */
+export async function createVault(slug: string, input: unknown): Promise<ActionResult> {
   const ctx = await partnerContext(slug);
   if (!ctx) return forbidden();
-  const parsed = registerKeysSchema.safeParse(input);
+  const parsed = settingsSchema.safeParse(input);
   if (!parsed.success) return invalidInput();
-  const v = parsed.data;
   const db = await createClient();
-  const { error } = await db.from("vault_keys").upsert(
-    {
-      org_id: ctx.org.id,
-      member_id: ctx.member.id,
-      public_key: v.public_key,
-      private_key_ciphertext: v.private_key_ciphertext,
-      kdf_salt: v.kdf_salt,
-      kdf_iterations: v.kdf_iterations,
-    },
-    { onConflict: "org_id,member_id" },
-  );
-  if (error) return dbFailure(error, "vault.registerKeys");
-
-  if (v.wrapped_key) {
-    // Solo cuela si la bóveda aún no existe: la RLS no deja dársela a uno mismo si ya hay sobres.
-    const { error: grantError } = await db
-      .from("vault_grants")
-      .insert({ org_id: ctx.org.id, member_id: ctx.member.id, wrapped_key: v.wrapped_key, granted_by: ctx.member.id });
-    if (grantError) return dbFailure(grantError, "vault.createVault", (e) => (e.code === "42501" ? "passwords.errors.alreadyExists" : undefined));
+  const { error } = await db.from("vault_settings").insert({
+    org_id: ctx.org.id,
+    kdf_salt: parsed.data.kdf_salt,
+    kdf_iterations: parsed.data.kdf_iterations,
+    verifier: parsed.data.verifier,
+    rotated_by: ctx.member.id,
+  });
+  if (error) {
+    if (error.code === "23505") return failure("passwords.errors.alreadyExists");
+    return dbFailure(error, "vault.create");
   }
   revalidatePath(path(ctx.org.slug));
   return { ok: true };
 }
 
-/** Da acceso a otro socio: su sobre lo prepara en el navegador quien ya tiene la clave. */
-export async function grantVaultAccess(slug: string, memberId: string, wrappedKey: string): Promise<ActionResult> {
+/**
+ * Cambia la contraseña del equipo: llegan los parámetros nuevos y todos los secretos ya vueltos a
+ * cifrar con ella (lo hace el navegador de quien la cambia, el único sitio donde están en claro).
+ * Si algo falla a medias, no se toca nada: primero se guardan los secretos y luego la contraseña.
+ */
+export async function rotateVaultPassword(slug: string, input: unknown, items: unknown): Promise<ActionResult> {
   const ctx = await partnerContext(slug);
   if (!ctx) return forbidden();
-  if (!idSchema.safeParse(memberId).success || !base64(2000).safeParse(wrappedKey).success) return invalidInput();
+  const parsed = settingsSchema.safeParse(input);
+  const reEncrypted = reEncryptedSchema.safeParse(items);
+  if (!parsed.success || !reEncrypted.success) return invalidInput();
   const db = await createClient();
-  const { error } = await db
-    .from("vault_grants")
-    .upsert({ org_id: ctx.org.id, member_id: memberId, wrapped_key: wrappedKey, granted_by: ctx.member.id }, { onConflict: "org_id,member_id" });
-  if (error) return dbFailure(error, "vault.grant");
-  revalidatePath(path(ctx.org.slug));
-  return { ok: true };
-}
 
-/** Quita el acceso a alguien. Lo que ya vio, visto está: hay que cambiar esas contraseñas. */
-export async function revokeVaultAccess(slug: string, memberId: string): Promise<ActionResult> {
-  const ctx = await partnerContext(slug);
-  if (!ctx) return forbidden();
-  if (!idSchema.safeParse(memberId).success) return invalidInput();
-  const db = await createClient();
-  const { error } = await db.from("vault_grants").delete().eq("org_id", ctx.org.id).eq("member_id", memberId);
-  if (error) return dbFailure(error, "vault.revoke");
+  for (const item of reEncrypted.data) {
+    const { error } = await db.from("vault_items").update({ ciphertext: item.ciphertext }).eq("org_id", ctx.org.id).eq("id", item.id);
+    if (error) return dbFailure(error, "vault.rotate.item");
+  }
+  const { error } = await db
+    .from("vault_settings")
+    .update({
+      kdf_salt: parsed.data.kdf_salt,
+      kdf_iterations: parsed.data.kdf_iterations,
+      verifier: parsed.data.verifier,
+      rotated_at: new Date().toISOString(),
+      rotated_by: ctx.member.id,
+    })
+    .eq("org_id", ctx.org.id);
+  if (error) return dbFailure(error, "vault.rotate");
   revalidatePath(path(ctx.org.slug));
   return { ok: true };
 }

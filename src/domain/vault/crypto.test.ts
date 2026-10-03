@@ -1,54 +1,47 @@
 import { describe, expect, it } from "vitest";
 import {
-  createMemberKeys,
-  createVaultKey,
+  createVaultSettings,
   decryptWithKey,
   encryptWithKey,
   generatePassword,
+  openVault,
   passwordStrength,
-  unlockPrivateKey,
-  unwrapVaultKey,
-  VaultCryptoError,
-  wrapVaultKey,
 } from "./crypto";
 
 // Vitest corre sobre Node, que trae el mismo WebCrypto que el navegador.
 
-describe("bóveda: contraseña maestra y par de claves", () => {
-  it("la clave privada solo se abre con la contraseña maestra correcta", async () => {
-    const keys = await createMemberKeys("un secreto muy largo 2026");
-    await expect(unlockPrivateKey("un secreto muy largo 2026", keys)).resolves.toBeDefined();
-    await expect(unlockPrivateKey("otra cosa", keys)).rejects.toMatchObject({ code: "wrong_password" });
+describe("la contraseña del equipo", () => {
+  it("abre la bóveda con la contraseña buena y la rechaza con cualquier otra", async () => {
+    const { settings, key } = await createVaultSettings("la del equipo 2026");
+    const sealed = await encryptWithKey(key, "la contraseña del banco");
+
+    const otra = await openVault("la del equipo 2026", settings);
+    expect(await decryptWithKey(otra, sealed)).toBe("la contraseña del banco");
+
+    await expect(openVault("no es esta", settings)).rejects.toMatchObject({ code: "wrong_password" });
+    // Con la sal de otra bóveda tampoco: la clave sale de la contraseña Y de la sal.
+    const otraBoveda = await createVaultSettings("la del equipo 2026");
+    await expect(openVault("la del equipo 2026", { ...settings, kdfSalt: otraBoveda.settings.kdfSalt })).rejects.toMatchObject({ code: "wrong_password" });
   });
 
-  it("dos miembros con la misma contraseña maestra tienen claves distintas (la sal es de cada uno)", async () => {
-    const a = await createMemberKeys("igual");
-    const b = await createMemberKeys("igual");
-    expect(a.kdfSalt).not.toBe(b.kdfSalt);
-    expect(a.publicKey).not.toBe(b.publicKey);
-    // La privada de uno no se abre con los parámetros del otro.
-    await expect(unlockPrivateKey("igual", { ...a, kdfSalt: b.kdfSalt })).rejects.toMatchObject({ code: "wrong_password" });
+  it("dos bóvedas con la misma contraseña no comparten clave (cada una con su sal)", async () => {
+    const a = await createVaultSettings("igual");
+    const b = await createVaultSettings("igual");
+    expect(a.settings.kdfSalt).not.toBe(b.settings.kdfSalt);
+    const sealed = await encryptWithKey(a.key, "secreto");
+    await expect(decryptWithKey(b.key, sealed)).rejects.toMatchObject({ code: "wrong_password" });
+  });
+
+  it("lo guardado no permite abrir nada por sí solo", async () => {
+    const { settings } = await createVaultSettings("la del equipo");
+    // La sal y el verificador son públicos para quien lea la base de datos; la contraseña no está.
+    expect(JSON.stringify(settings)).not.toContain("la del equipo");
   });
 }, 60_000);
 
-describe("bóveda: la clave compartida y sus sobres", () => {
-  it("quien tiene sobre abre los secretos; quien no, no", async () => {
-    const vaultKey = await createVaultKey();
-    const sealed = await encryptWithKey(vaultKey, "la contraseña del banco");
-
-    const socio = await createMemberKeys("maestra del socio");
-    const extraño = await createMemberKeys("maestra de otro");
-    const sobre = await wrapVaultKey(vaultKey, socio.publicKey);
-
-    const suya = await unwrapVaultKey(await unlockPrivateKey("maestra del socio", socio), sobre);
-    expect(await decryptWithKey(suya, sealed)).toBe("la contraseña del banco");
-
-    // El sobre de otro no se abre con mi clave privada.
-    await expect(unwrapVaultKey(await unlockPrivateKey("maestra de otro", extraño), sobre)).rejects.toBeInstanceOf(VaultCryptoError);
-  });
-
-  it("un texto cifrado manipulado no se abre en silencio", async () => {
-    const key = await createVaultKey();
+describe("secretos cifrados", () => {
+  it("un texto manipulado no se abre en silencio", async () => {
+    const { key } = await createVaultSettings("equipo");
     const sealed = await encryptWithKey(key, "hola");
     const [iv, body] = sealed.split(".");
     await expect(decryptWithKey(key, `${iv}.${body!.slice(0, -4)}AAAA`)).rejects.toMatchObject({ code: "wrong_password" });
@@ -56,7 +49,7 @@ describe("bóveda: la clave compartida y sus sobres", () => {
   });
 
   it("cifrar dos veces lo mismo da textos distintos (cada vez su propio IV)", async () => {
-    const key = await createVaultKey();
+    const { key } = await createVaultSettings("equipo");
     expect(await encryptWithKey(key, "igual")).not.toBe(await encryptWithKey(key, "igual"));
   });
 }, 60_000);

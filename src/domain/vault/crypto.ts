@@ -16,7 +16,6 @@ export const KDF_ITERATIONS = 600_000;
 const KEY_BITS = 256;
 const IV_BYTES = 12;
 const SALT_BYTES = 16;
-const RSA_BITS = 2048;
 
 const subtle = () => {
   const api = globalThis.crypto?.subtle;
@@ -100,63 +99,34 @@ export async function deriveKey(masterPassword: string, salt: string, iterations
   );
 }
 
-// --- par de claves del miembro ------------------------------------------------------------------
+// --- la contraseña del equipo -------------------------------------------------------------------
 
-export type MemberKeyMaterial = {
-  publicKey: string;
-  privateKeyCiphertext: string;
+/** Lo que se guarda de la contraseña del equipo. Nada de esto permite descifrar un secreto. */
+export type VaultSettings = {
   kdfSalt: string;
   kdfIterations: number;
+  /** Texto conocido cifrado con la clave: sirve para saber si la contraseña escrita es la buena. */
+  verifier: string;
 };
 
-/** Un par nuevo con la privada ya cifrada con la contraseña maestra: lo que se guarda en vault_keys. */
-export async function createMemberKeys(masterPassword: string): Promise<MemberKeyMaterial> {
-  const pair = await subtle().generateKey(
-    { name: "RSA-OAEP", modulusLength: RSA_BITS, publicExponent: new Uint8Array([1, 0, 1]), hash: "SHA-256" },
-    true,
-    ["encrypt", "decrypt"],
-  );
+const VERIFIER_PLAINTEXT = "gnerai-os/vault/v1";
+
+/** Crea los parámetros de una bóveda nueva a partir de la contraseña que elige el equipo. */
+export async function createVaultSettings(teamPassword: string): Promise<{ settings: VaultSettings; key: CryptoKey }> {
   const kdfSalt = newSalt();
-  const personal = await deriveKey(masterPassword, kdfSalt);
-  const pkcs8 = await subtle().exportKey("pkcs8", pair.privateKey);
-  return {
-    publicKey: toBase64(await subtle().exportKey("spki", pair.publicKey)),
-    privateKeyCiphertext: await encryptWithKey(personal, toBase64(pkcs8)),
-    kdfSalt,
-    kdfIterations: KDF_ITERATIONS,
-  };
+  const key = await deriveKey(teamPassword, kdfSalt);
+  return { settings: { kdfSalt, kdfIterations: KDF_ITERATIONS, verifier: await encryptWithKey(key, VERIFIER_PLAINTEXT) }, key };
 }
 
-/** Abre la clave privada del miembro. Lanza `wrong_password` si la contraseña maestra no es la suya. */
-export async function unlockPrivateKey(masterPassword: string, keys: MemberKeyMaterial): Promise<CryptoKey> {
-  const personal = await deriveKey(masterPassword, keys.kdfSalt, keys.kdfIterations);
-  const pkcs8 = fromBase64(await decryptWithKey(personal, keys.privateKeyCiphertext));
-  return subtle().importKey("pkcs8", pkcs8, { name: "RSA-OAEP", hash: "SHA-256" }, false, ["decrypt"]);
-}
-
-// --- clave de la bóveda y sus sobres -------------------------------------------------------------
-
-/** La clave con la que se cifran los secretos. Se crea una sola vez por org. */
-export function createVaultKey(): Promise<CryptoKey> {
-  return subtle().generateKey({ name: "AES-GCM", length: KEY_BITS }, true, ["encrypt", "decrypt"]);
-}
-
-/** El sobre para un miembro: la clave de la bóveda cifrada con su clave pública. */
-export async function wrapVaultKey(vaultKey: CryptoKey, publicKeySpki: string): Promise<string> {
-  const publicKey = await subtle().importKey("spki", fromBase64(publicKeySpki), { name: "RSA-OAEP", hash: "SHA-256" }, false, ["encrypt"]);
-  const raw = await subtle().exportKey("raw", vaultKey);
-  return toBase64(await subtle().encrypt({ name: "RSA-OAEP" }, publicKey, raw));
-}
-
-/** Abre el sobre con la clave privada ya desbloqueada. */
-export async function unwrapVaultKey(privateKey: CryptoKey, wrapped: string): Promise<CryptoKey> {
-  let raw: ArrayBuffer;
-  try {
-    raw = await subtle().decrypt({ name: "RSA-OAEP" }, privateKey, fromBase64(wrapped));
-  } catch {
-    throw new VaultCryptoError("corrupt");
-  }
-  return subtle().importKey("raw", raw, { name: "AES-GCM", length: KEY_BITS }, true, ["encrypt", "decrypt"]);
+/**
+ * La clave de la bóveda si la contraseña es la del equipo. Lanza `wrong_password` si no lo es: el
+ * verificador no se abre, y sin él no se intenta descifrar nada.
+ */
+export async function openVault(teamPassword: string, settings: VaultSettings): Promise<CryptoKey> {
+  const key = await deriveKey(teamPassword, settings.kdfSalt, settings.kdfIterations);
+  const opened = await decryptWithKey(key, settings.verifier);
+  if (opened !== VERIFIER_PLAINTEXT) throw new VaultCryptoError("wrong_password");
+  return key;
 }
 
 // --- fuerza de una contraseña --------------------------------------------------------------------

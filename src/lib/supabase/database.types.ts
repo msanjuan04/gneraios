@@ -71,17 +71,11 @@ type Quotes = Omit<GeneratedQuotes, "Row" | "Insert" | "Update"> & {
   Update: GeneratedQuotes["Update"] & { landing_url?: string | null };
 };
 
-// vault_keys, vault_grants y vault_items (20261003100000_contrasenas.sql), hasta regenerar los tipos.
-type VaultKeys = {
-  Row: { org_id: string; member_id: string; public_key: string; private_key_ciphertext: string; kdf_salt: string; kdf_iterations: number; created_at: string; updated_at: string };
-  Insert: { org_id: string; member_id: string; public_key: string; private_key_ciphertext: string; kdf_salt: string; kdf_iterations: number; created_at?: string; updated_at?: string };
-  Update: { org_id?: string; member_id?: string; public_key?: string; private_key_ciphertext?: string; kdf_salt?: string; kdf_iterations?: number; created_at?: string; updated_at?: string };
-  Relationships: [];
-};
-type VaultGrants = {
-  Row: { org_id: string; member_id: string; wrapped_key: string; granted_by: string | null; created_at: string };
-  Insert: { org_id: string; member_id: string; wrapped_key: string; granted_by?: string | null; created_at?: string };
-  Update: { org_id?: string; member_id?: string; wrapped_key?: string; granted_by?: string | null; created_at?: string };
+// vault_settings y vault_items (20261003100000 + 20261003150000), hasta regenerar los tipos.
+type VaultSettingsTable = {
+  Row: { org_id: string; kdf_salt: string; kdf_iterations: number; verifier: string; rotated_at: string; rotated_by: string | null; created_at: string };
+  Insert: { org_id: string; kdf_salt: string; kdf_iterations: number; verifier: string; rotated_at?: string; rotated_by?: string | null; created_at?: string };
+  Update: { org_id?: string; kdf_salt?: string; kdf_iterations?: number; verifier?: string; rotated_at?: string; rotated_by?: string | null; created_at?: string };
   Relationships: [];
 };
 type VaultItems = {
@@ -123,8 +117,7 @@ export type Database = Omit<Generated, "public"> & {
       google_calendar_connections: GoogleCalendarConnections;
       ads_client_campaigns: AdsClientCampaigns;
       ads_accounts: AdsAccounts;
-      vault_keys: VaultKeys;
-      vault_grants: VaultGrants;
+      vault_settings: VaultSettingsTable;
       vault_items: VaultItems;
       ads_insights: AdsInsights;
       quote_templates: QuoteTemplates;

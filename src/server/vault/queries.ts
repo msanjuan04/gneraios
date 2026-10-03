@@ -1,79 +1,42 @@
 import "server-only";
 
+import type { VaultSettings } from "@/domain/vault";
 import { createClient } from "@/lib/supabase/server";
 
-// Lecturas de la bóveda. Todo lo que sale de aquí está cifrado: el servidor no puede abrirlo.
-
-export type VaultMemberKey = {
-  memberId: string;
-  fullName: string;
-  initials: string;
-  color: string | null;
-  publicKey: string;
-  /** Si ya tiene el sobre con la clave de la bóveda (puede abrir los secretos). */
-  hasAccess: boolean;
-  /** El propio miembro que mira. */
-  isMe: boolean;
-};
+// Lecturas de la bóveda. Todo lo que sale de aquí está cifrado o es un parámetro público (la sal):
+// el servidor no puede abrir un secreto, porque la contraseña del equipo solo existe en el navegador.
 
 export type VaultState = {
-  /** Claves del miembro actual; null si todavía no ha creado su contraseña maestra. */
-  myKeys: { publicKey: string; privateKeyCiphertext: string; kdfSalt: string; kdfIterations: number } | null;
-  /** El sobre del miembro actual; null si aún no tiene acceso. */
-  myWrappedKey: string | null;
-  /** Si la org ya tiene bóveda (alguien la creó). */
-  exists: boolean;
-  /** Todos los socios con clave: para ver quién tiene acceso y poder dárselo. */
-  members: VaultMemberKey[];
+  /** Parámetros de la contraseña del equipo; null si la bóveda aún no existe. */
+  settings: VaultSettings | null;
+  /** Quién cambió la contraseña por última vez y cuándo. */
+  rotated: { at: string; by: string | null } | null;
 };
 
-export async function loadVaultState(orgId: string, memberId: string): Promise<VaultState> {
+export async function loadVaultState(orgId: string): Promise<VaultState> {
   const db = await createClient();
-  const [keys, grants, members] = await Promise.all([
-    db.from("vault_keys").select("member_id, public_key, private_key_ciphertext, kdf_salt, kdf_iterations").eq("org_id", orgId),
-    db.from("vault_grants").select("member_id, wrapped_key").eq("org_id", orgId),
-    db.from("members").select("id, full_name, initials, color").eq("org_id", orgId).eq("is_active", true).order("full_name"),
-  ]);
-  if (keys.error) throw keys.error;
-  if (grants.error) throw grants.error;
-  if (members.error) throw members.error;
+  const { data, error } = await db
+    .from("vault_settings")
+    .select("kdf_salt, kdf_iterations, verifier, rotated_at, rotated_by")
+    .eq("org_id", orgId)
+    .maybeSingle();
+  if (error) throw error;
+  if (!data) return { settings: null, rotated: null };
 
-  const keyByMember = new Map((keys.data ?? []).map((row) => [row.member_id, row]));
-  const grantByMember = new Map((grants.data ?? []).map((row) => [row.member_id, row.wrapped_key]));
-  const mine = keyByMember.get(memberId);
-
+  let by: string | null = null;
+  if (data.rotated_by) {
+    const { data: member } = await db.from("members").select("full_name").eq("org_id", orgId).eq("id", data.rotated_by).maybeSingle();
+    by = member?.full_name ?? null;
+  }
   return {
-    myKeys: mine
-      ? {
-          publicKey: mine.public_key,
-          privateKeyCiphertext: mine.private_key_ciphertext,
-          kdfSalt: mine.kdf_salt,
-          kdfIterations: mine.kdf_iterations,
-        }
-      : null,
-    myWrappedKey: grantByMember.get(memberId) ?? null,
-    exists: (grants.data ?? []).length > 0,
-    members: (members.data ?? []).flatMap((member) => {
-      const key = keyByMember.get(member.id);
-      if (!key) return [];
-      return [
-        {
-          memberId: member.id,
-          fullName: member.full_name,
-          initials: member.initials,
-          color: member.color,
-          publicKey: key.public_key,
-          hasAccess: grantByMember.has(member.id),
-          isMe: member.id === memberId,
-        },
-      ];
-    }),
+    settings: { kdfSalt: data.kdf_salt, kdfIterations: data.kdf_iterations, verifier: data.verifier },
+    rotated: { at: data.rotated_at, by },
   };
 }
 
 export type VaultRow = { id: string; clientId: string | null; ciphertext: string; updatedAt: string };
 
-/** Los secretos cifrados de la org. Sin sobre, la RLS no devuelve ninguno. */
+/** Los secretos cifrados de la org. Sin la contraseña del equipo no se pueden leer. */
 export async function listVaultItems(orgId: string): Promise<VaultRow[]> {
   const db = await createClient();
   const { data, error } = await db
