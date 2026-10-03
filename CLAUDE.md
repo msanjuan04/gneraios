@@ -54,7 +54,7 @@ Todo lo hecho está en producción y en `main`. Plan detallado y comprobaciones 
 ## Decisiones de negocio ya tomadas (y aplicadas en producción)
 - **Facturación:** todo se factura desde ahora con **GNERAI PARTNERS, S.L.** (UDB Sports y Terrazea pasan a la SL desde el 2/10). **UDB**: 1.175 € sin IVA al mes (1.050 + 95 + 30), el día 5, desde el 5/10. Método de cobro: mensualidad idealmente SEPA y pagos únicos por transferencia; hoy todo está en transferencia hasta tener el IBAN.
 - **Cuotas de autónomos** mensuales (domiciliadas, último día del mes): 90 € Marc Sanjuan, 90 € Hugo Lago y 300 € Marc Cortada (`expense_subscriptions`, categoría «Cuotas de autónomos»).
-- **Marc Cortada:** entra en la SL con el **33 % en marzo** (probablemente 2027), pero **ya reparte beneficios a partes iguales** (`shareholdings` desde 2026-10-02 = 3334/3333/3333). El capital legal 50/50 de Finanzas → Sociedad **no se toca** hasta que entre. Está con la ayuda de autoocupación juvenil.
+- **Marc Cortada:** entra en la SL con el **33 % en marzo** (probablemente 2027), pero **ya reparte beneficios a partes iguales** (`shareholdings` desde 2026-10-02 = 3334/3333/3333). El capital legal 50/50 de Finanzas → Sociedad **no se toca** hasta que entre. Está con la ayuda de autoocupación juvenil. **En la app es owner igual que Marc Sanjuan y Hugo y así se queda**: lo que aún no tiene es la participación legal en la SL, no el acceso.
 - **Sees (600 €, ~oct 2025) y Nitid (900 €, ~abr 2026):** cobraron sin IVA antes de la app; se apuntaron como cobros sin factura (`client_receipts`), no como facturas inventadas.
 
 ## Pendiente
@@ -63,7 +63,6 @@ Todo lo hecho está en producción y en `main`. Plan detallado y comprobaciones 
 - Revisar los 3 leads que abrió el correo el 03/10: Álex Parra, Jesús Ros, Ignacio Cortada.
 - Webs: hay 3 incidencias reales (illafantasia.com no responde, decidiomes.com con certificado SSL inválido, terrazea.com lenta).
 - Cuando Cortada entre en la SL (marzo): actualizar el capital legal y las participaciones.
-- Decidir si Cortada debe poder entrar a la app o no hasta entonces (hoy tiene acceso de owner).
 - Hecho a medias a propósito: la landing de la propuesta usa la página pública que ya existe (`/p/q/<token>`, con aceptación online), que NO tiene la estética oscura de la propuesta de Nadia; si se quiere esa estética también ahí, es trabajo nuevo.
 
 ## Reglas de trabajo que han salido de estos días
