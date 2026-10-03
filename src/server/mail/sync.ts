@@ -86,6 +86,9 @@ export async function syncMailAccount(account: MailAccount, opts: { folders?: Fo
         const rows: TablesInsert<"mail_messages">[] = [];
         for await (const message of client.fetch(search, { uid: true, source: true, flags: true }, { uid: Boolean(last?.uid) })) {
           if (rows.length >= MAX_PER_FOLDER) break;
+          // IMAP: pedir «desde el UID N» devuelve siempre al menos el último mensaje, aunque N sea
+          // mayor que todos. Ese ya lo tenemos: sin esto cada vuelta volvía a leerlo y a procesarlo.
+          if (last?.uid && Number(message.uid) <= Number(last.uid)) continue;
           // Un mensaje que no se puede leer no corta la sincronización del resto.
           if (!message.source) continue;
           try {
@@ -107,8 +110,11 @@ export async function syncMailAccount(account: MailAccount, opts: { folders?: Fo
               direction === "incoming" &&
               Boolean(last?.uid) &&
               newLeads < MAX_NEW_LEADS_PER_RUN &&
+              // Solo correo llegado DESPUÉS de conectar el buzón: la primera descarga va por tandas y
+              // el histórico no son oportunidades nuevas (así se abrieron fichas con correos viejos).
+              sentAt.getTime() >= new Date(account.createdAt).getTime() &&
               Date.now() - sentAt.getTime() < NEW_LEAD_MAX_AGE_DAYS * 86_400_000 &&
-              !isAutomatedSender({ from: fromAddress, headers: headersOf(parsed.headers), subject: parsed.subject })
+              !isAutomatedSender({ from: fromAddress, headers: headersOf(parsed.headers), subject: parsed.subject, bodyText })
             ) {
               clientId = await createLeadFromMail(account.orgId, { name: from?.name, address: fromAddress, subject: parsed.subject ?? "" });
               if (clientId) {

@@ -21,10 +21,12 @@ export type MailAccount = {
   username: string;
   lastSyncAt: string | null;
   lastError: string | null;
+  /** Cuándo se conectó el buzón: el correo anterior es histórico, no oportunidades nuevas. */
+  createdAt: string;
 };
 
 /** Las columnas que puede leer un socio (la contraseña cifrada no está entre ellas). */
-const COLUMNS = "id, org_id, address, display_name, imap_host, imap_port, smtp_host, smtp_port, username, last_sync_at, last_error";
+const COLUMNS = "id, org_id, address, display_name, imap_host, imap_port, smtp_host, smtp_port, username, last_sync_at, last_error, created_at";
 
 /** Contexto de cifrado: la contraseña de un buzón no se abre con la de otro ni en otra org. */
 export const mailSecretContext = (orgId: string, accountId: string): string => `mail/${orgId}/${accountId}`;
@@ -41,6 +43,7 @@ type Row = {
   username: string;
   last_sync_at: string | null;
   last_error: string | null;
+  created_at: string;
 };
 
 const toAccount = (row: Row): MailAccount => ({
@@ -55,6 +58,7 @@ const toAccount = (row: Row): MailAccount => ({
   username: row.username,
   lastSyncAt: row.last_sync_at,
   lastError: row.last_error,
+  createdAt: row.created_at,
 });
 
 /** El buzón de la org, con la sesión del miembro (RLS). null si todavía no hay ninguno. */

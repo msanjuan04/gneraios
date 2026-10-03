@@ -11,6 +11,8 @@ export type SenderSignals = {
   headers?: Readonly<Record<string, string | undefined>>;
   /** Asunto, por si el remitente es una persona pero el correo es un aviso («Factura disponible»). */
   subject?: string;
+  /** Cuerpo en texto: una newsletter lleva casi siempre un pie para darse de baja. */
+  bodyText?: string;
 };
 
 const AUTOMATED_LOCAL_PARTS = new Set([
@@ -31,7 +33,18 @@ const PROVIDER_DOMAINS = new Set([
   "paypal.com", "apple.com", "microsoft.com", "amazon.es", "amazon.com", "bbva.es", "bbva.com", "caixabank.es",
   "santander.es", "agenciatributaria.gob.es", "seg-social.es", "correos.es", "notion.so", "slack.com", "zoom.us",
   "calendly.com", "canva.com", "figma.com", "mailchimp.com", "sendgrid.net", "hubspot.com",
+  "semrush.com", "ahrefs.com", "moz.com", "similarweb.com", "zapier.com", "typeform.com", "eventbrite.com",
+  "booking.com", "airbnb.com", "tiktok.com", "x.com", "twitter.com", "pinterest.com", "whatsapp.com",
 ]);
+
+/** Administraciones: lo que llega de ahí son avisos oficiales, nunca un cliente nuevo. */
+const OFFICIAL = /(\.gob\.es|\.gov|\.gencat\.cat|\.europa\.eu|\.seg-social\.es)$/i;
+
+/** Quien escribe en frío a todo el mundo suele firmar desde estos buzones. */
+const COLD_OUTREACH_LOCAL = /^(comercial|ventas|marketing|sales|press|prensa|publicidad|promociones|ofertas|rrhh|hr)\d*$/;
+
+/** El pie de toda newsletter: «darse de baja», «unsubscribe»… */
+const BULK_FOOTER = /(unsubscribe|darse de baja|date de baja|cancelar (la )?suscripci|no desea(s)? recibir|ver (el )?(mensaje|correo) en (el )?navegador|view (this email )?in (your )?browser|dar-te de baixa|donar-vos de baixa)/i;
 
 const BULK_PRECEDENCE = new Set(["bulk", "list", "junk"]);
 
@@ -47,7 +60,9 @@ export function isAutomatedSender(signals: SenderSignals): boolean {
   const domain = domainOf(address) ?? "";
 
   if (AUTOMATED_LOCAL_PARTS.has(local) || /^(no-?reply|do-?not-?reply)/.test(local)) return true;
-  if (isProviderDomain(domain)) return true;
+  if (isProviderDomain(domain) || OFFICIAL.test(domain)) return true;
+  if (COLD_OUTREACH_LOCAL.test(local)) return true;
+  if (signals.bodyText && BULK_FOOTER.test(signals.bodyText)) return true;
 
   const headers = signals.headers ?? {};
   // Las listas y newsletters traen estas cabeceras por obligación legal.

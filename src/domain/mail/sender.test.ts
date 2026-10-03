@@ -37,6 +37,28 @@ describe("quién es una máquina", () => {
   });
 });
 
+describe("lo que se coló el primer día", () => {
+  it("Semrush y los avisos oficiales no son clientes nuevos", () => {
+    expect(isAutomatedSender({ from: "mail@semrush.com" })).toBe(true);
+    expect(isAutomatedSender({ from: "seo-ideas@semrush.com" })).toBe(true);
+    expect(isAutomatedSender({ from: "registroelectronico@serviciosmin.gob.es" })).toBe(true);
+  });
+
+  it("las newsletters se reconocen por su pie, aunque las firme una persona", () => {
+    expect(isAutomatedSender({ from: "ana@empresa.com", bodyText: "Novedades del mes…\nSi no desea recibir más correos, pulse aquí para darse de baja." })).toBe(true);
+    expect(isAutomatedSender({ from: "ana@empresa.com", bodyText: "Click to unsubscribe" })).toBe(true);
+  });
+
+  it("los buzones de ventas en frío no abren lead", () => {
+    expect(isAutomatedSender({ from: "comercial3@edicionsmic.cat" })).toBe(true);
+    expect(isAutomatedSender({ from: "marketing@agencia.com" })).toBe(true);
+  });
+
+  it("una persona que escribe de verdad sigue pasando", () => {
+    expect(isAutomatedSender({ from: "Nadia Pérez <nadia@metrickal.com>", bodyText: "Hola Marc, nos encaja la opción A. ¿Hablamos mañana?" })).toBe(false);
+  });
+});
+
 describe("el nombre de la ficha", () => {
   it("usa el nombre de la cabecera", () => {
     expect(leadNameFor({ name: "Nadia Pérez", address: "nadia@x.com" })).toBe("Nadia Pérez");

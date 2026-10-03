@@ -18,6 +18,7 @@ const lead = (overrides: Partial<LeadSummary> = {}): LeadSummary => ({
   nextActionOn: null,
   lastContactDaysAgo: null,
   awaitingOurReply: false,
+  live: true,
   quotes: 0,
   messages: 0,
   ...overrides,

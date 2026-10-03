@@ -1,7 +1,7 @@
 import "server-only";
 
 import { needsReply } from "@/domain/mail";
-import { estimateFromHistory, isClient, type LeadSummary, leadValue } from "@/domain/crm";
+import { estimateFromHistory, isClient, isLiveLead, type LeadSummary, leadValue } from "@/domain/crm";
 import { daysBetween } from "@/domain/dates/civil-date";
 import { nowInZone } from "@/lib/clock";
 import { createClient } from "@/lib/supabase/server";
@@ -30,7 +30,7 @@ export async function loadLeadBoard(orgId: string, timezone: string): Promise<Le
         db
           .from("deals_board")
           .select(
-            "id, client_id, client_name, title, stage_id, stage_kind, est_one_off_cents, est_mrr_cents, probability_bps, next_action, next_action_on, last_contact_at, last_contact_direction, last_contact_text, temperature",
+            "id, client_id, client_name, title, stage_id, stage_kind, est_one_off_cents, est_mrr_cents, probability_bps, next_action, next_action_on, created_at, last_contact_at, last_contact_direction, last_contact_text, temperature",
           )
           .eq("org_id", orgId)
           .eq("stage_kind", "open")
@@ -60,6 +60,7 @@ export async function loadLeadBoard(orgId: string, timezone: string): Promise<Le
   const estimate = estimateFromHistory(await pastQuotes(orgId));
   const stageNames = new Map(crm.stages.map((stage) => [stage.id, stage]));
   const today = nowInZone(timezone).date;
+  const now = new Date();
 
   const leads = open.map((deal): LeadSummary => {
     const stage = stageNames.get(deal.stage_id);
@@ -76,6 +77,7 @@ export async function loadLeadBoard(orgId: string, timezone: string): Promise<Le
       stageName: stage?.name ?? "",
       stagePosition: stage?.position ?? 0,
       temperature: deal.temperature ?? null,
+      live: isLiveLead({ lastContactAt: deal.last_contact_at ?? null, createdAt: deal.created_at, temperature: deal.temperature ?? null }, now),
       estOneOffCents: value.oneOffCents,
       estMrrCents: value.mrrCents,
       estimated: value.estimated,

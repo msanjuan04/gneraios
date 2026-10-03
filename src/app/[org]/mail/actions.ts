@@ -74,6 +74,7 @@ export async function connectMailAccount(slug: string, input: unknown): Promise<
     username: v.username,
     lastSyncAt: null,
     lastError: null,
+    createdAt: new Date().toISOString(),
   };
   // La primera descarga (120 días) tarda minutos: se hace DESPUÉS de contestar, para que el botón
   // responda al momento. La bandeja se va llenando y el cron la completa cada 5 minutos.

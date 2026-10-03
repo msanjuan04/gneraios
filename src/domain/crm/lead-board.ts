@@ -48,6 +48,8 @@ export type LeadSummary = {
   lastContactDaysAgo: number | null;
   /** Si el último mensaje fue suyo, nos toca contestar. */
   awaitingOurReply: boolean;
+  /** Novedad en las últimas dos semanas o calificado como caliente: lo que de verdad es un lead (ver lead-freshness). */
+  live: boolean;
   quotes: number;
   messages: number;
 };
