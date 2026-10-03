@@ -208,7 +208,9 @@
       "ssl_expired": "El certificat SSL de {site} va caducar el {date}: els navegadors avisen que la web no és segura.",
       "domain_expiring": "El domini de {site} caduca {days, plural, =0 {avui} =1 {demà} other {d'aquí a # dies}} ({date}). Renova'l abans que la web deixi de funcionar.",
       "domain_expired": "El domini de {site} va caducar el {date}. Renova'l com més aviat millor.",
-      "subscription_renewal": "«{name}» es renova {days, plural, =0 {avui} =1 {demà} other {d'aquí a # dies}} ({date}): {amount}."
+      "subscription_renewal": "«{name}» es renova {days, plural, =0 {avui} =1 {demà} other {d'aquí a # dies}} ({date}): {amount}.",
+      "mail_new_lead": "{name} ha escrit per primera vegada: «{subject}». S'ha obert el seu lead; revisa'l i contesta.",
+      "mail_accepted": "{client} sembla acceptar el pressupost {number}: «{subject}». Comprova-ho i marca'l acceptat si és així."
     }
   },
   "push": {
@@ -225,7 +227,9 @@
       "site_up": "Web recuperada",
       "ssl_expiring": "Certificat SSL per renovar",
       "domain_expiring": "Domini per renovar",
-      "subscription_renewal": "Renovació de subscripció"
+      "subscription_renewal": "Renovació de subscripció",
+      "mail_new_lead": "Lead nou per correu",
+      "mail_accepted": "Sembla que accepten"
     }
   }
 }

@@ -2,7 +2,7 @@
 
 import { Check, Copy, FileText, Sparkles, X } from "lucide-react";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useFormatter, useTranslations } from "next-intl";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { acceptQuote } from "@/app/[org]/quotes/actions";
@@ -36,6 +36,8 @@ export function LeadNextStep({
   canEdit: boolean;
 }) {
   const t = useTranslations("leads.nextStep");
+  const tWhen = useTranslations("quotes.plan.whenOptions");
+  const format = useFormatter();
   const [pending, start] = useTransition();
   const [copied, setCopied] = useState(false);
   const [confirming, setConfirming] = useState(false);
@@ -120,7 +122,19 @@ export function LeadNextStep({
                   onCancel={() => setConfirming(false)}
                   pending={pending}
                 >
-                  {t("markAcceptedHint")}
+                  <span className="block">{t("markAcceptedHint")}</span>
+                  {signal.sentQuote.plan.length > 0 && (
+                    <ul className="mt-2 space-y-0.5 text-sm">
+                      {signal.sentQuote.plan.map((payment) => (
+                        <li key={`${payment.label}-${payment.when}-${payment.plannedOn ?? ""}`} className="tabular-nums">
+                          <span className="font-semibold">{payment.label}</span> · {Math.round(payment.percentBps / 100)} % ·{" "}
+                          {payment.when === "date" && payment.plannedOn
+                            ? format.dateTime(new Date(`${payment.plannedOn}T12:00:00Z`), { day: "numeric", month: "long", year: "numeric" })
+                            : tWhen(payment.when)}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </InlineConfirm>
               ) : (
                 <Button size="sm" onClick={() => setConfirming(true)}>

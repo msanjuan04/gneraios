@@ -209,7 +209,9 @@
       "ssl_expired": "El certificado SSL de {site} caducó el {date}: los navegadores avisan de que la web no es segura.",
       "domain_expiring": "El dominio de {site} caduca {days, plural, =0 {hoy} =1 {mañana} other {en # días}} ({date}). Renuévalo antes de que la web deje de funcionar.",
       "domain_expired": "El dominio de {site} caducó el {date}. Renuévalo cuanto antes.",
-      "subscription_renewal": "«{name}» se renueva {days, plural, =0 {hoy} =1 {mañana} other {en # días}} ({date}): {amount}."
+      "subscription_renewal": "«{name}» se renueva {days, plural, =0 {hoy} =1 {mañana} other {en # días}} ({date}): {amount}.",
+      "mail_new_lead": "{name} ha escrito por primera vez: «{subject}». Se ha abierto su lead; revísalo y contesta.",
+      "mail_accepted": "{client} parece aceptar el presupuesto {number}: «{subject}». Compruébalo y márcalo aceptado si es así."
     }
   },
   "push": {
@@ -226,7 +228,9 @@
       "site_up": "Web recuperada",
       "ssl_expiring": "Certificado SSL por renovar",
       "domain_expiring": "Dominio por renovar",
-      "subscription_renewal": "Renovación de suscripción"
+      "subscription_renewal": "Renovación de suscripción",
+      "mail_new_lead": "Lead nuevo por correo",
+      "mail_accepted": "Parece que aceptan"
     }
   }
 }

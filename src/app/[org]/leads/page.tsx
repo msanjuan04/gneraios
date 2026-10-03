@@ -60,11 +60,18 @@ export default async function LeadsPage({ params }: PageProps<"/[org]/leads">) {
       />
 
       {/* Lo que hay en juego. Sin ponderar: «si entran todos», y aparte lo ya presupuestado. */}
-      <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4" aria-label={t("summary")}>
+      <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5" aria-label={t("summary")}>
         <Metric label={t("openDeals")} value={String(totals.openDeals)} hint={totals.awaitingReply > 0 ? t("awaitingReply", { count: totals.awaitingReply }) : undefined} />
         <Metric label={t("potentialOneOff")} value={money(totals.oneOffCents)} hint={t("ifAllWin")} />
         <Metric label={t("potentialMrr")} value={`${money(totals.mrrCents)} / ${t("month")}`} hint={t("ifAllWin")} />
         <Metric label={t("quotedPotential")} value={money(totals.quotedOneOffCents)} hint={t("quotedHint", { count: totals.quotedDeals })} />
+        {totals.estimatedDeals > 0 && (
+          <Metric
+            label={t("estimatedPotential")}
+            value={`≈ ${money(totals.estimatedOneOffCents)}`}
+            hint={t("estimatedTotalHint", { count: totals.estimatedDeals })}
+          />
+        )}
       </section>
 
       <div className="grid gap-5 xl:grid-cols-[1fr_22rem]">

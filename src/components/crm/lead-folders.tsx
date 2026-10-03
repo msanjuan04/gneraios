@@ -53,7 +53,10 @@ export async function LeadFolders({
             </div>
 
             <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-              <p className="text-lg font-bold tabular-nums">{money(lead.estOneOffCents)}</p>
+              <p className="text-lg font-bold tabular-nums" title={lead.estimated ? t("estimatedHint") : undefined}>
+                {lead.estimated && <span aria-label={t("estimated")}>≈ </span>}
+                {money(lead.estOneOffCents)}
+              </p>
               {lead.estMrrCents > 0 && (
                 <p className="text-sm text-muted-foreground tabular-nums">{t("perMonth", { amount: money(lead.estMrrCents) })}</p>
               )}

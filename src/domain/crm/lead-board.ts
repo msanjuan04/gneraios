@@ -39,6 +39,8 @@ export type LeadSummary = {
   temperature: LeadTemperature | null;
   estOneOffCents: number;
   estMrrCents: number;
+  /** Cierto si los importes son una estimación del histórico y no algo propio del lead. */
+  estimated: boolean;
   probabilityBps: number;
   nextAction: string | null;
   nextActionOn: string | null;
@@ -62,6 +64,10 @@ export type LeadTotals = {
   quotedDeals: number;
   quotedOneOffCents: number;
   quotedMrrCents: number;
+  /** Lo estimado de los leads sin importe ni presupuesto: aparte, nunca mezclado con lo real. */
+  estimatedDeals: number;
+  estimatedOneOffCents: number;
+  estimatedMrrCents: number;
   awaitingReply: number;
 };
 
@@ -73,9 +79,19 @@ export function leadTotals(leads: readonly LeadSummary[]): LeadTotals {
     quotedDeals: 0,
     quotedOneOffCents: 0,
     quotedMrrCents: 0,
+    estimatedDeals: 0,
+    estimatedOneOffCents: 0,
+    estimatedMrrCents: 0,
     awaitingReply: 0,
   };
   for (const lead of leads) {
+    if (lead.estimated) {
+      totals.estimatedDeals += 1;
+      totals.estimatedOneOffCents += lead.estOneOffCents;
+      totals.estimatedMrrCents += lead.estMrrCents;
+      if (lead.awaitingOurReply) totals.awaitingReply += 1;
+      continue;
+    }
     totals.oneOffCents += lead.estOneOffCents;
     totals.mrrCents += lead.estMrrCents;
     if (lead.quotes > 0) {

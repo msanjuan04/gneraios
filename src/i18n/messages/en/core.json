@@ -209,7 +209,9 @@
       "ssl_expired": "The SSL certificate for {site} expired on {date}: browsers warn that the site isn't secure.",
       "domain_expiring": "The domain for {site} expires {days, plural, =0 {today} =1 {tomorrow} other {in # days}} ({date}). Renew it before the site stops working.",
       "domain_expired": "The domain for {site} expired on {date}. Renew it as soon as possible.",
-      "subscription_renewal": "“{name}” renews {days, plural, =0 {today} =1 {tomorrow} other {in # days}} ({date}): {amount}."
+      "subscription_renewal": "“{name}” renews {days, plural, =0 {today} =1 {tomorrow} other {in # days}} ({date}): {amount}.",
+      "mail_new_lead": "{name} wrote for the first time: “{subject}”. Their lead has been opened; review it and reply.",
+      "mail_accepted": "{client} seems to accept quote {number}: “{subject}”. Check it and mark it accepted if so."
     }
   },
   "push": {
@@ -226,7 +228,9 @@
       "site_up": "Website back up",
       "ssl_expiring": "SSL certificate to renew",
       "domain_expiring": "Domain to renew",
-      "subscription_renewal": "Subscription renewal"
+      "subscription_renewal": "Subscription renewal",
+      "mail_new_lead": "New lead by mail",
+      "mail_accepted": "Looks like they accept"
     }
   }
 }

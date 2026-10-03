@@ -21,7 +21,10 @@ export type InboxItem = {
     | "ssl_expiring"
     | "domain_expiring"
     // Una suscripción (dominio, servidor anual…) se renueva pronto (Finanzas → Infraestructura).
-    | "subscription_renewal";
+    | "subscription_renewal"
+    // Correo (src/server/mail): un lead nuevo ha escrito y un cliente parece aceptar un presupuesto.
+    | "mail_new_lead"
+    | "mail_accepted";
   params: Record<string, string | number>;
   href: string | null;
   createdAt: string;

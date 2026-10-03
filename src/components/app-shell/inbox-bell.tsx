@@ -45,6 +45,9 @@ const ICONS: Record<InboxItem["kind"], { icon: LucideIcon; tone: string }> = {
   ssl_expiring: { icon: LockKeyhole, tone: "text-warning" },
   domain_expiring: { icon: Globe, tone: "text-warning" },
   subscription_renewal: { icon: CalendarClock, tone: "text-warning" },
+  // Correo: alguien nuevo ha escrito, o un cliente parece aceptar el presupuesto.
+  mail_new_lead: { icon: Mail, tone: "text-primary" },
+  mail_accepted: { icon: CircleCheck, tone: "text-success" },
 };
 
 const REFRESH_MS = 60_000;

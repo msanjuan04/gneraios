@@ -12,6 +12,7 @@ const lead = (overrides: Partial<LeadSummary> = {}): LeadSummary => ({
   temperature: null,
   estOneOffCents: 100_000,
   estMrrCents: 0,
+  estimated: false,
   probabilityBps: 1000,
   nextAction: null,
   nextActionOn: null,
@@ -55,6 +56,14 @@ describe("los totales de leads", () => {
       quotedMrrCents: 20_000,
       awaitingReply: 1,
     });
+  });
+
+  it("lo estimado se cuenta aparte y no engorda lo real", () => {
+    const totals = leadTotals([
+      lead({ estOneOffCents: 100_000, quotes: 1 }),
+      lead({ estOneOffCents: 150_000, estMrrCents: 20_000, estimated: true }),
+    ]);
+    expect(totals).toMatchObject({ openDeals: 2, oneOffCents: 100_000, mrrCents: 0, estimatedDeals: 1, estimatedOneOffCents: 150_000, estimatedMrrCents: 20_000 });
   });
 
   it("sin leads, todo a cero", () => {

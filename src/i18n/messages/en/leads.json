@@ -133,6 +133,10 @@
         "pricing": "Hi {name},\n\nI will put the proposal together with the detail and the price. Two things first so I can get it right:\n\n- \n- \n\nAs soon as you confirm I will send it over.\n\nBest,",
         "other": "Hi {name},\n\nThanks for writing. I will look at it and get back to you today.\n\nBest,"
       }
-    }
+    },
+    "estimated": "Estimated",
+    "estimatedHint": "Estimate from what has been quoted before",
+    "estimatedPotential": "Estimated, no quote yet",
+    "estimatedTotalHint": "{count, plural, one {# lead without a quote, based on history} other {# leads without a quote, based on history}}"
   }
 }

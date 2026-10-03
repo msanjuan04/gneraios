@@ -133,12 +133,22 @@ type Deals = Omit<GeneratedDeals, "Row" | "Insert" | "Update"> & {
   Update: GeneratedDeals["Update"] & { temperature?: DealTemperature | null };
 };
 
+// notification_kind + mail_new_lead y mail_accepted (20261003190000_avisos_correo.sql), hasta regenerar los tipos.
+type MailNotificationKind = "mail_new_lead" | "mail_accepted";
+type GeneratedNotifications = GeneratedPublic["Tables"]["notifications"];
+type Notifications = Omit<GeneratedNotifications, "Row" | "Insert" | "Update"> & {
+  Row: Omit<GeneratedNotifications["Row"], "kind"> & { kind: GeneratedNotifications["Row"]["kind"] | MailNotificationKind };
+  Insert: Omit<GeneratedNotifications["Insert"], "kind"> & { kind: GeneratedNotifications["Insert"]["kind"] | MailNotificationKind };
+  Update: Omit<GeneratedNotifications["Update"], "kind"> & { kind?: GeneratedNotifications["Update"]["kind"] | MailNotificationKind };
+};
+
 export type Database = Omit<Generated, "public"> & {
   public: Omit<GeneratedPublic, "Tables" | "Functions" | "Views"> & {
     Views: Omit<GeneratedPublic["Views"], "deals_board"> & { deals_board: DealsBoard };
-    Tables: Omit<GeneratedPublic["Tables"], "issuers" | "outbound_emails" | "quotes" | "deals"> & {
+    Tables: Omit<GeneratedPublic["Tables"], "issuers" | "outbound_emails" | "quotes" | "deals" | "notifications"> & {
       quotes: Quotes;
       deals: Deals;
+      notifications: Notifications;
       issuers: Omit<GeneratedIssuers, "Insert"> & { Insert: IssuersInsert };
       outbound_emails: OutboundEmails;
       calendar_entries: CalendarEntries;

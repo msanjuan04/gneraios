@@ -133,6 +133,10 @@
         "pricing": "Hola {name},\n\nT'preparo la proposta amb el detall i el preu. Abans de passar-te-la, dues coses per ajustar-la:\n\n- \n- \n\nQuan m'ho confirmis te l'envio.\n\nSalutacions,",
         "other": "Hola {name},\n\nGràcies per escriure. Ho miro i et dic alguna cosa avui mateix.\n\nSalutacions,"
       }
-    }
+    },
+    "estimated": "Estimat",
+    "estimatedHint": "Estimació segons el que s'ha pressupostat abans",
+    "estimatedPotential": "Estimat sense pressupost",
+    "estimatedTotalHint": "{count, plural, one {# lead sense pressupost, segons l'històric} other {# leads sense pressupost, segons l'històric}}"
   }
 }
