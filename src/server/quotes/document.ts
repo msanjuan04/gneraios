@@ -1,4 +1,5 @@
-import "server-only";
+// Sin "server-only": lo usan también los scripts (scripts/registrar-envios-presupuestos.ts), que
+// corren fuera de Next. Solo se importa desde código de servidor.
 import {
   effectiveDates,
   milestoneAmounts,
