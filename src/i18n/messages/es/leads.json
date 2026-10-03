@@ -139,6 +139,10 @@
     "estimated": "Estimado",
     "estimatedHint": "Estimación según lo que se ha presupuestado antes",
     "estimatedPotential": "Estimado sin presupuesto",
-    "estimatedTotalHint": "{count, plural, one {# lead sin presupuesto, según el histórico} other {# leads sin presupuesto, según el histórico}}"
+    "estimatedTotalHint": "{count, plural, one {# lead sin presupuesto, según el histórico} other {# leads sin presupuesto, según el histórico}}",
+    "showingLive": "{count, plural, =0 {Ningún lead activo} one {# lead} other {# leads}} con novedad en las últimas 2 semanas o calientes",
+    "showingAll": "{count, plural, one {# lead} other {# leads}} en total",
+    "showOlder": "Ver también los {count} anteriores",
+    "onlyLive": "Ver solo los activos"
   }
 }

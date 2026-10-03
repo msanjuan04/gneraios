@@ -77,7 +77,7 @@ export async function loadLeadBoard(orgId: string, timezone: string): Promise<Le
       stageName: stage?.name ?? "",
       stagePosition: stage?.position ?? 0,
       temperature: deal.temperature ?? null,
-      live: isLiveLead({ lastContactAt: deal.last_contact_at ?? null, createdAt: deal.created_at, temperature: deal.temperature ?? null }, now),
+      live: isLiveLead({ lastContactAt: deal.last_contact_at ?? null, createdAt: deal.created_at ?? "", temperature: deal.temperature ?? null }, now),
       estOneOffCents: value.oneOffCents,
       estMrrCents: value.mrrCents,
       estimated: value.estimated,

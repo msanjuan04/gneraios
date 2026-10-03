@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { FunnelBoard } from "@/components/crm/funnel-board";
-import { estimateFromHistory, funnelStages } from "@/domain/crm";
+import { estimateFromHistory, funnelStages, isLiveLead } from "@/domain/crm";
+import { createClient } from "@/lib/supabase/server";
 import { formatMoney } from "@/domain/money";
 import { getCrmConfig } from "@/server/crm/config";
 import { pastQuotes } from "@/server/crm/lead-board";
@@ -27,10 +28,31 @@ export default async function FunnelPage({ params }: PageProps<"/[org]/pipeline/
 
   const t = await getTranslations("funnel.board");
   const estimate = estimateFromHistory(history);
+
+  // La etapa de entrada solo cuenta los leads vivos (novedad en las últimas dos semanas o calientes):
+  // un contacto del que no se sabe nada desde hace semanas no es una oportunidad que se esté trabajando.
+  const firstOpen = config.stages.filter((stage) => stage.kind === "open").sort((a, b) => a.position - b.position)[0];
+  const stale = new Set<string>();
+  if (firstOpen) {
+    const supabase = await createClient();
+    const { data: entry, error } = await supabase
+      .from("deals_board")
+      .select("id, created_at, last_contact_at, temperature")
+      .eq("org_id", org.id)
+      .eq("stage_id", firstOpen.id)
+      .limit(2000);
+    if (error) throw error;
+    const now = new Date();
+    for (const deal of entry ?? []) {
+      if (deal.id && !isLiveLead({ lastContactAt: deal.last_contact_at ?? null, createdAt: deal.created_at ?? "", temperature: deal.temperature ?? null }, now)) stale.add(deal.id);
+    }
+  }
   // Las etapas del embudo: las que se trabajan y la de cerrado. Lo perdido no es parte del embudo.
   const stages = funnelStages(
     config.stages.filter((stage) => stage.kind === "open" || stage.kind === "won"),
-    deals.map((deal) => {
+    deals
+      .filter((deal) => !stale.has(deal.id))
+      .map((deal) => {
       // Una oportunidad sin importe se estima con lo que hemos presupuestado antes (y se dice).
       const empty = deal.estOneOffCents === 0 && deal.estMrrCents === 0 && estimate.basedOn > 0;
       return {

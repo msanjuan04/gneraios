@@ -21,13 +21,17 @@ export async function generateMetadata(): Promise<Metadata> {
  * (primero lo que toca contestar). Arriba, lo que podría entrar si entra todo —sin ponderar, que es
  * lo que se quiere saber aquí— y el embudo por etapas.
  */
-export default async function LeadsPage({ params }: PageProps<"/[org]/leads">) {
-  const { org: slug } = await params;
+export default async function LeadsPage({ params, searchParams }: PageProps<"/[org]/leads">) {
+  const [{ org: slug }, search] = await Promise.all([params, searchParams]);
+  const showAll = search.all === "1";
   const { org, member } = await getOrgContext(slug);
   const [t, board] = await Promise.all([getTranslations("leads"), loadLeadBoard(org.id, org.timezone)]);
   const basePath = `/${org.slug}`;
   const canEdit = hasRole(member.role, "partner");
-  const leads = sortLeads(board.leads);
+  // Solo lo que de verdad es un lead: novedad en las últimas dos semanas o calificado como caliente.
+  // El resto sigue en el pipeline; «ver todos» los enseña.
+  const hidden = board.leads.filter((lead) => !lead.live).length;
+  const leads = sortLeads(showAll ? board.leads : board.leads.filter((lead) => lead.live));
   const totals = leadTotals(leads);
   const funnel = funnelStages(
     board.stages.filter((stage) => stage.kind === "open"),
@@ -77,6 +81,14 @@ export default async function LeadsPage({ params }: PageProps<"/[org]/leads">) {
 
       <div className="grid gap-5 xl:grid-cols-[1fr_22rem]">
         <section aria-label={t("listTitle")}>
+          <p className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
+            <span>{showAll ? t("showingAll", { count: leads.length }) : t("showingLive", { count: leads.length })}</span>
+            {hidden > 0 && (
+              <Link href={showAll ? `${basePath}/leads` : `${basePath}/leads?all=1`} className="font-semibold text-primary hover:underline">
+                {showAll ? t("onlyLive") : t("showOlder", { count: hidden })}
+              </Link>
+            )}
+          </p>
           <LeadFolders leads={leads} basePath={basePath} money={money} />
         </section>
         <Card className="self-start">

@@ -139,6 +139,10 @@
     "estimated": "Estimat",
     "estimatedHint": "Estimació segons el que s'ha pressupostat abans",
     "estimatedPotential": "Estimat sense pressupost",
-    "estimatedTotalHint": "{count, plural, one {# lead sense pressupost, segons l'històric} other {# leads sense pressupost, segons l'històric}}"
+    "estimatedTotalHint": "{count, plural, one {# lead sense pressupost, segons l'històric} other {# leads sense pressupost, segons l'històric}}",
+    "showingLive": "{count, plural, =0 {Cap lead actiu} one {# lead} other {# leads}} amb novetat les últimes 2 setmanes o calents",
+    "showingAll": "{count, plural, one {# lead} other {# leads}} en total",
+    "showOlder": "Veure també els {count} anteriors",
+    "onlyLive": "Veure només els actius"
   }
 }

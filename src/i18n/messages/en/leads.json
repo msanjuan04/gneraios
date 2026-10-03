@@ -139,6 +139,10 @@
     "estimated": "Estimated",
     "estimatedHint": "Estimate from what has been quoted before",
     "estimatedPotential": "Estimated, no quote yet",
-    "estimatedTotalHint": "{count, plural, one {# lead without a quote, based on history} other {# leads without a quote, based on history}}"
+    "estimatedTotalHint": "{count, plural, one {# lead without a quote, based on history} other {# leads without a quote, based on history}}",
+    "showingLive": "{count, plural, =0 {No active leads} one {# lead} other {# leads}} with news in the last 2 weeks or hot",
+    "showingAll": "{count, plural, one {# lead} other {# leads}} in total",
+    "showOlder": "Also show the {count} older ones",
+    "onlyLive": "Show only the active ones"
   }
 }
