@@ -1,6 +1,8 @@
 # Plan: lo que queda de Correo y Leads
 
-Estado a 03/10/2026. Lo hecho está subido (commits `796ad9c` y `a7f5c03`). Este documento es lo que falta,
+> **Estado (03/10/2026):** las fases 1 a 3 están hechas (commits `a7f5c03` y `0fee79f`, en el servidor; falta `git push` a GitHub). La fase 4 está a medias: el PDF de propuesta comercial está en local sin commit ni subida, pendiente de revisar con un PDF de muestra; la landing sigue por decidir. Queda la fase 0 (tú: push + contraseña IONOS) y revisar con correos reales la detección de aceptaciones y de remitentes automáticos.
+
+Estado a 03/10/2026. En el servidor están `796ad9c`, `a7f5c03` y `0fee79f`; en GitHub solo el primero. Este documento es lo que falta,
 en el orden en que se hará, con qué se entrega en cada paso y cómo se comprueba.
 
 ## Ya hecho (no hay que tocarlo)
